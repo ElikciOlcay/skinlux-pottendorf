@@ -1,0 +1,576 @@
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import Link from "next/link";
+import { ArrowLeft, Sparkles, Heart, Check, Clock, Shield, Star, Award } from "lucide-react";
+import { useRef } from "react";
+
+export default function SignatureFacials() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end start"]
+    });
+
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+
+    const behandlungen = [
+        {
+            name: "Oxygen RX Facial mit Enzym-Peeling",
+            preis: "€ 200",
+            dauer: "90 Min.",
+            beschreibung: "Intensive Sauerstoff-Therapie mit enzymatischem Peeling",
+            highlight: true
+        },
+        {
+            name: "Straffende Peptid-Masken Behandlung",
+            preis: "€ 175",
+            dauer: "90 Min.",
+            beschreibung: "Anti-Aging Behandlung mit straffenden Peptiden",
+            highlight: false
+        },
+        {
+            name: "Circadia Individuelle Gesichtsbehandlung",
+            preis: "€ 150",
+            dauer: "90 Min.",
+            beschreibung: "Vollständig personalisierte Gesichtsbehandlung",
+            highlight: false
+        },
+        {
+            name: "Circadia Willkommens-Behandlung",
+            preis: "€ 130",
+            dauer: "90 Min.",
+            beschreibung: "Perfekter Einstieg in die Circadia-Welt",
+            highlight: false
+        }
+    ];
+
+    const vorteile = [
+        {
+            icon: Sparkles,
+            title: "Circadia Professional",
+            description: "Exklusive Kosmetik-Linie mit wissenschaftlich bewährten Wirkstoffen",
+            stat: "100%",
+            statLabel: "Premium Qualität"
+        },
+        {
+            icon: Heart,
+            title: "Individuelle Erfahrung",
+            description: "Jede Behandlung ist ein einzigartiges Erlebnis für Ihre Haut",
+            stat: "100%",
+            statLabel: "Individuell"
+        },
+        {
+            icon: Clock,
+            title: "Premium Zeit",
+            description: "90 Minuten pure Entspannung und intensive Hautrevitalisierung",
+            stat: "90",
+            statLabel: "Minuten"
+        },
+        {
+            icon: Shield,
+            title: "Bewährte Ergebnisse",
+            description: "Bewährte Methoden für sichtbare und langanhaltende Ergebnisse",
+            stat: "98%",
+            statLabel: "Zufriedenheit"
+        }
+    ];
+
+    const ablauf = [
+        {
+            step: "01",
+            title: "Hautanalyse",
+            description: "Detaillierte Hautanalyse und Auswahl der passenden Circadia-Produkte"
+        },
+        {
+            step: "02",
+            title: "Reinigung",
+            description: "Professionelle Hautreinigung mit speziellen Circadia-Reinigungsprodukten"
+        },
+        {
+            step: "03",
+            title: "Peeling",
+            description: "Sanftes Enzym-Peeling oder Gel-Peeling für optimale Hautpflege"
+        },
+        {
+            step: "04",
+            title: "Ausreinigung",
+            description: "Manuelle Ausreinigung und Behandlung problematischer Hautpartien"
+        },
+        {
+            step: "05",
+            title: "Massage & Maske",
+            description: "Entspannende Gesichtsmassage und individuell abgestimmte Maske"
+        },
+        {
+            step: "06",
+            title: "Abschlusspflege",
+            description: "Finale Pflege mit hochwertigen Circadia-Produkten für langanhaltende Ergebnisse"
+        }
+    ];
+
+    return (
+        <main className="min-h-screen bg-white">
+            {/* Hero Section */}
+            <section ref={containerRef} className="relative min-h-screen flex items-center overflow-hidden">
+                {/* Background Pattern */}
+                <motion.div
+                    style={{ y }}
+                    className="absolute inset-0 opacity-5"
+                >
+                    <div className="absolute inset-0" style={{
+                        backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(240, 163, 188, 0.3) 35px, rgba(240, 163, 188, 0.3) 70px)`
+                    }} />
+                </motion.div>
+
+                <div className="container relative z-10 pt-24">
+                    <Link
+                        href="/#treatments"
+                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-8"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Zurück
+                    </Link>
+
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                        {/* Left Content */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <div className="flex items-center gap-6 mb-8">
+                                <div className="inline-flex items-center gap-2 px-4 py-2">
+                                    <Sparkles className="w-4 h-4" style={{ color: 'var(--color-secondary)' }} />
+                                    <span className="text-sm font-light tracking-wider uppercase text-gray-600">
+                                        Exklusive Kollektion
+                                    </span>
+                                </div>
+                                <span className="text-sm text-gray-600 font-light">
+                                    Circadia Professional
+                                </span>
+                            </div>
+
+                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight" style={{ color: 'var(--color-primary)' }}>
+                                Signature<br />
+                                <span style={{ color: 'var(--color-secondary)' }}>Facials</span>
+                            </h1>
+
+                            <p className="text-xl text-gray-600 font-light mb-8 leading-relaxed">
+                                Erleben Sie unsere exklusiven 90-Minuten Signature Treatments.
+                                Jede Behandlung ist ein maßgeschneidertes Erlebnis für Ihre Haut.
+                            </p>
+
+                            <div className="grid grid-cols-3 gap-4 mb-10">
+                                {[
+                                    { icon: Check, text: "90 Minuten" },
+                                    { icon: Check, text: "Individuell" },
+                                    { icon: Check, text: "Luxuriös" }
+                                ].map((item, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <item.icon className="w-4 h-4" style={{ color: 'var(--color-secondary)' }} />
+                                        <span className="text-sm text-gray-700 font-light">{item.text}</span>
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <a
+                                    href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-primary inline-flex items-center justify-center text-lg px-8 py-4"
+                                >
+                                    Termin buchen
+                                </a>
+                                <a
+                                    href="#preise"
+                                    className="btn-secondary inline-flex items-center justify-center text-lg px-8 py-4"
+                                >
+                                    Preise ansehen
+                                </a>
+                            </div>
+
+                            {/* Exclusive Badge */}
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.8, delay: 0.6 }}
+                                className="mt-6 text-sm text-gray-600 font-light"
+                            >
+                                <span className="inline-block w-2 h-2 bg-secondary rounded-full mr-2"></span>
+                                Exklusive Circadia Professional Treatments
+                            </motion.p>
+                        </motion.div>
+
+                        {/* Right Content - Image */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.8 }}
+                            className="relative"
+                        >
+                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
+                                <div
+                                    className="absolute inset-0"
+                                    style={{
+                                        backgroundImage: "url('/images/treatments/signature-facials.jpg')",
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                        backgroundColor: '#f5f5f5'
+                                    }}
+                                />
+                                <div className="absolute -inset-4 border-2 border-secondary opacity-20" />
+                                <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2">
+                                    <p className="text-sm font-light">Signature Kollektion</p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Stats Section */}
+            <section className="py-20 bg-black text-white">
+                <div className="container">
+                    <div className="grid md:grid-cols-4 gap-8">
+                        {[
+                            { number: "4", label: "Signature Behandlungen", icon: Heart },
+                            { number: "90", label: "Minuten Luxus", icon: Clock },
+                            { number: "5★", label: "Premium Service", icon: Award },
+                            { number: "100%", label: "Individuell", icon: Star }
+                        ].map((stat, index) => (
+                            <motion.div
+                                key={stat.label}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                                className="text-center"
+                            >
+                                <stat.icon className="w-8 h-8 mx-auto mb-4" style={{ color: 'var(--color-secondary)' }} />
+                                <div className="text-4xl font-light mb-2">{stat.number}</div>
+                                <div className="text-sm font-light text-gray-400">{stat.label}</div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Vorteile */}
+            <section className="py-20 bg-white">
+                <div className="container">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center mb-16"
+                    >
+                        <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
+                            Warum Signature
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                            Der <span style={{ color: 'var(--color-secondary)' }}>Unterschied</span>
+                        </h2>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        {vorteile.map((vorteil, index) => (
+                            <motion.div
+                                key={vorteil.title}
+                                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                                className="flex gap-6 p-8 border border-gray-100 hover:border-secondary/30 transition-colors group"
+                            >
+                                <div
+                                    className="w-16 h-16 flex-shrink-0 flex items-center justify-center"
+                                    style={{ backgroundColor: 'rgba(240, 163, 188, 0.1)' }}
+                                >
+                                    <vorteil.icon
+                                        className="w-8 h-8"
+                                        style={{ color: 'var(--color-secondary)' }}
+                                        strokeWidth={1.5}
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <div className="flex items-start justify-between mb-3">
+                                        <h3 className="text-xl font-light" style={{ color: 'var(--color-primary)' }}>
+                                            {vorteil.title}
+                                        </h3>
+                                        <div className="text-right">
+                                            <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                                {vorteil.stat}
+                                            </div>
+                                            <div className="text-xs text-gray-500 font-light">
+                                                {vorteil.statLabel}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p className="text-gray-600 font-light">
+                                        {vorteil.description}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Behandlungsablauf */}
+            <section className="py-20 bg-gray-50">
+                <div className="container">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center mb-16"
+                    >
+                        <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
+                            So läuft es ab
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                            Der <span style={{ color: 'var(--color-secondary)' }}>Behandlungsablauf</span>
+                        </h2>
+                    </motion.div>
+
+                    <div className="max-w-4xl mx-auto">
+                        {ablauf.map((schritt, index) => (
+                            <motion.div
+                                key={schritt.step}
+                                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                                className="flex items-start gap-8 mb-12 last:mb-0"
+                            >
+                                <div
+                                    className="w-16 h-16 flex-shrink-0 flex items-center justify-center text-2xl font-light"
+                                    style={{
+                                        backgroundColor: 'var(--color-secondary)',
+                                        color: 'white'
+                                    }}
+                                >
+                                    {schritt.step}
+                                </div>
+                                <div className="flex-1 pt-2">
+                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        {schritt.title}
+                                    </h3>
+                                    <p className="text-gray-600 font-light">
+                                        {schritt.description}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Pricing */}
+            <section id="preise" className="py-20 bg-white">
+                <div className="container">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center mb-16"
+                    >
+                        <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
+                            Investition
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                            Signature <span style={{ color: 'var(--color-secondary)' }}>Preise</span>
+                        </h2>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="p-8 border border-secondary bg-secondary/5"
+                        >
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        Oxygen RX Facial
+                                    </h3>
+                                    <p className="text-gray-600 font-light">
+                                        90 Minuten mit Enzym-Peeling und Oxygen RX System
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                        € 200
+                                    </div>
+                                    <div className="text-sm text-gray-500 font-light">
+                                        90 Min.
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-secondary/10 p-3 border border-secondary/20">
+                                <p className="text-sm font-light text-gray-700">
+                                    <strong>Premium:</strong> Mit Oxygen RX System und manueller Ausreinigung
+                                </p>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            className="p-8 border border-gray-200 bg-white"
+                        >
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        Firming Peptide Mask
+                                    </h3>
+                                    <p className="text-gray-600 font-light">
+                                        90 Minuten Anti-Aging Treatment mit Peptide-Maske
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                        € 175
+                                    </div>
+                                    <div className="text-sm text-gray-500 font-light">
+                                        90 Min.
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="p-8 border border-gray-200 bg-white"
+                        >
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        Circadia Customised
+                                    </h3>
+                                    <p className="text-gray-600 font-light">
+                                        90 Minuten individuell angepasste Behandlung
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                        € 150
+                                    </div>
+                                    <div className="text-sm text-gray-500 font-light">
+                                        90 Min.
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                            className="p-8 border border-gray-200 bg-white"
+                        >
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        Circadia Welcome
+                                    </h3>
+                                    <p className="text-gray-600 font-light">
+                                        90 Minuten Einstieg in die Circadia-Welt
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                        € 130
+                                    </div>
+                                    <div className="text-sm text-gray-500 font-light">
+                                        90 Min.
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        className="max-w-4xl mx-auto mt-12 p-8 bg-gray-50 border border-gray-200"
+                    >
+                        <h3 className="text-lg font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                            Paket-Angebote
+                        </h3>
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <p className="font-light mb-2" style={{ color: 'var(--color-secondary)' }}>
+                                    3er Paket: 5% Rabatt
+                                </p>
+                                <p className="text-sm font-light text-gray-600">
+                                    Bei Buchung von 3 Behandlungen
+                                </p>
+                            </div>
+                            <div>
+                                <p className="font-light mb-2" style={{ color: 'var(--color-secondary)' }}>
+                                    5er Paket: 10% Rabatt
+                                </p>
+                                <p className="text-sm font-light text-gray-600">
+                                    Bei Buchung von 5 Behandlungen
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+
+
+            {/* Final CTA */}
+            <section className="py-20 bg-black text-white text-center">
+                <div className="container">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <Award className="w-16 h-16 mx-auto mb-6" style={{ color: 'var(--color-secondary)' }} />
+                        <h2 className="text-3xl md:text-4xl font-light mb-4">
+                            Erleben Sie den Signature Unterschied
+                        </h2>
+                        <p className="text-lg font-light text-gray-400 mb-8 max-w-2xl mx-auto">
+                            Professionelle Expertise in <span style={{ color: 'var(--color-secondary)' }}>exklusiven Gesichtsbehandlungen</span> mit Circadia Professional.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a
+                                href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-primary inline-flex items-center justify-center"
+                            >
+                                <span style={{ color: 'var(--color-secondary)' }}>Exklusive</span> Beratung buchen
+                            </a>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+        </main>
+    );
+} 

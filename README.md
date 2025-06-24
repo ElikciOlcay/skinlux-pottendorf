@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skinlux Website Redesign
 
-## Getting Started
+Modernes Website-Redesign für Skinlux - Laser Haarentfernung in Bischofshofen.
 
-First, run the development server:
+## 🚀 Technologie-Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework:** Next.js 15 (App Router)
+- **Styling:** Tailwind CSS
+- **Animationen:** Framer Motion
+- **Icons:** Lucide React
+- **UI-Komponenten:** Radix UI
+- **TypeScript:** Für Type-Safety
+
+## 🎨 Design-Features
+
+- **Modernes, minimalistisches Design** mit Pink/Rose als Hauptfarbe
+- **Vollständig responsiv** für alle Geräte
+- **Smooth Animations** mit Framer Motion
+- **Glass-Morphism Effekte** für moderne Optik
+- **Optimierte Performance** mit Next.js
+
+## 📁 Projekt-Struktur
+
+```
+skinlux-redesign/
+├── app/
+│   ├── layout.tsx      # Root Layout mit Header/Footer
+│   ├── page.tsx        # Homepage
+│   └── globals.css     # Globale Styles
+├── components/
+│   ├── layout/
+│   │   ├── Header.tsx  # Navigation
+│   │   └── Footer.tsx  # Footer
+│   └── sections/
+│       ├── Hero.tsx        # Hero-Sektion
+│       ├── Treatments.tsx  # Behandlungen
+│       ├── SpecialOffer.tsx # 7+2 Aktion
+│       ├── About.tsx       # Über uns
+│       └── Contact.tsx     # Kontakt & Terminbuchung
+└── public/             # Statische Assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Installation & Start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Installation
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Entwicklungsserver starten
+npm run dev
 
-## Learn More
+# Production Build
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🔗 Wichtige Links
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Live Preview:** http://localhost:3000
+- **Original Website:** https://www.skinlux.at
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📱 Responsive Breakpoints
 
-## Deploy on Vercel
+- Mobile: < 640px
+- Tablet: 640px - 1024px
+- Desktop: > 1024px
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎯 SEO-Optimierungen
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Meta-Tags für bessere Suchmaschinen-Rankings
+- Open Graph Tags für Social Media
+- Strukturierte Daten
+- Optimierte Ladezeiten
+
+## 🔄 Nächste Schritte
+
+1. **Bilder hinzufügen:** Professionelle Fotos vom Studio
+2. **Blog-Sektion:** Für Content Marketing
+3. **Online-Buchungssystem:** Integration eines Terminbuchungs-Tools
+4. **Mehrsprachigkeit:** Englisch-Version hinzufügen
+5. **Analytics:** Google Analytics/Tag Manager einrichten
+
+## 📞 Kontakt
+
+**Skinlux**  
+Bahnhofstraße 17  
+5500 Bischofshofen  
+Tel: 0660 / 57 21 403  
+E-Mail: hello@skinlux.at

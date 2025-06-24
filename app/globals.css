@@ -1,26 +1,218 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:wght@400;700&display=swap');
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Skinlux Minimal Color Palette */
+    --color-primary: #1a1a1a;
+    /* Deep Black */
+    --color-secondary: #F0A3BC;
+    /* Soft Pink Accent */
+    --color-accent: #FDBCB4;
+    /* Light Pink */
+    --color-dark: #000000;
+    /* Pure Black */
+    --color-gray-900: #1a1a1a;
+    /* Almost Black */
+    --color-gray-700: #4a4a4a;
+    /* Dark Gray */
+    --color-gray-500: #7a7a7a;
+    /* Medium Gray */
+    --color-gray-300: #d4d4d4;
+    /* Light Gray */
+    --color-gray-100: #f5f5f5;
+    /* Very Light Gray */
+    --color-white: #FFFFFF;
+    /* Pure White */
+    --color-text-primary: #1a1a1a;
+    /* Deep Black */
+    --color-text-secondary: #7a7a7a;
+    /* Medium Gray */
+    --radius: 0rem;
+    /* Sharp edges */
+    --radius-lg: 0rem;
+  }
+
+  * {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-white;
+    color: var(--color-text-primary);
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Playfair Display', serif;
+    @apply font-normal tracking-wide;
+    color: var(--color-dark);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .container {
+    @apply mx-auto px-8 sm:px-12 lg:px-20 max-w-6xl;
+  }
+
+  /* Ultra Minimalist Button Styles */
+  .btn-primary {
+    background: var(--color-primary);
+    color: white;
+    @apply px-10 py-3 font-light tracking-widest uppercase text-xs transition-all duration-700;
+    border: none;
+    letter-spacing: 0.2em;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-secondary);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    @apply px-10 py-3 font-light tracking-widest uppercase text-xs transition-all duration-700;
+    border: none;
+    letter-spacing: 0.2em;
+    position: relative;
+  }
+
+  .btn-secondary::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-gray-300);
+    transition: background 0.7s ease;
+  }
+
+  .btn-secondary:hover {
+    color: var(--color-secondary);
+  }
+
+  .btn-secondary:hover::after {
+    background: var(--color-secondary);
+  }
+
+  /* Text Styles */
+  .gradient-text {
+    color: var(--color-secondary);
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl mb-8;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  .section-subtitle {
+    @apply text-base md:text-lg font-light;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+
+  /* Ultra Minimal Card Styles */
+  .card {
+    @apply bg-white transition-all duration-700;
+    border: none;
+    border-bottom: 1px solid var(--color-gray-300);
+    padding: 2.5rem 0;
+  }
+
+  .card:hover {
+    border-bottom-color: var(--color-secondary);
+  }
+
+  /* Ultra Clean Effects */
+  .clean-shadow {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .clean-shadow-hover {
+    box-shadow: none;
+  }
+
+  /* Minimalist Backgrounds */
+  .hero-gradient {
+    background: var(--color-white);
+  }
+
+  .section-gradient {
+    background: var(--color-gray-100);
+  }
+
+  /* Feature Icons */
+  .feature-icon {
+    @apply w-12 h-12 flex items-center justify-center mb-8;
+    background: transparent;
+    border: 1px solid var(--color-primary);
+  }
+
+  /* Minimal Badge */
+  .badge {
+    @apply inline-flex items-center text-xs font-light tracking-widest uppercase;
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: none;
+    letter-spacing: 0.2em;
+  }
+
+  /* Clean Input Styles */
+  .input-modern {
+    @apply w-full px-0 py-4 border-0 border-b border-gray-300 focus:border-primary focus:ring-0 transition-all duration-300 bg-transparent;
+    font-weight: 300;
+  }
+
+  .input-modern:focus {
+    border-color: var(--color-primary);
+  }
+
+  /* Minimal Divider */
+  .divider {
+    @apply w-12 h-px mx-auto my-12;
+    background: var(--color-gray-300);
+    opacity: 0.5;
+  }
+
+  /* Clean spacing utilities */
+  .section-spacing {
+    @apply py-32 md:py-40 lg:py-48;
+  }
+
+  .content-spacing {
+    @apply space-y-8 md:space-y-12;
+  }
+
+  /* Treatment specific styles */
+  .treatment-grid {
+    @apply space-y-20 md:space-y-32;
+  }
+
+  /* Ultra minimal line height */
+  p {
+    line-height: 1.8;
+  }
+
+  /* Remove all focus outlines for cleaner look */
+  *:focus {
+    outline: none;
+  }
+
+
 }

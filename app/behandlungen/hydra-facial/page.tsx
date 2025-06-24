@@ -115,40 +115,40 @@ export default function HydraFacial() {
                     }} />
                 </motion.div>
 
-                <div className="container relative z-10 pt-24">
+                <div className="container relative z-10 pt-20 md:pt-24">
                     <Link
                         href="/#treatments"
-                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-8"
+                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-6 md:mb-8"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Zurück
                     </Link>
 
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                    <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
                         {/* Left Content */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
+                            transition={{ duration: 0.5 }}
                         >
                             {/* Trust Badges */}
-                            <div className="flex items-center gap-6 mb-8">
+                            <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
                                 <div className="flex items-center gap-1">
                                     {[...Array(5)].map((_, i) => (
-                                        <Star key={i} className="w-4 h-4 fill-current text-blue-500" />
+                                        <Star key={i} className="w-3 h-3 md:w-4 md:h-4 fill-current text-blue-500" />
                                     ))}
                                 </div>
-                                <span className="text-sm text-gray-600 font-light">
+                                <span className="text-xs md:text-sm text-gray-600 font-light">
                                     Über 180 zufriedene Kunden
                                 </span>
                             </div>
 
-                            <div className="inline-flex items-center gap-2 mb-6">
-                                <Droplets className="w-5 h-5" style={{ color: '#00A9D9' }} />
-                                <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500">
+                            <div className="inline-flex items-center gap-2 mb-4 md:mb-6">
+                                <Droplets className="w-4 h-4 md:w-5 md:h-5" style={{ color: '#00A9D9' }} />
+                                <span className="text-xs md:text-sm font-light tracking-[0.3em] uppercase text-gray-500">
                                     Hydrating Treatment
                                 </span>
-                                <span className="text-xs font-light tracking-widest uppercase px-3 py-1"
+                                <span className="text-xs font-light tracking-widest uppercase px-2 md:px-3 py-1"
                                     style={{
                                         backgroundColor: '#00A9D9',
                                         color: 'white'
@@ -157,62 +157,51 @@ export default function HydraFacial() {
                                 </span>
                             </div>
 
-                            <h1 className="text-5xl md:text-6xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
                                 <span style={{ color: '#00A9D9' }}>HydraFacial®</span>
                             </h1>
 
-                            <p className="text-xl text-gray-600 font-light mb-8 leading-relaxed">
+                            <p className="text-lg md:text-xl text-gray-600 font-light mb-6 md:mb-8 leading-relaxed">
                                 Die revolutionäre 3-in-1 Behandlung für sofort sichtbare Ergebnisse.
                                 Tiefenreinigung, Extraktion und Hydration in nur einer Sitzung.
                             </p>
 
                             {/* Special Offer */}
-                            <div className="p-6 mb-8 border border-gray-200 bg-white hover:border-blue-300 transition-colors">
-                                <div className="flex items-center gap-4">
+                            <div className="p-4 md:p-6 mb-6 md:mb-8 border border-gray-200 bg-white hover:border-blue-300 transition-colors">
+                                <div className="flex items-center gap-3 md:gap-4">
                                     <div
-                                        className="w-12 h-12 flex-shrink-0 flex items-center justify-center"
+                                        className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center"
                                         style={{ backgroundColor: 'rgba(0, 169, 217, 0.1)' }}
                                     >
-                                        <span className="text-xl">✨</span>
+                                        <span className="text-lg md:text-xl">✨</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-base md:text-lg font-light mb-1" style={{ color: 'var(--color-primary)' }}>
                                             Willkommen-Special
                                         </h3>
-                                        <p className="text-sm text-gray-600 font-light">
+                                        <p className="text-xs md:text-sm text-gray-600 font-light">
                                             10% Rabatt auf Ihre erste HydraFacial® Behandlung
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-4">
+                            <div className="flex flex-col gap-4">
                                 <a
                                     href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="btn-primary inline-flex items-center justify-center text-lg px-8 py-4"
+                                    className="btn-primary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto"
                                 >
                                     Termin buchen
                                 </a>
                                 <a
                                     href="#preise"
-                                    className="btn-secondary inline-flex items-center justify-center text-lg px-8 py-4"
+                                    className="btn-secondary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto"
                                 >
                                     Preise ansehen
                                 </a>
                             </div>
-
-                            {/* Treatment Stats */}
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 0.6 }}
-                                className="mt-6 text-sm text-gray-600 font-light"
-                            >
-                                <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                                Original HydraFacial® Technologie - Zertifiziert
-                            </motion.p>
                         </motion.div>
 
                         {/* Right Content - Video/Image */}

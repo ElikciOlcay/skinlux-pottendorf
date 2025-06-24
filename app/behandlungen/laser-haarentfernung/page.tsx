@@ -88,46 +88,46 @@ export default function LaserHaarentfernung() {
                     }} />
                 </motion.div>
 
-                <div className="container relative z-10 pt-24">
+                <div className="container relative z-10 pt-20 md:pt-24">
                     <Link
                         href="/#treatments"
-                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-8"
+                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-6 md:mb-8"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Zurück
                     </Link>
 
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                    <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
                         {/* Left Content */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
+                            transition={{ duration: 0.5 }}
                         >
                             {/* Trust Badges */}
-                            <div className="flex items-center gap-6 mb-8">
+                            <div className="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
                                 <div className="flex items-center gap-1">
                                     {[...Array(5)].map((_, i) => (
-                                        <Star key={i} className="w-4 h-4 fill-current" style={{ color: 'var(--color-secondary)' }} />
+                                        <Star key={i} className="w-3 h-3 md:w-4 md:h-4 fill-current" style={{ color: 'var(--color-secondary)' }} />
                                     ))}
                                 </div>
-                                <span className="text-sm text-gray-600 font-light">
+                                <span className="text-xs md:text-sm text-gray-600 font-light">
                                     Über 2000 zufriedene Kunden
                                 </span>
                             </div>
 
-                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight" style={{ color: 'var(--color-primary)' }}>
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light mb-6 md:mb-8 leading-tight" style={{ color: 'var(--color-primary)' }}>
                                 Dauerhafte<br />
                                 <span style={{ color: 'var(--color-secondary)' }}>Haarfreiheit</span>
                             </h1>
 
-                            <p className="text-xl text-gray-600 font-light mb-8 leading-relaxed">
+                            <p className="text-lg md:text-xl text-gray-600 font-light mb-6 md:mb-8 leading-relaxed">
                                 Modernste Diodenlaser-Technologie für effektive und schmerzarme
                                 Haarentfernung. Erleben Sie glatte Haut ohne tägliches Rasieren.
                             </p>
 
                             {/* Quick Benefits */}
-                            <div className="grid grid-cols-3 gap-4 mb-10">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-8 md:mb-10">
                                 {[
                                     { icon: Check, text: "FDA-zertifiziert" },
                                     { icon: Check, text: "Alle Hauttypen" },
@@ -137,27 +137,27 @@ export default function LaserHaarentfernung() {
                                         key={index}
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
+                                        transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
                                         className="flex items-center gap-2"
                                     >
-                                        <item.icon className="w-4 h-4" style={{ color: 'var(--color-secondary)' }} />
-                                        <span className="text-sm text-gray-700 font-light">{item.text}</span>
+                                        <item.icon className="w-3 h-3 md:w-4 md:h-4" style={{ color: 'var(--color-secondary)' }} />
+                                        <span className="text-xs md:text-sm text-gray-700 font-light">{item.text}</span>
                                     </motion.div>
                                 ))}
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-4">
+                            <div className="flex flex-col gap-4">
                                 <a
                                     href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="btn-primary inline-flex items-center justify-center text-lg px-8 py-4"
+                                    className="btn-primary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto"
                                 >
                                     Kostenlose Probebehandlung
                                 </a>
                                 <Link
                                     href="/preise/laser"
-                                    className="btn-secondary inline-flex items-center justify-center text-lg px-8 py-4"
+                                    className="btn-secondary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto"
                                 >
                                     Preise ansehen
                                 </Link>
@@ -167,10 +167,10 @@ export default function LaserHaarentfernung() {
                             <motion.p
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 0.6 }}
-                                className="mt-6 text-sm text-gray-600 font-light"
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                                className="mt-4 md:mt-6 text-xs md:text-sm text-gray-600 font-light"
                             >
-                                <span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                <span className="inline-block w-1.5 h-1.5 md:w-2 md:h-2 bg-green-500 rounded-full mr-2"></span>
                                 Heute noch 3 Termine verfügbar
                             </motion.p>
                         </motion.div>
@@ -179,7 +179,7 @@ export default function LaserHaarentfernung() {
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8 }}
+                            transition={{ duration: 0.5 }}
                             className="relative"
                         >
                             <div
@@ -187,22 +187,17 @@ export default function LaserHaarentfernung() {
                                 onClick={() => setIsVideoModalOpen(true)}
                             >
                                 {/* Decorative Frame */}
-                                <div className="absolute -inset-4 border-2 border-secondary opacity-20" />
+                                <div className="absolute -inset-2 md:-inset-4 border-2 border-secondary opacity-20" />
 
                                 {/* Play Button Overlay */}
                                 <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/30 transition-colors">
                                     <motion.div
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="w-24 h-24 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-2xl"
+                                        className="w-16 h-16 md:w-24 md:h-24 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-2xl"
                                     >
-                                        <Play className="w-10 h-10 ml-2" style={{ color: 'var(--color-secondary)' }} />
+                                        <Play className="w-6 h-6 md:w-10 md:h-10 ml-1 md:ml-2" style={{ color: 'var(--color-secondary)' }} />
                                     </motion.div>
-                                </div>
-
-                                {/* Badge */}
-                                <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2">
-                                    <p className="text-sm font-light">2 Min. Video</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -540,8 +535,6 @@ export default function LaserHaarentfernung() {
                     </motion.div>
                 </div>
             </section>
-
-
 
             {/* FAQ Section */}
             <section className="py-20 bg-white">

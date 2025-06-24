@@ -28,10 +28,10 @@ export default function ImpressumPage() {
                     }} />
                 </motion.div>
 
-                <div className="container relative z-10 pt-24">
+                <div className="container relative z-10 pt-20 md:pt-24">
                     <Link
                         href="/"
-                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-8"
+                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-6 md:mb-8"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Zurück
@@ -40,20 +40,20 @@ export default function ImpressumPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 0.5 }}
                     >
-                        <div className="inline-flex items-center gap-2 mb-6">
-                            <Scale className="w-5 h-5" style={{ color: 'var(--color-secondary)' }} />
-                            <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500">
+                        <div className="inline-flex items-center gap-2 mb-4 md:mb-6">
+                            <Scale className="w-4 h-4 md:w-5 md:h-5" style={{ color: 'var(--color-secondary)' }} />
+                            <span className="text-xs md:text-sm font-light tracking-[0.3em] uppercase text-gray-500">
                                 Rechtliche Informationen
                             </span>
                         </div>
 
-                        <h1 className="section-title" style={{ color: 'var(--color-primary)' }}>
+                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
                             Impressum
                         </h1>
 
-                        <p className="section-subtitle max-w-2xl">
+                        <p className="text-lg md:text-xl text-gray-600 font-light max-w-2xl px-4">
                             Informationspflicht laut §5 E-Commerce Gesetz, §14 Unternehmensgesetzbuch,
                             §63 Gewerbeordnung und Offenlegungspflicht laut §25 Mediengesetz.
                         </p>
@@ -62,29 +62,29 @@ export default function ImpressumPage() {
             </section>
 
             {/* Content Section */}
-            <section className="section-spacing">
+            <section className="py-20 md:py-32 lg:py-40 xl:py-48">
                 <div className="container">
                     <div className="max-w-4xl mx-auto">
-                        <div className="grid gap-16">
+                        <div className="grid gap-12 md:gap-16">
 
                             {/* Contact Information */}
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6 }}
+                                transition={{ duration: 0.5 }}
                                 viewport={{ once: true }}
                                 className="card"
                             >
-                                <div className="grid md:grid-cols-2 gap-12">
+                                <div className="grid md:grid-cols-2 gap-8 md:gap-12">
                                     <div>
-                                        <h2 className="text-2xl font-light mb-8" style={{ color: 'var(--color-primary)' }}>
+                                        <h2 className="text-xl md:text-2xl font-light mb-6 md:mb-8" style={{ color: 'var(--color-primary)' }}>
                                             Kontaktdaten
                                         </h2>
 
-                                        <div className="space-y-6">
-                                            <div className="flex items-start gap-4">
-                                                <MapPin className="w-5 h-5 mt-1" style={{ color: 'var(--color-secondary)' }} />
-                                                <div className="font-light text-gray-600">
+                                        <div className="space-y-4 md:space-y-6">
+                                            <div className="flex items-start gap-3 md:gap-4">
+                                                <MapPin className="w-4 h-4 md:w-5 md:h-5 mt-1" style={{ color: 'var(--color-secondary)' }} />
+                                                <div className="font-light text-gray-600 text-sm md:text-base">
                                                     <p className="font-medium text-black mb-1">Skinlux</p>
                                                     <p>Gökce Elikci</p>
                                                     <p>Bahnhofstraße 17</p>
@@ -93,16 +93,16 @@ export default function ImpressumPage() {
                                                 </div>
                                             </div>
 
-                                            <div className="flex items-center gap-4">
-                                                <Phone className="w-5 h-5" style={{ color: 'var(--color-secondary)' }} />
-                                                <a href="tel:069917058498" className="font-light text-gray-600 hover:text-black transition-colors">
+                                            <div className="flex items-center gap-3 md:gap-4">
+                                                <Phone className="w-4 h-4 md:w-5 md:h-5" style={{ color: 'var(--color-secondary)' }} />
+                                                <a href="tel:069917058498" className="font-light text-gray-600 hover:text-black transition-colors text-sm md:text-base">
                                                     069917058498
                                                 </a>
                                             </div>
 
-                                            <div className="flex items-center gap-4">
-                                                <Mail className="w-5 h-5" style={{ color: 'var(--color-secondary)' }} />
-                                                <a href="mailto:hello@skinlux.at" className="font-light text-gray-600 hover:text-black transition-colors">
+                                            <div className="flex items-center gap-3 md:gap-4">
+                                                <Mail className="w-4 h-4 md:w-5 md:h-5" style={{ color: 'var(--color-secondary)' }} />
+                                                <a href="mailto:hello@skinlux.at" className="font-light text-gray-600 hover:text-black transition-colors text-sm md:text-base">
                                                     hello@skinlux.at
                                                 </a>
                                             </div>
@@ -110,10 +110,10 @@ export default function ImpressumPage() {
                                     </div>
 
                                     <div>
-                                        <h3 className="text-xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-lg md:text-xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
                                             Unternehmensdaten
                                         </h3>
-                                        <div className="space-y-3 font-light text-gray-600">
+                                        <div className="space-y-2 md:space-y-3 font-light text-gray-600 text-sm md:text-base">
                                             <p><strong className="text-black">Unternehmensgegenstand:</strong> Kosmetik (Laserhaarentfernung)</p>
                                             <p><strong className="text-black">UID-Nr:</strong> ATU 67694907</p>
                                             <p><strong className="text-black">Mitglied bei:</strong> WKO, Landesinnung, etc.</p>

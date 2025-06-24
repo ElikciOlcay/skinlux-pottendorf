@@ -166,14 +166,23 @@ export default function HydraFacial() {
                                 Tiefenreinigung, Extraktion und Hydration in nur einer Sitzung.
                             </p>
 
-                            <div className="grid grid-cols-2 gap-6 mb-8">
-                                <div>
-                                    <div className="text-2xl font-light mb-1" style={{ color: '#00A9D9' }}>€ 129</div>
-                                    <div className="text-sm font-light text-gray-600">45 Minuten</div>
-                                </div>
-                                <div>
-                                    <div className="text-2xl font-light mb-1" style={{ color: 'var(--color-primary)' }}>Deluxe</div>
-                                    <div className="text-sm font-light text-gray-600">€ 169 (60 Min)</div>
+                            {/* Special Offer */}
+                            <div className="p-6 mb-8 border border-gray-200 bg-white hover:border-blue-300 transition-colors">
+                                <div className="flex items-center gap-4">
+                                    <div
+                                        className="w-12 h-12 flex-shrink-0 flex items-center justify-center"
+                                        style={{ backgroundColor: 'rgba(0, 169, 217, 0.1)' }}
+                                    >
+                                        <span className="text-xl">✨</span>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                            Willkommen-Special
+                                        </h3>
+                                        <p className="text-sm text-gray-600 font-light">
+                                            10% Rabatt auf Ihre erste HydraFacial® Behandlung
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 

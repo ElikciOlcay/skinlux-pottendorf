@@ -153,7 +153,7 @@ export default function LaserHaarentfernung() {
                                     rel="noopener noreferrer"
                                     className="btn-primary inline-flex items-center justify-center text-lg px-8 py-4"
                                 >
-                                    Kostenlose Beratung
+                                    Kostenlose Probebehandlung
                                 </a>
                                 <Link
                                     href="/preise/laser"

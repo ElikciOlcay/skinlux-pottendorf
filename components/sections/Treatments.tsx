@@ -69,7 +69,7 @@ export default function Treatments() {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.5 }}
                     className="text-center mb-16"
                 >
                     <span className="text-sm font-light tracking-widest uppercase text-gray-500 mb-4 block">
@@ -93,14 +93,14 @@ export default function Treatments() {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                                transition={{ duration: 0.4, delay: index * 0.05 }}
                                 className={`group relative overflow-hidden ${index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''
                                     }`}
                             >
                                 <div className="relative h-full min-h-[400px] lg:min-h-[500px] bg-gray-50 p-8 lg:p-12 flex flex-col">
                                     {/* Background Image with Overlay */}
                                     <div
-                                        className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-700"
+                                        className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-300"
                                         style={{
                                             backgroundImage: `url('${treatment.image}')`,
                                             backgroundSize: 'cover',
@@ -178,7 +178,7 @@ export default function Treatments() {
 
                                     {/* Hover Border */}
                                     <div
-                                        className="absolute inset-x-0 bottom-0 h-1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
+                                        className="absolute inset-x-0 bottom-0 h-1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
                                         style={{ backgroundColor: 'var(--color-secondary)' }}
                                     />
                                 </div>

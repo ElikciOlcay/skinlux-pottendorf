@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const galleryImages = [
     {
@@ -44,7 +45,7 @@ export default function Gallery() {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.5 }}
                     className="text-center mb-16"
                 >
                     <span className="text-sm font-light tracking-widest uppercase text-gray-500 mb-4 block">
@@ -67,23 +68,22 @@ export default function Gallery() {
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.8, delay: index * 0.1 }}
+                            transition={{ duration: 0.4, delay: index * 0.05 }}
                             className="relative aspect-square overflow-hidden bg-gray-100 group"
                         >
-                            {/* GALLERY IMAGES - Füge hier deine Bilder ein */}
-                            <div
-                                className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
-                                style={{
-                                    backgroundImage: `url('${image.src}')`,
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
-                                    backgroundColor: '#f5f5f5' // Fallback
-                                }}
+                            {/* Optimized Next.js Image */}
+                            <Image
+                                src={image.src}
+                                alt={image.alt}
+                                fill
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                priority={index < 3} // Prioritize first 3 images
                             />
 
                             {/* Hover Overlay */}
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-700">
-                                <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-700">
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500">
+                                <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
                                     <p className="text-white text-sm font-light tracking-widest uppercase">
                                         {image.category}
                                     </p>
@@ -101,7 +101,7 @@ export default function Gallery() {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.5 }}
                     className="text-center mt-20"
                 >
                     <p className="text-lg font-light text-gray-600 mb-8">

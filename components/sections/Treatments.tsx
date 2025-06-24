@@ -62,7 +62,7 @@ const treatments = [
 
 export default function Treatments() {
     return (
-        <section id="treatments" className="py-20 bg-white">
+        <section id="treatments" className="py-16 md:py-20 bg-white">
             <div className="container mx-auto px-4">
                 {/* Section Header */}
                 <motion.div
@@ -70,21 +70,21 @@ export default function Treatments() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="text-center mb-16"
+                    className="text-center mb-12 md:mb-16"
                 >
-                    <span className="text-sm font-light tracking-widest uppercase text-gray-500 mb-4 block">
+                    <span className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 mb-4 block">
                         Behandlungen
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
                         Unsere <span style={{ color: 'var(--color-secondary)' }}>Expertise</span>
                     </h2>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
+                    <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto font-light px-4">
                         Modernste Technologien und bewährte Methoden für Ihre Schönheit
                     </p>
                 </motion.div>
 
                 {/* Treatments Grid */}
-                <div className="grid lg:grid-cols-3 gap-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-1">
                     {treatments.map((treatment, index) => {
                         const IconComponent = treatment.icon;
                         return (
@@ -94,10 +94,10 @@ export default function Treatments() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                                className={`group relative overflow-hidden ${index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''
+                                className={`group relative overflow-hidden ${index === 0 ? 'md:col-span-2 md:row-span-2' : ''
                                     }`}
                             >
-                                <div className="relative h-full min-h-[400px] lg:min-h-[500px] bg-gray-50 p-8 lg:p-12 flex flex-col">
+                                <div className="relative h-full min-h-[350px] md:min-h-[400px] lg:min-h-[500px] bg-gray-50 p-6 md:p-8 lg:p-12 flex flex-col">
                                     {/* Background Image with Overlay */}
                                     <div
                                         className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-300"
@@ -111,12 +111,12 @@ export default function Treatments() {
                                     {/* Content */}
                                     <div className="relative z-10 flex flex-col h-full">
                                         {/* Category & New Badge */}
-                                        <div className="flex items-center justify-between mb-6">
+                                        <div className="flex items-center justify-between mb-4 md:mb-6">
                                             <span className="text-xs font-light tracking-widest uppercase text-gray-500">
                                                 {treatment.category}
                                             </span>
                                             {treatment.isNew && (
-                                                <span className="text-xs font-light tracking-widest uppercase px-3 py-1"
+                                                <span className="text-xs font-light tracking-widest uppercase px-2 md:px-3 py-1"
                                                     style={{
                                                         backgroundColor: 'var(--color-secondary)',
                                                         color: 'white'
@@ -127,21 +127,21 @@ export default function Treatments() {
                                         </div>
 
                                         {/* Icon */}
-                                        <div className="mb-6">
+                                        <div className="mb-4 md:mb-6">
                                             <IconComponent
-                                                className={`${index === 0 ? 'w-12 h-12' : 'w-8 h-8'}`}
+                                                className={`${index === 0 ? 'w-8 h-8 md:w-12 md:h-12' : 'w-6 h-6 md:w-8 md:h-8'}`}
                                                 style={{ color: 'var(--color-primary)' }}
                                             />
                                         </div>
 
                                         {/* Title */}
-                                        <h3 className={`font-light mb-4 ${index === 0 ? 'text-3xl lg:text-4xl' : 'text-xl lg:text-2xl'
+                                        <h3 className={`font-light mb-3 md:mb-4 ${index === 0 ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-lg md:text-xl lg:text-2xl'
                                             }`} style={{ color: 'var(--color-primary)' }}>
                                             {treatment.title}
                                         </h3>
 
                                         {/* Description */}
-                                        <p className={`text-gray-600 font-light mb-6 ${index === 0 ? 'text-lg leading-relaxed' : 'text-base'
+                                        <p className={`text-gray-600 font-light mb-4 md:mb-6 ${index === 0 ? 'text-base md:text-lg leading-relaxed' : 'text-sm md:text-base'
                                             }`}>
                                             {treatment.description}
                                         </p>
@@ -151,7 +151,7 @@ export default function Treatments() {
                                             {treatment.features.map((feature) => (
                                                 <span
                                                     key={feature}
-                                                    className="text-xs font-light px-3 py-1 border border-gray-300 text-gray-600"
+                                                    className="text-xs font-light px-2 md:px-3 py-1 border border-gray-300 text-gray-600"
                                                 >
                                                     {feature}
                                                 </span>
@@ -159,7 +159,7 @@ export default function Treatments() {
                                         </div>
 
                                         {/* CTA */}
-                                        <div className="mt-8">
+                                        <div className="mt-6 md:mt-8">
                                             <a
                                                 href={
                                                     treatment.category === 'Laser' ? '/preise/laser' :
@@ -171,7 +171,7 @@ export default function Treatments() {
                                                 className="text-xs font-light tracking-widest uppercase text-secondary hover:text-secondary-dark transition-colors group inline-flex items-center gap-2"
                                             >
                                                 {treatment.id === 'hautanalyse' ? 'Mehr erfahren' : 'Preise ansehen'}
-                                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
                                             </a>
                                         </div>
                                     </div>

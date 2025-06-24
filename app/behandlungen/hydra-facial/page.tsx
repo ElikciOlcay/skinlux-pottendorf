@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Zap, Check, Clock, Shield, Heart, Play, X, Star, Sparkles, Users, Award, Droplets, TrendingUp } from "lucide-react";
+import { ArrowLeft, Check, Clock, Shield, Heart, X, Star, Sparkles, Users, Droplets, TrendingUp } from "lucide-react";
 import { useState, useRef } from "react";
 
 const vorteile = [

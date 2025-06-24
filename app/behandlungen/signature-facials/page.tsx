@@ -14,37 +14,6 @@ export default function SignatureFacials() {
 
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-    const behandlungen = [
-        {
-            name: "Oxygen RX Facial mit Enzym-Peeling",
-            preis: "€ 200",
-            dauer: "90 Min.",
-            beschreibung: "Intensive Sauerstoff-Therapie mit enzymatischem Peeling",
-            highlight: true
-        },
-        {
-            name: "Straffende Peptid-Masken Behandlung",
-            preis: "€ 175",
-            dauer: "90 Min.",
-            beschreibung: "Anti-Aging Behandlung mit straffenden Peptiden",
-            highlight: false
-        },
-        {
-            name: "Circadia Individuelle Gesichtsbehandlung",
-            preis: "€ 150",
-            dauer: "90 Min.",
-            beschreibung: "Vollständig personalisierte Gesichtsbehandlung",
-            highlight: false
-        },
-        {
-            name: "Circadia Willkommens-Behandlung",
-            preis: "€ 130",
-            dauer: "90 Min.",
-            beschreibung: "Perfekter Einstieg in die Circadia-Welt",
-            highlight: false
-        }
-    ];
-
     const vorteile = [
         {
             icon: Sparkles,

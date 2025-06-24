@@ -51,7 +51,7 @@ export default function DatenschutzPage() {
                         effektiver und sicherer zu machen.
                     </p>
                     <p className="mb-4">
-                        Einige Cookies sind "Session-Cookies." Solche Cookies werden nach Ende Ihrer Browser-Sitzung
+                        Einige Cookies sind &quot;Session-Cookies.&quot; Solche Cookies werden nach Ende Ihrer Browser-Sitzung
                         von selbst gelöscht. Hingegen bleiben andere Cookies auf Ihrem Endgerät bestehen, bis Sie
                         diese selbst löschen.
                     </p>
@@ -121,7 +121,7 @@ export default function DatenschutzPage() {
                     </p>
                     <p>
                         Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von
-                        "http://" auf "https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
+                        &quot;http://&quot; auf &quot;https://&quot; wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
                     </p>
                 </>
             )

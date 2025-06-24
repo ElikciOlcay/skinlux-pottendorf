@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Cookie, X, Settings, Check } from "lucide-react";
+import { Cookie, X, Check } from "lucide-react";
 
 interface CookiePreferences {
     necessary: boolean;

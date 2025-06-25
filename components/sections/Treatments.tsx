@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
     Zap,
     Droplets,
@@ -65,13 +64,7 @@ export default function Treatments() {
         <section id="treatments" className="py-16 md:py-20 bg-white">
             <div className="container mx-auto px-4">
                 {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-12 md:mb-16"
-                >
+                <div className="text-center mb-12 md:mb-16">
                     <span className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 mb-4 block">
                         Behandlungen
                     </span>
@@ -81,19 +74,15 @@ export default function Treatments() {
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto font-light px-4">
                         Modernste Technologien und bewährte Methoden für Ihre Schönheit
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Treatments Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-1">
                     {treatments.map((treatment, index) => {
                         const IconComponent = treatment.icon;
                         return (
-                            <motion.div
+                            <div
                                 key={treatment.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: index * 0.05 }}
                                 className={`group relative overflow-hidden ${index === 0 ? 'md:col-span-2 md:row-span-2' : ''
                                     }`}
                             >
@@ -182,32 +171,27 @@ export default function Treatments() {
                                         style={{ backgroundColor: 'var(--color-secondary)' }}
                                     />
                                 </div>
-                            </motion.div>
+                            </div>
                         );
                     })}
                 </div>
 
                 {/* Bottom CTA */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="mt-16 text-center"
-                >
+                <div className="mt-16 text-center">
                     <div className="inline-flex items-center gap-4">
                         <span className="text-lg font-light text-gray-600">
                             Haben Sie Fragen zu unseren Behandlungen?
                         </span>
                         <a
-                            href="#contact"
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white text-sm font-light tracking-widest uppercase transition-all hover:bg-gray-900"
+                            href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-primary inline-flex items-center justify-center"
                         >
-                            Beratung buchen
-                            <ArrowRight className="w-4 h-4" />
+                            Beratung anfragen
                         </a>
                     </div>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

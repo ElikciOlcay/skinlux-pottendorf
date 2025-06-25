@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 const galleryImages = [
@@ -41,13 +40,7 @@ export default function Gallery() {
         <section className="section-spacing bg-white">
             <div className="container">
                 {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-12 md:mb-16"
-                >
+                <div className="text-center mb-12 md:mb-16">
                     <span className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 mb-4 block">
                         Einblicke
                     </span>
@@ -58,17 +51,13 @@ export default function Gallery() {
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto font-light px-4">
                         Moderne Räumlichkeiten für Ihre Wohlfühlmomente
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Gallery Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200">
                     {galleryImages.map((image, index) => (
-                        <motion.div
+                        <div
                             key={index}
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, delay: index * 0.05 }}
                             className="relative aspect-square overflow-hidden bg-gray-100 group"
                         >
                             {/* Optimized Next.js Image */}
@@ -92,18 +81,12 @@ export default function Gallery() {
                                     </p>
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
 
                 {/* Bottom CTA */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mt-16 md:mt-20"
-                >
+                <div className="text-center mt-16 md:mt-20">
                     <p className="text-base md:text-lg font-light text-gray-600 mb-6 md:mb-8 px-4">
                         Überzeugen Sie sich selbst von unserer Qualität
                     </p>
@@ -115,7 +98,7 @@ export default function Gallery() {
                     >
                         Mehr auf Instagram →
                     </a>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

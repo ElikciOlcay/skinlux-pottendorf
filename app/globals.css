@@ -36,6 +36,11 @@
     --radius-lg: 0rem;
   }
 
+  html {
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
+  }
+
   * {
     /* Removed scroll-smooth for better performance */
   }
@@ -49,6 +54,7 @@
     line-height: 1.8;
     letter-spacing: 0.02em;
     scroll-behavior: smooth;
+    overflow-x: hidden;
     /* Moved to body only */
   }
 
@@ -66,7 +72,8 @@
 
 @layer components {
   .container {
-    @apply mx-auto px-4 sm:px-8 md:px-12 lg:px-20 max-w-6xl;
+    @apply mx-auto px-4 sm:px-8 md:px-12 lg:px-20 max-w-6xl w-full;
+    box-sizing: border-box;
   }
 
   /* Ultra Minimalist Button Styles */

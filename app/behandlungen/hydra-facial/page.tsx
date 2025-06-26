@@ -166,21 +166,16 @@ export default function HydraFacial() {
                                 Tiefenreinigung, Extraktion und Hydration in nur einer Sitzung.
                             </p>
 
-                            {/* Special Offer */}
-                            <div className="p-4 md:p-6 mb-6 md:mb-8 border border-gray-200 bg-white hover:border-blue-300 transition-colors">
-                                <div className="flex items-center gap-3 md:gap-4">
-                                    <div
-                                        className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center"
-                                        style={{ backgroundColor: 'rgba(0, 169, 217, 0.1)' }}
-                                    >
-                                        <span className="text-lg md:text-xl">✨</span>
-                                    </div>
+                            {/* Simplified Special Offer */}
+                            <div className="mb-6 md:mb-8 p-4 bg-blue-50 border-l-4 border-blue-300">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-2xl">✨</span>
                                     <div>
-                                        <h3 className="text-base md:text-lg font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-base font-light mb-1" style={{ color: 'var(--color-primary)' }}>
                                             Willkommen-Special
                                         </h3>
-                                        <p className="text-xs md:text-sm text-gray-600 font-light">
-                                            10% Rabatt auf Ihre erste HydraFacial® Behandlung
+                                        <p className="text-sm text-gray-600 font-light">
+                                            10% Rabatt auf Ihre erste Behandlung
                                         </p>
                                     </div>
                                 </div>
@@ -232,27 +227,23 @@ export default function HydraFacial() {
             </section>
 
             {/* Stats Section */}
-            <section className="py-20 bg-black text-white">
+            <section className="py-16 md:py-20 bg-black text-white">
                 <div className="container">
-                    <div className="grid md:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
                         {[
                             { number: "180+", label: "Zufriedene Kunden", icon: Users },
                             { number: "95%", label: "Sofort-Ergebnisse", icon: TrendingUp },
                             { number: "45-75", label: "Minuten Treatment", icon: Clock },
                             { number: "5★", label: "Bewertungen", icon: Star }
-                        ].map((stat, index) => (
-                            <motion.div
+                        ].map((stat) => (
+                            <div
                                 key={stat.label}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
                                 className="text-center"
                             >
-                                <stat.icon className="w-8 h-8 mx-auto mb-4" style={{ color: '#00A9D9' }} />
-                                <div className="text-4xl font-light mb-2">{stat.number}</div>
-                                <div className="text-sm font-light text-gray-400">{stat.label}</div>
-                            </motion.div>
+                                <stat.icon className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4" style={{ color: '#00A9D9' }} />
+                                <div className="text-2xl md:text-4xl font-light mb-1 md:mb-2">{stat.number}</div>
+                                <div className="text-xs md:text-sm font-light text-gray-400">{stat.label}</div>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -261,48 +252,38 @@ export default function HydraFacial() {
             {/* Vorteile Section */}
             <section className="py-20 bg-white">
                 <div className="container">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center mb-16"
-                    >
+                    <div className="text-center mb-12 md:mb-16">
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Warum HydraFacial®
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
                             Ihre <span style={{ color: '#00A9D9' }}>Vorteile</span>
                         </h2>
-                    </motion.div>
+                    </div>
 
-                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                        {vorteile.map((vorteil, index) => (
-                            <motion.div
+                    <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+                        {vorteile.map((vorteil) => (
+                            <div
                                 key={vorteil.title}
-                                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className="flex gap-6 p-8 border border-gray-100 hover:border-blue-300 transition-colors group"
+                                className="flex gap-4 md:gap-6 p-6 md:p-8 bg-gray-50 hover:bg-gray-100 transition-colors"
                             >
                                 <div
-                                    className="w-16 h-16 flex-shrink-0 flex items-center justify-center"
+                                    className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 flex items-center justify-center"
                                     style={{ backgroundColor: 'rgba(0, 169, 217, 0.1)' }}
                                 >
                                     <vorteil.icon
-                                        className="w-8 h-8"
+                                        className="w-6 h-6 md:w-8 md:h-8"
                                         style={{ color: '#00A9D9' }}
                                         strokeWidth={1.5}
                                     />
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex items-start justify-between mb-3">
-                                        <h3 className="text-xl font-light" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-lg md:text-xl font-light" style={{ color: 'var(--color-primary)' }}>
                                             {vorteil.title}
                                         </h3>
                                         <div className="text-right">
-                                            <div className="text-2xl font-light" style={{ color: '#00A9D9' }}>
+                                            <div className="text-xl md:text-2xl font-light" style={{ color: '#00A9D9' }}>
                                                 {vorteil.stat}
                                             </div>
                                             <div className="text-xs text-gray-500 font-light">
@@ -310,11 +291,11 @@ export default function HydraFacial() {
                                             </div>
                                         </div>
                                     </div>
-                                    <p className="text-gray-600 font-light">
+                                    <p className="text-gray-600 font-light text-sm md:text-base">
                                         {vorteil.description}
                                     </p>
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 </div>

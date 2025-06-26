@@ -1,37 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-// Removed framer-motion imports for better performance
-
-const heroContent = [
-    {
-        badge: "Laser Haarentfernung",
-        title: "Dauerhafte",
-        titleHighlight: "Haarfreiheit",
-        subtitle: "Professionelle Laser-Haarentfernung mit modernster Diodenlaser-Technologie. Schmerzfrei, sicher und effektiv.",
-    },
-    {
-        badge: "NEU: HydraFacial®",
-        title: "Strahlende",
-        titleHighlight: "Hautverjüngung",
-        subtitle: "Revolutionäre Gesichtsbehandlung für sofortige Hydration und ein strahlendes Hautbild. Tiefenreinigung mit Sofort-Effekt.",
-    }
-];
 
 export default function Hero() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % heroContent.length);
-        }, 6000); // Wechsel alle 6 Sekunden
-
-        return () => clearInterval(interval);
-    }, []);
-
-    const current = heroContent[currentIndex];
-
     return (
         <section className="relative min-h-screen flex items-center hero-gradient">
             {/* Static Background - Optional */}
@@ -47,42 +18,26 @@ export default function Hero() {
 
             <div className="container relative z-10">
                 <div className="max-w-4xl mx-auto text-center">
-                    {/* Navigation Dots */}
-                    <div className="absolute top-6 md:top-10 left-1/2 -translate-x-1/2 flex gap-2 md:gap-3">
-                        {heroContent.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setCurrentIndex(index)}
-                                className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-300"
-                                style={{
-                                    backgroundColor: index === currentIndex ? 'var(--color-secondary)' : 'var(--color-gray-300)',
-                                    width: index === currentIndex ? '20px' : '6px'
-                                }}
-                            />
-                        ))}
-                    </div>
-
                     {/* Content */}
-                    <div className="transition-opacity duration-300">
+                    <div>
                         {/* Badge */}
                         <div className="mb-8 md:mb-16">
                             <div className="badge text-xs md:text-sm" style={{
-                                color: current.badge.includes('NEU') ? 'var(--color-secondary)' : 'var(--color-text-secondary)'
+                                color: 'var(--color-secondary)'
                             }}>
-                                {current.badge}
+                                Medical Beauty
                             </div>
                         </div>
 
                         {/* Main Title */}
                         <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-light mb-6 md:mb-8 leading-tight" style={{ color: 'var(--color-primary)' }}>
-                            {current.title}
-                            <br />
-                            <span style={{ color: 'var(--color-secondary)' }}>{current.titleHighlight}</span>
+                            Timeless<br />
+                            <span style={{ color: 'var(--color-secondary)' }}>Beauty</span>
                         </h1>
 
                         {/* Subtitle */}
                         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-8 font-light">
-                            {current.subtitle}
+                            Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen für Ihre Schönheit im Pongau.
                         </p>
 
                         {/* Google Reviews Trust Signal */}

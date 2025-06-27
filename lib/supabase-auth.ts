@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
 import { supabase } from './supabase'
+import type { Session } from '@supabase/supabase-js'
 
 // Auth Helper Functions für Admin-System
 export class AdminAuth {
@@ -91,7 +91,7 @@ export class AdminAuth {
     }
 
     // Session State abonnieren
-    static onAuthStateChange(callback: (event: string, session: any) => void) {
+    static onAuthStateChange(callback: (event: string, session: Session | null) => void) {
         return supabase.auth.onAuthStateChange(callback)
     }
 }
@@ -141,11 +141,11 @@ export class AdminVouchers {
             if (error) throw error
 
             return { success: true, vouchers: data || [] }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Failed to load vouchers:', error)
             return {
                 success: false,
-                error: error.message || 'Fehler beim Laden der Vouchers'
+                error: error instanceof Error ? error.message : 'Fehler beim Laden der Vouchers'
             }
         }
     }
@@ -172,10 +172,10 @@ export class AdminVouchers {
             if (error) throw error
 
             return { success: true, voucher: data }
-        } catch (error: any) {
+        } catch (error: unknown) {
             return {
                 success: false,
-                error: error.message || 'Fehler beim Aktualisieren des Vouchers'
+                error: error instanceof Error ? error.message : 'Fehler beim Aktualisieren des Vouchers'
             }
         }
     }

@@ -12,13 +12,30 @@ export class PDFGenerator {
 
             // Launch browser in headless mode (optimized for Vercel/serverless)
             const isProduction = process.env.NODE_ENV === 'production';
+            const isVercel = process.env.VERCEL === '1';
 
-            browser = await puppeteer.launch({
-                headless: true,
-                executablePath: isProduction ? await chromium.executablePath() : undefined,
-                args: isProduction
-                    ? chromium.args
-                    : [
+            let executablePath;
+            let args;
+
+            if (isProduction && isVercel) {
+                // Vercel-optimierte Konfiguration
+                console.log('🌐 Vercel production environment detected');
+                try {
+                    console.log('📦 Attempting to get chromium executable path...');
+                    executablePath = await chromium.executablePath();
+                    console.log('✅ Chromium executable found:', executablePath);
+                    args = [
+                        ...chromium.args,
+                        '--single-process',
+                        '--no-zygote',
+                        '--disable-dev-shm-usage'
+                    ];
+                    console.log('📋 Using chromium args:', args.length, 'arguments');
+                } catch (error) {
+                    console.warn('⚠️ Chromium setup failed, using fallback:', error);
+                    // Fallback auf Standard Chrome/Chromium
+                    executablePath = undefined;
+                    args = [
                         '--no-sandbox',
                         '--disable-setuid-sandbox',
                         '--disable-dev-shm-usage',
@@ -30,7 +47,31 @@ export class PDFGenerator {
                         '--single-process',
                         '--disable-extensions',
                         '--disable-default-apps'
-                    ]
+                    ];
+                    console.log('🔄 Using fallback args:', args.length, 'arguments');
+                }
+            } else {
+                // Lokale Entwicklung
+                executablePath = undefined;
+                args = [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--disable-web-security',
+                    '--disable-features=VizDisplayCompositor',
+                    '--no-first-run',
+                    '--no-zygote',
+                    '--single-process',
+                    '--disable-extensions',
+                    '--disable-default-apps'
+                ];
+            }
+
+            browser = await puppeteer.launch({
+                headless: true,
+                executablePath,
+                args
             });
 
             console.log('🖨️ Browser launched successfully');

@@ -25,8 +25,17 @@ export async function GET(request: NextRequest) {
     try {
         console.log('Fetching vouchers for admin dashboard...');
 
+        // Verwende Admin-Client um RLS zu umgehen
+        const supabaseAdmin = createSupabaseAdmin();
+        if (!supabaseAdmin) {
+            return NextResponse.json(
+                { error: 'Datenbankverbindung nicht verfügbar' },
+                { status: 500 }
+            );
+        }
+
         // Alle Vouchers laden - server-side, umgeht RLS
-        const { data, error } = await supabase
+        const { data, error } = await supabaseAdmin
             .from('vouchers')
             .select('*')
             .order('created_at', { ascending: false });

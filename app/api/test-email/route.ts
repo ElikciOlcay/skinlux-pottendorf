@@ -40,10 +40,11 @@ export async function POST(request: NextRequest) {
         console.log('📧 Sending test emails to:', to);
 
         // Test all email types
-        const [customerResult, adminResult, voucherResult] = await Promise.allSettled([
+        const [customerResult, adminResult, voucherHtmlResult, voucherPdfResult] = await Promise.allSettled([
             EmailService.sendCustomerConfirmation(testEmailData),
             EmailService.sendAdminNotification(testEmailData),
-            EmailService.sendVoucherByEmail(testEmailData)
+            EmailService.sendVoucherByEmail(testEmailData, false), // HTML Format
+            EmailService.sendVoucherByEmail(testEmailData, true)   // PDF Format
         ]);
 
         const results = {
@@ -57,16 +58,22 @@ export async function POST(request: NextRequest) {
                 error: adminResult.status === 'rejected' ? adminResult.reason :
                     adminResult.status === 'fulfilled' && !adminResult.value.success ? adminResult.value.error : null
             },
-            voucherEmail: {
-                success: voucherResult.status === 'fulfilled' ? voucherResult.value.success : false,
-                error: voucherResult.status === 'rejected' ? voucherResult.reason :
-                    voucherResult.status === 'fulfilled' && !voucherResult.value.success ? voucherResult.value.error : null
+            voucherHtmlEmail: {
+                success: voucherHtmlResult.status === 'fulfilled' ? voucherHtmlResult.value.success : false,
+                error: voucherHtmlResult.status === 'rejected' ? voucherHtmlResult.reason :
+                    voucherHtmlResult.status === 'fulfilled' && !voucherHtmlResult.value.success ? voucherHtmlResult.value.error : null
+            },
+            voucherPdfEmail: {
+                success: voucherPdfResult.status === 'fulfilled' ? voucherPdfResult.value.success : false,
+                error: voucherPdfResult.status === 'rejected' ? voucherPdfResult.reason :
+                    voucherPdfResult.status === 'fulfilled' && !voucherPdfResult.value.success ? voucherPdfResult.value.error : null
             }
         };
 
         console.log('✅ Test email results:', results);
 
-        const overallSuccess = results.customerEmail.success && results.adminEmail.success && results.voucherEmail.success;
+        const overallSuccess = results.customerEmail.success && results.adminEmail.success &&
+            results.voucherHtmlEmail.success && results.voucherPdfEmail.success;
 
         return NextResponse.json({
             success: overallSuccess,
@@ -78,7 +85,8 @@ export async function POST(request: NextRequest) {
             emailTypes: [
                 'Customer Confirmation (Bestellbestätigung)',
                 'Admin Notification (Admin-Benachrichtigung)',
-                'Digital Voucher (Digitaler Gutschein) 🎁'
+                'Digital Voucher HTML (Digitaler Gutschein) 📧',
+                'Digital Voucher PDF (PDF-Gutschein) 📄'
             ]
         });
 

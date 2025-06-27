@@ -27,6 +27,7 @@ interface BankDetails {
     bic: string;
     reference: string;
     voucherValidityMonths: number; // Gültigkeit der Gutscheine in Monaten
+    sendVoucherAsPDF: boolean; // PDF-Versand für E-Mail-Gutscheine
 }
 
 export default function AdminDashboard() {
@@ -42,7 +43,8 @@ export default function AdminDashboard() {
         iban: '',
         bic: '',
         reference: 'Gutschein-Bestellung',
-        voucherValidityMonths: 12
+        voucherValidityMonths: 12,
+        sendVoucherAsPDF: false
     });
     const [savingBankDetails, setSavingBankDetails] = useState(false);
 
@@ -151,7 +153,8 @@ export default function AdminDashboard() {
                 iban: 'AT00 0000 0000 0000 0000',
                 bic: 'SPALAT2G',
                 reference: 'Gutschein-Bestellung',
-                voucherValidityMonths: 12
+                voucherValidityMonths: 12,
+                sendVoucherAsPDF: false
             });
         }
     };
@@ -343,6 +346,40 @@ export default function AdminDashboard() {
                                 </select>
                                 <p className="text-sm text-gray-500 mt-1">
                                     Neue Gutscheine sind für diese Dauer gültig.
+                                </p>
+                            </div>
+
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    E-Mail-Gutschein Format
+                                </label>
+                                <div className="flex items-center space-x-6">
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="voucherFormat"
+                                            checked={!bankDetails.sendVoucherAsPDF}
+                                            onChange={() => setBankDetails(prev => ({ ...prev, sendVoucherAsPDF: false }))}
+                                            className="mr-2 text-blue-600 focus:ring-blue-500"
+                                        />
+                                        <span className="text-sm">📧 HTML-E-Mail (interaktiv)</span>
+                                    </label>
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="voucherFormat"
+                                            checked={bankDetails.sendVoucherAsPDF}
+                                            onChange={() => setBankDetails(prev => ({ ...prev, sendVoucherAsPDF: true }))}
+                                            className="mr-2 text-blue-600 focus:ring-blue-500"
+                                        />
+                                        <span className="text-sm">📄 PDF-Anhang (ausdruckbar)</span>
+                                    </label>
+                                </div>
+                                <p className="text-sm text-gray-500 mt-2">
+                                    {bankDetails.sendVoucherAsPDF
+                                        ? "Gutscheine werden als PDF-Datei im E-Mail-Anhang versendet (ausdruckbar)"
+                                        : "Gutscheine werden als schöne HTML-E-Mail versendet (interaktiv)"
+                                    }
                                 </p>
                             </div>
                         </div>

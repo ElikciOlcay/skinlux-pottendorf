@@ -7,6 +7,7 @@ export interface BankDetails {
     bic: string;
     reference: string;
     voucherValidityMonths: number;
+    sendVoucherAsPDF: boolean; // Neue Option für PDF-Versand
 }
 
 // Default bank details (you should update these)
@@ -16,7 +17,8 @@ const DEFAULT_BANK_DETAILS: BankDetails = {
     iban: 'AT00 0000 0000 0000 0000',
     bic: 'SPALAT2G',
     reference: 'Gutschein-Bestellung',
-    voucherValidityMonths: 12
+    voucherValidityMonths: 12,
+    sendVoucherAsPDF: false // Standard: HTML-E-Mail
 };
 
 // In a real application, you would store this in a database

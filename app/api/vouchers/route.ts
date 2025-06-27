@@ -353,8 +353,22 @@ export async function PATCH(request: NextRequest) {
 
                 // Wenn der Gutschein per E-Mail versendet werden soll, dann sende jetzt den digitalen Gutschein
                 if (data.delivery_method === 'email') {
-                    console.log('📧 Sending digital voucher via email...');
-                    const emailResult = await EmailService.sendVoucherByEmail(emailData);
+                    // Hole Bankdaten-Einstellungen für PDF-Format
+                    let sendAsPDF = false;
+                    try {
+                        const bankResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/bank-details`);
+                        if (bankResponse.ok) {
+                            const bankResult = await bankResponse.json();
+                            sendAsPDF = bankResult.bankDetails.sendVoucherAsPDF || false;
+                            console.log(`📧 Voucher format setting: ${sendAsPDF ? 'PDF' : 'HTML'}`);
+                        }
+                    } catch (error) {
+                        console.warn('Could not fetch PDF setting, using HTML format:', error);
+                        sendAsPDF = false;
+                    }
+
+                    console.log(`📧 Sending digital voucher via email (${sendAsPDF ? 'PDF' : 'HTML'})...`);
+                    const emailResult = await EmailService.sendVoucherByEmail(emailData, sendAsPDF);
                     voucherEmailResult = {
                         success: emailResult.success,
                         error: emailResult.success ? null : (emailResult.error || 'Unknown error')

@@ -28,6 +28,7 @@ export interface BankDetails {
     bic: string;
     reference: string;
     voucherValidityMonths: number;
+    sendVoucherAsPDF: boolean;
 }
 
 export class EmailService {
@@ -122,15 +123,13 @@ export class EmailService {
         }
     }
 
-    // Send voucher by email (for email delivery method)
-    static async sendVoucherByEmail(data: VoucherEmailData) {
+    // Send voucher by email with PDF option
+    static async sendVoucherByEmail(data: VoucherEmailData, sendAsPDF: boolean = false) {
         try {
             if (!process.env.RESEND_API_KEY) {
                 console.warn('RESEND_API_KEY not configured, skipping voucher email');
                 return { success: false, error: 'Email service not configured' };
             }
-
-            const emailContent = this.generateVoucherEmailHTML(data);
 
             // Determine recipient
             const recipient = data.recipientName && data.recipientName !== data.senderName
@@ -146,15 +145,42 @@ export class EmailService {
                 ? 'Skinlux <hello@skinlux.at>'
                 : 'Skinlux <onboarding@resend.dev>';
 
-            console.log(`📧 Sending voucher email to: ${toEmail} (Recipient: ${recipient})`);
+            console.log(`📧 Sending voucher ${sendAsPDF ? 'PDF' : 'HTML'} email to: ${toEmail} (Recipient: ${recipient})`);
 
             const resend = getResendClient();
-            const result = await resend.emails.send({
-                from: fromEmail,
-                to: [toEmail],
-                subject: `🎁 Ihr Skinlux Gutschein ist da! Code: ${data.voucherCode}`,
-                html: emailContent,
-            });
+
+            let result;
+
+            if (sendAsPDF) {
+                // Generate PDF and send as attachment
+                console.log('🖨️ Generating PDF voucher...');
+                const { PDFGenerator } = await import('./pdf-generator');
+                const pdfUint8Array = await PDFGenerator.generateVoucherPDF(data);
+                const pdfBuffer = Buffer.from(pdfUint8Array);
+
+                result = await resend.emails.send({
+                    from: fromEmail,
+                    to: [toEmail],
+                    subject: `🎁 Ihr Skinlux Gutschein ist da! Code: ${data.voucherCode}`,
+                    html: this.generatePDFEmailHTML(data),
+                    attachments: [
+                        {
+                            filename: `Skinlux-Gutschein-${data.voucherCode}.pdf`,
+                            content: pdfBuffer
+                        }
+                    ]
+                });
+
+                console.log('✅ PDF generated and attached to email');
+            } else {
+                // Send HTML email
+                result = await resend.emails.send({
+                    from: fromEmail,
+                    to: [toEmail],
+                    subject: `🎁 Ihr Skinlux Gutschein ist da! Code: ${data.voucherCode}`,
+                    html: this.generateVoucherEmailHTML(data)
+                });
+            }
 
             // Check for Resend errors
             if (result.error) {
@@ -245,7 +271,8 @@ export class EmailService {
             iban: 'AT00 0000 0000 0000 0000',
             bic: 'SPALAT2G',
             reference: 'Gutschein-Bestellung',
-            voucherValidityMonths: 12
+            voucherValidityMonths: 12,
+            sendVoucherAsPDF: false
         };
     }
 
@@ -986,6 +1013,107 @@ export class EmailService {
                     <p style="margin-top: 30px; font-size: 12px; color: #9ca3af;">
                         Diese E-Mail wurde automatisch generiert. Bei Fragen antworten Sie einfach auf diese E-Mail.<br>
                         Gutschein-ID: ${data.orderNumber} | Erstellt: ${new Date().toLocaleDateString('de-DE')}
+                    </p>
+                </div>
+            </div>
+        </body>
+        </html>
+        `;
+    }
+
+    // Generate simple email HTML for PDF attachment
+    private static generatePDFEmailHTML(data: VoucherEmailData): string {
+        const recipientName = data.recipientName || data.senderName;
+        const isGift = data.recipientName && data.recipientName !== data.senderName;
+
+        return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Ihr Skinlux Gutschein als PDF</title>
+            <style>
+                body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; }
+                .container { max-width: 600px; margin: 0 auto; background-color: white; }
+                .header { background: linear-gradient(135deg, #1f2937 0%, #374151 100%); color: white; padding: 40px 30px; text-align: center; }
+                .logo { font-size: 32px; font-weight: 300; margin-bottom: 10px; }
+                .content { padding: 40px 30px; }
+                .attachment-box { background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); border-radius: 16px; padding: 30px; margin: 30px 0; text-align: center; border: 2px dashed #d1d5db; }
+                .pdf-icon { font-size: 48px; margin: 20px 0; }
+                .amount { font-size: 36px; font-weight: bold; color: #059669; margin: 10px 0; }
+                .voucher-code { font-size: 24px; font-weight: bold; color: #1f2937; letter-spacing: 2px; margin: 15px 0; font-family: monospace; }
+                .footer { background-color: #f9fafb; padding: 30px; text-align: center; color: #6b7280; font-size: 14px; }
+                .button { display: inline-block; background: linear-gradient(135deg, #1f2937 0%, #374151 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 20px 0; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <div class="logo">SKINLUX</div>
+                    <h1>🎁 Ihr Gutschein ist da!</h1>
+                    <p>${isGift ? `Ein Geschenk für ${recipientName} von ${data.senderName}` : `Liebe/r ${recipientName}`}</p>
+                </div>
+                
+                <div class="content">
+                    <h2>Ihr Gutschein als PDF im Anhang</h2>
+                    <p>Großartige Neuigkeiten! Ihr Skinlux-Gutschein wurde aktiviert und ist als PDF-Datei im Anhang dieser E-Mail zu finden.</p>
+                    
+                    <div class="attachment-box">
+                        <div class="pdf-icon">📄</div>
+                        <h3>PDF-Gutschein</h3>
+                        <div class="voucher-code">${data.voucherCode}</div>
+                        <div class="amount">€${data.amount}</div>
+                        <p style="color: #6b7280; margin-top: 20px;">
+                            <strong>Dateiname:</strong> Skinlux-Gutschein-${data.voucherCode}.pdf<br>
+                            <strong>Gültig bis:</strong> ${new Date(data.expiresAt).toLocaleDateString('de-DE')}
+                        </p>
+                    </div>
+                    
+                    ${data.message ? `
+                    <div style="background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 20px; margin: 25px 0; border-radius: 0 8px 8px 0;">
+                        <h4 style="color: #0369a1; margin: 0 0 10px 0;">💌 Persönliche Nachricht:</h4>
+                        <p style="margin: 0; font-style: italic; color: #1e40af;">
+                            "${data.message}"
+                        </p>
+                        ${isGift ? `<p style="margin: 10px 0 0 0; color: #64748b; text-align: right;">— ${data.senderName}</p>` : ''}
+                    </div>
+                    ` : ''}
+                    
+                    <div style="background: #dcfce7; border-radius: 12px; padding: 25px; margin: 25px 0;">
+                        <h3 style="color: #166534; margin-top: 0;">🎯 So verwenden Sie Ihren PDF-Gutschein:</h3>
+                        <ol style="color: #15803d; margin: 15px 0; padding-left: 20px;">
+                            <li><strong>PDF herunterladen:</strong> Speichern Sie die PDF-Datei aus dem Anhang</li>
+                            <li><strong>Ausdrucken (optional):</strong> Sie können den Gutschein ausdrucken oder digital vorzeigen</li>
+                            <li><strong>Termin buchen:</strong> Rufen Sie uns an oder besuchen Sie unsere Website</li>
+                            <li><strong>Gutschein einlösen:</strong> Zeigen Sie den Gutschein vor oder nennen Sie den Code</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <a href="https://connect.shore.com/bookings/skinlux" class="button">
+                            🗓️ Jetzt Termin buchen
+                        </a>
+                    </div>
+                    
+                    <div style="background: #fef3c7; border-radius: 8px; padding: 20px; margin: 25px 0;">
+                        <p style="margin: 0; color: #92400e; font-weight: 600; text-align: center;">
+                            💡 <strong>Tipp:</strong> Speichern Sie die PDF-Datei auf Ihrem Smartphone für den einfachen Zugriff!
+                        </p>
+                    </div>
+                    
+                    <p>Bei Fragen stehen wir Ihnen gerne zur Verfügung. Wir freuen uns darauf, Sie bald bei uns begrüßen zu dürfen!</p>
+                </div>
+                
+                <div class="footer">
+                    <p><strong>Skinlux Bischofshofen</strong><br>
+                    Salzburger Straße 45, 5500 Bischofshofen<br>
+                    Tel: +43 123 456 789<br>
+                    E-Mail: hello@skinlux.at<br>
+                    Web: <a href="https://skinlux.at" style="color: #059669;">skinlux.at</a></p>
+                    
+                    <p style="margin-top: 20px; font-size: 12px;">
+                    Diese E-Mail wurde automatisch generiert. Bei Fragen antworten Sie einfach auf diese E-Mail.
                     </p>
                 </div>
             </div>

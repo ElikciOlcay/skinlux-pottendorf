@@ -9,16 +9,29 @@ export class PDFGenerator {
         try {
             console.log('🖨️ Starting PDF generation for voucher:', data.voucherCode);
 
-            // Launch browser in headless mode
+            // Launch browser in headless mode (optimized for Vercel/serverless)
             browser = await puppeteer.launch({
                 headless: true,
                 args: [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
                     '--disable-dev-shm-usage',
-                    '--disable-gpu'
-                ]
+                    '--disable-gpu',
+                    '--disable-web-security',
+                    '--disable-features=VizDisplayCompositor',
+                    '--no-first-run',
+                    '--no-zygote',
+                    '--single-process', // Wichtig für Vercel
+                    '--disable-extensions',
+                    '--disable-default-apps'
+                ],
+                // Für lokale Entwicklung
+                executablePath: process.env.NODE_ENV === 'production'
+                    ? process.env.PUPPETEER_EXECUTABLE_PATH
+                    : undefined
             });
+
+            console.log('🖨️ Browser launched successfully');
 
             const page = await browser.newPage();
 
@@ -33,14 +46,15 @@ export class PDFGenerator {
                 waitUntil: ['networkidle0', 'domcontentloaded']
             });
 
-            // Generate PDF with print-optimized settings
+            // Generate PDF with A5 landscape settings
             const pdfBuffer = await page.pdf({
-                format: 'A4',
+                width: '210mm',   // A5 landscape width
+                height: '148mm',  // A5 landscape height
                 margin: {
-                    top: '20mm',
-                    right: '15mm',
-                    bottom: '20mm',
-                    left: '15mm'
+                    top: '10mm',
+                    right: '12mm',
+                    bottom: '10mm',
+                    left: '12mm'
                 },
                 printBackground: true,
                 preferCSSPageSize: true
@@ -60,7 +74,7 @@ export class PDFGenerator {
         }
     }
 
-    // Generate print-optimized HTML for PDF - simplified version for now
+    // Generate clean minimalist A5 landscape PDF
     private static generatePrintVoucherHTML(data: VoucherEmailData): string {
         const recipientName = data.recipientName || data.senderName;
         const isGift = data.recipientName && data.recipientName !== data.senderName;
@@ -71,175 +85,398 @@ export class PDFGenerator {
         <head>
             <meta charset="utf-8">
             <title>Skinlux Gutschein - ${data.voucherCode}</title>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
             <style>
-                body {
-                    font-family: 'Arial', sans-serif;
-                    background: white;
-                    color: #1f2937;
+                * {
                     margin: 0;
-                    padding: 20px;
-                    -webkit-print-color-adjust: exact;
-                    print-color-adjust: exact;
+                    padding: 0;
+                    box-sizing: border-box;
                 }
                 
-                .voucher-container {
-                    max-width: 600px;
-                    margin: 0 auto;
-                    border: 2px solid #059669;
-                    border-radius: 15px;
+                body {
+                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+                    background: white;
+                    color: #1a1a1a;
+                    line-height: 1.5;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                    width: 210mm;
+                    height: 148mm;
+                    padding: 0;
+                    margin: 0;
                     overflow: hidden;
                 }
                 
+                .voucher-container {
+                    width: 100%;
+                    height: 100%;
+                    background: white;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    position: relative;
+                }
+                
+                /* Linke Seite - Hauptinhalt */
+                .main-content {
+                    padding: 20mm 15mm 20mm 20mm;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    background: white;
+                }
+                
+                /* Rechte Seite - Details */
+                .details-content {
+                    padding: 20mm 20mm 20mm 15mm;
+                    background: #fafafa;
+                    border-left: 1px solid #e5e5e5;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+                
+                /* Header */
                 .header {
-                    background: #1f2937;
-                    color: white;
-                    padding: 30px;
-                    text-align: center;
+                    margin-bottom: 15mm;
                 }
                 
                 .logo {
-                    font-size: 36px;
-                    font-weight: bold;
-                    letter-spacing: 3px;
-                    margin-bottom: 10px;
+                    font-size: 28px;
+                    font-weight: 700;
+                    letter-spacing: 4px;
+                    color: #1a1a1a;
+                    margin-bottom: 5mm;
                 }
                 
+                .header-subtitle {
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: #666;
+                    margin-bottom: 2mm;
+                }
+                
+                .header-tagline {
+                    font-size: 12px;
+                    color: #999;
+                    font-weight: 300;
+                }
+                
+                /* Voucher Main */
                 .voucher-main {
-                    background: #059669;
-                    color: white;
-                    padding: 40px;
-                    text-align: center;
+                    text-align: left;
+                    margin-bottom: 15mm;
+                }
+                
+                .voucher-title {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                    margin-bottom: 8mm;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
                 }
                 
                 .voucher-amount {
-                    font-size: 60px;
-                    font-weight: bold;
-                    margin: 20px 0;
+                    font-size: 48px;
+                    font-weight: 300;
+                    color: #1a1a1a;
+                    margin-bottom: 6mm;
+                    line-height: 1;
                 }
                 
                 .voucher-code {
-                    font-size: 24px;
-                    font-weight: bold;
-                    font-family: monospace;
-                    background: rgba(255,255,255,0.2);
-                    padding: 15px;
-                    border-radius: 8px;
-                    margin: 20px 0;
+                    font-family: 'Inter', monospace;
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #1a1a1a;
+                    padding: 8px 12px;
+                    border: 1px solid #e5e5e5;
+                    background: white;
+                    border-radius: 4px;
                     letter-spacing: 2px;
+                    display: inline-block;
+                    margin-bottom: 6mm;
                 }
                 
-                .info-section {
-                    padding: 30px;
-                    background: #f8fafc;
+                .validity-info {
+                    font-size: 12px;
+                    color: #666;
+                    font-weight: 400;
                 }
                 
-                .info-grid {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 20px;
-                    margin: 20px 0;
+                /* Footer */
+                .footer {
+                    border-top: 1px solid #e5e5e5;
+                    padding-top: 8mm;
                 }
                 
-                .info-item {
+                .contact-info {
+                    font-size: 11px;
+                    line-height: 1.6;
+                    color: #666;
+                }
+                
+                .contact-info strong {
+                    color: #1a1a1a;
+                    font-weight: 600;
+                }
+                
+                /* Details Section */
+                .details-header {
+                    margin-bottom: 12mm;
+                }
+                
+                .details-title {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                    margin-bottom: 8mm;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .detail-item {
+                    margin-bottom: 6mm;
+                    padding-bottom: 6mm;
+                    border-bottom: 1px solid #e5e5e5;
+                }
+                
+                .detail-item:last-child {
+                    border-bottom: none;
+                }
+                
+                .detail-label {
+                    font-size: 10px;
+                    font-weight: 500;
+                    color: #666;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    margin-bottom: 2mm;
+                }
+                
+                .detail-value {
+                    font-size: 13px;
+                    font-weight: 400;
+                    color: #1a1a1a;
+                    line-height: 1.4;
+                }
+                
+                /* Personal Message */
+                .personal-message {
+                    margin: 8mm 0;
+                    padding: 6mm;
                     background: white;
-                    padding: 20px;
-                    border-radius: 8px;
-                    text-align: center;
-                    border: 1px solid #e5e7eb;
+                    border-left: 2px solid #1a1a1a;
+                    border-radius: 0 4px 4px 0;
                 }
                 
+                .message-title {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                    margin-bottom: 3mm;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                
+                .message-text {
+                    font-size: 11px;
+                    font-style: italic;
+                    color: #333;
+                    line-height: 1.5;
+                    margin-bottom: 3mm;
+                }
+                
+                .message-signature {
+                    text-align: right;
+                    font-size: 10px;
+                    color: #666;
+                    font-weight: 400;
+                }
+                
+                /* Terms */
+                .terms {
+                    margin-top: 8mm;
+                    padding-top: 6mm;
+                    border-top: 1px solid #e5e5e5;
+                }
+                
+                .terms-title {
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                    margin-bottom: 4mm;
+                }
+                
+                .terms-list {
+                    font-size: 9px;
+                    color: #666;
+                    line-height: 1.4;
+                }
+                
+                .terms-list li {
+                    margin-bottom: 2mm;
+                    padding-left: 0;
+                    list-style: none;
+                    position: relative;
+                }
+                
+                .terms-list li::before {
+                    content: '•';
+                    color: #999;
+                    position: absolute;
+                    left: -6px;
+                }
+                
+                /* Instructions */
                 .instructions {
-                    background: #eff6ff;
-                    border: 2px solid #3b82f6;
-                    border-radius: 10px;
-                    padding: 20px;
-                    margin: 20px 0;
+                    margin: 8mm 0;
                 }
                 
-                .contact-section {
-                    background: white;
-                    padding: 30px;
+                .instructions-title {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                    margin-bottom: 4mm;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                
+                .instructions ol {
+                    counter-reset: step-counter;
+                    list-style: none;
+                    padding: 0;
+                }
+                
+                .instructions ol li {
+                    counter-increment: step-counter;
+                    margin-bottom: 3mm;
+                    padding-left: 20px;
+                    position: relative;
+                    font-size: 10px;
+                    line-height: 1.4;
+                    color: #333;
+                }
+                
+                .instructions ol li::before {
+                    content: counter(step-counter);
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    background: #1a1a1a;
+                    color: white;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 500;
+                    font-size: 8px;
+                }
+                
+                /* Footer ID */
+                .footer-id {
+                    font-size: 8px;
+                    color: #999;
                     text-align: center;
-                    border-top: 1px solid #e5e7eb;
+                    margin-top: 6mm;
+                    padding-top: 4mm;
+                    border-top: 1px solid #f0f0f0;
                 }
             </style>
         </head>
         <body>
             <div class="voucher-container">
-                <div class="header">
-                    <div class="logo">SKINLUX</div>
-                    <h2>${isGift ? `Geschenk für ${recipientName}` : 'Ihr Gutschein'}</h2>
-                    <p>${isGift ? `Von ${data.senderName}` : 'Für strahlend schöne Haut'}</p>
-                </div>
-                
-                <div class="voucher-main">
-                    <h2>Skinlux Gutschein</h2>
-                    <div class="voucher-amount">€${data.amount}</div>
-                    <div class="voucher-code">${data.voucherCode}</div>
-                    <p>Gültig bis: ${new Date(data.expiresAt).toLocaleDateString('de-DE')}</p>
-                </div>
-                
-                <div class="info-section">
-                    <h3>Gutschein-Details</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <strong>Inhaber</strong><br>
-                            ${recipientName}
+                <!-- Linke Seite - Hauptinhalt -->
+                <div class="main-content">
+                    <div>
+                        <div class="header">
+                            <div class="logo">SKINLUX</div>
+                            <div class="header-subtitle">${isGift ? `Geschenk für ${recipientName}` : 'Gutschein'}</div>
+                            <div class="header-tagline">${isGift ? `Von ${data.senderName}` : 'Für strahlend schöne Haut'}</div>
                         </div>
-                        <div class="info-item">
-                            <strong>Wert</strong><br>
-                            €${data.amount}
-                        </div>
-                        <div class="info-item">
-                            <strong>Code</strong><br>
-                            ${data.voucherCode}
-                        </div>
-                        <div class="info-item">
-                            <strong>Gültig bis</strong><br>
-                            ${new Date(data.expiresAt).toLocaleDateString('de-DE')}
+                        
+                        <div class="voucher-main">
+                            <div class="voucher-title">Wertgutschein</div>
+                            <div class="voucher-amount">€${data.amount}</div>
+                            <div class="voucher-code">${data.voucherCode}</div>
+                            <div class="validity-info">Gültig bis ${new Date(data.expiresAt).toLocaleDateString('de-DE')}</div>
                         </div>
                     </div>
                     
-                    ${data.message ? `
-                    <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #059669;">
-                        <h4>Persönliche Nachricht:</h4>
-                        <p style="font-style: italic;">"${data.message}"</p>
-                        ${isGift ? `<p style="text-align: right;">— ${data.senderName}</p>` : ''}
+                    <div class="footer">
+                        <div class="contact-info">
+                            <strong>Skinlux Bischofshofen</strong><br>
+                            Salzburger Straße 45, 5500 Bischofshofen<br>
+                            Tel. <strong>+43 123 456 789</strong> • <strong>hello@skinlux.at</strong><br>
+                            <strong>skinlux.at</strong>
+                        </div>
+                        <div class="footer-id">
+                            Gutschein-ID: ${data.orderNumber} • ${new Date().toLocaleDateString('de-DE')}
+                        </div>
                     </div>
-                    ` : ''}
                 </div>
                 
-                <div class="instructions">
-                    <h3>So lösen Sie Ihren Gutschein ein:</h3>
-                    <ol>
-                        <li>Termin buchen: Rufen Sie uns an oder besuchen Sie unsere Website</li>
-                        <li>Behandlung auswählen: Wählen Sie Ihre gewünschte Behandlung</li>
-                        <li>Gutschein vorzeigen: Bringen Sie diesen Gutschein mit</li>
-                        <li>Genießen: Freuen Sie sich auf Ihre Behandlung!</li>
-                    </ol>
-                </div>
-                
-                <div class="contact-section">
-                    <h3>Kontakt & Terminbuchung</h3>
-                    <p><strong>Skinlux Bischofshofen</strong><br>
-                    Salzburger Straße 45, 5500 Bischofshofen<br>
-                    Telefon: +43 123 456 789<br>
-                    E-Mail: hello@skinlux.at<br>
-                    Website: skinlux.at</p>
+                <!-- Rechte Seite - Details -->
+                <div class="details-content">
+                    <div>
+                        <div class="details-header">
+                            <div class="details-title">Details</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Begünstigter</div>
+                            <div class="detail-value">${recipientName}</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Gutscheinwert</div>
+                            <div class="detail-value">€${data.amount}</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Code</div>
+                            <div class="detail-value">${data.voucherCode}</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Gültig bis</div>
+                            <div class="detail-value">${new Date(data.expiresAt).toLocaleDateString('de-DE', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })}</div>
+                        </div>
+                        
+                        ${data.message ? `
+                        <div class="personal-message">
+                            <div class="message-title">Nachricht</div>
+                            <div class="message-text">"${data.message}"</div>
+                            ${isGift ? `<div class="message-signature">— ${data.senderName}</div>` : ''}
+                        </div>
+                        ` : ''}
+                        
+                        <div class="instructions">
+                            <div class="instructions-title">Einlösung</div>
+                            <ol>
+                                <li>Termin vereinbaren</li>
+                                <li>Behandlung wählen</li>
+                                <li>Gutschein vorzeigen</li>
+                                <li>Entspannen & genießen</li>
+                            </ol>
+                        </div>
+                    </div>
                     
-                    <div style="margin-top: 20px; padding: 15px; background: #f3f4f6; border-radius: 8px;">
-                        <h4>Wichtige Hinweise:</h4>
-                        <ul style="text-align: left; display: inline-block;">
+                    <div class="terms">
+                        <div class="terms-title">Bedingungen</div>
+                        <ul class="terms-list">
                             <li>Nicht mit anderen Aktionen kombinierbar</li>
                             <li>Keine Barauszahlung möglich</li>
                             <li>Bei Verlust nicht ersetzbar</li>
-                            <li>Terminabsagen bis 24h vorher kostenfrei</li>
+                            <li>Stornierung bis 24h vorher kostenfrei</li>
                         </ul>
                     </div>
-                    
-                    <p style="margin-top: 20px; font-size: 12px; color: #6b7280;">
-                        Gutschein-ID: ${data.orderNumber} | Erstellt: ${new Date().toLocaleDateString('de-DE')}
-                    </p>
                 </div>
             </div>
         </body>

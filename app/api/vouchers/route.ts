@@ -356,24 +356,37 @@ export async function PATCH(request: NextRequest) {
                     // Hole Bankdaten-Einstellungen für PDF-Format
                     let sendAsPDF = false;
                     try {
-                        const bankResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/bank-details`);
+                        // Verwende absolute URL für Server-side Request
+                        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+                        console.log(`📧 Fetching bank details from: ${siteUrl}/api/bank-details`);
+
+                        const bankResponse = await fetch(`${siteUrl}/api/bank-details`);
                         if (bankResponse.ok) {
                             const bankResult = await bankResponse.json();
                             sendAsPDF = bankResult.bankDetails.sendVoucherAsPDF || false;
-                            console.log(`📧 Voucher format setting: ${sendAsPDF ? 'PDF' : 'HTML'}`);
+                            console.log(`📧 Voucher format setting loaded: ${sendAsPDF ? 'PDF' : 'HTML'}`);
+                            console.log(`📧 Full bank details:`, bankResult.bankDetails);
+                        } else {
+                            console.error(`❌ Bank details API failed: ${bankResponse.status} ${bankResponse.statusText}`);
                         }
                     } catch (error) {
-                        console.warn('Could not fetch PDF setting, using HTML format:', error);
+                        console.error('❌ Could not fetch PDF setting:', error);
                         sendAsPDF = false;
                     }
 
-                    console.log(`📧 Sending digital voucher via email (${sendAsPDF ? 'PDF' : 'HTML'})...`);
+                    console.log(`📧 Sending digital voucher via email (Format: ${sendAsPDF ? 'PDF' : 'HTML'})...`);
+                    console.log(`📧 EmailService.sendVoucherByEmail called with sendAsPDF: ${sendAsPDF}`);
+
                     const emailResult = await EmailService.sendVoucherByEmail(emailData, sendAsPDF);
                     voucherEmailResult = {
                         success: emailResult.success,
                         error: emailResult.success ? null : (emailResult.error || 'Unknown error')
                     };
                     console.log('📧 Voucher email result:', voucherEmailResult);
+
+                    if (!emailResult.success) {
+                        console.error('❌ Voucher email failed:', emailResult.error);
+                    }
                 }
 
                 return NextResponse.json({

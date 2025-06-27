@@ -146,33 +146,47 @@ export class EmailService {
                 : 'Skinlux <onboarding@resend.dev>';
 
             console.log(`📧 Sending voucher ${sendAsPDF ? 'PDF' : 'HTML'} email to: ${toEmail} (Recipient: ${recipient})`);
+            console.log(`📧 sendAsPDF parameter received: ${sendAsPDF} (type: ${typeof sendAsPDF})`);
 
             const resend = getResendClient();
 
             let result;
 
             if (sendAsPDF) {
-                // Generate PDF and send as attachment
-                console.log('🖨️ Generating PDF voucher...');
-                const { PDFGenerator } = await import('./pdf-generator');
-                const pdfUint8Array = await PDFGenerator.generateVoucherPDF(data);
-                const pdfBuffer = Buffer.from(pdfUint8Array);
+                console.log('📄 Starting PDF generation process...');
+                try {
+                    // Generate PDF and send as attachment
+                    console.log('🖨️ Loading PDF generator...');
+                    const { PDFGenerator } = await import('./pdf-generator');
+                    console.log('🖨️ PDF generator loaded, starting generation...');
 
-                result = await resend.emails.send({
-                    from: fromEmail,
-                    to: [toEmail],
-                    subject: `🎁 Ihr Skinlux Gutschein ist da! Code: ${data.voucherCode}`,
-                    html: this.generatePDFEmailHTML(data),
-                    attachments: [
-                        {
-                            filename: `Skinlux-Gutschein-${data.voucherCode}.pdf`,
-                            content: pdfBuffer
-                        }
-                    ]
-                });
+                    const pdfUint8Array = await PDFGenerator.generateVoucherPDF(data);
+                    console.log(`🖨️ PDF generated, size: ${pdfUint8Array.length} bytes`);
 
-                console.log('✅ PDF generated and attached to email');
+                    const pdfBuffer = Buffer.from(pdfUint8Array);
+                    console.log(`🖨️ Buffer created, size: ${pdfBuffer.length} bytes`);
+
+                    console.log('📧 Sending email with PDF attachment...');
+                    result = await resend.emails.send({
+                        from: fromEmail,
+                        to: [toEmail],
+                        subject: `🎁 Ihr Skinlux PDF-Gutschein ist da! Code: ${data.voucherCode}`,
+                        html: this.generatePDFEmailHTML(data),
+                        attachments: [
+                            {
+                                filename: `Skinlux-Gutschein-${data.voucherCode}.pdf`,
+                                content: pdfBuffer
+                            }
+                        ]
+                    });
+
+                    console.log('✅ PDF email sent successfully');
+                } catch (pdfError) {
+                    console.error('❌ PDF generation failed:', pdfError);
+                    throw new Error(`PDF generation failed: ${pdfError instanceof Error ? pdfError.message : 'Unknown PDF error'}`);
+                }
             } else {
+                console.log('📧 Sending HTML email...');
                 // Send HTML email
                 result = await resend.emails.send({
                     from: fromEmail,
@@ -180,6 +194,7 @@ export class EmailService {
                     subject: `🎁 Ihr Skinlux Gutschein ist da! Code: ${data.voucherCode}`,
                     html: this.generateVoucherEmailHTML(data)
                 });
+                console.log('✅ HTML email sent successfully');
             }
 
             // Check for Resend errors

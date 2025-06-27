@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
 
 // Server-side Supabase client mit Service Role Key
 function createSupabaseAdmin() {

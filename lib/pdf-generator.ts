@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer';
+import chromium from '@sparticuz/chromium';
 import { VoucherEmailData } from './email';
 
 export class PDFGenerator {
@@ -10,25 +11,26 @@ export class PDFGenerator {
             console.log('🖨️ Starting PDF generation for voucher:', data.voucherCode);
 
             // Launch browser in headless mode (optimized for Vercel/serverless)
+            const isProduction = process.env.NODE_ENV === 'production';
+
             browser = await puppeteer.launch({
                 headless: true,
-                args: [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                    '--disable-dev-shm-usage',
-                    '--disable-gpu',
-                    '--disable-web-security',
-                    '--disable-features=VizDisplayCompositor',
-                    '--no-first-run',
-                    '--no-zygote',
-                    '--single-process', // Wichtig für Vercel
-                    '--disable-extensions',
-                    '--disable-default-apps'
-                ],
-                // Für lokale Entwicklung
-                executablePath: process.env.NODE_ENV === 'production'
-                    ? process.env.PUPPETEER_EXECUTABLE_PATH
-                    : undefined
+                executablePath: isProduction ? await chromium.executablePath() : undefined,
+                args: isProduction
+                    ? chromium.args
+                    : [
+                        '--no-sandbox',
+                        '--disable-setuid-sandbox',
+                        '--disable-dev-shm-usage',
+                        '--disable-gpu',
+                        '--disable-web-security',
+                        '--disable-features=VizDisplayCompositor',
+                        '--no-first-run',
+                        '--no-zygote',
+                        '--single-process',
+                        '--disable-extensions',
+                        '--disable-default-apps'
+                    ]
             });
 
             console.log('🖨️ Browser launched successfully');

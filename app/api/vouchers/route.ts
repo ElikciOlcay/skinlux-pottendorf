@@ -194,10 +194,19 @@ export async function PATCH(request: NextRequest) {
     try {
         console.log('🔄 API Route: Updating voucher status...');
 
+        // Debug: Log environment variables
+        console.log('🔍 Environment check:', {
+            hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+            hasKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+        });
+
         const body = await request.json();
+        console.log('📝 Request body:', body);
+
         const { voucherId, status } = body;
 
         if (!voucherId || !status) {
+            console.log('❌ Missing required fields:', { voucherId, status });
             return NextResponse.json(
                 { error: 'voucherId und status sind erforderlich' },
                 { status: 400 }
@@ -207,32 +216,33 @@ export async function PATCH(request: NextRequest) {
         // Verwende Admin-Client um RLS zu umgehen
         const supabaseAdmin = createSupabaseAdmin();
         if (!supabaseAdmin) {
+            console.log('❌ Supabase admin client creation failed');
             return NextResponse.json(
                 { error: 'Datenbankverbindung nicht verfügbar' },
                 { status: 500 }
             );
         }
 
+        console.log('✅ Supabase admin client created, attempting update...');
+
         const { data, error } = await supabaseAdmin
             .from('vouchers')
             .update({
-                status,
-                payment_status: status === 'paid' ? 'paid' : status,
-                updated_at: new Date().toISOString()
+                payment_status: status === 'paid' ? 'paid' : status
             })
             .eq('id', voucherId)
             .select()
             .single();
 
         if (error) {
-            console.error('❌ API Route: Update error:', error);
+            console.error('❌ Database error:', error);
             return NextResponse.json(
                 { error: `Datenbankfehler: ${error.message}` },
                 { status: 500 }
             );
         }
 
-        console.log('✅ API Route: Voucher updated successfully:', data);
+        console.log('✅ Voucher updated successfully:', data);
 
         return NextResponse.json({
             success: true,
@@ -240,7 +250,7 @@ export async function PATCH(request: NextRequest) {
         });
 
     } catch (err: unknown) {
-        console.error('💥 API Route: Update error:', err);
+        console.error('💥 Unexpected error:', err);
         return NextResponse.json(
             { error: err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten' },
             { status: 500 }

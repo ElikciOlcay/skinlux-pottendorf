@@ -45,6 +45,9 @@ NEXT_PUBLIC_SITE_URL=https://skinlux.at
 
 # ========== PRODUCTION SETTINGS ==========
 NODE_ENV=production
+
+# ========== DOMAIN CONFIGURATION ==========
+NEXT_PUBLIC_DOMAIN=yourdomain.com
 ```
 
 ## 📧 E-Mail Service Setup (Resend)

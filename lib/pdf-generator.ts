@@ -5,90 +5,157 @@ import { VoucherEmailData } from './email';
 export class PDFGenerator {
     // Generate a PDF voucher from HTML
     static async generateVoucherPDF(data: VoucherEmailData): Promise<Uint8Array> {
+        console.log('🖨️ Starting PDF generation for voucher:', data.voucherCode);
+
+        // Erster Versuch: Puppeteer mit Chromium
+        try {
+            return await this.generatePDFWithPuppeteer(data);
+        } catch (puppeteerError) {
+            console.warn('⚠️ Puppeteer PDF generation failed:', puppeteerError);
+
+            // Zweiter Versuch: Fallback zu alternativer Methode
+            try {
+                return await this.generatePDFWithFallback(data);
+            } catch (fallbackError) {
+                console.error('❌ All PDF generation methods failed:', fallbackError);
+                throw new Error(`PDF generation completely failed. Puppeteer: ${puppeteerError instanceof Error ? puppeteerError.message : 'Unknown error'}. Fallback: ${fallbackError instanceof Error ? fallbackError.message : 'Unknown error'}`);
+            }
+        }
+    }
+
+    // Puppeteer-basierte PDF-Generierung
+    private static async generatePDFWithPuppeteer(data: VoucherEmailData): Promise<Uint8Array> {
         let browser;
 
         try {
-            console.log('🖨️ Starting PDF generation for voucher:', data.voucherCode);
+            console.log('🖨️ Attempting PDF generation with Puppeteer for voucher:', data.voucherCode);
 
             // Launch browser in headless mode (optimized for Vercel/serverless)
             const isProduction = process.env.NODE_ENV === 'production';
             const isVercel = process.env.VERCEL === '1';
 
-            let executablePath;
-            let args;
+            let launchOptions: any = {
+                headless: true,
+                timeout: 60000,
+            };
 
             if (isProduction && isVercel) {
-                // Vercel-optimierte Konfiguration
+                // Vercel-optimierte Konfiguration mit verbesserter Fehlerbehandlung
                 console.log('🌐 Vercel production environment detected');
+
                 try {
-                    console.log('📦 Attempting to get chromium executable path...');
-                    executablePath = await chromium.executablePath();
-                    console.log('✅ Chromium executable found:', executablePath);
-                    args = [
-                        ...chromium.args,
-                        '--single-process',
-                        '--no-zygote',
-                        '--disable-dev-shm-usage'
-                    ];
-                    console.log('📋 Using chromium args:', args.length, 'arguments');
-                } catch (error) {
-                    console.warn('⚠️ Chromium setup failed, using fallback:', error);
-                    // Fallback auf Standard Chrome/Chromium
-                    executablePath = undefined;
-                    args = [
+                    // Versuche @sparticuz/chromium zu verwenden
+                    console.log('📦 Attempting to configure @sparticuz/chromium...');
+
+                    // Setze wichtige Flags für @sparticuz/chromium
+                    await chromium.font('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+                    const executablePath = await chromium.executablePath();
+                    console.log('✅ Chromium executable found at:', executablePath);
+
+                    launchOptions = {
+                        headless: 'new' as const,
+                        executablePath,
+                        args: [
+                            ...chromium.args,
+                            '--no-sandbox',
+                            '--disable-setuid-sandbox',
+                            '--disable-dev-shm-usage',
+                            '--disable-accelerated-2d-canvas',
+                            '--no-first-run',
+                            '--no-zygote',
+                            '--single-process',
+                            '--disable-gpu',
+                            '--disable-web-security',
+                            '--disable-features=VizDisplayCompositor',
+                            '--disable-extensions',
+                            '--disable-default-apps',
+                            '--disable-background-timer-throttling',
+                            '--disable-backgrounding-occluded-windows',
+                            '--disable-renderer-backgrounding',
+                            '--disable-field-trial-config',
+                            '--disable-ipc-flooding-protection'
+                        ],
+                        defaultViewport: { width: 1200, height: 1600 },
+                        timeout: 60000,
+                    };
+
+                    console.log('📋 Using @sparticuz/chromium configuration with', launchOptions.args.length, 'arguments');
+
+                } catch (chromiumError) {
+                    console.warn('⚠️ @sparticuz/chromium failed, trying fallback:', chromiumError);
+
+                    // Fallback-Konfiguration ohne @sparticuz/chromium
+                    launchOptions = {
+                        headless: true,
+                        args: [
+                            '--no-sandbox',
+                            '--disable-setuid-sandbox',
+                            '--disable-dev-shm-usage',
+                            '--disable-accelerated-2d-canvas',
+                            '--no-first-run',
+                            '--no-zygote',
+                            '--single-process',
+                            '--disable-gpu',
+                            '--disable-web-security',
+                            '--disable-features=VizDisplayCompositor',
+                            '--disable-extensions',
+                            '--disable-default-apps',
+                            '--disable-background-timer-throttling',
+                            '--disable-backgrounding-occluded-windows',
+                            '--disable-renderer-backgrounding',
+                            '--disable-field-trial-config',
+                            '--disable-ipc-flooding-protection',
+                            '--memory-pressure-off',
+                            '--max_old_space_size=4096'
+                        ],
+                        timeout: 60000,
+                    };
+                    console.log('🔄 Using fallback configuration with', launchOptions.args.length, 'arguments');
+                }
+            } else {
+                // Lokale Entwicklung
+                console.log('🏠 Local development environment detected');
+                launchOptions = {
+                    headless: true,
+                    args: [
                         '--no-sandbox',
                         '--disable-setuid-sandbox',
                         '--disable-dev-shm-usage',
                         '--disable-gpu',
                         '--disable-web-security',
-                        '--disable-features=VizDisplayCompositor',
-                        '--no-first-run',
-                        '--no-zygote',
-                        '--single-process',
-                        '--disable-extensions',
-                        '--disable-default-apps'
-                    ];
-                    console.log('🔄 Using fallback args:', args.length, 'arguments');
-                }
-            } else {
-                // Lokale Entwicklung
-                executablePath = undefined;
-                args = [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                    '--disable-dev-shm-usage',
-                    '--disable-gpu',
-                    '--disable-web-security',
-                    '--disable-features=VizDisplayCompositor',
-                    '--no-first-run',
-                    '--no-zygote',
-                    '--single-process',
-                    '--disable-extensions',
-                    '--disable-default-apps'
-                ];
+                        '--disable-features=VizDisplayCompositor'
+                    ],
+                    timeout: 30000,
+                };
             }
 
-            browser = await puppeteer.launch({
-                headless: true,
-                executablePath,
-                args
-            });
-
-            console.log('🖨️ Browser launched successfully');
+            console.log('🚀 Launching browser with configuration...');
+            browser = await puppeteer.launch(launchOptions);
+            console.log('✅ Browser launched successfully');
 
             const page = await browser.newPage();
 
-            // Set page size for print
+            // Set page size for print - optimiert für bessere Performance
             await page.setViewport({ width: 1200, height: 1600 });
+
+            // Setze User-Agent für bessere Kompatibilität
+            await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
             // Generate the print-optimized HTML
             const htmlContent = this.generatePrintVoucherHTML(data);
 
-            // Set content and wait for fonts and images to load
+            console.log('📄 Setting page content...');
+            // Set content and wait for fonts and images to load - reduziertes Timeout für bessere Performance
             await page.setContent(htmlContent, {
-                waitUntil: ['networkidle0', 'domcontentloaded']
+                waitUntil: ['domcontentloaded'],
+                timeout: 30000
             });
 
+            // Warte kurz damit Fonts geladen werden
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            console.log('📋 Generating PDF...');
             // Generate PDF with A5 landscape settings
             const pdfBuffer = await page.pdf({
                 width: '210mm',   // A5 landscape width
@@ -100,21 +167,105 @@ export class PDFGenerator {
                     left: '12mm'
                 },
                 printBackground: true,
-                preferCSSPageSize: true
+                preferCSSPageSize: true,
+                timeout: 30000
             });
 
-            console.log('✅ PDF generated successfully, size:', pdfBuffer.length, 'bytes');
+            console.log('✅ PDF generated successfully with Puppeteer, size:', pdfBuffer.length, 'bytes');
 
             return pdfBuffer;
 
         } catch (error) {
-            console.error('❌ PDF generation failed:', error);
-            throw new Error(`PDF generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            console.error('❌ Puppeteer PDF generation failed:', error);
+
+            // Detaillierte Fehlerberichterstattung
+            if (error instanceof Error) {
+                console.error('Error name:', error.name);
+                console.error('Error message:', error.message);
+                console.error('Error stack:', error.stack);
+            }
+
+            throw error;
         } finally {
             if (browser) {
-                await browser.close();
+                try {
+                    await browser.close();
+                    console.log('🔒 Browser closed successfully');
+                } catch (closeError) {
+                    console.warn('⚠️ Warning: Browser close failed:', closeError);
+                }
             }
         }
+    }
+
+    // Fallback PDF-Generierung ohne Puppeteer
+    private static async generatePDFWithFallback(data: VoucherEmailData): Promise<Uint8Array> {
+        console.log('🔄 Attempting fallback PDF generation for voucher:', data.voucherCode);
+
+        // Einfache Text-basierte PDF-Generierung als letzter Ausweg
+        const { jsPDF } = await import('jspdf');
+
+        const doc = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: [210, 148] // A5 landscape
+        });
+
+        const recipientName = data.recipientName || data.senderName;
+        const isGift = data.recipientName && data.recipientName !== data.senderName;
+
+        // Header
+        doc.setFontSize(24);
+        doc.setFont('helvetica', 'bold');
+        doc.text('SKINLUX', 20, 30);
+
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+        doc.text(isGift ? `Geschenk für ${recipientName}` : 'Gutschein', 20, 40);
+        if (isGift) {
+            doc.text(`Von ${data.senderName}`, 20, 46);
+        }
+
+        // Voucher Information
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('WERTGUTSCHEIN', 20, 65);
+
+        doc.setFontSize(36);
+        doc.text(`€${data.amount}`, 20, 85);
+
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Code: ${data.voucherCode}`, 20, 100);
+        doc.text(`Gültig bis: ${new Date(data.expiresAt).toLocaleDateString('de-DE')}`, 20, 110);
+
+        // Personal Message
+        if (data.message) {
+            doc.setFontSize(10);
+            doc.text('Nachricht:', 120, 65);
+            const splitMessage = doc.splitTextToSize(`"${data.message}"`, 80);
+            doc.text(splitMessage, 120, 75);
+            if (isGift) {
+                doc.text(`— ${data.senderName}`, 120, 75 + (splitMessage.length * 5) + 5);
+            }
+        }
+
+        // Details
+        doc.text('Details:', 120, 95);
+        doc.text(`Begünstigter: ${recipientName}`, 120, 105);
+        doc.text(`Gutschein-ID: ${data.orderNumber}`, 120, 115);
+
+        // Footer
+        doc.setFontSize(8);
+        doc.text('Skinlux Bischofshofen', 20, 130);
+        doc.text('Salzburger Straße 45, 5500 Bischofshofen', 20, 135);
+        doc.text('Tel. +43 123 456 789 • hello@skinlux.at • skinlux.at', 20, 140);
+
+        const pdfBytes = new Uint8Array(doc.output('arraybuffer'));
+
+        console.log('✅ Fallback PDF generated successfully, size:', pdfBytes.length, 'bytes');
+
+        return pdfBytes;
     }
 
     // Generate clean minimalist A5 landscape PDF

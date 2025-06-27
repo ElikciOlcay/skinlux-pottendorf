@@ -266,27 +266,112 @@ export class EmailService {
         }
     }
 
-    // Get bank details from API
+    // Get bank details from API with retry logic
     private static async getBankDetails(): Promise<BankDetails> {
-        try {
-            // Try to fetch from API
-            let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        // Try API first with retry logic
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+                let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
-            // Stelle sicher, dass die URL ein Protokoll hat
-            if (siteUrl && !siteUrl.startsWith('http://') && !siteUrl.startsWith('https://')) {
-                siteUrl = `https://${siteUrl}`;
-            }
+                // Stelle sicher, dass die URL ein Protokoll hat
+                if (siteUrl && !siteUrl.startsWith('http://') && !siteUrl.startsWith('https://')) {
+                    siteUrl = `https://${siteUrl}`;
+                }
 
-            const response = await fetch(`${siteUrl}/api/bank-details`);
-            if (response.ok) {
-                const result = await response.json();
-                return result.bankDetails;
+                console.log(`🏦 Fetching bank details (attempt ${attempt}/3) from: ${siteUrl}/api/bank-details`);
+
+                const response = await fetch(`${siteUrl}/api/bank-details`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'User-Agent': 'Skinlux-EmailService/1.0'
+                    }
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('✅ Bank details loaded from API:', result.bankDetails);
+                    return result.bankDetails;
+                } else {
+                    console.warn(`⚠️ Bank details API failed (attempt ${attempt}): ${response.status} ${response.statusText}`);
+                    if (attempt < 3) {
+                        await new Promise(resolve => setTimeout(resolve, 1000 * attempt)); // Progressive delay
+                    }
+                }
+            } catch (error) {
+                console.warn(`⚠️ Bank details API error (attempt ${attempt}):`, error);
+                if (attempt < 3) {
+                    await new Promise(resolve => setTimeout(resolve, 1000 * attempt)); // Progressive delay
+                }
             }
-        } catch (error) {
-            console.warn('Could not fetch bank details from API, using defaults:', error);
         }
 
-        // Default bank details (fallback)
+        // Fallback to database if API fails
+        console.log('🔄 API failed, trying direct database access...');
+        try {
+            const { createClient } = await import('@supabase/supabase-js');
+
+            const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+            const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+            if (!url || !key) {
+                console.warn('Supabase not configured, using default bank details');
+                return this.getDefaultBankDetails();
+            }
+
+            const supabaseAdmin = createClient(url, key, {
+                auth: {
+                    autoRefreshToken: false,
+                    persistSession: false
+                }
+            });
+
+            // Get first available studio
+            const { data: studio } = await supabaseAdmin
+                .from('studios')
+                .select('id')
+                .limit(1)
+                .single();
+
+            if (!studio) {
+                console.warn('No studio found, using default bank details');
+                return this.getDefaultBankDetails();
+            }
+
+            // Get bank details from database
+            const { data: bankDetailsData, error } = await supabaseAdmin
+                .from('bank_details')
+                .select('*')
+                .eq('studio_id', studio.id)
+                .single();
+
+            if (error || !bankDetailsData) {
+                console.warn('No bank details found in database, using defaults:', error?.message);
+                return this.getDefaultBankDetails();
+            }
+
+            // Convert database format to API format
+            const bankDetails = {
+                bankName: bankDetailsData.bank_name,
+                accountHolder: bankDetailsData.account_holder,
+                iban: bankDetailsData.iban,
+                bic: bankDetailsData.bic,
+                reference: bankDetailsData.reference_template,
+                voucherValidityMonths: bankDetailsData.voucher_validity_months,
+                sendVoucherAsPDF: bankDetailsData.send_voucher_as_pdf
+            };
+
+            console.log('✅ Bank details loaded from database:', bankDetails);
+            return bankDetails;
+
+        } catch (error) {
+            console.warn('Error fetching bank details from database, using defaults:', error);
+            return this.getDefaultBankDetails();
+        }
+    }
+
+    // Default bank details (fallback)
+    private static getDefaultBankDetails(): BankDetails {
         return {
             bankName: 'Sparkasse Pongau',
             accountHolder: 'Skinlux Bischofshofen',

@@ -1,209 +1,22 @@
-import puppeteer from 'puppeteer';
-import chromium from '@sparticuz/chromium';
+import { jsPDF } from 'jspdf';
 import { VoucherEmailData } from './email';
 
 export class PDFGenerator {
-    // Generate a PDF voucher from HTML
+    // Generate a PDF voucher using jsPDF (reliable and fast)
     static async generateVoucherPDF(data: VoucherEmailData): Promise<Uint8Array> {
-        console.log('🖨️ Starting PDF generation for voucher:', data.voucherCode);
-
-        // Erster Versuch: Puppeteer mit Chromium
-        try {
-            return await this.generatePDFWithPuppeteer(data);
-        } catch (puppeteerError) {
-            console.warn('⚠️ Puppeteer PDF generation failed:', puppeteerError);
-
-            // Zweiter Versuch: Fallback zu alternativer Methode
-            try {
-                return await this.generatePDFWithFallback(data);
-            } catch (fallbackError) {
-                console.error('❌ All PDF generation methods failed:', fallbackError);
-                throw new Error(`PDF generation completely failed. Puppeteer: ${puppeteerError instanceof Error ? puppeteerError.message : 'Unknown error'}. Fallback: ${fallbackError instanceof Error ? fallbackError.message : 'Unknown error'}`);
-            }
-        }
-    }
-
-    // Puppeteer-basierte PDF-Generierung
-    private static async generatePDFWithPuppeteer(data: VoucherEmailData): Promise<Uint8Array> {
-        let browser;
+        console.log('🖨️ Starting jsPDF generation for voucher:', data.voucherCode);
 
         try {
-            console.log('🖨️ Attempting PDF generation with Puppeteer for voucher:', data.voucherCode);
-
-            // Launch browser in headless mode (optimized for Vercel/serverless)
-            const isProduction = process.env.NODE_ENV === 'production';
-            const isVercel = process.env.VERCEL === '1';
-
-            let launchOptions: any = {
-                headless: true,
-                timeout: 60000,
-            };
-
-            if (isProduction && isVercel) {
-                // Vercel-optimierte Konfiguration mit verbesserter Fehlerbehandlung
-                console.log('🌐 Vercel production environment detected');
-
-                try {
-                    // Versuche @sparticuz/chromium zu verwenden
-                    console.log('📦 Attempting to configure @sparticuz/chromium...');
-
-                    // Setze wichtige Flags für @sparticuz/chromium
-                    await chromium.font('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-                    const executablePath = await chromium.executablePath();
-                    console.log('✅ Chromium executable found at:', executablePath);
-
-                    launchOptions = {
-                        headless: 'new' as const,
-                        executablePath,
-                        args: [
-                            ...chromium.args,
-                            '--no-sandbox',
-                            '--disable-setuid-sandbox',
-                            '--disable-dev-shm-usage',
-                            '--disable-accelerated-2d-canvas',
-                            '--no-first-run',
-                            '--no-zygote',
-                            '--single-process',
-                            '--disable-gpu',
-                            '--disable-web-security',
-                            '--disable-features=VizDisplayCompositor',
-                            '--disable-extensions',
-                            '--disable-default-apps',
-                            '--disable-background-timer-throttling',
-                            '--disable-backgrounding-occluded-windows',
-                            '--disable-renderer-backgrounding',
-                            '--disable-field-trial-config',
-                            '--disable-ipc-flooding-protection'
-                        ],
-                        defaultViewport: { width: 1200, height: 1600 },
-                        timeout: 60000,
-                    };
-
-                    console.log('📋 Using @sparticuz/chromium configuration with', launchOptions.args.length, 'arguments');
-
-                } catch (chromiumError) {
-                    console.warn('⚠️ @sparticuz/chromium failed, trying fallback:', chromiumError);
-
-                    // Fallback-Konfiguration ohne @sparticuz/chromium
-                    launchOptions = {
-                        headless: true,
-                        args: [
-                            '--no-sandbox',
-                            '--disable-setuid-sandbox',
-                            '--disable-dev-shm-usage',
-                            '--disable-accelerated-2d-canvas',
-                            '--no-first-run',
-                            '--no-zygote',
-                            '--single-process',
-                            '--disable-gpu',
-                            '--disable-web-security',
-                            '--disable-features=VizDisplayCompositor',
-                            '--disable-extensions',
-                            '--disable-default-apps',
-                            '--disable-background-timer-throttling',
-                            '--disable-backgrounding-occluded-windows',
-                            '--disable-renderer-backgrounding',
-                            '--disable-field-trial-config',
-                            '--disable-ipc-flooding-protection',
-                            '--memory-pressure-off',
-                            '--max_old_space_size=4096'
-                        ],
-                        timeout: 60000,
-                    };
-                    console.log('🔄 Using fallback configuration with', launchOptions.args.length, 'arguments');
-                }
-            } else {
-                // Lokale Entwicklung
-                console.log('🏠 Local development environment detected');
-                launchOptions = {
-                    headless: true,
-                    args: [
-                        '--no-sandbox',
-                        '--disable-setuid-sandbox',
-                        '--disable-dev-shm-usage',
-                        '--disable-gpu',
-                        '--disable-web-security',
-                        '--disable-features=VizDisplayCompositor'
-                    ],
-                    timeout: 30000,
-                };
-            }
-
-            console.log('🚀 Launching browser with configuration...');
-            browser = await puppeteer.launch(launchOptions);
-            console.log('✅ Browser launched successfully');
-
-            const page = await browser.newPage();
-
-            // Set page size for print - optimiert für bessere Performance
-            await page.setViewport({ width: 1200, height: 1600 });
-
-            // Setze User-Agent für bessere Kompatibilität
-            await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-
-            // Generate the print-optimized HTML
-            const htmlContent = this.generatePrintVoucherHTML(data);
-
-            console.log('📄 Setting page content...');
-            // Set content and wait for fonts and images to load - reduziertes Timeout für bessere Performance
-            await page.setContent(htmlContent, {
-                waitUntil: ['domcontentloaded'],
-                timeout: 30000
-            });
-
-            // Warte kurz damit Fonts geladen werden
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            console.log('📋 Generating PDF...');
-            // Generate PDF with A5 landscape settings
-            const pdfBuffer = await page.pdf({
-                width: '210mm',   // A5 landscape width
-                height: '148mm',  // A5 landscape height
-                margin: {
-                    top: '10mm',
-                    right: '12mm',
-                    bottom: '10mm',
-                    left: '12mm'
-                },
-                printBackground: true,
-                preferCSSPageSize: true,
-                timeout: 30000
-            });
-
-            console.log('✅ PDF generated successfully with Puppeteer, size:', pdfBuffer.length, 'bytes');
-
-            return pdfBuffer;
-
+            return await this.generatePDFWithJsPDF(data);
         } catch (error) {
-            console.error('❌ Puppeteer PDF generation failed:', error);
-
-            // Detaillierte Fehlerberichterstattung
-            if (error instanceof Error) {
-                console.error('Error name:', error.name);
-                console.error('Error message:', error.message);
-                console.error('Error stack:', error.stack);
-            }
-
-            throw error;
-        } finally {
-            if (browser) {
-                try {
-                    await browser.close();
-                    console.log('🔒 Browser closed successfully');
-                } catch (closeError) {
-                    console.warn('⚠️ Warning: Browser close failed:', closeError);
-                }
-            }
+            console.error('❌ jsPDF generation failed:', error);
+            throw new Error(`PDF generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
     }
 
-    // Fallback PDF-Generierung ohne Puppeteer
-    private static async generatePDFWithFallback(data: VoucherEmailData): Promise<Uint8Array> {
-        console.log('🔄 Attempting fallback PDF generation for voucher:', data.voucherCode);
-
-        // Einfache Text-basierte PDF-Generierung als letzter Ausweg
-        const { jsPDF } = await import('jspdf');
+    // jsPDF-basierte PDF-Generierung
+    private static async generatePDFWithJsPDF(data: VoucherEmailData): Promise<Uint8Array> {
+        console.log('🔄 Generating professional PDF with jsPDF for voucher:', data.voucherCode);
 
         const doc = new jsPDF({
             orientation: 'landscape',
@@ -212,469 +25,259 @@ export class PDFGenerator {
         });
 
         const recipientName = data.recipientName || data.senderName;
-        const isGift = data.recipientName && data.recipientName !== data.senderName;
+        const isGift = !!(data.recipientName && data.recipientName !== data.senderName);
 
-        // Header
-        doc.setFontSize(24);
-        doc.setFont('helvetica', 'bold');
-        doc.text('SKINLUX', 20, 30);
+        // === DESIGN SETUP ===
+        const primaryColor = [26, 26, 26] as [number, number, number]; // #1a1a1a
+        const accentColor = [102, 102, 102] as [number, number, number]; // #666666
+        const lightGray = [229, 229, 229] as [number, number, number]; // #e5e5e5
+        const backgroundColor = [250, 250, 250] as [number, number, number]; // #fafafa
 
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'normal');
-        doc.text(isGift ? `Geschenk für ${recipientName}` : 'Gutschein', 20, 40);
-        if (isGift) {
-            doc.text(`Von ${data.senderName}`, 20, 46);
-        }
+        // Hintergrund für rechte Seite
+        doc.setFillColor(...backgroundColor);
+        doc.rect(105, 0, 105, 148, 'F');
 
-        // Voucher Information
-        doc.setFontSize(16);
-        doc.setFont('helvetica', 'bold');
-        doc.text('WERTGUTSCHEIN', 20, 65);
+        // Vertikale Trennlinie
+        doc.setDrawColor(...lightGray);
+        doc.setLineWidth(0.5);
+        doc.line(105, 0, 105, 148);
 
-        doc.setFontSize(36);
-        doc.text(`€${data.amount}`, 20, 85);
+        // === LINKE SEITE - HAUPTINHALT ===
+        this.renderLeftSide(doc, data, recipientName, isGift, primaryColor, accentColor, lightGray);
 
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'normal');
-        doc.text(`Code: ${data.voucherCode}`, 20, 100);
-        doc.text(`Gültig bis: ${new Date(data.expiresAt).toLocaleDateString('de-DE')}`, 20, 110);
-
-        // Personal Message
-        if (data.message) {
-            doc.setFontSize(10);
-            doc.text('Nachricht:', 120, 65);
-            const splitMessage = doc.splitTextToSize(`"${data.message}"`, 80);
-            doc.text(splitMessage, 120, 75);
-            if (isGift) {
-                doc.text(`— ${data.senderName}`, 120, 75 + (splitMessage.length * 5) + 5);
-            }
-        }
-
-        // Details
-        doc.text('Details:', 120, 95);
-        doc.text(`Begünstigter: ${recipientName}`, 120, 105);
-        doc.text(`Gutschein-ID: ${data.orderNumber}`, 120, 115);
-
-        // Footer
-        doc.setFontSize(8);
-        doc.text('Skinlux Bischofshofen', 20, 130);
-        doc.text('Salzburger Straße 45, 5500 Bischofshofen', 20, 135);
-        doc.text('Tel. +43 123 456 789 • hello@skinlux.at • skinlux.at', 20, 140);
+        // === RECHTE SEITE - DETAILS ===
+        this.renderRightSide(doc, data, recipientName, isGift, primaryColor, accentColor, lightGray);
 
         const pdfBytes = new Uint8Array(doc.output('arraybuffer'));
 
-        console.log('✅ Fallback PDF generated successfully, size:', pdfBytes.length, 'bytes');
+        console.log('✅ jsPDF generation completed successfully, size:', pdfBytes.length, 'bytes');
 
         return pdfBytes;
     }
 
-    // Generate clean minimalist A5 landscape PDF
-    private static generatePrintVoucherHTML(data: VoucherEmailData): string {
-        const recipientName = data.recipientName || data.senderName;
-        const isGift = data.recipientName && data.recipientName !== data.senderName;
+    private static renderLeftSide(
+        doc: jsPDF,
+        data: VoucherEmailData,
+        recipientName: string,
+        isGift: boolean,
+        primaryColor: [number, number, number],
+        accentColor: [number, number, number],
+        lightGray: [number, number, number]
+    ) {
+        // Logo/Header
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(24);
+        doc.setTextColor(...primaryColor);
+        doc.text('SKINLUX', 20, 30);
 
-        return `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <title>Skinlux Gutschein - ${data.voucherCode}</title>
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-            <style>
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }
-                
-                body {
-                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-                    background: white;
-                    color: #1a1a1a;
-                    line-height: 1.5;
-                    -webkit-print-color-adjust: exact;
-                    print-color-adjust: exact;
-                    width: 210mm;
-                    height: 148mm;
-                    padding: 0;
-                    margin: 0;
-                    overflow: hidden;
-                }
-                
-                .voucher-container {
-                    width: 100%;
-                    height: 100%;
-                    background: white;
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    position: relative;
-                }
-                
-                /* Linke Seite - Hauptinhalt */
-                .main-content {
-                    padding: 20mm 15mm 20mm 20mm;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    background: white;
-                }
-                
-                /* Rechte Seite - Details */
-                .details-content {
-                    padding: 20mm 20mm 20mm 15mm;
-                    background: #fafafa;
-                    border-left: 1px solid #e5e5e5;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                }
-                
-                /* Header */
-                .header {
-                    margin-bottom: 15mm;
-                }
-                
-                .logo {
-                    font-size: 28px;
-                    font-weight: 700;
-                    letter-spacing: 4px;
-                    color: #1a1a1a;
-                    margin-bottom: 5mm;
-                }
-                
-                .header-subtitle {
-                    font-size: 14px;
-                    font-weight: 400;
-                    color: #666;
-                    margin-bottom: 2mm;
-                }
-                
-                .header-tagline {
-                    font-size: 12px;
-                    color: #999;
-                    font-weight: 300;
-                }
-                
-                /* Voucher Main */
-                .voucher-main {
-                    text-align: left;
-                    margin-bottom: 15mm;
-                }
-                
-                .voucher-title {
-                    font-size: 18px;
-                    font-weight: 600;
-                    color: #1a1a1a;
-                    margin-bottom: 8mm;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                }
-                
-                .voucher-amount {
-                    font-size: 48px;
-                    font-weight: 300;
-                    color: #1a1a1a;
-                    margin-bottom: 6mm;
-                    line-height: 1;
-                }
-                
-                .voucher-code {
-                    font-family: 'Inter', monospace;
-                    font-size: 16px;
-                    font-weight: 500;
-                    color: #1a1a1a;
-                    padding: 8px 12px;
-                    border: 1px solid #e5e5e5;
-                    background: white;
-                    border-radius: 4px;
-                    letter-spacing: 2px;
-                    display: inline-block;
-                    margin-bottom: 6mm;
-                }
-                
-                .validity-info {
-                    font-size: 12px;
-                    color: #666;
-                    font-weight: 400;
-                }
-                
-                /* Footer */
-                .footer {
-                    border-top: 1px solid #e5e5e5;
-                    padding-top: 8mm;
-                }
-                
-                .contact-info {
-                    font-size: 11px;
-                    line-height: 1.6;
-                    color: #666;
-                }
-                
-                .contact-info strong {
-                    color: #1a1a1a;
-                    font-weight: 600;
-                }
-                
-                /* Details Section */
-                .details-header {
-                    margin-bottom: 12mm;
-                }
-                
-                .details-title {
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: #1a1a1a;
-                    margin-bottom: 8mm;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                }
-                
-                .detail-item {
-                    margin-bottom: 6mm;
-                    padding-bottom: 6mm;
-                    border-bottom: 1px solid #e5e5e5;
-                }
-                
-                .detail-item:last-child {
-                    border-bottom: none;
-                }
-                
-                .detail-label {
-                    font-size: 10px;
-                    font-weight: 500;
-                    color: #666;
-                    text-transform: uppercase;
-                    letter-spacing: 0.5px;
-                    margin-bottom: 2mm;
-                }
-                
-                .detail-value {
-                    font-size: 13px;
-                    font-weight: 400;
-                    color: #1a1a1a;
-                    line-height: 1.4;
-                }
-                
-                /* Personal Message */
-                .personal-message {
-                    margin: 8mm 0;
-                    padding: 6mm;
-                    background: white;
-                    border-left: 2px solid #1a1a1a;
-                    border-radius: 0 4px 4px 0;
-                }
-                
-                .message-title {
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: #1a1a1a;
-                    margin-bottom: 3mm;
-                    text-transform: uppercase;
-                    letter-spacing: 0.5px;
-                }
-                
-                .message-text {
-                    font-size: 11px;
-                    font-style: italic;
-                    color: #333;
-                    line-height: 1.5;
-                    margin-bottom: 3mm;
-                }
-                
-                .message-signature {
-                    text-align: right;
-                    font-size: 10px;
-                    color: #666;
-                    font-weight: 400;
-                }
-                
-                /* Terms */
-                .terms {
-                    margin-top: 8mm;
-                    padding-top: 6mm;
-                    border-top: 1px solid #e5e5e5;
-                }
-                
-                .terms-title {
-                    font-size: 11px;
-                    font-weight: 600;
-                    color: #1a1a1a;
-                    margin-bottom: 4mm;
-                }
-                
-                .terms-list {
-                    font-size: 9px;
-                    color: #666;
-                    line-height: 1.4;
-                }
-                
-                .terms-list li {
-                    margin-bottom: 2mm;
-                    padding-left: 0;
-                    list-style: none;
-                    position: relative;
-                }
-                
-                .terms-list li::before {
-                    content: '•';
-                    color: #999;
-                    position: absolute;
-                    left: -6px;
-                }
-                
-                /* Instructions */
-                .instructions {
-                    margin: 8mm 0;
-                }
-                
-                .instructions-title {
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: #1a1a1a;
-                    margin-bottom: 4mm;
-                    text-transform: uppercase;
-                    letter-spacing: 0.5px;
-                }
-                
-                .instructions ol {
-                    counter-reset: step-counter;
-                    list-style: none;
-                    padding: 0;
-                }
-                
-                .instructions ol li {
-                    counter-increment: step-counter;
-                    margin-bottom: 3mm;
-                    padding-left: 20px;
-                    position: relative;
-                    font-size: 10px;
-                    line-height: 1.4;
-                    color: #333;
-                }
-                
-                .instructions ol li::before {
-                    content: counter(step-counter);
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    background: #1a1a1a;
-                    color: white;
-                    width: 16px;
-                    height: 16px;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-weight: 500;
-                    font-size: 8px;
-                }
-                
-                /* Footer ID */
-                .footer-id {
-                    font-size: 8px;
-                    color: #999;
-                    text-align: center;
-                    margin-top: 6mm;
-                    padding-top: 4mm;
-                    border-top: 1px solid #f0f0f0;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="voucher-container">
-                <!-- Linke Seite - Hauptinhalt -->
-                <div class="main-content">
-                    <div>
-                        <div class="header">
-                            <div class="logo">SKINLUX</div>
-                            <div class="header-subtitle">${isGift ? `Geschenk für ${recipientName}` : 'Gutschein'}</div>
-                            <div class="header-tagline">${isGift ? `Von ${data.senderName}` : 'Für strahlend schöne Haut'}</div>
-                        </div>
-                        
-                        <div class="voucher-main">
-                            <div class="voucher-title">Wertgutschein</div>
-                            <div class="voucher-amount">€${data.amount}</div>
-                            <div class="voucher-code">${data.voucherCode}</div>
-                            <div class="validity-info">Gültig bis ${new Date(data.expiresAt).toLocaleDateString('de-DE')}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="footer">
-                        <div class="contact-info">
-                            <strong>Skinlux Bischofshofen</strong><br>
-                            Salzburger Straße 45, 5500 Bischofshofen<br>
-                            Tel. <strong>+43 123 456 789</strong> • <strong>hello@skinlux.at</strong><br>
-                            <strong>skinlux.at</strong>
-                        </div>
-                        <div class="footer-id">
-                            Gutschein-ID: ${data.orderNumber} • ${new Date().toLocaleDateString('de-DE')}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Rechte Seite - Details -->
-                <div class="details-content">
-                    <div>
-                        <div class="details-header">
-                            <div class="details-title">Details</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Begünstigter</div>
-                            <div class="detail-value">${recipientName}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Gutscheinwert</div>
-                            <div class="detail-value">€${data.amount}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Code</div>
-                            <div class="detail-value">${data.voucherCode}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Gültig bis</div>
-                            <div class="detail-value">${new Date(data.expiresAt).toLocaleDateString('de-DE', {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(12);
+        doc.setTextColor(...accentColor);
+        doc.text(isGift ? `Geschenk für ${recipientName}` : 'Gutschein', 20, 38);
+
+        if (isGift) {
+            doc.setFontSize(10);
+            doc.text(`Von ${data.senderName}`, 20, 44);
+        }
+
+        // Hauptinhalt - Gutschein
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(14);
+        doc.setTextColor(...primaryColor);
+        doc.text('WERTGUTSCHEIN', 20, 60);
+
+        // Betrag - groß und prominent
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(42);
+        doc.text(`€${data.amount}`, 20, 78);
+
+        // Gutscheincode - mit Rahmen
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(14);
+
+        const codeText = data.voucherCode;
+        const codeWidth = doc.getTextWidth(codeText) + 8;
+        const codeHeight = 8;
+        const codeX = 20;
+        const codeY = 85;
+
+        // Code-Box
+        doc.setFillColor(255, 255, 255);
+        doc.setDrawColor(...lightGray);
+        doc.setLineWidth(0.5);
+        doc.roundedRect(codeX, codeY, codeWidth, codeHeight, 1, 1, 'FD');
+        doc.text(codeText, codeX + 4, codeY + 5.5);
+
+        // Gültigkeit
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(...accentColor);
+        doc.text(`Gültig bis ${new Date(data.expiresAt).toLocaleDateString('de-DE')}`, 20, 100);
+
+        // Footer
+        const footerY = 118;
+        doc.setDrawColor(...lightGray);
+        doc.setLineWidth(0.3);
+        doc.line(20, footerY - 3, 95, footerY - 3);
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(...primaryColor);
+        doc.text('Skinlux Bischofshofen', 20, footerY);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(...accentColor);
+        doc.text('Salzburger Straße 45, 5500 Bischofshofen', 20, footerY + 4);
+        doc.text('Tel. +43 123 456 789 • hello@skinlux.at', 20, footerY + 8);
+        doc.text('skinlux.at', 20, footerY + 12);
+
+        // Footer ID
+        doc.setFontSize(7);
+        doc.setTextColor(153, 153, 153);
+        const footerId = `Gutschein-ID: ${data.orderNumber} • ${new Date().toLocaleDateString('de-DE')}`;
+        const footerIdWidth = doc.getTextWidth(footerId);
+        doc.text(footerId, (105 - footerIdWidth) / 2, 142);
+    }
+
+    private static renderRightSide(
+        doc: jsPDF,
+        data: VoucherEmailData,
+        recipientName: string,
+        isGift: boolean,
+        primaryColor: [number, number, number],
+        accentColor: [number, number, number],
+        lightGray: [number, number, number]
+    ) {
+        const rightX = 115;
+        let currentY = 25;
+
+        // Details Header
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(14);
+        doc.setTextColor(...primaryColor);
+        doc.text('DETAILS', rightX, currentY);
+        currentY += 15;
+
+        // Detail Funktion
+        const addDetail = (label: string, value: string) => {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(8);
+            doc.setTextColor(...accentColor);
+            doc.text(label.toUpperCase(), rightX, currentY);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+            doc.setTextColor(...primaryColor);
+            const lines = doc.splitTextToSize(value, 80);
+            doc.text(lines, rightX, currentY + 4);
+
+            doc.setDrawColor(...lightGray);
+            doc.setLineWidth(0.3);
+            doc.line(rightX, currentY + 6, rightX + 80, currentY + 6);
+
+            currentY += 15;
+        };
+
+        // Details hinzufügen
+        addDetail('Begünstigter', recipientName);
+        addDetail('Gutscheinwert', `€${data.amount}`);
+        addDetail('Code', data.voucherCode);
+        addDetail('Gültig bis', new Date(data.expiresAt).toLocaleDateString('de-DE', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
-        })}</div>
-                        </div>
-                        
-                        ${data.message ? `
-                        <div class="personal-message">
-                            <div class="message-title">Nachricht</div>
-                            <div class="message-text">"${data.message}"</div>
-                            ${isGift ? `<div class="message-signature">— ${data.senderName}</div>` : ''}
-                        </div>
-                        ` : ''}
-                        
-                        <div class="instructions">
-                            <div class="instructions-title">Einlösung</div>
-                            <ol>
-                                <li>Termin vereinbaren</li>
-                                <li>Behandlung wählen</li>
-                                <li>Gutschein vorzeigen</li>
-                                <li>Entspannen & genießen</li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <div class="terms">
-                        <div class="terms-title">Bedingungen</div>
-                        <ul class="terms-list">
-                            <li>Nicht mit anderen Aktionen kombinierbar</li>
-                            <li>Keine Barauszahlung möglich</li>
-                            <li>Bei Verlust nicht ersetzbar</li>
-                            <li>Stornierung bis 24h vorher kostenfrei</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </body>
-        </html>
-        `;
+        }));
+
+        // Persönliche Nachricht
+        if (data.message) {
+            currentY += 5;
+
+            const messageBoxY = currentY;
+            const messageBoxHeight = 25;
+
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(...primaryColor);
+            doc.setLineWidth(0.5);
+            doc.roundedRect(rightX, messageBoxY, 80, messageBoxHeight, 2, 2, 'FD');
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9);
+            doc.setTextColor(...primaryColor);
+            doc.text('NACHRICHT', rightX + 4, messageBoxY + 6);
+
+            doc.setFont('helvetica', 'italic');
+            doc.setFontSize(8);
+            doc.setTextColor(51, 51, 51);
+            const messageLines = doc.splitTextToSize(`"${data.message}"`, 72);
+            doc.text(messageLines, rightX + 4, messageBoxY + 12);
+
+            if (isGift) {
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7);
+                doc.setTextColor(...accentColor);
+                doc.text(`— ${data.senderName}`, rightX + 60, messageBoxY + messageBoxHeight - 4);
+            }
+
+            currentY += messageBoxHeight + 8;
+        }
+
+        // Einlösung
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(...primaryColor);
+        doc.text('EINLÖSUNG', rightX, currentY);
+        currentY += 8;
+
+        const steps = ['Termin vereinbaren', 'Behandlung wählen', 'Gutschein vorzeigen', 'Entspannen & genießen'];
+
+        steps.forEach((step, index) => {
+            // Nummer Circle
+            doc.setFillColor(...primaryColor);
+            doc.circle(rightX + 3, currentY - 1, 2.5, 'F');
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7);
+            doc.setTextColor(255, 255, 255);
+            doc.text((index + 1).toString(), rightX + 2.2, currentY + 0.8);
+
+            // Step Text
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(51, 51, 51);
+            doc.text(step, rightX + 8, currentY + 1);
+
+            currentY += 6;
+        });
+
+        // Bedingungen
+        currentY += 8;
+        doc.setDrawColor(...lightGray);
+        doc.setLineWidth(0.3);
+        doc.line(rightX, currentY - 3, rightX + 80, currentY - 3);
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(...primaryColor);
+        doc.text('BEDINGUNGEN', rightX, currentY);
+        currentY += 6;
+
+        const terms = [
+            'Nicht mit anderen Aktionen kombinierbar',
+            'Keine Barauszahlung möglich',
+            'Bei Verlust nicht ersetzbar',
+            'Stornierung bis 24h vorher kostenfrei'
+        ];
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(...accentColor);
+
+        terms.forEach(term => {
+            doc.text('•', rightX, currentY);
+            const termLines = doc.splitTextToSize(term, 75);
+            doc.text(termLines, rightX + 3, currentY);
+            currentY += 4;
+        });
     }
 }

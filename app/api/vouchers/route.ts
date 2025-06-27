@@ -3,16 +3,22 @@ import { createClient } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 
 // Server-side Supabase client mit Service Role Key
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
+function createSupabaseAdmin() {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!url || !key) {
+        console.warn('Missing Supabase environment variables');
+        return null;
+    }
+
+    return createClient(url, key, {
         auth: {
             autoRefreshToken: false,
             persistSession: false
         }
-    }
-);
+    });
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: NextRequest) {
@@ -87,6 +93,14 @@ export async function POST(request: NextRequest) {
 
         if (subdomain && subdomain !== 'localhost') {
             // Studio-ID aus Datenbank holen
+            const supabaseAdmin = createSupabaseAdmin();
+            if (!supabaseAdmin) {
+                return NextResponse.json(
+                    { error: 'Datenbankverbindung nicht verfügbar' },
+                    { status: 500 }
+                );
+            }
+
             const { data: studio, error: studioError } = await supabaseAdmin
                 .from('studios')
                 .select('id, name')
@@ -104,6 +118,14 @@ export async function POST(request: NextRequest) {
         // Fallback: Erstes verfügbares Studio verwenden
         if (!studioId) {
             console.log('⚠️ Verwende Standard-Studio als Fallback');
+            const supabaseAdmin = createSupabaseAdmin();
+            if (!supabaseAdmin) {
+                return NextResponse.json(
+                    { error: 'Datenbankverbindung nicht verfügbar' },
+                    { status: 500 }
+                );
+            }
+
             const { data: defaultStudio } = await supabaseAdmin
                 .from('studios')
                 .select('id, name')
@@ -123,6 +145,14 @@ export async function POST(request: NextRequest) {
 
         // Einfügung in die Datenbank mit Admin-Client (umgeht RLS)
         console.log('💾 API Route: Inserting into Supabase with admin client...');
+        const supabaseAdmin = createSupabaseAdmin();
+        if (!supabaseAdmin) {
+            return NextResponse.json(
+                { error: 'Datenbankverbindung nicht verfügbar' },
+                { status: 500 }
+            );
+        }
+
         const { data: voucher, error } = await supabaseAdmin
             .from('vouchers')
             .insert(voucherData)

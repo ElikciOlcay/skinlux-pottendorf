@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Camera, Microscope, Monitor, CheckCircle, Clock, Award, ArrowRight, Eye } from "lucide-react";
+import { Camera, Microscope, Monitor, CheckCircle, Clock, Award, ArrowRight, Eye, ArrowLeft } from "lucide-react";
 
 const analysevorteile = [
     {
@@ -100,6 +101,14 @@ export default function Hautanalyse() {
             {/* Hero Section */}
             <section className="py-20 md:py-32 bg-white">
                 <div className="container">
+                    <Link
+                        href="/#treatments"
+                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-6 md:mb-8"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Zurück
+                    </Link>
+
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         {/* Left Content */}
                         <motion.div

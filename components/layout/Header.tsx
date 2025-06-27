@@ -33,13 +33,14 @@ const navigation = [
                 icon: Sparkles,
                 items: [
                     { name: "Hautanalyse", href: "/behandlungen/hautanalyse", description: "Professionelle Diagnose" },
-                    { name: "Beratung", href: "/#consultation", description: "Kostenlose Erstberatung" }
+                    { name: "Beratung", href: "/beratung", description: "Kostenlose Erstberatung" }
                 ]
             }
         ]
     },
-    { name: "Über uns", href: "#about" },
-    { name: "Kontakt", href: "#contact" },
+    { name: "Über uns", href: "/ueber-uns" },
+    { name: "Gutscheine", href: "/gutscheine" },
+    { name: "Kontakt", href: "/kontakt" },
 ];
 
 export default function Header() {

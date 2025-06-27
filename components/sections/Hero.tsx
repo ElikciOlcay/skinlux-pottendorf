@@ -1,84 +1,48 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
     return (
-        <section className="relative min-h-screen flex items-center hero-gradient">
-            {/* Static Background - Optional */}
-            <div
-                className="absolute inset-0 z-0"
-                style={{
-                    backgroundImage: "url('/images/hero-background.jpg')", // OPTIONAL: Ein statisches Bild
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    opacity: 0.05 // Sehr subtil
-                }}
-            />
+        <section className="relative min-h-screen flex items-center">
+            {/* Clean Background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50" />
 
             <div className="container relative z-10">
                 <div className="max-w-4xl mx-auto text-center">
-                    {/* Content */}
-                    <div>
-                        {/* Badge */}
-                        <div className="mb-8 md:mb-16">
-                            <div className="badge text-xs md:text-sm" style={{
-                                color: 'var(--color-secondary)'
-                            }}>
-                                Medical Beauty
-                            </div>
-                        </div>
+                    {/* Hero Title */}
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-light mb-8 leading-tight">
+                        <span className="block" style={{ color: 'var(--color-primary)' }}>
+                            Professional
+                        </span>
+                        <span className="block mt-2" style={{ color: 'var(--color-secondary)' }}>
+                            Beauty
+                        </span>
+                    </h1>
 
-                        {/* Main Title */}
-                        <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-light mb-6 md:mb-8 leading-tight" style={{ color: 'var(--color-primary)' }}>
-                            Timeless<br />
-                            <span style={{ color: 'var(--color-secondary)' }}>Beauty</span>
-                        </h1>
-
-                        {/* Subtitle */}
-                        <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-8 font-light">
-                            Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen für Ihre Schönheit im Pongau.
-                        </p>
-
-                        {/* Google Reviews Trust Signal */}
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 mb-12 md:mb-16">
-                            <div className="flex items-center gap-2">
-                                <div className="flex items-center gap-1">
-                                    {[...Array(5)].map((_, i) => (
-                                        <svg
-                                            key={i}
-                                            className="w-3 h-3 md:w-4 md:h-4 fill-current text-yellow-400"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    ))}
-                                </div>
-                                <span className="text-xs md:text-sm text-gray-600 font-light">
-                                    180+ Google Bewertungen
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="inline-block w-1.5 h-1.5 md:w-2 md:h-2 bg-green-500 rounded-full"></span>
-                                <span className="text-xs md:text-sm text-gray-600 font-light">
-                                    Über 2000 zufriedene Kunden
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    {/* Subtitle */}
+                    <p className="text-xl md:text-2xl text-gray-600 mb-12 font-light leading-relaxed max-w-2xl mx-auto">
+                        Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen für Ihre natürliche Schönheit im Pongau.
+                    </p>
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-col gap-4 md:gap-6 justify-center">
+                    <div className="flex flex-col sm:flex-row gap-6 justify-center">
                         <a
                             href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="btn-primary inline-flex items-center justify-center w-full sm:w-auto"
+                            className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-black text-white font-light tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gray-800"
                         >
                             Termin vereinbaren
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </a>
-                        <Link href="#treatments" className="btn-secondary inline-flex items-center justify-center w-full sm:w-auto">
-                            Behandlungen
+                        <Link
+                            href="#treatments"
+                            className="group inline-flex items-center justify-center gap-3 px-10 py-5 border border-gray-300 text-gray-700 font-light tracking-widest uppercase text-sm transition-all duration-300 hover:border-gray-400 hover:text-gray-900"
+                        >
+                            Behandlungen entdecken
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </Link>
                     </div>
                 </div>

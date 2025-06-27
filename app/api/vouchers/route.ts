@@ -141,10 +141,10 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ voucher }, { status: 201 });
 
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error('💥 API Route: Error:', err);
         return NextResponse.json(
-            { error: err.message || 'Ein Fehler ist aufgetreten' },
+            { error: err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten' },
             { status: 500 }
         );
     }

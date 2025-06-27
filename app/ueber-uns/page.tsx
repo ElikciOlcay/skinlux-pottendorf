@@ -206,7 +206,7 @@ export default function UeberUns() {
                                     title: "Gemeinschaft",
                                     description: "Als Teil der Pongau-Gemeinschaft sind wir stolz darauf, Ihnen vor Ort zu dienen."
                                 }
-                            ].map((value, index) => (
+                            ].map((value) => (
                                 <div key={value.title} className="bg-white p-8 text-center group hover:shadow-lg transition-all duration-300">
                                     <div className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-50 group-hover:scale-110 transition-transform">
                                         <value.icon
@@ -327,7 +327,7 @@ export default function UeberUns() {
                                             "Individuelle Behandlungspläne",
                                             "Keine versteckten Kosten",
                                             "Flexible Terminvereinbarung"
-                                        ].map((item, _) => (
+                                        ].map((item) => (
                                             <div key={item} className="flex items-center gap-3">
                                                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-secondary)' }} />
                                                 <span className="text-gray-300 font-light">{item}</span>

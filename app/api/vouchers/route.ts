@@ -348,11 +348,27 @@ export async function PATCH(request: NextRequest) {
 
                 console.log('📧 Payment confirmation email result:', paymentEmailResult);
 
+                // ========== GUTSCHEIN-VERSAND PER E-MAIL ==========
+                let voucherEmailResult: { success: boolean; error: string | null } = { success: true, error: null };
+
+                // Wenn der Gutschein per E-Mail versendet werden soll, dann sende jetzt den digitalen Gutschein
+                if (data.delivery_method === 'email') {
+                    console.log('📧 Sending digital voucher via email...');
+                    const emailResult = await EmailService.sendVoucherByEmail(emailData);
+                    voucherEmailResult = {
+                        success: emailResult.success,
+                        error: emailResult.success ? null : (emailResult.error || 'Unknown error')
+                    };
+                    console.log('📧 Voucher email result:', voucherEmailResult);
+                }
+
                 return NextResponse.json({
                     success: true,
                     voucher: data,
-                    emailSent: paymentEmailResult.success,
-                    emailError: paymentEmailResult.success ? null : paymentEmailResult.error
+                    paymentEmailSent: paymentEmailResult.success,
+                    paymentEmailError: paymentEmailResult.success ? null : paymentEmailResult.error,
+                    voucherEmailSent: voucherEmailResult.success,
+                    voucherEmailError: voucherEmailResult.success ? null : voucherEmailResult.error
                 });
 
             } catch (emailError) {

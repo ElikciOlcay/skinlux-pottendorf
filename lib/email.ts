@@ -122,6 +122,61 @@ export class EmailService {
         }
     }
 
+    // Send voucher by email (for email delivery method)
+    static async sendVoucherByEmail(data: VoucherEmailData) {
+        try {
+            if (!process.env.RESEND_API_KEY) {
+                console.warn('RESEND_API_KEY not configured, skipping voucher email');
+                return { success: false, error: 'Email service not configured' };
+            }
+
+            const emailContent = this.generateVoucherEmailHTML(data);
+
+            // Determine recipient
+            const recipient = data.recipientName && data.recipientName !== data.senderName
+                ? data.recipientName
+                : data.senderName;
+
+            // Use verified email for development, production domain for production
+            const toEmail = process.env.NODE_ENV === 'development'
+                ? 'elikciolcay87@gmail.com'  // Development: nur verifizierte E-Mail
+                : data.senderEmail;         // Production: echte E-Mail
+
+            const fromEmail = process.env.NODE_ENV === 'production'
+                ? 'Skinlux <hello@skinlux.at>'
+                : 'Skinlux <onboarding@resend.dev>';
+
+            console.log(`📧 Sending voucher email to: ${toEmail} (Recipient: ${recipient})`);
+
+            const resend = getResendClient();
+            const result = await resend.emails.send({
+                from: fromEmail,
+                to: [toEmail],
+                subject: `🎁 Ihr Skinlux Gutschein ist da! Code: ${data.voucherCode}`,
+                html: emailContent,
+            });
+
+            // Check for Resend errors
+            if (result.error) {
+                console.error('❌ Resend error for voucher email:', result.error);
+                return {
+                    success: false,
+                    error: `Resend error: ${result.error.message || result.error}`
+                };
+            }
+
+            console.log('✅ Voucher email sent successfully:', result);
+            return { success: true, messageId: result.data?.id };
+
+        } catch (error) {
+            console.error('❌ Error sending voucher email:', error);
+            return {
+                success: false,
+                error: error instanceof Error ? error.message : 'Unknown error'
+            };
+        }
+    }
+
     // Send notification email to admin
     static async sendAdminNotification(data: VoucherEmailData) {
         try {
@@ -569,6 +624,368 @@ export class EmailService {
                     
                     <p style="margin-top: 20px; font-size: 12px;">
                     Diese E-Mail wurde automatisch generiert. Bei Fragen antworten Sie einfach auf diese E-Mail.
+                    </p>
+                </div>
+            </div>
+        </body>
+        </html>
+        `;
+    }
+
+    // Generate voucher email HTML (the actual digital voucher)
+    private static generateVoucherEmailHTML(data: VoucherEmailData): string {
+        const recipientName = data.recipientName || data.senderName;
+        const isGift = data.recipientName && data.recipientName !== data.senderName;
+
+        return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Ihr Skinlux Gutschein</title>
+            <style>
+                body { 
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                    margin: 0; 
+                    padding: 0; 
+                    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+                    line-height: 1.6;
+                }
+                .container { 
+                    max-width: 700px; 
+                    margin: 20px auto; 
+                    background-color: white; 
+                    border-radius: 20px;
+                    overflow: hidden;
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+                }
+                .header { 
+                    background: linear-gradient(135deg, #1f2937 0%, #374151 100%); 
+                    color: white; 
+                    padding: 40px 30px; 
+                    text-align: center; 
+                    position: relative;
+                }
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" patternUnits="userSpaceOnUse" width="20" height="20"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>');
+                    opacity: 0.3;
+                }
+                .logo { 
+                    font-size: 36px; 
+                    font-weight: 300; 
+                    margin-bottom: 10px; 
+                    letter-spacing: 2px;
+                    position: relative;
+                    z-index: 1;
+                }
+                .gift-icon {
+                    font-size: 48px;
+                    margin: 20px 0;
+                    position: relative;
+                    z-index: 1;
+                }
+                .content { 
+                    padding: 0; 
+                }
+                
+                /* Hauptgutschein */
+                .voucher-main {
+                    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+                    color: white;
+                    padding: 50px 40px;
+                    text-align: center;
+                    position: relative;
+                    overflow: hidden;
+                }
+                .voucher-main::before {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    left: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+                    animation: shimmer 3s ease-in-out infinite;
+                }
+                @keyframes shimmer {
+                    0%, 100% { transform: rotate(0deg); }
+                    50% { transform: rotate(180deg); }
+                }
+                .voucher-title {
+                    font-size: 28px;
+                    font-weight: bold;
+                    margin-bottom: 20px;
+                    position: relative;
+                    z-index: 1;
+                }
+                .voucher-amount {
+                    font-size: 72px;
+                    font-weight: bold;
+                    margin: 20px 0;
+                    text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+                    position: relative;
+                    z-index: 1;
+                }
+                .voucher-code-section {
+                    background: rgba(255,255,255,0.15);
+                    border-radius: 15px;
+                    padding: 25px;
+                    margin: 30px 0;
+                    backdrop-filter: blur(10px);
+                    position: relative;
+                    z-index: 1;
+                }
+                .voucher-code {
+                    font-size: 32px;
+                    font-weight: bold;
+                    letter-spacing: 3px;
+                    font-family: 'Courier New', monospace;
+                    margin: 10px 0;
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                }
+                .code-label {
+                    font-size: 14px;
+                    opacity: 0.9;
+                    margin-bottom: 10px;
+                }
+                
+                /* Info-Sektion */
+                .voucher-info {
+                    padding: 40px;
+                    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                }
+                .info-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 30px;
+                    margin: 30px 0;
+                }
+                .info-item {
+                    background: white;
+                    padding: 25px;
+                    border-radius: 15px;
+                    text-align: center;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+                    border: 1px solid #e2e8f0;
+                }
+                .info-icon {
+                    font-size: 32px;
+                    margin-bottom: 15px;
+                }
+                .info-title {
+                    font-weight: bold;
+                    color: #1f2937;
+                    margin-bottom: 8px;
+                }
+                .info-text {
+                    color: #6b7280;
+                    font-size: 14px;
+                }
+                
+                /* Anweisungen */
+                .instructions {
+                    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+                    border: 2px solid #3b82f6;
+                    border-radius: 15px;
+                    padding: 30px;
+                    margin: 30px 0;
+                }
+                .instructions h3 {
+                    color: #1e40af;
+                    margin-top: 0;
+                    font-size: 20px;
+                }
+                .instructions ol {
+                    color: #1e40af;
+                    padding-left: 20px;
+                }
+                .instructions li {
+                    margin: 12px 0;
+                    font-weight: 500;
+                }
+                
+                /* CTA Button */
+                .cta-section {
+                    text-align: center;
+                    padding: 40px;
+                    background: white;
+                }
+                .cta-button {
+                    display: inline-block;
+                    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+                    color: white;
+                    padding: 20px 40px;
+                    text-decoration: none;
+                    border-radius: 15px;
+                    font-weight: bold;
+                    font-size: 18px;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+                    transition: all 0.3s ease;
+                    margin: 20px 0;
+                }
+                .cta-button:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+                }
+                
+                /* Footer */
+                .footer {
+                    background: #f9fafb;
+                    padding: 40px 30px;
+                    text-align: center;
+                    color: #6b7280;
+                    font-size: 14px;
+                    border-top: 1px solid #e5e7eb;
+                }
+                .footer-logo {
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: #1f2937;
+                    margin-bottom: 15px;
+                }
+                
+                /* Mobile Responsive */
+                @media (max-width: 600px) {
+                    .container { margin: 10px; border-radius: 15px; }
+                    .voucher-main { padding: 30px 20px; }
+                    .voucher-amount { font-size: 56px; }
+                    .voucher-code { font-size: 24px; letter-spacing: 2px; }
+                    .info-grid { grid-template-columns: 1fr; gap: 20px; }
+                    .instructions { padding: 20px; }
+                    .cta-section { padding: 30px 20px; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <div class="logo">SKINLUX</div>
+                    <div class="gift-icon">🎁</div>
+                    <h1>${isGift ? `Ein Geschenk für ${recipientName}!` : `Ihr Gutschein ist da!`}</h1>
+                    <p>${isGift ? `Von ${data.senderName} mit ❤️` : 'Bereit zum Einlösen!'}</p>
+                </div>
+                
+                <div class="content">
+                    <!-- Hauptgutschein -->
+                    <div class="voucher-main">
+                        <div class="voucher-title">Skinlux Gutschein</div>
+                        <div class="voucher-amount">€${data.amount}</div>
+                        
+                        <div class="voucher-code-section">
+                            <div class="code-label">Gutschein-Code:</div>
+                            <div class="voucher-code">${data.voucherCode}</div>
+                            <div style="font-size: 12px; opacity: 0.8; margin-top: 10px;">
+                                Gültig bis: ${new Date(data.expiresAt).toLocaleDateString('de-DE')}
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 18px; font-weight: 500; margin-top: 30px; position: relative; z-index: 1;">
+                            ✨ Für strahlend schöne Haut ✨
+                        </div>
+                    </div>
+                    
+                    <!-- Informations-Grid -->
+                    <div class="voucher-info">
+                        <h2 style="text-align: center; color: #1f2937; margin-bottom: 30px;">Ihr Gutschein im Detail</h2>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-icon">👤</div>
+                                <div class="info-title">Inhaber</div>
+                                <div class="info-text">${recipientName}</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">📅</div>
+                                <div class="info-title">Gültig bis</div>
+                                <div class="info-text">${new Date(data.expiresAt).toLocaleDateString('de-DE')}</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">🎯</div>
+                                <div class="info-title">Wert</div>
+                                <div class="info-text">€${data.amount}</div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">🔒</div>
+                                <div class="info-title">Code</div>
+                                <div class="info-text" style="font-family: monospace; font-weight: bold;">${data.voucherCode}</div>
+                            </div>
+                        </div>
+                        
+                        ${data.message ? `
+                        <div style="background: white; border-radius: 15px; padding: 25px; margin: 30px 0; border-left: 4px solid #059669;">
+                            <h4 style="color: #059669; margin: 0 0 15px 0; font-size: 16px;">💌 Persönliche Nachricht:</h4>
+                            <p style="margin: 0; font-style: italic; color: #4b5563; font-size: 16px; line-height: 1.6;">
+                                "${data.message}"
+                            </p>
+                            ${isGift ? `<p style="margin: 15px 0 0 0; color: #6b7280; font-size: 14px;">— ${data.senderName}</p>` : ''}
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <!-- Einlöse-Anweisungen -->
+                    <div class="instructions">
+                        <h3>🎯 So lösen Sie Ihren Gutschein ein:</h3>
+                        <ol>
+                            <li><strong>Termin buchen:</strong> Klicken Sie unten auf "Jetzt Termin buchen"</li>
+                            <li><strong>Behandlung auswählen:</strong> Wählen Sie Ihre gewünschte Behandlung</li>
+                            <li><strong>Gutschein angeben:</strong> Nennen Sie den Code <strong>${data.voucherCode}</strong></li>
+                            <li><strong>Genießen:</strong> Freuen Sie sich auf Ihre Behandlung! ✨</li>
+                        </ol>
+                        
+                        <div style="background: rgba(59, 130, 246, 0.1); border-radius: 10px; padding: 20px; margin: 20px 0;">
+                            <p style="margin: 0; color: #1e40af; font-weight: 600; text-align: center;">
+                                💡 <strong>Tipp:</strong> Speichern Sie diese E-Mail oder machen Sie einen Screenshot vom Gutschein-Code!
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Call-to-Action -->
+                    <div class="cta-section">
+                        <h3 style="color: #1f2937; margin-bottom: 20px;">Bereit für Ihre Schönheitsbehandlung?</h3>
+                        <a href="https://connect.shore.com/bookings/skinlux" class="cta-button">
+                            🗓️ Jetzt Termin buchen
+                        </a>
+                        
+                        <div style="margin-top: 30px; padding: 25px; background: #f9fafb; border-radius: 15px;">
+                            <h4 style="color: #374151; margin-bottom: 15px;">📞 Oder rufen Sie uns an:</h4>
+                            <p style="margin: 0; color: #6b7280;">
+                                <strong>Telefon:</strong> +43 123 456 789<br>
+                                <strong>E-Mail:</strong> hello@skinlux.at<br>
+                                <strong>Adresse:</strong> Salzburger Straße 45, 5500 Bischofshofen
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer">
+                    <div class="footer-logo">SKINLUX</div>
+                    <p><strong>Salzburger Straße 45, 5500 Bischofshofen</strong><br>
+                    Tel: +43 123 456 789 | E-Mail: hello@skinlux.at<br>
+                    Web: <a href="https://skinlux.at" style="color: #059669;">skinlux.at</a></p>
+                    
+                    <div style="margin: 25px 0; padding: 20px; background: #f3f4f6; border-radius: 10px;">
+                        <h4 style="color: #374151; margin-bottom: 10px;">🔒 Wichtige Hinweise:</h4>
+                        <ul style="text-align: left; display: inline-block; margin: 0; padding-left: 20px; color: #6b7280;">
+                            <li>Gutschein ist nicht mit anderen Aktionen kombinierbar</li>
+                            <li>Keine Barauszahlung möglich</li>
+                            <li>Bei Verlust kann der Gutschein nicht ersetzt werden</li>
+                            <li>Terminabsagen bis 24h vorher kostenfrei</li>
+                        </ul>
+                    </div>
+                    
+                    <p style="margin-top: 30px; font-size: 12px; color: #9ca3af;">
+                        Diese E-Mail wurde automatisch generiert. Bei Fragen antworten Sie einfach auf diese E-Mail.<br>
+                        Gutschein-ID: ${data.orderNumber} | Erstellt: ${new Date().toLocaleDateString('de-DE')}
                     </p>
                 </div>
             </div>

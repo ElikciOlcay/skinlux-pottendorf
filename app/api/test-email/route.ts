@@ -39,10 +39,11 @@ export async function POST(request: NextRequest) {
 
         console.log('📧 Sending test emails to:', to);
 
-        // Test both email types
-        const [customerResult, adminResult] = await Promise.allSettled([
+        // Test all email types
+        const [customerResult, adminResult, voucherResult] = await Promise.allSettled([
             EmailService.sendCustomerConfirmation(testEmailData),
-            EmailService.sendAdminNotification(testEmailData)
+            EmailService.sendAdminNotification(testEmailData),
+            EmailService.sendVoucherByEmail(testEmailData)
         ]);
 
         const results = {
@@ -55,16 +56,30 @@ export async function POST(request: NextRequest) {
                 success: adminResult.status === 'fulfilled' ? adminResult.value.success : false,
                 error: adminResult.status === 'rejected' ? adminResult.reason :
                     adminResult.status === 'fulfilled' && !adminResult.value.success ? adminResult.value.error : null
+            },
+            voucherEmail: {
+                success: voucherResult.status === 'fulfilled' ? voucherResult.value.success : false,
+                error: voucherResult.status === 'rejected' ? voucherResult.reason :
+                    voucherResult.status === 'fulfilled' && !voucherResult.value.success ? voucherResult.value.error : null
             }
         };
 
         console.log('✅ Test email results:', results);
 
+        const overallSuccess = results.customerEmail.success && results.adminEmail.success && results.voucherEmail.success;
+
         return NextResponse.json({
-            success: true,
-            message: 'Test-E-Mails versendet',
+            success: overallSuccess,
+            message: overallSuccess ?
+                '✅ Alle Test-E-Mails erfolgreich versendet!' :
+                '⚠️ Einige E-Mails konnten nicht versendet werden',
             results: results,
-            testData: testEmailData
+            testData: testEmailData,
+            emailTypes: [
+                'Customer Confirmation (Bestellbestätigung)',
+                'Admin Notification (Admin-Benachrichtigung)',
+                'Digital Voucher (Digitaler Gutschein) 🎁'
+            ]
         });
 
     } catch (error) {

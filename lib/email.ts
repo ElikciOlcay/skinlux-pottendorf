@@ -1,7 +1,13 @@
 import { Resend } from 'resend';
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy initialize Resend to avoid build-time errors
+function getResendClient() {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+        throw new Error('RESEND_API_KEY environment variable is required');
+    }
+    return new Resend(apiKey);
+}
 
 export interface VoucherEmailData {
     voucherCode: string;
@@ -32,6 +38,7 @@ export class EmailService {
                 ? 'Skinlux Bischofshofen <noreply@skinlux.at>'
                 : 'Skinlux <onboarding@resend.dev>'; // Resend verified domain for development
 
+            const resend = getResendClient();
             const result = await resend.emails.send({
                 from: fromEmail,
                 to: [data.senderEmail],
@@ -75,6 +82,7 @@ export class EmailService {
                 ? 'Skinlux Bischofshofen <noreply@skinlux.at>'
                 : 'Skinlux <onboarding@resend.dev>'; // Resend verified domain for development
 
+            const resend = getResendClient();
             const result = await resend.emails.send({
                 from: fromEmail,
                 to: [data.senderEmail],
@@ -122,6 +130,7 @@ export class EmailService {
                 ? 'Skinlux System <noreply@skinlux.at>'
                 : 'Skinlux System <onboarding@resend.dev>'; // Resend verified domain for development
 
+            const resend = getResendClient();
             const result = await resend.emails.send({
                 from: fromEmail,
                 to: [adminEmail],

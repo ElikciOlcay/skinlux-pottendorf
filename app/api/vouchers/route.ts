@@ -187,4 +187,63 @@ export async function POST(request: NextRequest) {
             { status: 500 }
         );
     }
+}
+
+// PATCH endpoint for updating voucher status
+export async function PATCH(request: NextRequest) {
+    try {
+        console.log('🔄 API Route: Updating voucher status...');
+
+        const body = await request.json();
+        const { voucherId, status } = body;
+
+        if (!voucherId || !status) {
+            return NextResponse.json(
+                { error: 'voucherId und status sind erforderlich' },
+                { status: 400 }
+            );
+        }
+
+        // Verwende Admin-Client um RLS zu umgehen
+        const supabaseAdmin = createSupabaseAdmin();
+        if (!supabaseAdmin) {
+            return NextResponse.json(
+                { error: 'Datenbankverbindung nicht verfügbar' },
+                { status: 500 }
+            );
+        }
+
+        const { data, error } = await supabaseAdmin
+            .from('vouchers')
+            .update({
+                status,
+                payment_status: status === 'paid' ? 'paid' : status,
+                updated_at: new Date().toISOString()
+            })
+            .eq('id', voucherId)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('❌ API Route: Update error:', error);
+            return NextResponse.json(
+                { error: `Datenbankfehler: ${error.message}` },
+                { status: 500 }
+            );
+        }
+
+        console.log('✅ API Route: Voucher updated successfully:', data);
+
+        return NextResponse.json({
+            success: true,
+            voucher: data
+        });
+
+    } catch (err: unknown) {
+        console.error('💥 API Route: Update error:', err);
+        return NextResponse.json(
+            { error: err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten' },
+            { status: 500 }
+        );
+    }
 } 

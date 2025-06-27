@@ -163,19 +163,29 @@ export class AdminVouchers {
                 throw new Error('Keine Admin-Berechtigung')
             }
 
-            const { data, error } = await supabase
-                .from('vouchers')
-                .update({
-                    status,
-                    updated_at: new Date().toISOString()
+            // Verwende API Route statt direkter Supabase-Abfrage (umgeht RLS)
+            const response = await fetch('/api/vouchers', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    voucherId,
+                    status
                 })
-                .eq('id', voucherId)
-                .select()
-                .single()
+            })
 
-            if (error) throw error
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
 
-            return { success: true, voucher: data }
+            const result = await response.json()
+
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to update voucher')
+            }
+
+            return { success: true, voucher: result.voucher }
         } catch (error: unknown) {
             return {
                 success: false,

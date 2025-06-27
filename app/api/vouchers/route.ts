@@ -152,7 +152,14 @@ export async function POST(request: NextRequest) {
 
         // Hole Bankdaten für Gültigkeitsdauer
         try {
-            const bankResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/bank-details`);
+            let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+            // Stelle sicher, dass die URL ein Protokoll hat
+            if (siteUrl && !siteUrl.startsWith('http://') && !siteUrl.startsWith('https://')) {
+                siteUrl = `https://${siteUrl}`;
+            }
+
+            const bankResponse = await fetch(`${siteUrl}/api/bank-details`);
             if (bankResponse.ok) {
                 const bankResult = await bankResponse.json();
                 const validityMonths = bankResult.bankDetails.voucherValidityMonths || 12;
@@ -357,7 +364,13 @@ export async function PATCH(request: NextRequest) {
                     let sendAsPDF = false;
                     try {
                         // Verwende absolute URL für Server-side Request
-                        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+                        let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+                        // Stelle sicher, dass die URL ein Protokoll hat
+                        if (siteUrl && !siteUrl.startsWith('http://') && !siteUrl.startsWith('https://')) {
+                            siteUrl = `https://${siteUrl}`;
+                        }
+
                         console.log(`📧 Fetching bank details from: ${siteUrl}/api/bank-details`);
 
                         const bankResponse = await fetch(`${siteUrl}/api/bank-details`);

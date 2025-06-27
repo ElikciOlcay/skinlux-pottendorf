@@ -270,7 +270,14 @@ export class EmailService {
     private static async getBankDetails(): Promise<BankDetails> {
         try {
             // Try to fetch from API
-            const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/bank-details`);
+            let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+            // Stelle sicher, dass die URL ein Protokoll hat
+            if (siteUrl && !siteUrl.startsWith('http://') && !siteUrl.startsWith('https://')) {
+                siteUrl = `https://${siteUrl}`;
+            }
+
+            const response = await fetch(`${siteUrl}/api/bank-details`);
             if (response.ok) {
                 const result = await response.json();
                 return result.bankDetails;

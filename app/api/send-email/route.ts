@@ -1,37 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
-    try {
-        const body = await request.json();
-        const { to, subject, template, data } = body;
+  try {
+    const body = await request.json();
+    const { to, subject, template, data } = body;
 
-        // In Produktion: Verwenden Sie einen E-Mail-Service wie SendGrid, Resend, etc.
-        // Beispiel mit SendGrid:
-        /*
-        const sgMail = require('@sendgrid/mail');
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-        
-        const msg = {
-          to,
-          from: 'noreply@skinlux.at',
-          subject,
-          html: generateEmailTemplate(template, data),
-        };
-        
-        await sgMail.send(msg);
-        */
+    // In Produktion: Verwenden Sie einen E-Mail-Service wie SendGrid, Resend, etc.
+    // Beispiel mit SendGrid:
+    /*
+    const sgMail = require('@sendgrid/mail');
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    
+    const msg = {
+      to,
+      from: 'noreply@skinlux.at',
+      subject,
+      html: generateEmailTemplate(template, data),
+    };
+    
+    await sgMail.send(msg);
+    */
 
-        // Für jetzt: Log die E-Mail (in Produktion entfernen!)
-        console.log('E-Mail würde gesendet werden:', {
-            to,
-            subject,
-            template,
-            data
-        });
+    // Für jetzt: Log die E-Mail (in Produktion entfernen!)
+    console.log('E-Mail würde gesendet werden:', {
+      to,
+      subject,
+      template,
+      data
+    });
 
-        // Simuliere E-Mail-Versand
-        if (template === 'password-reset') {
-            console.log(`
+    // Simuliere E-Mail-Versand
+    if (template === 'password-reset') {
+      console.log(`
         ========================================
         PASSWORT-RESET E-MAIL
         ========================================
@@ -53,27 +53,28 @@ export async function POST(request: NextRequest) {
         Ihr Skinlux Team
         ========================================
       `);
-        }
-
-        return NextResponse.json({
-            success: true,
-            message: 'E-Mail wurde gesendet (Simulation in Entwicklung)'
-        });
-
-    } catch (error: any) {
-        console.error('E-Mail Fehler:', error);
-        return NextResponse.json(
-            { error: 'Fehler beim Senden der E-Mail' },
-            { status: 500 }
-        );
     }
+
+    return NextResponse.json({
+      success: true,
+      message: 'E-Mail wurde gesendet (Simulation in Entwicklung)'
+    });
+
+  } catch (error: unknown) {
+    console.error('E-Mail Fehler:', error);
+    return NextResponse.json(
+      { error: 'Fehler beim Senden der E-Mail' },
+      { status: 500 }
+    );
+  }
 }
 
 // E-Mail-Template Generator (in Produktion ausbauen)
-function generateEmailTemplate(template: string, data: any): string {
-    switch (template) {
-        case 'password-reset':
-            return `
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function generateEmailTemplate(template: string, data: Record<string, unknown>): string {
+  switch (template) {
+    case 'password-reset':
+      return `
         <!DOCTYPE html>
         <html>
         <head>
@@ -110,7 +111,7 @@ function generateEmailTemplate(template: string, data: any): string {
         </html>
       `;
 
-        default:
-            return '';
-    }
+    default:
+      return '';
+  }
 } 

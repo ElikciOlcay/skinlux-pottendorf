@@ -14,6 +14,7 @@ const supabaseAdmin = createClient(
     }
 );
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: NextRequest) {
     try {
         console.log('Fetching vouchers for admin dashboard...');
@@ -39,10 +40,10 @@ export async function GET(request: NextRequest) {
             success: true
         });
 
-    } catch (error: any) {
-        console.error('Server error:', error);
+    } catch (error: unknown) {
+        console.error('Server error:', error instanceof Error ? error.message : error);
         return NextResponse.json(
-            { error: 'Server-Fehler beim Laden der Vouchers', details: error.message },
+            { error: 'Server-Fehler beim Laden der Vouchers', details: error instanceof Error ? error.message : 'Unbekannter Fehler' },
             { status: 500 }
         );
     }

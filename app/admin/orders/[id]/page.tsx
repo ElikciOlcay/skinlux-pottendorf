@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Download, Mail, Phone, CreditCard, Calendar, CheckCircle, Clock, XCircle, Copy, Eye, EyeOff, AlertCircle, DollarSign, User, MapPin, Receipt } from "lucide-react";
+import { ArrowLeft, Download, Mail, Phone, CreditCard, Calendar, CheckCircle, Clock, XCircle, Copy, Eye, EyeOff, AlertCircle, MapPin } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 // Order Interface definieren
@@ -39,7 +39,7 @@ export default function OrderDetails() {
     const [copied, setCopied] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [updating, setUpdating] = useState(false);
+    const [, setUpdating] = useState(false);
 
     useEffect(() => {
         // Daten direkt aus vouchers Tabelle laden
@@ -82,7 +82,7 @@ export default function OrderDetails() {
                     };
                     setOrder(transformedOrder);
                 }
-            } catch (err: any) {
+            } catch (err: unknown) {
                 console.error('Fehler beim Laden der Bestellung:', err);
                 setError('Bestellung konnte nicht geladen werden.');
             } finally {
@@ -144,7 +144,7 @@ export default function OrderDetails() {
                 if (!prev) return prev;
                 return { ...prev, paymentStatus: newStatus, updatedAt: new Date().toISOString() };
             });
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Fehler beim Aktualisieren des Zahlungsstatus:', err);
             alert('Fehler beim Aktualisieren des Zahlungsstatus');
         } finally {
@@ -175,7 +175,7 @@ export default function OrderDetails() {
                     updatedAt: new Date().toISOString()
                 };
             });
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Fehler beim Markieren als eingelöst:', err);
             alert('Fehler beim Markieren als eingelöst');
         }
@@ -357,7 +357,7 @@ export default function OrderDetails() {
                                     Persönliche Nachricht
                                 </h2>
                                 <div className="bg-gray-50/80 rounded-xl p-6 italic text-gray-700">
-                                    "{order.message}"
+                                    &quot;{order.message}&quot;
                                 </div>
                             </div>
                         )}

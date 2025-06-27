@@ -7,6 +7,7 @@ import { AuthService } from "@/lib/auth";
 import Link from "next/link";
 
 export default function ForgotPassword() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
@@ -26,8 +27,8 @@ export default function ForgotPassword() {
             } else if (result.success) {
                 setSuccess(true);
             }
-        } catch (error: any) {
-            setError(`Unerwarteter Fehler: ${error.message}`);
+        } catch (error: unknown) {
+            setError(`Unerwarteter Fehler: ${error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten'}`);
         } finally {
             setLoading(false);
         }

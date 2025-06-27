@@ -58,8 +58,8 @@ export class AuthService {
             // Fallback zu DB-Login
             return await this.productionLogin(email, password);
 
-        } catch (error: any) {
-            return { error: `Login fehlgeschlagen: ${error.message}` };
+        } catch (error: unknown) {
+            return { error: `Login fehlgeschlagen: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}` };
         }
     }
 
@@ -110,7 +110,7 @@ export class AuthService {
 
             return { error: 'Ungültige Anmeldedaten' };
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Production login error:', error);
             return { error: 'Authentifizierung fehlgeschlagen' };
         }
@@ -268,8 +268,8 @@ export class AuthService {
             }
 
             return { success: true };
-        } catch (error: any) {
-            return { success: false, error: error.message };
+        } catch (error: unknown) {
+            return { success: false, error: error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten' };
         }
     }
 
@@ -326,8 +326,8 @@ export class AuthService {
             }
 
             return { success: false, error: 'Benutzer nicht gefunden.' };
-        } catch (error: any) {
-            return { success: false, error: error.message };
+        } catch (error: unknown) {
+            return { success: false, error: error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten' };
         }
     }
 

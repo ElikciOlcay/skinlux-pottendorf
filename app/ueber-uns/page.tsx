@@ -82,7 +82,7 @@ export default function UeberUns() {
                                         <Heart className="w-6 h-6" style={{ color: 'var(--color-secondary)' }} />
                                     </div>
                                     <p className="text-sm text-gray-600 font-light italic">
-                                        "Ihre Schönheit ist unsere Leidenschaft"
+                                        &quot;Ihre Schönheit ist unsere Leidenschaft&quot;
                                     </p>
                                 </div>
                             </div>
@@ -327,8 +327,8 @@ export default function UeberUns() {
                                             "Individuelle Behandlungspläne",
                                             "Keine versteckten Kosten",
                                             "Flexible Terminvereinbarung"
-                                        ].map((item, index) => (
-                                            <div key={index} className="flex items-center gap-3">
+                                        ].map((item, _) => (
+                                            <div key={item} className="flex items-center gap-3">
                                                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-secondary)' }} />
                                                 <span className="text-gray-300 font-light">{item}</span>
                                             </div>

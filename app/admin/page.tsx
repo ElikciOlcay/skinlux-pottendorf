@@ -30,8 +30,8 @@ export default function AdminLogin() {
                 console.log('Login erfolgreich:', result.user);
                 router.push("/admin/dashboard");
             }
-        } catch (error: any) {
-            setError(`Unerwarteter Fehler: ${error.message}`);
+        } catch (error: unknown) {
+            setError(`Unerwarteter Fehler: ${error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten'}`);
         } finally {
             setLoading(false);
         }

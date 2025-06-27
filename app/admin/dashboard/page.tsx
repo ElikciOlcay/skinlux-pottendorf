@@ -22,6 +22,21 @@ interface Order {
     recipientName?: string;
 }
 
+// Voucher Interface für API Response
+interface VoucherResponse {
+    id: string;
+    code: string;
+    amount: string;
+    sender_name: string;
+    sender_email: string;
+    payment_status: string;
+    created_at: string;
+    payment_reference?: string | null;
+    order_number?: string | null;
+    delivery_method: string;
+    recipient_name?: string | null;
+}
+
 export default function AdminDashboard() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -30,7 +45,7 @@ export default function AdminDashboard() {
     const [error, setError] = useState("");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [authLoading, setAuthLoading] = useState(true);
-    const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+    const [, setCurrentUser] = useState<AuthUser | null>(null);
     const router = useRouter();
 
     // Bestellungen über API-Route laden
@@ -48,7 +63,7 @@ export default function AdminDashboard() {
             }
 
             // Daten transformieren für die UI
-            const transformedOrders: Order[] = result.vouchers?.map((voucher: any) => ({
+            const transformedOrders: Order[] = result.vouchers?.map((voucher: VoucherResponse) => ({
                 id: voucher.id,
                 orderNumber: voucher.order_number || voucher.payment_reference || `VOC-${voucher.code}`,
                 voucherCode: voucher.code,
@@ -64,7 +79,7 @@ export default function AdminDashboard() {
             })) || [];
 
             setOrders(transformedOrders);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Fehler beim Laden der Bestellungen:', err);
             setError('Fehler beim Laden der Bestellungen. Bitte versuchen Sie es erneut.');
         } finally {

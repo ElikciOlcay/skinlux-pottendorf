@@ -2,12 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Gift, Heart, Sparkles, Check, AlertCircle, Loader, Mail, MapPin, User, CreditCard, Phone } from "lucide-react";
-import { supabase, getCurrentSubdomain } from "@/lib/supabase";
+import { ArrowLeft, ArrowRight, Gift, Check, AlertCircle, Loader, Mail, MapPin, User, CreditCard } from "lucide-react";
+import { getCurrentSubdomain } from "@/lib/supabase";
 
 const voucherAmounts = [50, 100, 150, 200, 250, 300];
 
 type Step = 1 | 2 | 3 | 4 | 5;
+
+interface OrderData {
+    orderNumber: string;
+    amount: number;
+    senderName: string;
+    senderEmail: string;
+    deliveryMethod: string;
+}
 
 export default function Gutscheine() {
     const [currentStep, setCurrentStep] = useState<Step>(1);
@@ -27,7 +35,7 @@ export default function Gutscheine() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [orderSuccess, setOrderSuccess] = useState(false);
-    const [orderData, setOrderData] = useState<any>(null);
+    const [orderData, setOrderData] = useState<OrderData | null>(null);
     const [error, setError] = useState("");
 
     const getAmount = () => selectedAmount || parseInt(customAmount) || 0;
@@ -158,12 +166,16 @@ export default function Gutscheine() {
             setOrderData(orderData);
             setOrderSuccess(true);
 
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('💥 Error in handleFinalSubmit:', err);
-            console.error('💥 Error name:', err.name);
-            console.error('💥 Error message:', err.message);
-            console.error('💥 Error stack:', err.stack);
-            setError(err.message || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+            if (err instanceof Error) {
+                console.error('💥 Error name:', err.name);
+                console.error('💥 Error message:', err.message);
+                console.error('💥 Error stack:', err.stack);
+                setError(err.message);
+            } else {
+                setError('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+            }
         } finally {
             setIsSubmitting(false);
         }

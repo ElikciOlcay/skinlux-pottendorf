@@ -117,30 +117,34 @@ export interface AdminAccess {
 // Voucher Funktionen für Admins
 export class AdminVouchers {
 
-    // Alle Vouchers laden (nur für Admins)
+    // Alle Vouchers laden (nur für Admins) - verwendet API Route um RLS zu umgehen
     static async getAllVouchers() {
         try {
-            const { isAdmin, adminData } = await AdminAuth.isAdmin()
+            const { isAdmin } = await AdminAuth.isAdmin()
 
             if (!isAdmin) {
                 throw new Error('Keine Admin-Berechtigung')
             }
 
-            // Super-Admins sehen alle Vouchers, normale Admins nur die ihres Studios
-            let query = supabase
-                .from('vouchers')
-                .select('*')
-                .order('created_at', { ascending: false })
+            // Verwende API Route statt direkter Supabase-Abfrage (umgeht RLS)
+            const response = await fetch('/api/vouchers', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
 
-            if (adminData?.role === 'admin' && adminData?.studio_id) {
-                query = query.eq('studio_id', adminData.studio_id)
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
             }
 
-            const { data, error } = await query
+            const result = await response.json()
 
-            if (error) throw error
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to fetch vouchers')
+            }
 
-            return { success: true, vouchers: data || [] }
+            return { success: true, vouchers: result.vouchers || [] }
         } catch (error: unknown) {
             console.error('Failed to load vouchers:', error)
             return {

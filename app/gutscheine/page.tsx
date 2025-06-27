@@ -119,8 +119,7 @@ export default function Gutscheine() {
                 status: 'pending',
                 is_used: false,
                 created_at: new Date().toISOString(),
-                expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-                valid_until: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+                // expires_at wird von der API basierend auf den konfigurierten Gültigkeitsmonaten gesetzt
                 delivery_method: deliveryMethod,
                 recipient_name: deliveryMethod === 'post' ? formData.recipientName : null,
                 recipient_address: deliveryMethod === 'post' ? formData.recipientAddress : null,

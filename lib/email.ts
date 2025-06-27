@@ -21,6 +21,15 @@ export interface VoucherEmailData {
     expiresAt: string;
 }
 
+export interface BankDetails {
+    bankName: string;
+    accountHolder: string;
+    iban: string;
+    bic: string;
+    reference: string;
+    voucherValidityMonths: number;
+}
+
 export class EmailService {
 
     // Send confirmation email to customer
@@ -31,7 +40,9 @@ export class EmailService {
                 return { success: false, error: 'Email service not configured' };
             }
 
-            const emailContent = this.generateCustomerConfirmationHTML(data);
+            // Load bank details (in production, you might want to get this from database)
+            const bankDetails = await this.getBankDetails();
+            const emailContent = this.generateCustomerConfirmationHTML(data, bankDetails);
 
             // Use verified email for development, production domain for production
             const fromEmail = process.env.NODE_ENV === 'production'
@@ -159,8 +170,32 @@ export class EmailService {
         }
     }
 
+    // Get bank details from API
+    private static async getBankDetails(): Promise<BankDetails> {
+        try {
+            // Try to fetch from API
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/bank-details`);
+            if (response.ok) {
+                const result = await response.json();
+                return result.bankDetails;
+            }
+        } catch (error) {
+            console.warn('Could not fetch bank details from API, using defaults:', error);
+        }
+
+        // Default bank details (fallback)
+        return {
+            bankName: 'Sparkasse Pongau',
+            accountHolder: 'Skinlux Bischofshofen',
+            iban: 'AT00 0000 0000 0000 0000',
+            bic: 'SPALAT2G',
+            reference: 'Gutschein-Bestellung',
+            voucherValidityMonths: 12
+        };
+    }
+
     // Generate customer confirmation email HTML
-    private static generateCustomerConfirmationHTML(data: VoucherEmailData): string {
+    private static generateCustomerConfirmationHTML(data: VoucherEmailData, bankDetails: BankDetails): string {
         return `
         <!DOCTYPE html>
         <html>
@@ -242,8 +277,44 @@ export class EmailService {
                     <div class="important">
                         <h4>💳 Zahlungsinformationen</h4>
                         <p><strong>Status:</strong> Zahlung ausstehend</p>
-                        <p>Sie erhalten in Kürze eine separate E-Mail mit den Zahlungsdetails und der Rechnung.</p>
-                        <p><strong>Nach Zahlungseingang wird Ihr Gutschein automatisch aktiviert.</strong></p>
+                        <p><strong>Bitte überweisen Sie den Betrag von €${data.amount} auf folgendes Konto:</strong></p>
+                        
+                        <div style="background-color: white; border-radius: 8px; padding: 20px; margin: 15px 0; border: 1px solid #e5e7eb;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: #6b7280; width: 40%;">Bank:</td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #1f2937;">${bankDetails.bankName}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: #6b7280;">Kontoinhaber:</td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #1f2937;">${bankDetails.accountHolder}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: #6b7280;">IBAN:</td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #1f2937; font-family: monospace; font-weight: 600;">${bankDetails.iban}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: #6b7280;">BIC:</td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #1f2937; font-family: monospace; font-weight: 600;">${bankDetails.bic}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: #6b7280;">Betrag:</td>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #059669; font-weight: bold; font-size: 18px;">€${data.amount}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; font-weight: 600; color: #6b7280;">Verwendungszweck:</td>
+                                    <td style="padding: 8px 0; color: #1f2937; font-weight: 600;">${bankDetails.reference} ${data.orderNumber}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div style="background-color: #dcfce7; border-radius: 8px; padding: 15px; margin: 15px 0;">
+                            <p style="margin: 0; color: #166534; font-weight: 600;">
+                                ⚡ <strong>Wichtig:</strong> Bitte verwenden Sie unbedingt den angegebenen Verwendungszweck, damit wir Ihre Zahlung zuordnen können!
+                            </p>
+                        </div>
+                        
+                        <p><strong>Nach Zahlungseingang wird Ihr Gutschein automatisch aktiviert und Sie erhalten eine Bestätigungs-E-Mail.</strong></p>
                     </div>
                     
                     <p>Bei Fragen stehen wir Ihnen gerne zur Verfügung!</p>

@@ -150,6 +150,38 @@ export async function POST(request: NextRequest) {
 
         voucherData.studio_id = studioId;
 
+        // Hole Bankdaten für Gültigkeitsdauer
+        try {
+            const bankResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/bank-details`);
+            if (bankResponse.ok) {
+                const bankResult = await bankResponse.json();
+                const validityMonths = bankResult.bankDetails.voucherValidityMonths || 12;
+
+                // Berechne Ablaufdatum basierend auf konfigurierten Monaten
+                const expiryDate = new Date();
+                expiryDate.setMonth(expiryDate.getMonth() + validityMonths);
+
+                voucherData.expires_at = expiryDate.toISOString();
+                voucherData.valid_until = expiryDate.toISOString();
+
+                console.log(`🕒 Voucher expires in ${validityMonths} months:`, expiryDate.toLocaleDateString('de-DE'));
+            } else {
+                // Fallback: 12 Monate
+                const expiryDate = new Date();
+                expiryDate.setMonth(expiryDate.getMonth() + 12);
+                voucherData.expires_at = expiryDate.toISOString();
+                voucherData.valid_until = expiryDate.toISOString();
+                console.log('⚠️ Using default 12 months validity');
+            }
+        } catch (error) {
+            console.error('Error fetching bank details, using default validity:', error);
+            // Fallback: 12 Monate
+            const expiryDate = new Date();
+            expiryDate.setMonth(expiryDate.getMonth() + 12);
+            voucherData.expires_at = expiryDate.toISOString();
+            voucherData.valid_until = expiryDate.toISOString();
+        }
+
         // Entferne Subdomain aus voucherData (wird nicht in DB gespeichert)
         delete voucherData.subdomain;
 

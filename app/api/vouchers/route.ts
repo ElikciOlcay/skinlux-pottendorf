@@ -150,36 +150,20 @@ export async function POST(request: NextRequest) {
 
         voucherData.studio_id = studioId;
 
-        // Hole Bankdaten für Gültigkeitsdauer
+        // Hole Bankdaten für Gültigkeitsdauer mit robuster Methode
         try {
-            let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+            console.log('🕒 Getting bank details for voucher validity period...');
+            const bankDetails = await EmailService.getBankDetailsPublic();
+            const validityMonths = bankDetails.voucherValidityMonths || 12;
 
-            // Stelle sicher, dass die URL ein Protokoll hat
-            if (siteUrl && !siteUrl.startsWith('http://') && !siteUrl.startsWith('https://')) {
-                siteUrl = `https://${siteUrl}`;
-            }
+            // Berechne Ablaufdatum basierend auf konfigurierten Monaten
+            const expiryDate = new Date();
+            expiryDate.setMonth(expiryDate.getMonth() + validityMonths);
 
-            const bankResponse = await fetch(`${siteUrl}/api/bank-details`);
-            if (bankResponse.ok) {
-                const bankResult = await bankResponse.json();
-                const validityMonths = bankResult.bankDetails.voucherValidityMonths || 12;
+            voucherData.expires_at = expiryDate.toISOString();
+            voucherData.valid_until = expiryDate.toISOString();
 
-                // Berechne Ablaufdatum basierend auf konfigurierten Monaten
-                const expiryDate = new Date();
-                expiryDate.setMonth(expiryDate.getMonth() + validityMonths);
-
-                voucherData.expires_at = expiryDate.toISOString();
-                voucherData.valid_until = expiryDate.toISOString();
-
-                console.log(`🕒 Voucher expires in ${validityMonths} months:`, expiryDate.toLocaleDateString('de-DE'));
-            } else {
-                // Fallback: 12 Monate
-                const expiryDate = new Date();
-                expiryDate.setMonth(expiryDate.getMonth() + 12);
-                voucherData.expires_at = expiryDate.toISOString();
-                voucherData.valid_until = expiryDate.toISOString();
-                console.log('⚠️ Using default 12 months validity');
-            }
+            console.log(`🕒 Voucher expires in ${validityMonths} months:`, expiryDate.toLocaleDateString('de-DE'));
         } catch (error) {
             console.error('Error fetching bank details, using default validity:', error);
             // Fallback: 12 Monate
@@ -360,28 +344,15 @@ export async function PATCH(request: NextRequest) {
 
                 // Wenn der Gutschein per E-Mail versendet werden soll, dann sende jetzt den digitalen Gutschein
                 if (data.delivery_method === 'email') {
-                    // Hole Bankdaten-Einstellungen für PDF-Format
+                    // Hole Bankdaten-Einstellungen für PDF-Format mit robuster Methode
                     let sendAsPDF = false;
                     try {
-                        // Verwende absolute URL für Server-side Request
-                        let siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-
-                        // Stelle sicher, dass die URL ein Protokoll hat
-                        if (siteUrl && !siteUrl.startsWith('http://') && !siteUrl.startsWith('https://')) {
-                            siteUrl = `https://${siteUrl}`;
-                        }
-
-                        console.log(`📧 Fetching bank details from: ${siteUrl}/api/bank-details`);
-
-                        const bankResponse = await fetch(`${siteUrl}/api/bank-details`);
-                        if (bankResponse.ok) {
-                            const bankResult = await bankResponse.json();
-                            sendAsPDF = bankResult.bankDetails.sendVoucherAsPDF || false;
-                            console.log(`📧 Voucher format setting loaded: ${sendAsPDF ? 'PDF' : 'HTML'}`);
-                            console.log(`📧 Full bank details:`, bankResult.bankDetails);
-                        } else {
-                            console.error(`❌ Bank details API failed: ${bankResponse.status} ${bankResponse.statusText}`);
-                        }
+                        console.log('📧 Getting bank details for PDF setting...');
+                        // Verwende die robuste getBankDetails Methode aus EmailService
+                        const bankDetails = await EmailService.getBankDetailsPublic();
+                        sendAsPDF = bankDetails.sendVoucherAsPDF || false;
+                        console.log(`📧 Voucher format setting loaded: ${sendAsPDF ? 'PDF' : 'HTML'}`);
+                        console.log(`📧 Bank details loaded:`, bankDetails);
                     } catch (error) {
                         console.error('❌ Could not fetch PDF setting:', error);
                         sendAsPDF = false;

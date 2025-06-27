@@ -266,6 +266,11 @@ export class EmailService {
         }
     }
 
+    // Public method to get bank details (used by other modules)
+    public static async getBankDetailsPublic(): Promise<BankDetails> {
+        return this.getBankDetails();
+    }
+
     // Get bank details from API with retry logic
     private static async getBankDetails(): Promise<BankDetails> {
         // Try API first with retry logic

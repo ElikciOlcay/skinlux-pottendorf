@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
+import { EmailService, VoucherEmailData } from '@/lib/email';
 
 // Server-side Supabase client mit Service Role Key
 function createSupabaseAdmin() {
@@ -177,7 +179,52 @@ export async function POST(request: NextRequest) {
 
         console.log('✅ API Route: Voucher created successfully:', voucher);
 
-        return NextResponse.json({ voucher }, { status: 201 });
+        // ========== E-MAIL-VERSENDUNG ==========
+        console.log('📧 Starting email notifications...');
+
+        // Generate order number for emails
+        const orderNumber = `ORD-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
+
+        // Prepare email data
+        const emailData: VoucherEmailData = {
+            voucherCode: voucher.code,
+            amount: voucher.amount,
+            senderName: voucher.sender_name,
+            senderEmail: voucher.sender_email,
+            senderPhone: voucher.sender_phone,
+            recipientName: voucher.recipient_name,
+            message: voucher.message,
+            orderNumber: orderNumber,
+            expiresAt: voucher.expires_at
+        };
+
+        // Send emails (both in parallel)
+        const [customerResult, adminResult] = await Promise.allSettled([
+            EmailService.sendCustomerConfirmation(emailData),
+            EmailService.sendAdminNotification(emailData)
+        ]);
+
+        // Log email results
+        if (customerResult.status === 'fulfilled') {
+            console.log('✅ Customer email:', customerResult.value.success ? 'sent' : 'failed', customerResult.value);
+        } else {
+            console.error('❌ Customer email error:', customerResult.reason);
+        }
+
+        if (adminResult.status === 'fulfilled') {
+            console.log('✅ Admin email:', adminResult.value.success ? 'sent' : 'failed', adminResult.value);
+        } else {
+            console.error('❌ Admin email error:', adminResult.reason);
+        }
+
+        return NextResponse.json({
+            voucher,
+            orderNumber,
+            emailStatus: {
+                customer: customerResult.status === 'fulfilled' ? customerResult.value.success : false,
+                admin: adminResult.status === 'fulfilled' ? adminResult.value.success : false
+            }
+        }, { status: 201 });
 
     } catch (err: unknown) {
         console.error('💥 API Route: Error:', err);
@@ -242,6 +289,52 @@ export async function PATCH(request: NextRequest) {
         }
 
         console.log('✅ Voucher updated successfully:', data);
+
+        // ========== E-MAIL BEI ZAHLUNGSBESTÄTIGUNG ==========
+        if (status === 'paid') {
+            console.log('📧 Sending payment confirmation email...');
+
+            try {
+                // Generate order number for email
+                const orderNumber = `ORD-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
+
+                // Prepare email data
+                const emailData: VoucherEmailData = {
+                    voucherCode: data.code,
+                    amount: data.amount,
+                    senderName: data.sender_name,
+                    senderEmail: data.sender_email,
+                    senderPhone: data.sender_phone,
+                    recipientName: data.recipient_name,
+                    message: data.message,
+                    orderNumber: orderNumber,
+                    expiresAt: data.expires_at
+                };
+
+                // Send payment confirmation email
+                const paymentEmailResult = await EmailService.sendPaymentConfirmation(emailData);
+
+                console.log('📧 Payment confirmation email result:', paymentEmailResult);
+
+                return NextResponse.json({
+                    success: true,
+                    voucher: data,
+                    emailSent: paymentEmailResult.success,
+                    emailError: paymentEmailResult.success ? null : paymentEmailResult.error
+                });
+
+            } catch (emailError) {
+                console.error('❌ Email error during payment confirmation:', emailError);
+
+                // Return success for voucher update but note email failure
+                return NextResponse.json({
+                    success: true,
+                    voucher: data,
+                    emailSent: false,
+                    emailError: emailError instanceof Error ? emailError.message : 'Unknown email error'
+                });
+            }
+        }
 
         return NextResponse.json({
             success: true,

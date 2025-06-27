@@ -20,23 +20,11 @@ export interface Voucher {
     expires_at: string
 }
 
-export interface VoucherOrder {
+export interface Studio {
     id: string
-    voucher_id: string
-    total_amount: number
-    payment_method: 'bank_transfer'
-    payment_status: 'pending' | 'completed' | 'cancelled'
-    bank_reference?: string
-    order_number: string
-    created_at: string
-    updated_at: string
-}
-
-export interface AdminProfile {
-    id: string
-    user_id: string
-    studio_id: string
-    role: 'admin' | 'super_admin'
+    name: string
+    address?: string
+    subdomain?: string
     created_at: string
 }
 

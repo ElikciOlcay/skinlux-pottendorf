@@ -373,7 +373,7 @@ export default function VoucherDetailPage() {
 
                                 <div className="text-right">
                                     <div className="text-3xl font-light text-gray-900">
-                                        €{remainingAmount.toFixed(0)}
+                                        €{remainingAmount.toFixed(2).replace('.00', '')}
                                     </div>
                                     <div className="text-sm text-gray-500">
                                         von €{voucher.amount} verbleibend
@@ -437,15 +437,15 @@ export default function VoucherDetailPage() {
                                             <div className="grid md:grid-cols-2 gap-4 mb-4">
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                        Betrag (max. €{remainingAmount.toFixed(0)})
+                                                        Betrag (max. €{remainingAmount.toFixed(2).replace('.00', '')})
                                                     </label>
                                                     <input
                                                         type="number"
                                                         value={redemptionAmount}
                                                         onChange={(e) => setRedemptionAmount(e.target.value)}
                                                         max={remainingAmount}
-                                                        min="1"
-                                                        step="1"
+                                                        min="0.01"
+                                                        step="0.01"
                                                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                         placeholder="Betrag eingeben"
                                                     />
@@ -653,7 +653,7 @@ export default function VoucherDetailPage() {
 
                                 <div className="flex items-center justify-between">
                                     <span className="text-gray-600">Verbleibendes Guthaben:</span>
-                                    <span className="font-medium text-green-600">€{remainingAmount.toFixed(0)}</span>
+                                    <span className="font-medium text-green-600">€{remainingAmount.toFixed(2).replace('.00', '')}</span>
                                 </div>
 
                                 <div className="flex items-center justify-between">

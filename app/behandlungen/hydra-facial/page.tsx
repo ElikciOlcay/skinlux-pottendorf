@@ -407,7 +407,7 @@ export default function HydraFacial() {
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 129</div>
+                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 169</div>
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">
@@ -451,11 +451,11 @@ export default function HydraFacial() {
                                         HydraFacial® Signature + LED
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
-                                        45 Minuten • Mit LED-Therapie
+                                        50 Minuten • Mit LED-Therapie
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 159</div>
+                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 189</div>
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">
@@ -504,11 +504,11 @@ export default function HydraFacial() {
                                         HydraFacial® Deluxe
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
-                                        60 Minuten • Premium Experience
+                                        50 Minuten • Premium Experience
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 189</div>
+                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 259</div>
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">
@@ -552,11 +552,11 @@ export default function HydraFacial() {
                                         HydraFacial® Platinium
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
-                                        75 Minuten • Luxus-Experience
+                                        1 Stunde • Luxus-Experience
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 249</div>
+                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 289</div>
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">

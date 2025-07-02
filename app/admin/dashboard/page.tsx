@@ -546,9 +546,13 @@ export default function AdminDashboard() {
                                                         Als bezahlt markieren
                                                     </button>
                                                 )}
-                                                <button className="text-gray-400 hover:text-gray-600">
+                                                <a
+                                                    href={`/admin/orders/${voucher.id}`}
+                                                    className="text-gray-400 hover:text-gray-600"
+                                                    title="Details anzeigen"
+                                                >
                                                     <Eye className="w-4 h-4" />
-                                                </button>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

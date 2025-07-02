@@ -12,10 +12,14 @@ import {
     User,
     Calendar,
     AlertTriangle,
-    CreditCard,
     Banknote,
     Settings,
-    Save
+    Save,
+    Search,
+    RefreshCw,
+    BarChart3,
+    Euro,
+    Mail
 } from "lucide-react";
 import { AdminAuth, AdminVouchers, type AdminAccess } from "@/lib/supabase-auth";
 import { Voucher } from "@/lib/supabase";
@@ -26,14 +30,15 @@ interface BankDetails {
     iban: string;
     bic: string;
     reference: string;
-    voucherValidityMonths: number; // Gültigkeit der Gutscheine in Monaten
-    sendVoucherAsPDF: boolean; // PDF-Versand für E-Mail-Gutscheine
+    voucherValidityMonths: number;
+    sendVoucherAsPDF: boolean;
 }
 
 export default function AdminDashboard() {
     const router = useRouter();
     const [adminData, setAdminData] = useState<AdminAccess | null>(null);
     const [vouchers, setVouchers] = useState<Voucher[]>([]);
+    const [filteredVouchers, setFilteredVouchers] = useState<Voucher[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [showBankSettings, setShowBankSettings] = useState(false);
@@ -47,6 +52,11 @@ export default function AdminDashboard() {
         sendVoucherAsPDF: false
     });
     const [savingBankDetails, setSavingBankDetails] = useState(false);
+
+    // Filter und Search States
+    const [searchTerm, setSearchTerm] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
+    const [refreshing, setRefreshing] = useState(false);
 
     // Auth-Check und Daten laden
     useEffect(() => {
@@ -73,6 +83,28 @@ export default function AdminDashboard() {
         checkAuthAndLoadData();
     }, [router]);
 
+    // Filter vouchers when search or filter changes
+    useEffect(() => {
+        let filtered = vouchers;
+
+        // Search filter
+        if (searchTerm) {
+            filtered = filtered.filter(voucher =>
+                voucher.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                voucher.sender_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                voucher.sender_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                voucher.payment_reference?.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        // Status filter
+        if (statusFilter !== "all") {
+            filtered = filtered.filter(voucher => voucher.payment_status === statusFilter);
+        }
+
+        setFilteredVouchers(filtered);
+    }, [vouchers, searchTerm, statusFilter]);
+
     const loadVouchers = async () => {
         try {
             const result = await AdminVouchers.getAllVouchers();
@@ -87,10 +119,14 @@ export default function AdminDashboard() {
             console.error("Load vouchers error:", error);
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
     };
 
-
+    const handleRefresh = async () => {
+        setRefreshing(true);
+        await loadVouchers();
+    };
 
     const handleLogout = async () => {
         const result = await AdminAuth.signOut();
@@ -103,7 +139,7 @@ export default function AdminDashboard() {
         try {
             const result = await AdminVouchers.updateVoucherStatus(voucherId, newStatus);
             if (result.success) {
-                await loadVouchers(); // Neuladen der Daten
+                await loadVouchers();
             } else {
                 setError(result.error || "Fehler beim Aktualisieren");
             }
@@ -119,7 +155,7 @@ export default function AdminDashboard() {
             case 'active':
                 return <CheckCircle className="w-4 h-4 text-green-500" />;
             case 'pending':
-                return <Clock className="w-4 h-4 text-yellow-500" />;
+                return <Clock className="w-4 h-4 text-amber-500" />;
             case 'cancelled':
                 return <XCircle className="w-4 h-4 text-red-500" />;
             default:
@@ -129,12 +165,12 @@ export default function AdminDashboard() {
 
     const getStatusBadge = (status: string) => {
         const statusMap = {
-            'paid': 'bg-green-100 text-green-800',
-            'active': 'bg-green-100 text-green-800',
-            'pending': 'bg-yellow-100 text-yellow-800',
-            'cancelled': 'bg-red-100 text-red-800'
+            'paid': 'bg-green-50 text-green-700 border-green-200',
+            'active': 'bg-green-50 text-green-700 border-green-200',
+            'pending': 'bg-amber-50 text-amber-700 border-amber-200',
+            'cancelled': 'bg-red-50 text-red-700 border-red-200'
         };
-        return statusMap[status as keyof typeof statusMap] || 'bg-gray-100 text-gray-800';
+        return statusMap[status as keyof typeof statusMap] || 'bg-gray-50 text-gray-700 border-gray-200';
     };
 
     const loadBankDetails = async () => {
@@ -146,7 +182,6 @@ export default function AdminDashboard() {
             }
         } catch (error) {
             console.error('Error loading bank details:', error);
-            // Set defaults on error
             setBankDetails({
                 bankName: 'Sparkasse Pongau',
                 accountHolder: 'Skinlux Bischofshofen',
@@ -162,7 +197,6 @@ export default function AdminDashboard() {
     const saveBankDetails = async () => {
         setSavingBankDetails(true);
         try {
-            // Save to API
             const response = await fetch('/api/bank-details', {
                 method: 'POST',
                 headers: {
@@ -172,17 +206,16 @@ export default function AdminDashboard() {
             });
 
             if (response.ok) {
-                // Also save to localStorage for client-side access
                 localStorage.setItem('skinlux_bank_details', JSON.stringify(bankDetails));
-                alert('Bankdaten erfolgreich gespeichert!');
+                setError("");
                 setShowBankSettings(false);
             } else {
                 const error = await response.json();
-                alert(`Fehler beim Speichern: ${error.error}`);
+                setError(`Fehler beim Speichern: ${error.error}`);
             }
         } catch (error) {
             console.error('Error saving bank details:', error);
-            alert('Fehler beim Speichern der Bankdaten');
+            setError('Fehler beim Speichern der Bankdaten');
         } finally {
             setSavingBankDetails(false);
         }
@@ -190,8 +223,13 @@ export default function AdminDashboard() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="animate-spin w-8 h-8 border-2 border-gray-900 border-t-transparent rounded-full"></div>
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4">
+                        <div className="animate-spin w-8 h-8 border-2 border-slate-900 border-t-transparent rounded-full"></div>
+                    </div>
+                    <p className="text-slate-600 font-medium">Lade Dashboard...</p>
+                </div>
             </div>
         );
     }
@@ -206,35 +244,51 @@ export default function AdminDashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <header className="bg-white shadow-sm border-b">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+            {/* Modern Header */}
+            <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-4">
-                        <div>
-                            <h1 className="text-2xl font-light text-gray-900">
-                                Admin Dashboard
-                            </h1>
-                            {adminData && (
-                                <p className="text-sm text-gray-500 mt-1">
-                                    {adminData.role === 'super_admin' ? '👑 Super Admin' : '👤 Admin'}
-                                    {adminData.studio && ` • ${adminData.studio.name}`}
-                                </p>
-                            )}
+                        <div className="flex items-center space-x-4">
+                            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-slate-900 to-slate-700 rounded-xl">
+                                <BarChart3 className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                                <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                                    Skinlux Admin
+                                </h1>
+                                {adminData && (
+                                    <p className="text-sm text-slate-500">
+                                        {adminData.role === 'super_admin' ? '👑 Super Admin' : '👤 Admin'}
+                                        {adminData.studio && ` • ${adminData.studio.name}`}
+                                    </p>
+                                )}
+                            </div>
                         </div>
-                        <div className="flex items-center gap-4">
+
+                        <div className="flex items-center space-x-3">
+                            <button
+                                onClick={handleRefresh}
+                                disabled={refreshing}
+                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50"
+                            >
+                                <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+                                Aktualisieren
+                            </button>
+
                             <button
                                 onClick={() => setShowBankSettings(!showBankSettings)}
-                                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg shadow-blue-500/25"
                             >
-                                <Settings className="w-4 h-4" />
-                                Bankdaten
+                                <Settings className="w-4 h-4 mr-2" />
+                                Einstellungen
                             </button>
+
                             <button
                                 onClick={handleLogout}
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-slate-800 to-slate-900 rounded-lg hover:from-slate-900 hover:to-black transition-all duration-200 shadow-lg shadow-slate-500/25"
                             >
-                                <LogOut className="w-4 h-4" />
+                                <LogOut className="w-4 h-4 mr-2" />
                                 Abmelden
                             </button>
                         </div>
@@ -246,97 +300,102 @@ export default function AdminDashboard() {
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Bank Settings Modal */}
                 {showBankSettings && (
-                    <div className="mb-8 bg-white rounded-lg shadow p-6">
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                                <Banknote className="w-5 h-5" />
-                                Bankdaten für Überweisungen
-                            </h2>
+                    <div className="mb-8 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 p-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center space-x-3">
+                                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl">
+                                    <Banknote className="w-5 h-5 text-white" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-slate-900">Bankdaten & Einstellungen</h2>
+                                    <p className="text-sm text-slate-500">Konfiguration für Überweisungen und Gutscheine</p>
+                                </div>
+                            </div>
                             <button
                                 onClick={() => setShowBankSettings(false)}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="text-slate-400 hover:text-slate-600 transition-colors"
                             >
-                                ✕
+                                <XCircle className="w-6 h-6" />
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-slate-700">
                                     Bank Name
                                 </label>
                                 <input
                                     type="text"
                                     value={bankDetails.bankName}
                                     onChange={(e) => setBankDetails(prev => ({ ...prev, bankName: e.target.value }))}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     placeholder="z.B. Sparkasse Pongau"
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-slate-700">
                                     Kontoinhaber
                                 </label>
                                 <input
                                     type="text"
                                     value={bankDetails.accountHolder}
                                     onChange={(e) => setBankDetails(prev => ({ ...prev, accountHolder: e.target.value }))}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     placeholder="z.B. Skinlux Bischofshofen"
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-slate-700">
                                     IBAN
                                 </label>
                                 <input
                                     type="text"
                                     value={bankDetails.iban}
                                     onChange={(e) => setBankDetails(prev => ({ ...prev, iban: e.target.value }))}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     placeholder="AT00 0000 0000 0000 0000"
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-slate-700">
                                     BIC
                                 </label>
                                 <input
                                     type="text"
                                     value={bankDetails.bic}
                                     onChange={(e) => setBankDetails(prev => ({ ...prev, bic: e.target.value }))}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     placeholder="z.B. SPALAT2G"
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-slate-700">
                                     Verwendungszweck-Vorlage
                                 </label>
                                 <input
                                     type="text"
                                     value={bankDetails.reference}
                                     onChange={(e) => setBankDetails(prev => ({ ...prev, reference: e.target.value }))}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     placeholder="z.B. Gutschein-Bestellung"
                                 />
-                                <p className="text-sm text-gray-500 mt-1">
+                                <p className="text-xs text-slate-500">
                                     Diese Vorlage wird in E-Mails verwendet. Die Bestellnummer wird automatisch hinzugefügt.
                                 </p>
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-slate-700">
                                     Gutschein-Gültigkeitsdauer (Monate)
                                 </label>
                                 <select
                                     value={bankDetails.voucherValidityMonths}
                                     onChange={(e) => setBankDetails(prev => ({ ...prev, voucherValidityMonths: Number(e.target.value) }))}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                 >
                                     <option value={6}>6 Monate</option>
                                     <option value={12}>12 Monate (Standard)</option>
@@ -344,56 +403,59 @@ export default function AdminDashboard() {
                                     <option value={24}>24 Monate</option>
                                     <option value={36}>36 Monate</option>
                                 </select>
-                                <p className="text-sm text-gray-500 mt-1">
-                                    Neue Gutscheine sind für diese Dauer gültig.
-                                </p>
                             </div>
 
-                            <div className="md:col-span-2">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <div className="md:col-span-2 space-y-3">
+                                <label className="block text-sm font-semibold text-slate-700">
                                     E-Mail-Gutschein Format
                                 </label>
                                 <div className="flex items-center space-x-6">
-                                    <label className="flex items-center">
+                                    <label className="flex items-center space-x-3 cursor-pointer">
                                         <input
                                             type="radio"
                                             name="voucherFormat"
                                             checked={!bankDetails.sendVoucherAsPDF}
                                             onChange={() => setBankDetails(prev => ({ ...prev, sendVoucherAsPDF: false }))}
-                                            className="mr-2 text-blue-600 focus:ring-blue-500"
+                                            className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300"
                                         />
-                                        <span className="text-sm">📧 HTML-E-Mail (interaktiv)</span>
+                                        <span className="text-sm font-medium text-slate-700">📧 HTML-E-Mail (interaktiv)</span>
                                     </label>
-                                    <label className="flex items-center">
+                                    <label className="flex items-center space-x-3 cursor-pointer">
                                         <input
                                             type="radio"
                                             name="voucherFormat"
                                             checked={bankDetails.sendVoucherAsPDF}
                                             onChange={() => setBankDetails(prev => ({ ...prev, sendVoucherAsPDF: true }))}
-                                            className="mr-2 text-blue-600 focus:ring-blue-500"
+                                            className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300"
                                         />
-                                        <span className="text-sm">📄 PDF-Anhang (ausdruckbar)</span>
+                                        <span className="text-sm font-medium text-slate-700">📄 PDF-Anhang (ausdruckbar)</span>
                                     </label>
                                 </div>
-                                <p className="text-sm text-gray-500 mt-2">
+                                <p className="text-xs text-slate-500">
                                     {bankDetails.sendVoucherAsPDF
-                                        ? "Gutscheine werden als PDF-Datei im E-Mail-Anhang versendet (ausdruckbar)"
-                                        : "Gutscheine werden als schöne HTML-E-Mail versendet (interaktiv)"
+                                        ? "Gutscheine werden als PDF-Datei im E-Mail-Anhang versendet"
+                                        : "Gutscheine werden als schöne HTML-E-Mail versendet"
                                     }
                                 </p>
                             </div>
                         </div>
 
-                        <div className="flex justify-end mt-6">
+                        <div className="flex justify-end space-x-3">
+                            <button
+                                onClick={() => setShowBankSettings(false)}
+                                className="px-6 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
+                            >
+                                Abbrechen
+                            </button>
                             <button
                                 onClick={saveBankDetails}
                                 disabled={savingBankDetails}
-                                className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400"
+                                className="inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg shadow-green-500/25 disabled:opacity-50"
                             >
                                 {savingBankDetails ? (
-                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                                 ) : (
-                                    <Save className="w-4 h-4" />
+                                    <Save className="w-4 h-4 mr-2" />
                                 )}
                                 Speichern
                             </button>
@@ -401,154 +463,199 @@ export default function AdminDashboard() {
                     </div>
                 )}
 
-                {/* Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-white p-6 rounded-xl shadow-sm">
-                        <div className="flex items-center">
-                            <CreditCard className="w-8 h-8 text-blue-500" />
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-500">Gesamt Vouchers</p>
-                                <p className="text-2xl font-light text-gray-900">{stats.total}</p>
+                {/* Error Message */}
+                {error && (
+                    <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-center space-x-3">
+                        <AlertTriangle className="w-5 h-5 text-red-500" />
+                        <span>{error}</span>
+                    </div>
+                )}
+
+                {/* Enhanced Stats Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div className="bg-white/90 backdrop-blur-xl p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Gesamt</p>
+                                <p className="text-3xl font-bold text-slate-900 mt-1">{stats.total}</p>
+                                <p className="text-sm text-slate-600 mt-1">Gutscheine</p>
+                            </div>
+                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
+                                <Gift className="w-6 h-6 text-white" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white p-6 rounded-xl shadow-sm">
-                        <div className="flex items-center">
-                            <CheckCircle className="w-8 h-8 text-green-500" />
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-500">Bezahlt</p>
-                                <p className="text-2xl font-light text-gray-900">
-                                    {stats.paid}
-                                </p>
+
+                    <div className="bg-white/90 backdrop-blur-xl p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Bezahlt</p>
+                                <p className="text-3xl font-bold text-slate-900 mt-1">{stats.paid}</p>
+                                <p className="text-sm text-slate-600 mt-1">Aktive Gutscheine</p>
+                            </div>
+                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl">
+                                <CheckCircle className="w-6 h-6 text-white" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white p-6 rounded-xl shadow-sm">
-                        <div className="flex items-center">
-                            <Clock className="w-8 h-8 text-yellow-500" />
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-500">Ausstehend</p>
-                                <p className="text-2xl font-light text-gray-900">
-                                    {stats.pending}
-                                </p>
+
+                    <div className="bg-white/90 backdrop-blur-xl p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Ausstehend</p>
+                                <p className="text-3xl font-bold text-slate-900 mt-1">{stats.pending}</p>
+                                <p className="text-sm text-slate-600 mt-1">Zu bearbeiten</p>
+                            </div>
+                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl">
+                                <Clock className="w-6 h-6 text-white" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white p-6 rounded-xl shadow-sm">
-                        <div className="flex items-center">
-                            <Banknote className="w-8 h-8 text-green-500" />
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-500">Gesamtwert</p>
-                                <p className="text-2xl font-light text-gray-900">
-                                    €{stats.revenue.toFixed(0)}
-                                </p>
+
+                    <div className="bg-white/90 backdrop-blur-xl p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Umsatz</p>
+                                <p className="text-3xl font-bold text-slate-900 mt-1">€{stats.revenue.toLocaleString()}</p>
+                                <p className="text-sm text-slate-600 mt-1">Gesamtwert</p>
+                            </div>
+                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl">
+                                <Euro className="w-6 h-6 text-white" />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Error Message */}
-                {error && (
-                    <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
-                        {error}
-                    </div>
-                )}
+                {/* Enhanced Vouchers Table */}
+                <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+                    {/* Table Header */}
+                    <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/50">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                            <div>
+                                <h2 className="text-xl font-bold text-slate-900">Gutschein-Übersicht</h2>
+                                <p className="text-sm text-slate-500 mt-1">{filteredVouchers.length} von {vouchers.length} Gutscheinen</p>
+                            </div>
 
-                {/* Vouchers Table */}
-                <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-200">
-                        <h2 className="text-lg font-medium text-gray-900">Voucher Übersicht</h2>
+                            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                                {/* Search */}
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                    <input
+                                        type="text"
+                                        placeholder="Suchen..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                    />
+                                </div>
+
+                                {/* Status Filter */}
+                                <select
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    className="px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                >
+                                    <option value="all">Alle Status</option>
+                                    <option value="pending">Ausstehend</option>
+                                    <option value="paid">Bezahlt</option>
+                                    <option value="cancelled">Storniert</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
+                    {/* Table Content */}
                     <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                        <table className="min-w-full divide-y divide-slate-200">
+                            <thead className="bg-slate-50/50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Code
+                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        Gutschein
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                         Käufer
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                         Betrag
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                         Status
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                         Erstellt
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Gültig bis
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                         Aktionen
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {vouchers.map((voucher) => (
-                                    <tr key={voucher.id} className="hover:bg-gray-50">
+                            <tbody className="bg-white divide-y divide-slate-100">
+                                {filteredVouchers.map((voucher) => (
+                                    <tr key={voucher.id} className="hover:bg-slate-50/50 transition-colors">
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center">
-                                                <Gift className="w-4 h-4 text-gray-400 mr-2" />
-                                                <span className="text-sm font-medium text-gray-900">
-                                                    {voucher.code}
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center">
-                                                <User className="w-4 h-4 text-gray-400 mr-2" />
+                                            <div className="flex items-center space-x-3">
+                                                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
+                                                    <Gift className="w-4 h-4 text-blue-600" />
+                                                </div>
                                                 <div>
-                                                    <div className="text-sm font-medium text-gray-900">
-                                                        {voucher.sender_name}
+                                                    <div className="text-sm font-semibold text-slate-900">
+                                                        {voucher.code}
                                                     </div>
-                                                    <div className="text-sm text-gray-500">
-                                                        {voucher.sender_email}
+                                                    <div className="text-xs text-slate-500">
+                                                        {voucher.payment_reference || voucher.id.slice(0, 8)}
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm font-medium text-gray-900">
+                                            <div className="flex items-center space-x-3">
+                                                <div className="flex items-center justify-center w-8 h-8 bg-slate-100 rounded-lg">
+                                                    <User className="w-4 h-4 text-slate-600" />
+                                                </div>
+                                                <div>
+                                                    <div className="text-sm font-medium text-slate-900">
+                                                        {voucher.sender_name}
+                                                    </div>
+                                                    <div className="text-xs text-slate-500 flex items-center space-x-1">
+                                                        <Mail className="w-3 h-3" />
+                                                        <span>{voucher.sender_email}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-lg font-bold text-slate-900">
                                                 €{Number(voucher.amount).toFixed(0)}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center gap-2">
+                                            <div className="flex items-center space-x-2">
                                                 {getStatusIcon(voucher.payment_status)}
-                                                <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusBadge(voucher.payment_status)}`}>
+                                                <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full border ${getStatusBadge(voucher.payment_status)}`}>
                                                     {voucher.payment_status}
                                                 </span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center text-sm text-gray-500">
-                                                <Calendar className="w-4 h-4 mr-2" />
-                                                {new Date(voucher.created_at).toLocaleDateString('de-DE')}
+                                            <div className="flex items-center space-x-2 text-sm text-slate-500">
+                                                <Calendar className="w-4 h-4" />
+                                                <span>{new Date(voucher.created_at).toLocaleDateString('de-DE')}</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center text-sm text-gray-500">
-                                                <Calendar className="w-4 h-4 mr-2" />
-                                                {voucher.expires_at ? new Date(voucher.expires_at).toLocaleDateString('de-DE') : 'Nicht gesetzt'}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center gap-2">
+                                            <div className="flex items-center space-x-3">
                                                 {voucher.payment_status === 'pending' && (
                                                     <button
                                                         onClick={() => updateVoucherStatus(voucher.id, 'paid')}
-                                                        className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded hover:bg-green-200 transition-colors"
+                                                        className="inline-flex items-center px-3 py-1 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors"
                                                     >
+                                                        <CheckCircle className="w-3 h-3 mr-1" />
                                                         Als bezahlt markieren
                                                     </button>
                                                 )}
                                                 <a
                                                     href={`/admin/orders/${voucher.id}`}
-                                                    className="text-gray-400 hover:text-gray-600"
+                                                    className="inline-flex items-center justify-center w-8 h-8 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
                                                     title="Details anzeigen"
                                                 >
                                                     <Eye className="w-4 h-4" />
@@ -561,11 +668,21 @@ export default function AdminDashboard() {
                         </table>
                     </div>
 
-                    {vouchers.length === 0 && !loading && (
-                        <div className="text-center py-12">
-                            <Gift className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">Keine Vouchers gefunden</h3>
-                            <p className="text-gray-500">Es wurden noch keine Vouchers erstellt.</p>
+                    {/* Empty State */}
+                    {filteredVouchers.length === 0 && !loading && (
+                        <div className="text-center py-16">
+                            <div className="flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl mx-auto mb-4">
+                                <Gift className="w-8 h-8 text-slate-400" />
+                            </div>
+                            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                                {searchTerm || statusFilter !== 'all' ? 'Keine Ergebnisse gefunden' : 'Keine Gutscheine vorhanden'}
+                            </h3>
+                            <p className="text-slate-500 max-w-sm mx-auto">
+                                {searchTerm || statusFilter !== 'all'
+                                    ? 'Versuchen Sie andere Suchbegriffe oder Filter.'
+                                    : 'Es wurden noch keine Gutscheine erstellt.'
+                                }
+                            </p>
                         </div>
                     )}
                 </div>

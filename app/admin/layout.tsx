@@ -1,20 +1,26 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-    title: "Skinlux Admin - Dashboard",
-    description: "Administrationsbereich für Skinlux Gutschein-Verwaltung",
-    robots: "noindex, nofollow", // Admin-Bereich soll nicht indexiert werden
-};
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export default function AdminLayout({
     children,
-}: Readonly<{
+}: {
     children: React.ReactNode;
-}>) {
+}) {
     return (
-        <div className="bg-gray-50">
-            {/* Admin-spezifisches Layout ohne Website-Navigation */}
-            {children}
-        </div>
+        <html lang="de" className={inter.className}>
+            <head>
+                <title>Skinlux Admin</title>
+                <meta name="description" content="Skinlux Admin Dashboard" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </head>
+            <body className="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+                <div className="min-h-screen">
+                    {children}
+                </div>
+            </body>
+        </html>
     );
 } 

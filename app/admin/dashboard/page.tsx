@@ -19,7 +19,10 @@ import {
     RefreshCw,
     BarChart3,
     Euro,
-    Mail
+    Mail,
+    Plus,
+    MapPin,
+    MessageSquare
 } from "lucide-react";
 import { AdminAuth, AdminVouchers, type AdminAccess } from "@/lib/supabase-auth";
 import { Voucher } from "@/lib/supabase";
@@ -57,6 +60,25 @@ export default function AdminDashboard() {
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [refreshing, setRefreshing] = useState(false);
+
+    // Gutschein-Verkauf States
+    const [showVoucherForm, setShowVoucherForm] = useState(false);
+    const [creatingVoucher, setCreatingVoucher] = useState(false);
+    const [voucherForm, setVoucherForm] = useState({
+        amount: "",
+        senderName: "",
+        senderEmail: "",
+        senderPhone: "",
+        recipientName: "",
+        recipientEmail: "",
+        recipientPhone: "",
+        recipientAddress: "",
+        recipientPostalCode: "",
+        recipientCity: "",
+        message: "",
+        deliveryMethod: "email",
+        paymentMethod: "cash"
+    });
 
     // Auth-Check und Daten laden
     useEffect(() => {
@@ -221,6 +243,84 @@ export default function AdminDashboard() {
         }
     };
 
+    const handleCreateVoucher = async () => {
+        try {
+            setCreatingVoucher(true);
+            setError("");
+
+            // Validierung
+            if (!voucherForm.amount || !voucherForm.senderName || !voucherForm.senderEmail) {
+                throw new Error("Bitte füllen Sie alle Pflichtfelder aus");
+            }
+
+            const amount = parseFloat(voucherForm.amount);
+            if (amount < 10 || amount > 1000) {
+                throw new Error("Gutscheinwert muss zwischen €10 und €1000 liegen");
+            }
+
+            // API-Aufruf zum Erstellen des Gutscheins
+            const response = await fetch('/api/vouchers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                    sender_name: voucherForm.senderName,
+                    sender_email: voucherForm.senderEmail,
+                    sender_phone: voucherForm.senderPhone || null,
+                    recipient_name: voucherForm.recipientName || null,
+                    recipient_email: voucherForm.recipientEmail || null,
+                    recipient_phone: voucherForm.recipientPhone || null,
+                    recipient_address: voucherForm.recipientAddress || null,
+                    recipient_postal_code: voucherForm.recipientPostalCode || null,
+                    recipient_city: voucherForm.recipientCity || null,
+                    message: voucherForm.message || null,
+                    delivery_method: voucherForm.deliveryMethod,
+                    payment_method: voucherForm.paymentMethod,
+                    payment_status: voucherForm.paymentMethod === 'cash' ? 'paid' : 'pending',
+                    admin_created: true
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Fehler beim Erstellen des Gutscheins');
+            }
+
+            const result = await response.json();
+
+            if (!result.success) {
+                throw new Error(result.error || 'Fehler beim Erstellen des Gutscheins');
+            }
+
+            // Formular zurücksetzen
+            setVoucherForm({
+                amount: "",
+                senderName: "",
+                senderEmail: "",
+                senderPhone: "",
+                recipientName: "",
+                recipientEmail: "",
+                recipientPhone: "",
+                recipientAddress: "",
+                recipientPostalCode: "",
+                recipientCity: "",
+                message: "",
+                deliveryMethod: "email",
+                paymentMethod: "cash"
+            });
+
+            setShowVoucherForm(false);
+            await loadVouchers(); // Gutscheine neu laden
+
+        } catch (error) {
+            setError(error instanceof Error ? error.message : 'Unbekannter Fehler');
+        } finally {
+            setCreatingVoucher(false);
+        }
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
@@ -274,6 +374,14 @@ export default function AdminDashboard() {
                             >
                                 <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
                                 Aktualisieren
+                            </button>
+
+                            <button
+                                onClick={() => setShowVoucherForm(true)}
+                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg shadow-green-500/25"
+                            >
+                                <Plus className="w-4 h-4 mr-2" />
+                                Gutschein verkaufen
                             </button>
 
                             <button
@@ -458,6 +566,283 @@ export default function AdminDashboard() {
                                     <Save className="w-4 h-4 mr-2" />
                                 )}
                                 Speichern
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Gutschein-Verkauf Modal */}
+                {showVoucherForm && (
+                    <div className="mb-8 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 p-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center space-x-3">
+                                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-xl">
+                                    <Gift className="w-5 h-5 text-white" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-slate-900">Neuen Gutschein verkaufen</h2>
+                                    <p className="text-sm text-slate-500">Erstellen Sie einen Gutschein für einen Kunden</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setShowVoucherForm(false)}
+                                className="text-slate-400 hover:text-slate-600 transition-colors"
+                            >
+                                <XCircle className="w-6 h-6" />
+                            </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            {/* Linke Spalte - Käufer */}
+                            <div className="space-y-6">
+                                <div>
+                                    <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
+                                        <User className="w-5 h-5 mr-2 text-blue-600" />
+                                        Käufer-Informationen
+                                    </h3>
+
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                Name *
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={voucherForm.senderName}
+                                                onChange={(e) => setVoucherForm(prev => ({ ...prev, senderName: e.target.value }))}
+                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                placeholder="Vor- und Nachname"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                E-Mail *
+                                            </label>
+                                            <input
+                                                type="email"
+                                                value={voucherForm.senderEmail}
+                                                onChange={(e) => setVoucherForm(prev => ({ ...prev, senderEmail: e.target.value }))}
+                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                placeholder="kunde@email.com"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                Telefon
+                                            </label>
+                                            <input
+                                                type="tel"
+                                                value={voucherForm.senderPhone}
+                                                onChange={(e) => setVoucherForm(prev => ({ ...prev, senderPhone: e.target.value }))}
+                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                placeholder="+43 123 456 789"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                Gutscheinwert *
+                                            </label>
+                                            <div className="relative">
+                                                <Euro className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                                <input
+                                                    type="number"
+                                                    value={voucherForm.amount}
+                                                    onChange={(e) => setVoucherForm(prev => ({ ...prev, amount: e.target.value }))}
+                                                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                    placeholder="50"
+                                                    min="10"
+                                                    max="1000"
+                                                    required
+                                                />
+                                            </div>
+                                            <p className="text-xs text-slate-500 mt-1">Zwischen €10 und €1000</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
+                                        <Settings className="w-5 h-5 mr-2 text-purple-600" />
+                                        Zahlungs- & Versandart
+                                    </h3>
+
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                Zahlungsart
+                                            </label>
+                                            <select
+                                                value={voucherForm.paymentMethod}
+                                                onChange={(e) => setVoucherForm(prev => ({ ...prev, paymentMethod: e.target.value }))}
+                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                            >
+                                                <option value="cash">💰 Barzahlung (sofort bezahlt)</option>
+                                                <option value="card">💳 Kartenzahlung (sofort bezahlt)</option>
+                                                <option value="transfer">🏦 Überweisung (ausstehend)</option>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                Versandart
+                                            </label>
+                                            <select
+                                                value={voucherForm.deliveryMethod}
+                                                onChange={(e) => setVoucherForm(prev => ({ ...prev, deliveryMethod: e.target.value }))}
+                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                            >
+                                                <option value="email">📧 E-Mail (kostenlos)</option>
+                                                <option value="print">🖨️ Ausdrucken (vor Ort)</option>
+                                                <option value="post">📮 Post (gegen Aufpreis)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Rechte Spalte - Empfänger & Nachricht */}
+                            <div className="space-y-6">
+                                <div>
+                                    <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
+                                        <Gift className="w-5 h-5 mr-2 text-green-600" />
+                                        Empfänger (optional für Geschenk)
+                                    </h3>
+
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                Name des Beschenkten
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={voucherForm.recipientName}
+                                                onChange={(e) => setVoucherForm(prev => ({ ...prev, recipientName: e.target.value }))}
+                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                placeholder="Name des Empfängers"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                E-Mail des Empfängers
+                                            </label>
+                                            <input
+                                                type="email"
+                                                value={voucherForm.recipientEmail}
+                                                onChange={(e) => setVoucherForm(prev => ({ ...prev, recipientEmail: e.target.value }))}
+                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                placeholder="empfaenger@email.com"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                Telefon des Empfängers
+                                            </label>
+                                            <input
+                                                type="tel"
+                                                value={voucherForm.recipientPhone}
+                                                onChange={(e) => setVoucherForm(prev => ({ ...prev, recipientPhone: e.target.value }))}
+                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                placeholder="+43 123 456 789"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {voucherForm.deliveryMethod === 'post' && (
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
+                                            <MapPin className="w-5 h-5 mr-2 text-red-600" />
+                                            Postadresse
+                                        </h3>
+
+                                        <div className="space-y-4">
+                                            <div>
+                                                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                    Adresse
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={voucherForm.recipientAddress}
+                                                    onChange={(e) => setVoucherForm(prev => ({ ...prev, recipientAddress: e.target.value }))}
+                                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                    placeholder="Straße und Hausnummer"
+                                                />
+                                            </div>
+
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                        PLZ
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        value={voucherForm.recipientPostalCode}
+                                                        onChange={(e) => setVoucherForm(prev => ({ ...prev, recipientPostalCode: e.target.value }))}
+                                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                        placeholder="5500"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                                        Stadt
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        value={voucherForm.recipientCity}
+                                                        onChange={(e) => setVoucherForm(prev => ({ ...prev, recipientCity: e.target.value }))}
+                                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                                        placeholder="Bischofshofen"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div>
+                                    <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
+                                        <MessageSquare className="w-5 h-5 mr-2 text-purple-600" />
+                                        Persönliche Nachricht
+                                    </h3>
+
+                                    <textarea
+                                        value={voucherForm.message}
+                                        onChange={(e) => setVoucherForm(prev => ({ ...prev, message: e.target.value }))}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                                        rows={4}
+                                        placeholder="Herzlichen Glückwunsch! Genieße deine Auszeit bei Skinlux..."
+                                    />
+                                    <p className="text-xs text-slate-500 mt-1">Diese Nachricht wird auf dem Gutschein angezeigt</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-slate-200">
+                            <button
+                                onClick={() => setShowVoucherForm(false)}
+                                className="px-6 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
+                            >
+                                Abbrechen
+                            </button>
+                            <button
+                                onClick={handleCreateVoucher}
+                                disabled={creatingVoucher || !voucherForm.amount || !voucherForm.senderName || !voucherForm.senderEmail}
+                                className="inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg shadow-green-500/25 disabled:opacity-50"
+                            >
+                                {creatingVoucher ? (
+                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                ) : (
+                                    <Gift className="w-4 h-4 mr-2" />
+                                )}
+                                {creatingVoucher ? "Erstelle Gutschein..." : "Gutschein erstellen"}
                             </button>
                         </div>
                     </div>

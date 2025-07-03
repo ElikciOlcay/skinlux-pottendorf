@@ -53,22 +53,34 @@ const Footer = () => {
                         </h4>
                         <nav className="space-y-2 mb-6">
                             <Link
-                                href="#treatments"
+                                href="/behandlungen/laser-haarentfernung"
                                 className="block font-light text-gray-600 hover:text-black transition-colors"
                             >
-                                Behandlungen
+                                Laser Haarentfernung
                             </Link>
                             <Link
-                                href="#about"
+                                href="/behandlungen/hydra-facial"
+                                className="block font-light text-gray-600 hover:text-black transition-colors"
+                            >
+                                HydraFacial®
+                            </Link>
+                            <Link
+                                href="/ueber-uns"
                                 className="block font-light text-gray-600 hover:text-black transition-colors"
                             >
                                 Über uns
                             </Link>
                             <Link
-                                href="#contact"
+                                href="/kontakt"
                                 className="block font-light text-gray-600 hover:text-black transition-colors"
                             >
                                 Kontakt
+                            </Link>
+                            <Link
+                                href="/gutscheine"
+                                className="block font-light text-gray-600 hover:text-black transition-colors"
+                            >
+                                Gutscheine
                             </Link>
                             <a
                                 href="https://instagram.com/skinlux"
@@ -112,13 +124,15 @@ const Footer = () => {
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-light text-gray-500">
                         {/* Logo */}
                         <div className="flex items-center">
-                            <Image
-                                src="/images/logo/skinlux-logo.png"
-                                alt="SKINLUX"
-                                width={100}
-                                height={32}
-                                className="h-6 w-auto"
-                            />
+                            <Link href="/">
+                                <Image
+                                    src="/images/logo/skinlux-logo.png"
+                                    alt="SKINLUX"
+                                    width={100}
+                                    height={32}
+                                    className="h-6 w-auto hover:opacity-80 transition-opacity cursor-pointer"
+                                />
+                            </Link>
                         </div>
 
                         {/* Copyright */}

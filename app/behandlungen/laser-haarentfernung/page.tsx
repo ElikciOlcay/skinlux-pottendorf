@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Zap, Check, Clock, Shield, Heart, Star, TrendingUp, Users, Award } from "lucide-react";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
 export default function LaserHaarentfernung() {
     const containerRef = useRef<HTMLDivElement>(null);

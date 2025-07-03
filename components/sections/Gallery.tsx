@@ -4,32 +4,32 @@ import Image from "next/image";
 
 const galleryImages = [
     {
-        src: "/images/gallery/treatment-1.jpg", // BILD 1
-        alt: "Laser Behandlung",
+        src: "/images/gallery/treatment-laser.jpg", // ✅ Vorhanden
+        alt: "Laser Haarentfernung",
         category: "Behandlung"
     },
     {
-        src: "/images/gallery/studio-1.jpg", // BILD 2
-        alt: "Studio Ambiente",
+        src: "/images/gallery/treatment-hydrafacial.jpg", // ✅ Vorhanden
+        alt: "HydraFacial® Behandlung",
+        category: "Behandlung"
+    },
+    {
+        src: "/images/gallery/studio-room.jpg", // ❌ Platzhalter - bitte hochladen
+        alt: "Behandlungsraum",
         category: "Studio"
     },
     {
-        src: "/images/gallery/treatment-2.jpg", // BILD 3
-        alt: "HydraFacial®",
-        category: "Behandlung"
-    },
-    {
-        src: "/images/gallery/studio-2.jpg", // BILD 4
+        src: "/images/gallery/studio-reception.jpg", // ❌ Platzhalter - bitte hochladen
         alt: "Empfangsbereich",
         category: "Studio"
     },
     {
-        src: "/images/gallery/treatment-3.jpg", // BILD 5
+        src: "/images/gallery/treatment-analysis.jpg", // ❌ Platzhalter - bitte hochladen
         alt: "Hautanalyse",
         category: "Behandlung"
     },
     {
-        src: "/images/gallery/team-1.jpg", // BILD 6
+        src: "/images/about-team.jpg", // ✅ Vorhanden (Alternative für Team-Bild)
         alt: "Unser Team",
         category: "Team"
     }
@@ -68,6 +68,11 @@ export default function Gallery() {
                                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 50vw, 33vw"
                                 priority={index < 3} // Prioritize first 3 images
+                                onError={(e) => {
+                                    // Fallback für fehlende Bilder
+                                    const target = e.target as HTMLImageElement;
+                                    target.src = '/images/about-team.jpg';
+                                }}
                             />
 
                             {/* Hover Overlay */}

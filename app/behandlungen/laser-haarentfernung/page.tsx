@@ -162,43 +162,25 @@ export default function LaserHaarentfernung() {
                                     Preise ansehen
                                 </Link>
                             </div>
-
-                            {/* Urgency */}
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.3 }}
-                                className="mt-4 md:mt-6 text-xs md:text-sm text-gray-600 font-light"
-                            >
-                                <span className="inline-block w-1.5 h-1.5 md:w-2 md:h-2 bg-green-500 rounded-full mr-2"></span>
-                                Heute noch 3 Termine verfügbar
-                            </motion.p>
                         </motion.div>
 
-                        {/* Right Content - Video/Image */}
+                        {/* Right Content - Video */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.5 }}
                             className="relative"
                         >
-                            <div
-                                className="relative aspect-[4/5] bg-gray-100 cursor-pointer group overflow-hidden"
-                                onClick={() => setIsVideoModalOpen(true)}
-                            >
-                                {/* Decorative Frame */}
-                                <div className="absolute -inset-2 md:-inset-4 border-2 border-secondary opacity-20" />
-
-                                {/* Play Button Overlay */}
-                                <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/30 transition-colors">
-                                    <motion.div
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="w-16 h-16 md:w-24 md:h-24 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-2xl"
-                                    >
-                                        <Play className="w-6 h-6 md:w-10 md:h-10 ml-1 md:ml-2" style={{ color: 'var(--color-secondary)' }} />
-                                    </motion.div>
-                                </div>
+                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg">
+                                <video
+                                    src="/videos/laser-hero.mp4"
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                    className="w-full h-full object-cover"
+                                    poster="/images/gallery/treatment-laser.jpg"
+                                />
                             </div>
                         </motion.div>
                     </div>
@@ -618,7 +600,7 @@ export default function LaserHaarentfernung() {
                                     className="mb-8"
                                 >
                                     <Award className="w-16 h-16 mx-auto mb-6" style={{ color: 'var(--color-secondary)' }} />
-                                    <h2 className="text-4xl md:text-5xl font-light mb-6">
+                                    <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: '#fff' }}>
                                         Starten Sie Ihre Reise zu<br />
                                         <span style={{ color: 'var(--color-secondary)' }}>dauerhafter Haarfreiheit</span>
                                     </h2>
@@ -628,32 +610,11 @@ export default function LaserHaarentfernung() {
                                     </p>
                                 </motion.div>
 
-                                {/* Special Offer */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.6, delay: 0.4 }}
-                                    className="inline-block mb-10"
-                                >
-                                    <div className="bg-white/10 backdrop-blur-sm px-8 py-4 border border-white/20">
-                                        <p className="text-sm font-light tracking-[0.3em] uppercase mb-2">
-                                            Exklusives Angebot
-                                        </p>
-                                        <p className="text-2xl font-light">
-                                            <span style={{ color: 'var(--color-secondary)' }}>Kostenlose</span> Erstberatung + Hautanalyse
-                                        </p>
-                                        <p className="text-sm font-light mt-2 text-gray-400">
-                                            Im Wert von € 49
-                                        </p>
-                                    </div>
-                                </motion.div>
-
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.6, delay: 0.6 }}
                                     className="space-y-4"
                                 >
                                     <a
@@ -673,27 +634,6 @@ export default function LaserHaarentfernung() {
                     </motion.div>
                 </div>
             </section>
-
-            {/* Video Modal */}
-            {isVideoModalOpen && (
-                <div
-                    className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-                    onClick={() => setIsVideoModalOpen(false)}
-                >
-                    <div className="relative max-w-4xl w-full aspect-video bg-black">
-                        <button
-                            className="absolute -top-12 right-0 text-white hover:text-gray-300"
-                            onClick={() => setIsVideoModalOpen(false)}
-                        >
-                            <X className="w-8 h-8" />
-                        </button>
-                        {/* Video würde hier eingefügt werden */}
-                        <div className="absolute inset-0 flex items-center justify-center text-white">
-                            <p>Video Placeholder</p>
-                        </div>
-                    </div>
-                </div>
-            )}
         </main>
     );
 } 

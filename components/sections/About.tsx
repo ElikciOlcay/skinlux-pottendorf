@@ -34,7 +34,7 @@ export default function About() {
 
                         <div className="space-y-4 md:space-y-6 text-gray-600 font-light leading-relaxed text-sm md:text-base">
                             <p>
-                                Skinlux steht seit über 15 Jahren für professionelle
+                                Skinlux steht seit über 5 Jahren für professionelle
                                 Laser-Haarentfernung und innovative Kosmetikbehandlungen
                                 in Bischofshofen.
                             </p>

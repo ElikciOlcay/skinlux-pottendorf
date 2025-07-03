@@ -2,11 +2,10 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Zap, Check, Clock, Shield, Heart, Play, X, Star, TrendingUp, Users, Award } from "lucide-react";
+import { ArrowLeft, Zap, Check, Clock, Shield, Heart, Star, TrendingUp, Users, Award } from "lucide-react";
 import { useState, useRef } from "react";
 
 export default function LaserHaarentfernung() {
-    const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,

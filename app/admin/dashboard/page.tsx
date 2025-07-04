@@ -35,6 +35,15 @@ interface BankDetails {
     reference: string;
     voucherValidityMonths: number;
     sendVoucherAsPDF: boolean;
+    // Address fields for vouchers and emails
+    businessName: string;
+    streetAddress: string;
+    postalCode: string;
+    city: string;
+    country: string;
+    phone?: string;
+    email: string;
+    website: string;
 }
 
 export default function AdminDashboard() {
@@ -52,7 +61,16 @@ export default function AdminDashboard() {
         bic: '',
         reference: 'Gutschein-Bestellung',
         voucherValidityMonths: 12,
-        sendVoucherAsPDF: false
+        sendVoucherAsPDF: false,
+        // Default address values
+        businessName: 'Skinlux Bischofshofen',
+        streetAddress: 'Salzburger Straße 45',
+        postalCode: '5500',
+        city: 'Bischofshofen',
+        country: 'Österreich',
+        phone: '+43 123 456 789',
+        email: 'hello@skinlux.at',
+        website: 'skinlux.at'
     });
     const [savingBankDetails, setSavingBankDetails] = useState(false);
 
@@ -211,7 +229,16 @@ export default function AdminDashboard() {
                 bic: 'SPALAT2G',
                 reference: 'Gutschein-Bestellung',
                 voucherValidityMonths: 12,
-                sendVoucherAsPDF: false
+                sendVoucherAsPDF: false,
+                // Default address values
+                businessName: 'Skinlux Bischofshofen',
+                streetAddress: 'Salzburger Straße 45',
+                postalCode: '5500',
+                city: 'Bischofshofen',
+                country: 'Österreich',
+                phone: '+43 123 456 789',
+                email: 'hello@skinlux.at',
+                website: 'skinlux.at'
             });
         }
     };
@@ -512,7 +539,129 @@ export default function AdminDashboard() {
                                     <option value={36}>36 Monate</option>
                                 </select>
                             </div>
+                        </div>
 
+                        {/* Adress-Sektion */}
+                        <div className="mb-8">
+                            <div className="flex items-center space-x-3 mb-6">
+                                <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg">
+                                    <MapPin className="w-4 h-4 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-semibold text-slate-900">Geschäftsadresse</h3>
+                                    <p className="text-sm text-slate-500">Wird auf Gutscheinen und in E-Mails angezeigt</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-semibold text-slate-700">
+                                        Firmenname
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={bankDetails.businessName}
+                                        onChange={(e) => setBankDetails(prev => ({ ...prev, businessName: e.target.value }))}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                                        placeholder="z.B. Skinlux Bischofshofen"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-semibold text-slate-700">
+                                        Straße & Hausnummer
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={bankDetails.streetAddress}
+                                        onChange={(e) => setBankDetails(prev => ({ ...prev, streetAddress: e.target.value }))}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                                        placeholder="z.B. Salzburger Straße 45"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-semibold text-slate-700">
+                                        Postleitzahl
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={bankDetails.postalCode}
+                                        onChange={(e) => setBankDetails(prev => ({ ...prev, postalCode: e.target.value }))}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                                        placeholder="z.B. 5500"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-semibold text-slate-700">
+                                        Stadt
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={bankDetails.city}
+                                        onChange={(e) => setBankDetails(prev => ({ ...prev, city: e.target.value }))}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                                        placeholder="z.B. Bischofshofen"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-semibold text-slate-700">
+                                        Land
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={bankDetails.country}
+                                        onChange={(e) => setBankDetails(prev => ({ ...prev, country: e.target.value }))}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                                        placeholder="z.B. Österreich"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-semibold text-slate-700">
+                                        Telefon
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={bankDetails.phone || ''}
+                                        onChange={(e) => setBankDetails(prev => ({ ...prev, phone: e.target.value }))}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                                        placeholder="z.B. +43 123 456 789"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-semibold text-slate-700">
+                                        E-Mail Adresse
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={bankDetails.email}
+                                        onChange={(e) => setBankDetails(prev => ({ ...prev, email: e.target.value }))}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                                        placeholder="z.B. hello@skinlux.at"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-semibold text-slate-700">
+                                        Website
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={bankDetails.website}
+                                        onChange={(e) => setBankDetails(prev => ({ ...prev, website: e.target.value }))}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                                        placeholder="z.B. skinlux.at"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Gutschein-Einstellungen */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div className="md:col-span-2 space-y-3">
                                 <label className="block text-sm font-semibold text-slate-700">
                                     E-Mail-Gutschein Format

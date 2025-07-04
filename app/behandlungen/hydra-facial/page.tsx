@@ -605,89 +605,109 @@ export default function HydraFacial() {
                         <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
                             HydraFacial® <span style={{ color: '#00A9D9' }}>Booster</span>
                         </h2>
+                        <p className="text-lg text-gray-600 font-light max-w-3xl mx-auto">
+                            Personalisieren Sie Ihre HydraFacial®-Behandlung mit speziellen Booster-Seren
+                        </p>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                        {[
-                            {
-                                name: "Vitamin C Brightening",
-                                description: "Aufhellend und antioxidativ für strahlende Haut",
-                                price: "+ € 25",
-                                ideal: "Für müde, stumpfe Haut",
-                                icon: Sparkles
-                            },
-                            {
-                                name: "Growth Factor",
-                                description: "Anti-Aging und regenerierend für reife Haut",
-                                price: "+ € 35",
-                                ideal: "Für reife Haut",
-                                popular: true,
-                                icon: Heart
-                            },
-                            {
-                                name: "Clarifying",
-                                description: "Klärend bei unreiner und fettiger Haut",
-                                price: "+ € 30",
-                                ideal: "Für ölige, unreine Haut",
-                                icon: Shield
-                            },
-                            {
-                                name: "Hydrating",
-                                description: "Intensive Feuchtigkeitsversorgung",
-                                price: "+ € 20",
-                                ideal: "Für trockene Haut",
-                                icon: Droplets
-                            }
-                        ].map((booster, index) => (
-                            <motion.div
-                                key={booster.name}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className={`p-8 border transition-colors ${booster.popular
-                                    ? 'border-blue-300 bg-blue-50'
-                                    : 'border-gray-100 hover:border-blue-300'
-                                    }`}
-                            >
-                                {booster.popular && (
-                                    <div className="text-center mb-4">
-                                        <span className="bg-blue-500 text-white px-3 py-1 text-xs font-light tracking-wider uppercase">
-                                            Beliebt
-                                        </span>
-                                    </div>
-                                )}
+                    <div className="max-w-4xl mx-auto">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="p-8 border border-gray-100 hover:border-blue-300 transition-colors bg-gray-50"
+                        >
+                            <div className="text-center mb-8">
+                                <div
+                                    className="w-16 h-16 mx-auto mb-4 flex items-center justify-center"
+                                    style={{ backgroundColor: 'rgba(0, 169, 217, 0.1)' }}
+                                >
+                                    <Sparkles className="w-8 h-8" style={{ color: '#00A9D9' }} />
+                                </div>
+                                <h3 className="text-2xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                    Was sind HydraFacial® Booster?
+                                </h3>
+                            </div>
 
-                                <div className="flex items-start justify-between mb-6">
-                                    <div>
-                                        <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
-                                            {booster.name}
-                                        </h3>
-                                        <p className="text-gray-600 font-light mb-4">
-                                            {booster.description}
-                                        </p>
-                                    </div>
-                                    <div
-                                        className="w-12 h-12 flex-shrink-0 flex items-center justify-center ml-4"
-                                        style={{ backgroundColor: 'rgba(0, 169, 217, 0.1)' }}
-                                    >
-                                        <booster.icon
-                                            className="w-6 h-6"
-                                            style={{ color: '#00A9D9' }}
-                                        />
+                            <div className="grid md:grid-cols-2 gap-8 items-start">
+                                <div>
+                                    <p className="text-gray-600 font-light mb-6 leading-relaxed">
+                                        Booster sind hochkonzentrierte Wirkstoffe, die während der HydraFacial®-Behandlung
+                                        gezielt in Ihre Haut eingeschleust werden. Sie ermöglichen es uns, die Behandlung
+                                        perfekt auf Ihre individuellen Hautbedürfnisse abzustimmen.
+                                    </p>
+
+                                    <div className="space-y-4">
+                                        <div className="flex items-start gap-3">
+                                            <Check className="w-5 h-5 mt-0.5" style={{ color: '#00A9D9' }} />
+                                            <div>
+                                                <h4 className="font-light text-gray-900 mb-1">Gezielt wirksam</h4>
+                                                <p className="text-sm text-gray-600 font-light">
+                                                    Jeder Booster adressiert spezifische Hautprobleme
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-start gap-3">
+                                            <Check className="w-5 h-5 mt-0.5" style={{ color: '#00A9D9' }} />
+                                            <div>
+                                                <h4 className="font-light text-gray-900 mb-1">Individuelle Beratung</h4>
+                                                <p className="text-sm text-gray-600 font-light">
+                                                    Wir wählen den optimalen Booster für Ihre Haut aus
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-start gap-3">
+                                            <Check className="w-5 h-5 mt-0.5" style={{ color: '#00A9D9' }} />
+                                            <div>
+                                                <h4 className="font-light text-gray-900 mb-1">Verstärkte Wirkung</h4>
+                                                <p className="text-sm text-gray-600 font-light">
+                                                    Maximieren Sie die Ergebnisse Ihrer Behandlung
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-between">
-                                    <span className="text-2xl font-light" style={{ color: '#00A9D9' }}>
-                                        {booster.price}
-                                    </span>
-                                    <span className="text-xs font-light text-gray-500 uppercase tracking-wider">
-                                        Optional
-                                    </span>
+                                <div className="bg-white p-6 border border-gray-100">
+                                    <h4 className="font-light text-gray-900 mb-4">Booster-Kategorien</h4>
+                                    <div className="space-y-3">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                            <span className="text-sm font-light text-gray-700">Anti-Aging & Regeneration</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                            <span className="text-sm font-light text-gray-700">Aufhellend & Strahlend</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                                            <span className="text-sm font-light text-gray-700">Klärend & Beruhigend</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                                            <span className="text-sm font-light text-gray-700">Hydration & Pflege</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </motion.div>
-                        ))}
+                            </div>
+
+                            <div className="text-center mt-8">
+                                <p className="text-gray-600 font-light mb-4">
+                                    Lassen Sie sich bei Ihrer Behandlung beraten, welcher Booster am besten zu Ihren Hautzielen passt.
+                                </p>
+                                <a
+                                    href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center btn-secondary px-6 py-3"
+                                >
+                                    Beratung vereinbaren
+                                </a>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>

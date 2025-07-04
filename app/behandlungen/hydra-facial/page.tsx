@@ -124,7 +124,104 @@ export default function HydraFacial() {
                         Zurück
                     </Link>
 
-                    <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
+                    {/* Mobile Layout */}
+                    <div className="block lg:hidden max-w-4xl mx-auto text-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            {/* Trust Badges */}
+                            <div className="flex items-center justify-center gap-4 md:gap-6 mb-6 md:mb-8">
+                                <div className="flex items-center gap-1">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} className="w-3 h-3 md:w-4 md:h-4 fill-current text-blue-500" />
+                                    ))}
+                                </div>
+                                <span className="text-xs md:text-sm text-gray-600 font-light">
+                                    Über 180 zufriedene Kunden
+                                </span>
+                            </div>
+
+                            <div className="inline-flex items-center gap-2 mb-4 md:mb-6">
+                                <Droplets className="w-4 h-4 md:w-5 md:h-5" style={{ color: '#00A9D9' }} />
+                                <span className="text-xs md:text-sm font-light tracking-[0.3em] uppercase text-gray-500">
+                                    Hydrating Treatment
+                                </span>
+                                <span className="text-xs font-light tracking-widest uppercase px-2 md:px-3 py-1"
+                                    style={{
+                                        backgroundColor: '#00A9D9',
+                                        color: 'white'
+                                    }}>
+                                    ORIGINAL
+                                </span>
+                            </div>
+
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 md:mb-12 leading-tight" style={{ color: 'var(--color-primary)' }}>
+                                <span style={{ color: '#00A9D9' }}>HydraFacial®</span>
+                            </h1>
+
+                            {/* Video */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
+                                className="mb-8 md:mb-12"
+                            >
+                                <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg max-w-sm mx-auto">
+                                    <video
+                                        src="/videos/hydrafacial-hero.mp4"
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
+                                        className="w-full h-full object-cover"
+                                        poster="/images/gallery/treatment-hydrafacial.jpg"
+                                    />
+                                </div>
+                            </motion.div>
+
+                            <p className="text-lg md:text-xl text-gray-600 font-light mb-6 md:mb-8 leading-relaxed max-w-3xl mx-auto">
+                                Die revolutionäre 3-in-1 Behandlung für sofort sichtbare Ergebnisse.
+                                Tiefenreinigung, Extraktion und Hydration in nur einer Sitzung.
+                            </p>
+
+                            {/* Simplified Special Offer */}
+                            <div className="mb-6 md:mb-8 p-4 bg-blue-50 border-l-4 border-blue-300 max-w-md mx-auto">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-2xl">✨</span>
+                                    <div>
+                                        <h3 className="text-base font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                            Willkommen-Special
+                                        </h3>
+                                        <p className="text-sm text-gray-600 font-light">
+                                            10% Rabatt auf Ihre erste Behandlung
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a
+                                    href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-primary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
+                                >
+                                    Termin buchen
+                                </a>
+                                <a
+                                    href="#preise"
+                                    className="btn-secondary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
+                                >
+                                    Preise ansehen
+                                </a>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden lg:grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
                         {/* Left Content */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -199,27 +296,23 @@ export default function HydraFacial() {
                             </div>
                         </motion.div>
 
-                        {/* Right Content - Video/Image */}
+                        {/* Right Content - Video */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8 }}
                             className="relative"
                         >
-                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
-                                <div
-                                    className="absolute inset-0 bg-gradient-to-br from-blue-50 to-white flex items-center justify-center"
-                                    style={{
-                                        backgroundImage: "url('/images/treatments/hydrafacial.jpg')",
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center',
-                                        backgroundColor: '#f5f5f5'
-                                    }}
+                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg">
+                                <video
+                                    src="/videos/hydrafacial-hero.mp4"
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                    className="w-full h-full object-cover"
+                                    poster="/images/gallery/treatment-hydrafacial.jpg"
                                 />
-                                <div className="absolute -inset-4 border-2 border-blue-300 opacity-20" />
-                                <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2">
-                                    <p className="text-sm font-light">Original Technologie</p>
-                                </div>
                             </div>
                         </motion.div>
                     </div>

@@ -96,7 +96,96 @@ export default function LaserHaarentfernung() {
                         Zurück
                     </Link>
 
-                    <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
+                    {/* Mobile Layout */}
+                    <div className="block lg:hidden max-w-4xl mx-auto text-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            {/* Trust Badges */}
+                            <div className="flex items-center justify-center gap-4 md:gap-6 mb-6 md:mb-8">
+                                <div className="flex items-center gap-1">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} className="w-3 h-3 md:w-4 md:h-4 fill-current" style={{ color: 'var(--color-secondary)' }} />
+                                    ))}
+                                </div>
+                                <span className="text-xs md:text-sm text-gray-600 font-light">
+                                    Über 2000 zufriedene Kunden
+                                </span>
+                            </div>
+
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 md:mb-12 leading-tight" style={{ color: 'var(--color-primary)' }}>
+                                Dauerhafte<br />
+                                <span style={{ color: 'var(--color-secondary)' }}>Haarfreiheit</span>
+                            </h1>
+
+                            {/* Video */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
+                                className="mb-8 md:mb-12"
+                            >
+                                <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg max-w-sm mx-auto">
+                                    <video
+                                        src="/videos/laser-hero.mp4"
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
+                                        className="w-full h-full object-cover"
+                                        poster="/images/gallery/treatment-laser.jpg"
+                                    />
+                                </div>
+                            </motion.div>
+
+                            <p className="text-lg md:text-xl text-gray-600 font-light mb-6 md:mb-8 leading-relaxed max-w-3xl mx-auto">
+                                Modernste Diodenlaser-Technologie für effektive und schmerzarme
+                                Haarentfernung. Erleben Sie glatte Haut ohne tägliches Rasieren.
+                            </p>
+
+                            {/* Quick Benefits */}
+                            <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-8 md:mb-10">
+                                {[
+                                    { icon: Check, text: "FDA-zertifiziert" },
+                                    { icon: Check, text: "Alle Hauttypen" },
+                                    { icon: Check, text: "Schmerzarm" }
+                                ].map((item, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <item.icon className="w-3 h-3 md:w-4 md:h-4" style={{ color: 'var(--color-secondary)' }} />
+                                        <span className="text-xs md:text-sm text-gray-700 font-light">{item.text}</span>
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a
+                                    href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-primary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
+                                >
+                                    Kostenlose Probebehandlung
+                                </a>
+                                <Link
+                                    href="/preise/laser"
+                                    className="btn-secondary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
+                                >
+                                    Preise ansehen
+                                </Link>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden lg:grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
                         {/* Left Content */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -168,9 +257,9 @@ export default function LaserHaarentfernung() {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.5 }}
-                            className="relative order-first lg:order-last"
+                            className="relative"
                         >
-                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg max-w-md mx-auto lg:max-w-none">
+                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg">
                                 <video
                                     src="/videos/laser-hero.mp4"
                                     autoPlay

@@ -29,6 +29,15 @@ export interface BankDetails {
     reference: string;
     voucherValidityMonths: number;
     sendVoucherAsPDF: boolean;
+    // Address fields for vouchers and emails
+    businessName: string;
+    streetAddress: string;
+    postalCode: string;
+    city: string;
+    country: string;
+    phone?: string;
+    email: string;
+    website: string;
 }
 
 export class EmailService {
@@ -363,7 +372,16 @@ export class EmailService {
                 bic: bankDetailsData.bic,
                 reference: bankDetailsData.reference_template,
                 voucherValidityMonths: bankDetailsData.voucher_validity_months,
-                sendVoucherAsPDF: bankDetailsData.send_voucher_as_pdf
+                sendVoucherAsPDF: bankDetailsData.send_voucher_as_pdf,
+                // Address fields
+                businessName: bankDetailsData.business_name,
+                streetAddress: bankDetailsData.street_address,
+                postalCode: bankDetailsData.postal_code,
+                city: bankDetailsData.city,
+                country: bankDetailsData.country,
+                phone: bankDetailsData.phone,
+                email: bankDetailsData.email,
+                website: bankDetailsData.website
             };
 
             console.log('✅ Bank details loaded from database:', bankDetails);
@@ -384,7 +402,16 @@ export class EmailService {
             bic: 'SPALAT2G',
             reference: 'Gutschein-Bestellung',
             voucherValidityMonths: 12,
-            sendVoucherAsPDF: false
+            sendVoucherAsPDF: false,
+            // Default address values
+            businessName: 'Skinlux Bischofshofen',
+            streetAddress: 'Salzburger Straße 45',
+            postalCode: '5500',
+            city: 'Bischofshofen',
+            country: 'Österreich',
+            phone: '+43 123 456 789',
+            email: 'hello@skinlux.at',
+            website: 'skinlux.at'
         };
     }
 

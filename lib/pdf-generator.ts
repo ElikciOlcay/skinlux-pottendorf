@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import { VoucherEmailData } from './email';
+import { VoucherEmailData, BankDetails } from './email';
 
 export class PDFGenerator {
     // Generate a PDF voucher using jsPDF (reliable and fast)
@@ -7,7 +7,10 @@ export class PDFGenerator {
         console.log('🖨️ Starting jsPDF generation for voucher:', data.voucherCode);
 
         try {
-            return await this.generatePDFWithJsPDF(data);
+            // Load bank details (including address) from API
+            const { EmailService } = await import('./email');
+            const bankDetails = await EmailService.getBankDetailsPublic();
+            return await this.generatePDFWithJsPDF(data, bankDetails);
         } catch (error) {
             console.error('❌ jsPDF generation failed:', error);
             throw new Error(`PDF generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -15,7 +18,7 @@ export class PDFGenerator {
     }
 
     // jsPDF-basierte PDF-Generierung
-    private static async generatePDFWithJsPDF(data: VoucherEmailData): Promise<Uint8Array> {
+    private static async generatePDFWithJsPDF(data: VoucherEmailData, bankDetails: BankDetails): Promise<Uint8Array> {
         console.log('🔄 Generating modern minimalist PDF with jsPDF for voucher:', data.voucherCode);
 
         const doc = new jsPDF({
@@ -34,7 +37,7 @@ export class PDFGenerator {
         const textGray = [100, 100, 100] as [number, number, number]; // Medium gray
 
         // === MINIMALIST SINGLE-PAGE LAYOUT ===
-        this.renderModernLayout(doc, data, recipientName, isGift, primaryColor, accentColor, lightGray, textGray);
+        this.renderModernLayout(doc, data, bankDetails, recipientName, isGift, primaryColor, accentColor, lightGray, textGray);
 
         const pdfBytes = new Uint8Array(doc.output('arraybuffer'));
 
@@ -46,6 +49,7 @@ export class PDFGenerator {
     private static renderModernLayout(
         doc: jsPDF,
         data: VoucherEmailData,
+        bankDetails: BankDetails,
         recipientName: string,
         isGift: boolean,
         primaryColor: [number, number, number],
@@ -175,15 +179,15 @@ export class PDFGenerator {
         // === FOOTER ===
         const footerY = pageHeight - 40;
 
-        // Simple contact
+        // Simple contact - using data from bankDetails
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(10);
         doc.setTextColor(...textGray);
 
         const contactLines = [
-            'Skinlux Bischofshofen',
-            'Salzburger Straße 45, 5500 Bischofshofen',
-            'hello@skinlux.at • skinlux.at'
+            bankDetails.businessName,
+            `${bankDetails.streetAddress}, ${bankDetails.postalCode} ${bankDetails.city}`,
+            `${bankDetails.email} • ${bankDetails.website}`
         ];
 
         contactLines.forEach((line, index) => {

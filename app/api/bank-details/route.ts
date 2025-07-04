@@ -9,6 +9,15 @@ export interface BankDetails {
     reference: string;
     voucherValidityMonths: number;
     sendVoucherAsPDF: boolean; // Neue Option für PDF-Versand
+    // Address fields for vouchers and emails
+    businessName: string;
+    streetAddress: string;
+    postalCode: string;
+    city: string;
+    country: string;
+    phone?: string;
+    email: string;
+    website: string;
 }
 
 // Default bank details (fallback)
@@ -19,7 +28,16 @@ const DEFAULT_BANK_DETAILS: BankDetails = {
     bic: 'SPALAT2G',
     reference: 'Gutschein-Bestellung',
     voucherValidityMonths: 12,
-    sendVoucherAsPDF: false // Standard: HTML-E-Mail
+    sendVoucherAsPDF: false, // Standard: HTML-E-Mail
+    // Default address values
+    businessName: 'Skinlux Bischofshofen',
+    streetAddress: 'Salzburger Straße 45',
+    postalCode: '5500',
+    city: 'Bischofshofen',
+    country: 'Österreich',
+    phone: '+43 123 456 789',
+    email: 'hello@skinlux.at',
+    website: 'skinlux.at'
 };
 
 // Server-side Supabase client mit Service Role Key
@@ -91,7 +109,16 @@ export async function GET() {
             bic: bankDetailsData.bic,
             reference: bankDetailsData.reference_template,
             voucherValidityMonths: bankDetailsData.voucher_validity_months,
-            sendVoucherAsPDF: bankDetailsData.send_voucher_as_pdf
+            sendVoucherAsPDF: bankDetailsData.send_voucher_as_pdf,
+            // Address fields
+            businessName: bankDetailsData.business_name || 'Skinlux Bischofshofen',
+            streetAddress: bankDetailsData.street_address || 'Salzburger Straße 45',
+            postalCode: bankDetailsData.postal_code || '5500',
+            city: bankDetailsData.city || 'Bischofshofen',
+            country: bankDetailsData.country || 'Österreich',
+            phone: bankDetailsData.phone || '+43 123 456 789',
+            email: bankDetailsData.email || 'hello@skinlux.at',
+            website: bankDetailsData.website || 'skinlux.at'
         };
 
         return NextResponse.json({
@@ -153,7 +180,16 @@ export async function POST(request: NextRequest) {
             bic: bankDetails.bic,
             reference_template: bankDetails.reference,
             voucher_validity_months: bankDetails.voucherValidityMonths,
-            send_voucher_as_pdf: bankDetails.sendVoucherAsPDF
+            send_voucher_as_pdf: bankDetails.sendVoucherAsPDF,
+            // Address fields
+            business_name: bankDetails.businessName,
+            street_address: bankDetails.streetAddress,
+            postal_code: bankDetails.postalCode,
+            city: bankDetails.city,
+            country: bankDetails.country,
+            phone: bankDetails.phone,
+            email: bankDetails.email,
+            website: bankDetails.website
         };
 
         // Try to update existing bank details first

@@ -168,9 +168,9 @@ export default function LaserHaarentfernung() {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.5 }}
-                            className="relative"
+                            className="relative order-first lg:order-last"
                         >
-                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg">
+                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg max-w-md mx-auto lg:max-w-none">
                                 <video
                                     src="/videos/laser-hero.mp4"
                                     autoPlay

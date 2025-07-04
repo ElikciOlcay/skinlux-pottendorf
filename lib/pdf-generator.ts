@@ -107,10 +107,10 @@ export class PDFGenerator {
         const voucherWidth = doc.getTextWidth(voucherText);
         doc.text(voucherText, centerX - voucherWidth / 2, currentY);
 
-        // Amount - large and prominent
+        // Amount - large and prominent with elegant serif font
         currentY += 40;
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(72);
+        doc.setFont('times', 'bold');
+        doc.setFontSize(76);
         doc.setTextColor(...primaryColor);
         const amountText = `€${data.amount}`;
         const amountWidth = doc.getTextWidth(amountText);

@@ -112,9 +112,27 @@ export class PDFGenerator {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(84);
         doc.setTextColor(...primaryColor);
-        const amountText = `€${data.amount}`;
-        const amountWidth = doc.getTextWidth(amountText);
-        doc.text(amountText, centerX - amountWidth / 2, currentY);
+
+        // Euro symbol and amount with spacing
+        const euroSymbol = '€';
+        const amountNumber = ` ${data.amount}`;
+        const euroWidth = doc.getTextWidth(euroSymbol);
+        const numberWidth = doc.getTextWidth(amountNumber);
+        const totalWidth = euroWidth + numberWidth;
+
+        // Render € symbol and amount separately with proper spacing
+        const startX = centerX - totalWidth / 2;
+        doc.text(euroSymbol, startX, currentY);
+        doc.text(amountNumber, startX + euroWidth, currentY);
+
+        // Written amount for security (smaller, below)
+        currentY += 20;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(14);
+        doc.setTextColor(...textGray);
+        const writtenAmount = this.numberToGermanWords(data.amount);
+        const writtenWidth = doc.getTextWidth(writtenAmount);
+        doc.text(writtenAmount, centerX - writtenWidth / 2, currentY);
 
         // === CODE SECTION ===
         currentY += 50;
@@ -201,5 +219,37 @@ export class PDFGenerator {
         const voucherId = `${data.orderNumber}`;
         const idWidth = doc.getTextWidth(voucherId);
         doc.text(voucherId, centerX - idWidth / 2, pageHeight - 15);
+    }
+
+    // Helper function to convert numbers to German words
+    private static numberToGermanWords(amount: number): string {
+        const ones = ['', 'ein', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'];
+        const teens = ['zehn', 'elf', 'zwölf', 'dreizehn', 'vierzehn', 'fünfzehn', 'sechzehn', 'siebzehn', 'achtzehn', 'neunzehn'];
+        const tens = ['', '', 'zwanzig', 'dreißig', 'vierzig', 'fünfzig', 'sechzig', 'siebzig', 'achtzig', 'neunzig'];
+        const hundreds = ['', 'einhundert', 'zweihundert', 'dreihundert', 'vierhundert', 'fünfhundert', 'sechshundert', 'siebenhundert', 'achthundert', 'neunhundert'];
+
+        // Handle common voucher amounts
+        if (amount === 10) return 'zehn Euro';
+        if (amount === 15) return 'fünfzehn Euro';
+        if (amount === 20) return 'zwanzig Euro';
+        if (amount === 25) return 'fünfundzwanzig Euro';
+        if (amount === 30) return 'dreißig Euro';
+        if (amount === 40) return 'vierzig Euro';
+        if (amount === 50) return 'fünfzig Euro';
+        if (amount === 60) return 'sechzig Euro';
+        if (amount === 75) return 'fünfundsiebzig Euro';
+        if (amount === 100) return 'einhundert Euro';
+        if (amount === 150) return 'einhundertfünfzig Euro';
+        if (amount === 200) return 'zweihundert Euro';
+        if (amount === 250) return 'zweihundertfünfzig Euro';
+        if (amount === 300) return 'dreihundert Euro';
+        if (amount === 500) return 'fünfhundert Euro';
+
+        // For other amounts, return a simpler format
+        if (amount < 100) {
+            return `${amount} Euro`;
+        } else {
+            return `${amount} Euro`;
+        }
     }
 }

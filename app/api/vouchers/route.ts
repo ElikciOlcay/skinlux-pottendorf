@@ -80,9 +80,18 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        if (!voucherData.sender_name || !voucherData.sender_email) {
+        // Für Admin-erstellte Gutscheine ist E-Mail optional
+        if (!voucherData.sender_name) {
             return NextResponse.json(
-                { error: 'Name und E-Mail sind erforderlich' },
+                { error: 'Name ist erforderlich' },
+                { status: 400 }
+            );
+        }
+
+        // Für öffentliche Gutscheine ist E-Mail erforderlich
+        if (!voucherData.admin_created && !voucherData.sender_email) {
+            return NextResponse.json(
+                { error: 'E-Mail ist erforderlich' },
                 { status: 400 }
             );
         }
@@ -221,31 +230,58 @@ export async function POST(request: NextRequest) {
             expiresAt: voucher.expires_at
         };
 
-        // Send emails (both in parallel)
-        const [customerResult, adminResult] = await Promise.allSettled([
-            EmailService.sendCustomerConfirmation(emailData),
-            EmailService.sendAdminNotification(emailData)
-        ]);
+        // Send emails (both in parallel) - nur wenn E-Mail vorhanden
+        const emailPromises = [];
 
-        // Log email results
-        if (customerResult.status === 'fulfilled') {
-            console.log('✅ Customer email:', customerResult.value.success ? 'sent' : 'failed', customerResult.value);
-        } else {
-            console.error('❌ Customer email error:', customerResult.reason);
+        if (voucher.sender_email) {
+            emailPromises.push(EmailService.sendCustomerConfirmation(emailData));
         }
 
-        if (adminResult.status === 'fulfilled') {
-            console.log('✅ Admin email:', adminResult.value.success ? 'sent' : 'failed', adminResult.value);
+        // Admin-E-Mail immer senden
+        emailPromises.push(EmailService.sendAdminNotification(emailData));
+
+        const emailResults = await Promise.allSettled(emailPromises);
+
+        // Log email results
+        let customerEmailSuccess = false;
+        let adminEmailSuccess = false;
+
+        if (voucher.sender_email && emailResults.length > 1) {
+            // Kunden-E-Mail wurde gesendet
+            const customerResult = emailResults[0];
+            if (customerResult.status === 'fulfilled') {
+                customerEmailSuccess = customerResult.value.success;
+                console.log('✅ Customer email:', customerResult.value.success ? 'sent' : 'failed', customerResult.value);
+            } else {
+                console.error('❌ Customer email error:', customerResult.reason);
+            }
+
+            // Admin-E-Mail ist die zweite
+            const adminResult = emailResults[1];
+            if (adminResult.status === 'fulfilled') {
+                adminEmailSuccess = adminResult.value.success;
+                console.log('✅ Admin email:', adminResult.value.success ? 'sent' : 'failed', adminResult.value);
+            } else {
+                console.error('❌ Admin email error:', adminResult.reason);
+            }
         } else {
-            console.error('❌ Admin email error:', adminResult.reason);
+            // Nur Admin-E-Mail wurde gesendet
+            console.log('ℹ️ No customer email sent (no email address provided)');
+            const adminResult = emailResults[0];
+            if (adminResult.status === 'fulfilled') {
+                adminEmailSuccess = adminResult.value.success;
+                console.log('✅ Admin email:', adminResult.value.success ? 'sent' : 'failed', adminResult.value);
+            } else {
+                console.error('❌ Admin email error:', adminResult.reason);
+            }
         }
 
         return NextResponse.json({
             voucher,
             orderNumber,
             emailStatus: {
-                customer: customerResult.status === 'fulfilled' ? customerResult.value.success : false,
-                admin: adminResult.status === 'fulfilled' ? adminResult.value.success : false
+                customer: customerEmailSuccess,
+                admin: adminEmailSuccess
             }
         }, { status: 201 });
 

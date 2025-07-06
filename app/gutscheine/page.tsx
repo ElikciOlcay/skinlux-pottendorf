@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Gift, Check, AlertCircle, Loader, Mail, MapPin, User, CreditCard } from "lucide-react";
 import { getCurrentSubdomain } from "@/lib/supabase";
@@ -37,8 +37,33 @@ export default function Gutscheine() {
     const [orderSuccess, setOrderSuccess] = useState(false);
     const [orderData, setOrderData] = useState<OrderData | null>(null);
     const [error, setError] = useState("");
+    const [sendVoucherAsPDF, setSendVoucherAsPDF] = useState(false);
 
     const getAmount = () => selectedAmount || parseInt(customAmount) || 0;
+
+    // Bank-Details laden für PDF-Einstellung
+    useEffect(() => {
+        const loadBankDetails = async () => {
+            try {
+                const response = await fetch('/api/bank-details');
+                if (response.ok) {
+                    const result = await response.json();
+                    setSendVoucherAsPDF(result.bankDetails.sendVoucherAsPDF || false);
+                }
+            } catch (error) {
+                console.log('Bank details nicht verfügbar, verwende Standard:', error);
+                setSendVoucherAsPDF(false);
+            }
+        };
+        loadBankDetails();
+    }, []);
+
+    // Nachricht zurücksetzen, wenn sie nicht angezeigt werden soll
+    useEffect(() => {
+        if (deliveryMethod === 'post' || (deliveryMethod === 'email' && !sendVoucherAsPDF)) {
+            setFormData(prev => ({ ...prev, message: "" }));
+        }
+    }, [deliveryMethod, sendVoucherAsPDF]);
 
     const canProceedToStep = (step: Step): boolean => {
         switch (step) {
@@ -97,8 +122,9 @@ export default function Gutscheine() {
             const orderNumber = `VOU-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
             console.log('🏷️ Generated order number:', orderNumber);
 
-            // Generiere Gutschein-Code
-            const voucherCode = `SKIN-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
+            // Generiere Gutschein-Code (einheitliches Format: SLX1234)
+            const randomNum = Math.floor(Math.random() * 10000);
+            const voucherCode = `SLX${randomNum.toString().padStart(4, '0')}`;
             console.log('🎫 Generated voucher code:', voucherCode);
 
             // Aktuelle Subdomain für Studio-Zuordnung ermitteln
@@ -477,12 +503,15 @@ export default function Gutscheine() {
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-300 focus:outline-none transition-colors"
                                     />
 
-                                    <textarea
-                                        placeholder="Persönliche Nachricht (optional)"
-                                        value={formData.message}
-                                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-300 focus:outline-none transition-colors h-24 resize-none"
-                                    />
+                                    {/* Nachricht nur bei E-Mail-Versand und PDF-Einstellung anzeigen */}
+                                    {deliveryMethod === 'email' && sendVoucherAsPDF && (
+                                        <textarea
+                                            placeholder="Persönliche Nachricht (optional)"
+                                            value={formData.message}
+                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-300 focus:outline-none transition-colors h-24 resize-none"
+                                        />
+                                    )}
                                 </div>
                             </div>
                         )}

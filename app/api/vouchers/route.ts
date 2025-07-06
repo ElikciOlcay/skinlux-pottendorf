@@ -89,7 +89,9 @@ export async function POST(request: NextRequest) {
         }
 
         // Für öffentliche Gutscheine ist E-Mail erforderlich
-        if (!voucherData.admin_created && !voucherData.sender_email) {
+        // Wenn kein admin_created Flag vorhanden ist, prüfen wir anhand der sender_email
+        const isAdminCreated = voucherData.admin_created === true;
+        if (!isAdminCreated && !voucherData.sender_email) {
             return NextResponse.json(
                 { error: 'E-Mail ist erforderlich' },
                 { status: 400 }
@@ -159,6 +161,13 @@ export async function POST(request: NextRequest) {
 
         voucherData.studio_id = studioId;
 
+        // Generiere einheitlichen Gutschein-Code falls nicht vorhanden
+        if (!voucherData.code) {
+            const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            voucherData.code = `SLX${randomNum}`;
+            console.log('🔢 Generated voucher code:', voucherData.code);
+        }
+
         // Hole Bankdaten für Gültigkeitsdauer mit robuster Methode
         try {
             console.log('🕒 Getting bank details for voucher validity period...');
@@ -182,8 +191,28 @@ export async function POST(request: NextRequest) {
             voucherData.valid_until = expiryDate.toISOString();
         }
 
-        // Entferne Subdomain aus voucherData (wird nicht in DB gespeichert)
-        delete voucherData.subdomain;
+        // Erstelle ein sauberes Voucher-Objekt mit nur den erforderlichen Feldern
+        const cleanVoucherData = {
+            code: voucherData.code,
+            amount: voucherData.amount,
+            sender_name: voucherData.sender_name,
+            sender_email: voucherData.sender_email || null,
+            sender_phone: voucherData.sender_phone || null,
+            recipient_name: voucherData.recipient_name || null,
+            recipient_address: voucherData.recipient_address || null,
+            recipient_postal_code: voucherData.recipient_postal_code || null,
+            recipient_city: voucherData.recipient_city || null,
+            message: voucherData.message || null,
+            studio_id: voucherData.studio_id,
+            expires_at: voucherData.expires_at,
+            valid_until: voucherData.valid_until,
+            // Standard-Werte für Constraint-Felder setzen
+            payment_status: 'pending',  // Constraint: ['pending', 'paid', 'cancelled']
+            delivery_method: 'email',   // Constraint: ['email', 'post']
+            status: 'pending',          // Constraint: ['pending', 'active', 'redeemed', 'expired', 'cancelled']
+            is_used: false,
+            remaining_amount: voucherData.amount  // Initial gleich dem Vollbetrag
+        };
 
         // Einfügung in die Datenbank mit Admin-Client (umgeht RLS)
         console.log('💾 API Route: Inserting into Supabase with admin client...');
@@ -197,7 +226,7 @@ export async function POST(request: NextRequest) {
 
         const { data: voucher, error } = await supabaseAdmin
             .from('vouchers')
-            .insert(voucherData)
+            .insert(cleanVoucherData)
             .select()
             .single();
 

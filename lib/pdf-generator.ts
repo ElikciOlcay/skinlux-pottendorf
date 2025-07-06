@@ -223,33 +223,26 @@ export class PDFGenerator {
 
     // Helper function to convert numbers to German words
     private static numberToGermanWords(amount: number): string {
-        const ones = ['', 'ein', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'];
-        const teens = ['zehn', 'elf', 'zwölf', 'dreizehn', 'vierzehn', 'fünfzehn', 'sechzehn', 'siebzehn', 'achtzehn', 'neunzehn'];
-        const tens = ['', '', 'zwanzig', 'dreißig', 'vierzig', 'fünfzig', 'sechzig', 'siebzig', 'achtzig', 'neunzig'];
-        const hundreds = ['', 'einhundert', 'zweihundert', 'dreihundert', 'vierhundert', 'fünfhundert', 'sechshundert', 'siebenhundert', 'achthundert', 'neunhundert'];
-
         // Handle common voucher amounts
-        if (amount === 10) return 'zehn Euro';
-        if (amount === 15) return 'fünfzehn Euro';
-        if (amount === 20) return 'zwanzig Euro';
-        if (amount === 25) return 'fünfundzwanzig Euro';
-        if (amount === 30) return 'dreißig Euro';
-        if (amount === 40) return 'vierzig Euro';
-        if (amount === 50) return 'fünfzig Euro';
-        if (amount === 60) return 'sechzig Euro';
-        if (amount === 75) return 'fünfundsiebzig Euro';
-        if (amount === 100) return 'einhundert Euro';
-        if (amount === 150) return 'einhundertfünfzig Euro';
-        if (amount === 200) return 'zweihundert Euro';
-        if (amount === 250) return 'zweihundertfünfzig Euro';
-        if (amount === 300) return 'dreihundert Euro';
-        if (amount === 500) return 'fünfhundert Euro';
+        const commonAmounts: { [key: number]: string } = {
+            10: 'zehn Euro',
+            15: 'fünfzehn Euro',
+            20: 'zwanzig Euro',
+            25: 'fünfundzwanzig Euro',
+            30: 'dreißig Euro',
+            40: 'vierzig Euro',
+            50: 'fünfzig Euro',
+            60: 'sechzig Euro',
+            75: 'fünfundsiebzig Euro',
+            100: 'einhundert Euro',
+            150: 'einhundertfünfzig Euro',
+            200: 'zweihundert Euro',
+            250: 'zweihundertfünfzig Euro',
+            300: 'dreihundert Euro',
+            500: 'fünfhundert Euro'
+        };
 
-        // For other amounts, return a simpler format
-        if (amount < 100) {
-            return `${amount} Euro`;
-        } else {
-            return `${amount} Euro`;
-        }
+        // Return known amount or fallback to numeric
+        return commonAmounts[amount] || `${amount} Euro`;
     }
 }

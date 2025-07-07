@@ -829,12 +829,15 @@ export default function VouchersPage() {
 
                         <div className="max-w-md mx-auto space-y-6">
                             {/* Gutschein-Code Display */}
-                            <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 border border-green-200 dark:border-green-800 rounded-xl p-6 text-center">
-                                <h3 className="text-lg font-semibold text-green-800 dark:text-green-300 mb-2">Gutschein-Code</h3>
-                                <div className="text-2xl font-bold text-green-900 dark:text-green-200 font-mono tracking-wider">
+                            <div className={`${theme === 'dark'
+                                ? 'bg-gradient-to-r from-green-900/40 to-green-800/40 border-green-800/50'
+                                : 'bg-gradient-to-r from-slate-800 to-slate-900 border-slate-700'
+                                } border rounded-xl p-6 text-center shadow-lg`}>
+                                <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-green-300' : 'text-white'} mb-2`} style={{ fontFamily: 'var(--font-inter)' }}>Gutschein-Code</h3>
+                                <div className={`text-3xl font-bold ${theme === 'dark' ? 'text-green-200' : 'text-white'} font-mono tracking-wider`} style={{ fontFamily: 'var(--font-inter)' }}>
                                     {voucherForm.voucherCode}
                                 </div>
-                                <p className="text-sm text-green-700 dark:text-green-400 mt-2">Dieser Code wird auf dem Gutschein gedruckt</p>
+                                <p className={`text-sm ${theme === 'dark' ? 'text-green-400' : 'text-slate-300'} mt-2`} style={{ fontFamily: 'var(--font-inter)' }}>Dieser Code wird auf dem Gutschein gedruckt</p>
                             </div>
 
                             {/* Käufer-Informationen */}

@@ -19,6 +19,7 @@ export interface VoucherEmailData {
     message?: string;
     orderNumber: string;
     expiresAt: string;
+    deliveryMethod?: string; // 'email' or 'post'
 }
 
 export interface BankDetails {
@@ -525,7 +526,9 @@ export class EmailService {
                             </p>
                         </div>
                         
-                        <p><strong>Nach Zahlungseingang wird Ihr Gutschein automatisch aktiviert und Sie erhalten eine Bestätigungs-E-Mail mit dem Gutschein-Code.</strong></p>
+                        <p><strong>${data.deliveryMethod === 'post'
+                ? 'Nach Zahlungseingang wird Ihr Gutschein gedruckt und per Post an die angegebene Adresse versendet.'
+                : 'Nach Zahlungseingang wird Ihr Gutschein automatisch aktiviert und Sie erhalten eine Bestätigungs-E-Mail mit dem Gutschein-Code.'}</strong></p>
                     </div>
                     
                     <p>Bei Fragen stehen wir Ihnen gerne zur Verfügung!</p>

@@ -208,7 +208,7 @@ export async function POST(request: NextRequest) {
             valid_until: voucherData.valid_until,
             // Standard-Werte für Constraint-Felder setzen
             payment_status: isAdminCreated ? 'paid' : 'pending',  // Admin-Gutscheine sind sofort bezahlt
-            delivery_method: 'email',   // Constraint: ['email', 'post'] - 'print' ist nicht erlaubt
+            delivery_method: voucherData.delivery_method || 'email',   // Constraint: ['email', 'post'] - 'print' ist nicht erlaubt
             status: isAdminCreated ? 'active' : 'pending',        // Admin-Gutscheine sind sofort aktiv
             is_used: false,
             remaining_amount: voucherData.amount  // Initial gleich dem Vollbetrag
@@ -261,7 +261,8 @@ export async function POST(request: NextRequest) {
                 recipientName: voucher.recipient_name,
                 message: voucher.message,
                 orderNumber: orderNumber,
-                expiresAt: voucher.expires_at
+                expiresAt: voucher.expires_at,
+                deliveryMethod: voucher.delivery_method
             };
 
             // Send emails (both in parallel) - nur wenn E-Mail vorhanden
@@ -402,7 +403,8 @@ export async function PATCH(request: NextRequest) {
                     recipientName: data.recipient_name,
                     message: data.message,
                     orderNumber: orderNumber,
-                    expiresAt: data.expires_at
+                    expiresAt: data.expires_at,
+                    deliveryMethod: data.delivery_method
                 };
 
                 // Send payment confirmation email

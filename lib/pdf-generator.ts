@@ -70,9 +70,9 @@ export class PDFGenerator {
         // Skinlux Logo
         const logoBase64 = await this.loadLogoAsBase64();
         if (logoBase64) {
-            // Logo als Bild hinzufügen (30mm breit, automatische Höhe)
-            const logoWidth = 30;
-            const logoHeight = 15; // Geschätzte Höhe, kann angepasst werden
+            // Logo mit korrekten Proportionen (breit und flach für Skinlux)
+            const logoWidth = 45; // Breiter für bessere Lesbarkeit
+            const logoHeight = 12; // Niedriger für korrekte Proportionen
             doc.addImage(logoBase64, 'PNG', centerX - logoWidth / 2, currentY - 10, logoWidth, logoHeight);
             currentY += logoHeight + 5;
         } else {
@@ -224,14 +224,14 @@ export class PDFGenerator {
 
         // === FOOTER ===
         // Berechne verfügbaren Platz für Footer - noch mehr Platz lassen wenn Nachricht vorhanden
-        const footerSpaceNeeded = data.message ? 100 : 70; // Noch mehr Platz für Nachrichten
+        const footerSpaceNeeded = data.message ? 120 : 90; // Noch mehr Platz für Nachrichten
         const minFooterSpace = pageHeight - footerSpaceNeeded;
 
         // Wenn der Content zu lang ist, positioniere Footer am unteren Rand
-        if (currentY + 50 > minFooterSpace) {
+        if (currentY + 60 > minFooterSpace) {
             console.log('📄 Content too long, positioning footer at bottom of page');
-            // Footer fest am unteren Rand positionieren - mehr Platz für Nachrichten
-            const footerY = data.message ? pageHeight - 55 : pageHeight - 45;
+            // Footer fest am unteren Rand positionieren - weiter unten
+            const footerY = data.message ? pageHeight - 65 : pageHeight - 55;
 
             // Simple contact - using data from bankDetails
             doc.setFont('helvetica', 'normal');
@@ -257,7 +257,7 @@ export class PDFGenerator {
             doc.text(voucherId, centerX - idWidth / 2, pageHeight - 8);
         } else {
             // Normaler Footer mit mehr Abstand zum Content
-            currentY += 50; // Mehr Abstand vor dem Footer
+            currentY += 60; // Noch mehr Abstand vor dem Footer
             const footerY = currentY;
 
             // Simple contact - using data from bankDetails

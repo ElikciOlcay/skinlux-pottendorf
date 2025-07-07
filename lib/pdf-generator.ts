@@ -169,6 +169,7 @@ export class PDFGenerator {
 
         // === PERSÖNLICHE NACHRICHT (if exists) ===
         if (data.message) {
+            console.log('📄 Adding personal message to PDF:', data.message);
             currentY += 45;
 
             // Elegant message section with accent color
@@ -177,37 +178,37 @@ export class PDFGenerator {
 
             // Title "Persönliche Nachricht" mit Icon
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
+            doc.setFontSize(11);
             doc.setTextColor(...textGray);
             const titleText = '💌 Persönliche Nachricht';
             const titleWidth = doc.getTextWidth(titleText);
             doc.text(titleText, centerX - titleWidth / 2, currentY);
 
-            currentY += 12;
+            currentY += 15;
 
             // Message text with better formatting
             doc.setFont('helvetica', 'italic');
-            doc.setFontSize(12);
+            doc.setFontSize(11);
             doc.setTextColor(...primaryColor);
 
             const messageLines = doc.splitTextToSize(`"${data.message}"`, 140);
-            const messageHeight = messageLines.length * 6;
+            const messageHeight = messageLines.length * 5;
 
             // Beautiful background with accent border
             doc.setFillColor(255, 250, 252); // Very light pink tint
             doc.setDrawColor(...accentColor);
             doc.setLineWidth(1);
-            doc.roundedRect(messageBoxX, currentY - 8, messageBoxWidth, messageHeight + 16, 8, 8, 'FD');
+            doc.roundedRect(messageBoxX, currentY - 10, messageBoxWidth, messageHeight + 20, 8, 8, 'FD');
 
             // Message text centered with proper spacing
             messageLines.forEach((line: string, index: number) => {
                 const lineWidth = doc.getTextWidth(line);
-                doc.text(line, centerX - lineWidth / 2, currentY + 2 + (index * 6));
+                doc.text(line, centerX - lineWidth / 2, currentY + 2 + (index * 5));
             });
 
             // Signature line if it's a gift
             if (isGift) {
-                currentY += messageHeight + 8;
+                currentY += messageHeight + 12;
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(10);
                 doc.setTextColor(...textGray);
@@ -216,11 +217,13 @@ export class PDFGenerator {
                 doc.text(signatureText, centerX + 50 - signatureWidth, currentY);
             }
 
-            currentY += messageHeight + 20;
+            currentY += messageHeight + 25;
+        } else {
+            console.log('📄 No personal message provided for PDF');
         }
 
         // === FOOTER ===
-        const footerY = pageHeight - 40;
+        const footerY = pageHeight - 50; // Mehr Platz für Footer
 
         // Simple contact - using data from bankDetails
         doc.setFont('helvetica', 'normal');
@@ -228,9 +231,10 @@ export class PDFGenerator {
         doc.setTextColor(...textGray);
 
         const contactLines = [
-            bankDetails.businessName,
-            `${bankDetails.streetAddress}, ${bankDetails.postalCode} ${bankDetails.city}`,
-            `${bankDetails.email} • ${bankDetails.website}`
+            bankDetails.businessName || 'Skinlux Bischofshofen',
+            `${bankDetails.streetAddress || 'Salzburger Straße 45'}, ${bankDetails.postalCode || '5500'} ${bankDetails.city || 'Bischofshofen'}`,
+            `Tel: ${bankDetails.phone || '+43 123 456 789'}`,
+            `${bankDetails.email || 'hello@skinlux.at'} • ${bankDetails.website || 'skinlux.at'}`
         ];
 
         contactLines.forEach((line, index) => {
@@ -241,9 +245,9 @@ export class PDFGenerator {
         // Voucher ID at very bottom
         doc.setFontSize(8);
         doc.setTextColor(180, 180, 180);
-        const voucherId = `${data.orderNumber}`;
+        const voucherId = `ORD-${data.orderNumber}`;
         const idWidth = doc.getTextWidth(voucherId);
-        doc.text(voucherId, centerX - idWidth / 2, pageHeight - 15);
+        doc.text(voucherId, centerX - idWidth / 2, pageHeight - 10);
     }
 
     // Helper function to convert numbers to German words

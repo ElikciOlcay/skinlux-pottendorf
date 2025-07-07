@@ -100,7 +100,7 @@ export class PDFGenerator {
         doc.text(headerText, centerX - headerWidth / 2, currentY);
 
         // Gutschein-Nummer diskret
-        currentY += 4;
+        currentY += 2;
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(...lightGray);
@@ -109,7 +109,7 @@ export class PDFGenerator {
         doc.text(codeText, centerX - codeWidth / 2, currentY);
 
         // === HAUPTINHALT ===
-        currentY += 15;
+        currentY += 10;
 
         // Geschenk-Information entfernt (auf Wunsch des Nutzers)
 
@@ -152,22 +152,22 @@ export class PDFGenerator {
 
         // === WERT-SEKTION (nach der Nachricht) ===
         // Leichter Hintergrund für Wert-Bereich
-        const valueBoxHeight = 80;
+        const valueBoxHeight = 65;
         doc.setFillColor(...veryLightGray);
         doc.rect(margin, currentY - 10, pageWidth - (2 * margin), valueBoxHeight, 'F');
 
-        currentY += 15;
+        currentY += 12;
 
         // Euro-Symbol und Betrag - perfekt zentriert
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(64);
+        doc.setFontSize(52);
         doc.setTextColor(...black);
         const amountText = `€ ${data.amount}`;
         const amountWidth = doc.getTextWidth(amountText);
-        doc.text(amountText, centerX - amountWidth / 2, currentY + 25);
+        doc.text(amountText, centerX - amountWidth / 2, currentY + 20);
 
         // Betrag in Worten - für Sicherheit
-        currentY += 40;
+        currentY += 35;
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(11);
         doc.setTextColor(...darkGray);
@@ -175,7 +175,7 @@ export class PDFGenerator {
         const writtenWidth = doc.getTextWidth(writtenAmount);
         doc.text(writtenAmount, centerX - writtenWidth / 2, currentY);
 
-        currentY += 45;
+        currentY += 35;
 
         // === GÜLTIGKEIT ===
         currentY += 30;

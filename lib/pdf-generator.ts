@@ -138,10 +138,6 @@ export class PDFGenerator {
         if (data.message) {
             currentY += 35;
 
-            // Elegant message section with accent color
-            const messageBoxWidth = 160;
-            const messageBoxX = centerX - messageBoxWidth / 2;
-
             // Title "Persönliche Nachricht" ohne Emoji (wegen Unicode-Problemen)
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(11);
@@ -160,13 +156,7 @@ export class PDFGenerator {
             const messageLines = doc.splitTextToSize(`"${data.message}"`, 140);
             const messageHeight = messageLines.length * 5;
 
-            // Beautiful background with accent border
-            doc.setFillColor(255, 250, 252); // Very light pink tint
-            doc.setDrawColor(...accentColor);
-            doc.setLineWidth(1);
-            doc.roundedRect(messageBoxX, currentY - 10, messageBoxWidth, messageHeight + 20, 8, 8, 'FD');
-
-            // Message text centered with proper spacing
+            // Message text centered with proper spacing (ohne Hintergrund und Rahmen)
             messageLines.forEach((line: string, index: number) => {
                 const lineWidth = doc.getTextWidth(line);
                 doc.text(line, centerX - lineWidth / 2, currentY + 2 + (index * 5));

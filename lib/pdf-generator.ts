@@ -1,9 +1,7 @@
 import { jsPDF } from 'jspdf';
 import { VoucherEmailData, BankDetails } from './email';
-import { SKINLUX_LOGO_BASE64 } from './skinlux-logo';
 
 export class PDFGenerator {
-
 
     // Generate a PDF voucher using jsPDF (reliable and fast)
     static async generateVoucherPDF(data: VoucherEmailData): Promise<Uint8Array> {
@@ -20,9 +18,9 @@ export class PDFGenerator {
         }
     }
 
-    // jsPDF-basierte PDF-Generierung
+    // jsPDF-basierte PDF-Generierung mit komplett neuem Design
     private static async generatePDFWithJsPDF(data: VoucherEmailData, bankDetails: BankDetails): Promise<Uint8Array> {
-        console.log('🔄 Generating modern minimalist PDF with jsPDF for voucher:', data.voucherCode);
+        console.log('🔄 Generating clean minimalist PDF for voucher:', data.voucherCode);
 
         const doc = new jsPDF({
             orientation: 'portrait',
@@ -33,217 +31,199 @@ export class PDFGenerator {
         const recipientName = data.recipientName || data.senderName;
         const isGift = !!(data.recipientName && data.recipientName !== data.senderName);
 
-        // === MODERN DESIGN SETUP ===
-        const primaryColor = [0, 0, 0] as [number, number, number]; // Pure black
-        const accentColor = [240, 163, 188] as [number, number, number]; // Skinlux pink
-        const lightGray = [245, 245, 245] as [number, number, number]; // Very light gray
-        const textGray = [100, 100, 100] as [number, number, number]; // Medium gray
+        // === MODERNE FARBEN ===
+        const black = [0, 0, 0] as [number, number, number];
+        const darkGray = [60, 60, 60] as [number, number, number];
+        const lightGray = [120, 120, 120] as [number, number, number];
+        const accent = [240, 163, 188] as [number, number, number]; // Skinlux Rosa
+        const veryLightGray = [240, 240, 240] as [number, number, number];
 
-        // === MINIMALIST SINGLE-PAGE LAYOUT ===
-        await this.renderModernLayout(doc, data, bankDetails, recipientName, isGift, primaryColor, accentColor, lightGray, textGray);
+        // === KOMPLETT NEUES LAYOUT ===
+        await this.renderCleanLayout(doc, data, bankDetails, recipientName, isGift, black, darkGray, lightGray, accent, veryLightGray);
 
         const pdfBytes = new Uint8Array(doc.output('arraybuffer'));
-
-        console.log('✅ Modern PDF generation completed successfully, size:', pdfBytes.length, 'bytes');
+        console.log('✅ Clean PDF generation completed successfully, size:', pdfBytes.length, 'bytes');
 
         return pdfBytes;
     }
 
-    private static async renderModernLayout(
+    private static async renderCleanLayout(
         doc: jsPDF,
         data: VoucherEmailData,
         bankDetails: BankDetails,
         recipientName: string,
         isGift: boolean,
-        primaryColor: [number, number, number],
-        accentColor: [number, number, number],
+        black: [number, number, number],
+        darkGray: [number, number, number],
         lightGray: [number, number, number],
-        textGray: [number, number, number]
+        accent: [number, number, number],
+        veryLightGray: [number, number, number]
     ) {
         const pageWidth = 210; // A4 width
         const pageHeight = 297; // A4 height
         const centerX = pageWidth / 2;
+        const margin = 20;
 
-        // === HEADER SECTION ===
-        let currentY = 60;
+        // === HEADER: SKINLUX BRANDING ===
+        let currentY = 40;
 
-        // Skinlux Logo
-        const logoBase64 = await this.loadLogoAsBase64();
-        if (logoBase64) {
-            // Logo mit korrekten Proportionen (breit und flach für Skinlux)
-            const logoWidth = 45; // Breiter für bessere Lesbarkeit
-            const logoHeight = 12; // Niedriger für korrekte Proportionen
-            doc.addImage(logoBase64, 'PNG', centerX - logoWidth / 2, currentY - 10, logoWidth, logoHeight);
-            currentY += logoHeight + 5;
-        } else {
-            // Fallback zu Text-Logo wenn Bild nicht geladen werden kann
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(16);
-            doc.setTextColor(...textGray);
-            const brandText = 'SKINLUX';
-            const brandWidth = doc.getTextWidth(brandText);
-            doc.text(brandText, centerX - brandWidth / 2, currentY);
-            currentY += 8;
-        }
+        // Skinlux Hauptlogo - elegant als Text
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(28);
+        doc.setTextColor(...black);
+        const brandText = 'SKINLUX';
+        const brandWidth = doc.getTextWidth(brandText);
+        doc.text(brandText, centerX - brandWidth / 2, currentY);
 
-        // Subtle line under brand
-        doc.setDrawColor(...lightGray);
-        doc.setLineWidth(0.5);
-        doc.line(centerX - 30, currentY, centerX + 30, currentY);
-
-        // === GUTSCHEINNUMMER IM HEADER ===
-        currentY += 20;
+        // Untertitel
+        currentY += 10;
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(10);
-        doc.setTextColor(...textGray);
-        const voucherNumberText = `Gutschein-Nr.: ${data.voucherCode}`;
-        const voucherNumberWidth = doc.getTextWidth(voucherNumberText);
-        doc.text(voucherNumberText, centerX - voucherNumberWidth / 2, currentY);
+        doc.setTextColor(...lightGray);
+        const subText = 'MEDICAL BEAUTY';
+        const subWidth = doc.getTextWidth(subText);
+        doc.text(subText, centerX - subWidth / 2, currentY);
 
-        // === MAIN CONTENT ===
-        currentY += 40;
+        // Dezente Linie unter dem Branding
+        currentY += 15;
+        doc.setDrawColor(...veryLightGray);
+        doc.setLineWidth(0.5);
+        doc.line(margin, currentY, pageWidth - margin, currentY);
 
-        // Gift indicator (if applicable)
-        if (isGift) {
+        // === GUTSCHEIN HEADER ===
+        currentY += 15;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(14);
+        doc.setTextColor(...darkGray);
+        const headerText = 'G U T S C H E I N';
+        const headerWidth = doc.getTextWidth(headerText);
+        doc.text(headerText, centerX - headerWidth / 2, currentY);
+
+        // Gutschein-Nummer diskret
+        currentY += 4;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(...lightGray);
+        const codeText = data.voucherCode;
+        const codeWidth = doc.getTextWidth(codeText);
+        doc.text(codeText, centerX - codeWidth / 2, currentY);
+
+        // === HAUPTINHALT ===
+        currentY += 15;
+
+        // Geschenk-Information entfernt (auf Wunsch des Nutzers)
+
+        // === PERSÖNLICHE NACHRICHT (vor dem Betrag) ===
+        if (data.message) {
+            // Sanfte Trennlinie
+            doc.setDrawColor(...veryLightGray);
+            doc.setLineWidth(0.5);
+            doc.line(margin + 20, currentY, pageWidth - margin - 20, currentY);
+
+            currentY += 20;
+
+            // Nachricht-Titel
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(14);
-            doc.setTextColor(...textGray);
-            const giftText = `Geschenk für ${recipientName}`;
-            const giftWidth = doc.getTextWidth(giftText);
-            doc.text(giftText, centerX - giftWidth / 2, currentY);
+            doc.setFontSize(10);
+            doc.setTextColor(...lightGray);
+            const msgTitleText = 'PERSÖNLICHE NACHRICHT';
+            const msgTitleWidth = doc.getTextWidth(msgTitleText);
+            doc.text(msgTitleText, centerX - msgTitleWidth / 2, currentY);
 
-            doc.setFontSize(11);
-            doc.setTextColor(...textGray);
-            const fromText = `von ${data.senderName}`;
-            const fromWidth = doc.getTextWidth(fromText);
-            doc.text(fromText, centerX - fromWidth / 2, currentY + 8);
+            currentY += 15;
+
+            // Nachricht selbst - elegant formatiert
+            doc.setFont('helvetica', 'italic');
+            doc.setFontSize(12);
+            doc.setTextColor(...darkGray);
+
+            const messageLines = doc.splitTextToSize(`"${data.message}"`, 120);
+            messageLines.forEach((line: string, index: number) => {
+                const lineWidth = doc.getTextWidth(line);
+                doc.text(line, centerX - lineWidth / 2, currentY + (index * 6));
+            });
+
+            currentY += messageLines.length * 6;
+
+            // Unterschrift entfernt (da keine Geschenk-Information mehr angezeigt wird)
 
             currentY += 30;
         }
 
-        // Main voucher text - very clean
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(18);
-        doc.setTextColor(...primaryColor);
-        const voucherText = 'GUTSCHEIN';
-        const voucherWidth = doc.getTextWidth(voucherText);
-        doc.text(voucherText, centerX - voucherWidth / 2, currentY);
+        // === WERT-SEKTION (nach der Nachricht) ===
+        // Leichter Hintergrund für Wert-Bereich
+        const valueBoxHeight = 80;
+        doc.setFillColor(...veryLightGray);
+        doc.rect(margin, currentY - 10, pageWidth - (2 * margin), valueBoxHeight, 'F');
 
-        // Amount - large and prominent with modern font
-        currentY += 40;
+        currentY += 15;
+
+        // Euro-Symbol und Betrag - perfekt zentriert
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(84);
-        doc.setTextColor(...primaryColor);
+        doc.setFontSize(64);
+        doc.setTextColor(...black);
+        const amountText = `€ ${data.amount}`;
+        const amountWidth = doc.getTextWidth(amountText);
+        doc.text(amountText, centerX - amountWidth / 2, currentY + 25);
 
-        // Euro symbol and amount with spacing
-        const euroSymbol = '€';
-        const amountNumber = ` ${data.amount}`;
-        const euroWidth = doc.getTextWidth(euroSymbol);
-        const numberWidth = doc.getTextWidth(amountNumber);
-        const totalWidth = euroWidth + numberWidth;
-
-        // Render € symbol and amount separately with proper spacing
-        const startX = centerX - totalWidth / 2;
-        doc.text(euroSymbol, startX, currentY);
-        doc.text(amountNumber, startX + euroWidth, currentY);
-
-        // Written amount for security (smaller, below)
-        currentY += 20;
+        // Betrag in Worten - für Sicherheit
+        currentY += 40;
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(14);
-        doc.setTextColor(...textGray);
+        doc.setFontSize(11);
+        doc.setTextColor(...darkGray);
         const writtenAmount = this.numberToGermanWords(data.amount);
         const writtenWidth = doc.getTextWidth(writtenAmount);
         doc.text(writtenAmount, centerX - writtenWidth / 2, currentY);
 
-        // === PERSÖNLICHE NACHRICHT (direkt nach dem Betrag) ===
-        if (data.message) {
-            currentY += 35;
+        currentY += 45;
 
-            // Title "Persönliche Nachricht" ohne Emoji (wegen Unicode-Problemen)
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(11);
-            doc.setTextColor(...textGray);
-            const titleText = 'Persönliche Nachricht';
-            const titleWidth = doc.getTextWidth(titleText);
-            doc.text(titleText, centerX - titleWidth / 2, currentY);
-
-            currentY += 15;
-
-            // Message text with better formatting
-            doc.setFont('helvetica', 'italic');
-            doc.setFontSize(11);
-            doc.setTextColor(...primaryColor);
-
-            const messageLines = doc.splitTextToSize(`"${data.message}"`, 140);
-            const messageHeight = messageLines.length * 5;
-
-            // Message text centered with proper spacing (ohne Hintergrund und Rahmen)
-            messageLines.forEach((line: string, index: number) => {
-                const lineWidth = doc.getTextWidth(line);
-                doc.text(line, centerX - lineWidth / 2, currentY + 2 + (index * 5));
-            });
-
-            // Signature line if it's a gift
-            if (isGift) {
-                currentY += messageHeight + 12;
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(10);
-                doc.setTextColor(...textGray);
-                const signatureText = `— ${data.senderName}`;
-                const signatureWidth = doc.getTextWidth(signatureText);
-                doc.text(signatureText, centerX + 50 - signatureWidth, currentY);
-            }
-
-            currentY += messageHeight + 60; // Deutlich mehr Abstand nach der Nachricht
-        }
-
-        // === CODE SECTION ENTFERNT - Gutscheinnummer ist jetzt im Header ===
-
-        // === EXPIRY ===
-        currentY += 40; // Mehr Abstand vor dem Gültigkeitsdatum
+        // === GÜLTIGKEIT ===
+        currentY += 30;
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(12);
-        doc.setTextColor(...textGray);
+        doc.setFontSize(10);
+        doc.setTextColor(...lightGray);
         const expiryText = `Gültig bis ${new Date(data.expiresAt).toLocaleDateString('de-DE', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
         })}`;
         const expiryWidth = doc.getTextWidth(expiryText);
         doc.text(expiryText, centerX - expiryWidth / 2, currentY);
 
-        // === FOOTER - IMMER AM UNTEREN RAND ===
-        // Footer immer am unteren Rand der Seite positionieren
-        const footerY = pageHeight - 50; // 50mm vom unteren Rand
+        // === FOOTER ===
+        const footerY = pageHeight - 40;
 
-        // Adresse im Footer
+        // Trennlinie vor Footer
+        doc.setDrawColor(...veryLightGray);
+        doc.setLineWidth(0.5);
+        doc.line(margin, footerY - 15, pageWidth - margin, footerY - 15);
+
+        // Kontakt-Information
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(9);
-        doc.setTextColor(...textGray);
+        doc.setTextColor(...lightGray);
 
-        const contactLines = [
+        const contactInfo = [
             'Skinlux Bischofshofen',
             'Bahnhofstrasse 17, 5500 Bischofshofen',
             'Tel: 0660 57 21 403 • hello@skinlux.at'
         ];
 
-        contactLines.forEach((line, index) => {
+        contactInfo.forEach((line, index) => {
             const lineWidth = doc.getTextWidth(line);
             doc.text(line, centerX - lineWidth / 2, footerY + (index * 4));
         });
 
-        // Voucher ID ganz unten
+        // Order-ID ganz unten
         doc.setFontSize(7);
-        doc.setTextColor(180, 180, 180);
-        const voucherId = `ORD-${data.orderNumber}`;
-        const idWidth = doc.getTextWidth(voucherId);
-        doc.text(voucherId, centerX - idWidth / 2, pageHeight - 8);
+        doc.setTextColor(200, 200, 200);
+        const orderId = `ORD-${data.orderNumber}`;
+        const orderIdWidth = doc.getTextWidth(orderId);
+        doc.text(orderId, centerX - orderIdWidth / 2, pageHeight - 10);
     }
 
     // Helper function to convert numbers to German words
     private static numberToGermanWords(amount: number): string {
-        // Handle common voucher amounts
         const commonAmounts: { [key: number]: string } = {
             10: 'zehn Euro',
             15: 'fünfzehn Euro',
@@ -262,13 +242,6 @@ export class PDFGenerator {
             500: 'fünfhundert Euro'
         };
 
-        // Return known amount or fallback to numeric
         return commonAmounts[amount] || `${amount} Euro`;
-    }
-
-    private static async loadLogoAsBase64(): Promise<string> {
-        // Verwende das importierte Skinlux Logo (saubere Export/Import-Struktur)
-        console.log('✅ Using imported Skinlux logo from skinlux-logo.ts');
-        return SKINLUX_LOGO_BASE64;
     }
 }

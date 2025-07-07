@@ -223,34 +223,67 @@ export class PDFGenerator {
         }
 
         // === FOOTER ===
-        // Stelle sicher, dass genug Abstand zum Content ist
-        currentY += 40; // Mehr Abstand vor Footer
-        const minFooterY = Math.max(currentY, pageHeight - 70); // Mindestens 70px vom unteren Rand
-        const footerY = minFooterY;
+        // Berechne verfügbaren Platz für Footer
+        const footerHeight = 30; // Geschätzte Footer-Höhe (4 Zeilen à 5mm + padding)
+        const minFooterSpace = pageHeight - 50; // Maximal erlaubte Footer-Position
 
-        // Simple contact - using data from bankDetails
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
-        doc.setTextColor(...textGray);
+        // Wenn der Content zu lang ist, positioniere Footer am unteren Rand
+        if (currentY + 20 > minFooterSpace) {
+            console.log('📄 Content too long, positioning footer at bottom of page');
+            // Footer fest am unteren Rand positionieren
+            const footerY = pageHeight - 45;
 
-        const contactLines = [
-            bankDetails.businessName || 'Skinlux Bischofshofen',
-            `${bankDetails.streetAddress || 'Salzburger Straße 45'}, ${bankDetails.postalCode || '5500'} ${bankDetails.city || 'Bischofshofen'}`,
-            `Tel: ${bankDetails.phone || '+43 123 456 789'}`,
-            `${bankDetails.email || 'hello@skinlux.at'} • ${bankDetails.website || 'skinlux.at'}`
-        ];
+            // Simple contact - using data from bankDetails
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9); // Kleinere Schrift für kompakten Footer
+            doc.setTextColor(...textGray);
 
-        contactLines.forEach((line, index) => {
-            const lineWidth = doc.getTextWidth(line);
-            doc.text(line, centerX - lineWidth / 2, footerY + (index * 5));
-        });
+            const contactLines = [
+                bankDetails.businessName || 'Skinlux Bischofshofen',
+                `${bankDetails.streetAddress || 'Salzburger Straße 45'}, ${bankDetails.postalCode || '5500'} ${bankDetails.city || 'Bischofshofen'}`,
+                `Tel: ${bankDetails.phone || '+43 123 456 789'} • ${bankDetails.email || 'hello@skinlux.at'}`
+            ];
 
-        // Voucher ID at very bottom
-        doc.setFontSize(8);
-        doc.setTextColor(180, 180, 180);
-        const voucherId = `ORD-${data.orderNumber}`;
-        const idWidth = doc.getTextWidth(voucherId);
-        doc.text(voucherId, centerX - idWidth / 2, footerY + 25); // 25px unter dem letzten Footer-Text
+            contactLines.forEach((line, index) => {
+                const lineWidth = doc.getTextWidth(line);
+                doc.text(line, centerX - lineWidth / 2, footerY + (index * 4));
+            });
+
+            // Voucher ID at very bottom
+            doc.setFontSize(7);
+            doc.setTextColor(180, 180, 180);
+            const voucherId = `ORD-${data.orderNumber}`;
+            const idWidth = doc.getTextWidth(voucherId);
+            doc.text(voucherId, centerX - idWidth / 2, pageHeight - 8);
+        } else {
+            // Normaler Footer mit Abstand zum Content
+            currentY += 30;
+            const footerY = currentY;
+
+            // Simple contact - using data from bankDetails
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(...textGray);
+
+            const contactLines = [
+                bankDetails.businessName || 'Skinlux Bischofshofen',
+                `${bankDetails.streetAddress || 'Salzburger Straße 45'}, ${bankDetails.postalCode || '5500'} ${bankDetails.city || 'Bischofshofen'}`,
+                `Tel: ${bankDetails.phone || '+43 123 456 789'}`,
+                `${bankDetails.email || 'hello@skinlux.at'} • ${bankDetails.website || 'skinlux.at'}`
+            ];
+
+            contactLines.forEach((line, index) => {
+                const lineWidth = doc.getTextWidth(line);
+                doc.text(line, centerX - lineWidth / 2, footerY + (index * 5));
+            });
+
+            // Voucher ID at very bottom
+            doc.setFontSize(8);
+            doc.setTextColor(180, 180, 180);
+            const voucherId = `ORD-${data.orderNumber}`;
+            const idWidth = doc.getTextWidth(voucherId);
+            doc.text(voucherId, centerX - idWidth / 2, footerY + 25);
+        }
     }
 
     // Helper function to convert numbers to German words

@@ -158,16 +158,38 @@ const Contact = () => {
 
                                     <div className="space-y-3">
                                         <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Montag - Freitag</span>
+                                            <span className="text-gray-600 font-light">Montag</span>
                                             <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                9:00 - 19:00
+                                                9:00 - 18:00
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                            <span className="text-gray-600 font-light">Dienstag</span>
+                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
+                                                9:00 - 18:00
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                            <span className="text-gray-600 font-light">Mittwoch</span>
+                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
+                                                9:00 - 18:00
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                            <span className="text-gray-600 font-light">Donnerstag</span>
+                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
+                                                9:00 - 17:00
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                            <span className="text-gray-600 font-light">Freitag</span>
+                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
+                                                9:00 - 17:00
                                             </span>
                                         </div>
                                         <div className="flex justify-between items-center py-2 border-b border-gray-100">
                                             <span className="text-gray-600 font-light">Samstag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                9:00 - 14:00
-                                            </span>
+                                            <span className="text-gray-400 font-light">Geschlossen</span>
                                         </div>
                                         <div className="flex justify-between items-center py-2">
                                             <span className="text-gray-600 font-light">Sonntag</span>

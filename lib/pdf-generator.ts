@@ -213,68 +213,32 @@ export class PDFGenerator {
         const expiryWidth = doc.getTextWidth(expiryText);
         doc.text(expiryText, centerX - expiryWidth / 2, currentY);
 
-        // === FOOTER ===
-        // Berechne verfügbaren Platz für Footer - noch mehr Platz lassen wenn Nachricht vorhanden
-        const footerSpaceNeeded = data.message ? 150 : 90; // Noch mehr Platz für Nachrichten
-        const minFooterSpace = pageHeight - footerSpaceNeeded;
+        // === FOOTER - IMMER AM UNTEREN RAND ===
+        // Footer immer am unteren Rand der Seite positionieren
+        const footerY = pageHeight - 50; // 50mm vom unteren Rand
 
-        // Wenn der Content zu lang ist, positioniere Footer am unteren Rand
-        if (currentY + 80 > minFooterSpace) {
-            console.log('📄 Content too long, positioning footer at bottom of page');
-            // Footer fest am unteren Rand positionieren - noch weiter unten
-            const footerY = data.message ? pageHeight - 75 : pageHeight - 55;
+        // Adresse im Footer
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(...textGray);
 
-            // Simple contact - using data from bankDetails
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9); // Kleinere Schrift für kompakten Footer
-            doc.setTextColor(...textGray);
+        const contactLines = [
+            'Skinlux Bischofshofen',
+            'Bahnhofstrasse 17, 5500 Bischofshofen',
+            'Tel: 0660 57 21 403 • hello@skinlux.at'
+        ];
 
-            const contactLines = [
-                'Skinlux Bischofshofen',
-                'Bahnhofstrasse 17, 5500 Bischofshofen',
-                'Tel: 0660 57 21 403 • hello@skinlux.at'
-            ];
+        contactLines.forEach((line, index) => {
+            const lineWidth = doc.getTextWidth(line);
+            doc.text(line, centerX - lineWidth / 2, footerY + (index * 4));
+        });
 
-            contactLines.forEach((line, index) => {
-                const lineWidth = doc.getTextWidth(line);
-                doc.text(line, centerX - lineWidth / 2, footerY + (index * 4));
-            });
-
-            // Voucher ID at very bottom
-            doc.setFontSize(7);
-            doc.setTextColor(180, 180, 180);
-            const voucherId = `ORD-${data.orderNumber}`;
-            const idWidth = doc.getTextWidth(voucherId);
-            doc.text(voucherId, centerX - idWidth / 2, pageHeight - 8);
-        } else {
-            // Normaler Footer mit mehr Abstand zum Content
-            currentY += 60; // Noch mehr Abstand vor dem Footer
-            const footerY = currentY;
-
-            // Simple contact - using data from bankDetails
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-            doc.setTextColor(...textGray);
-
-            const contactLines = [
-                'Skinlux Bischofshofen',
-                'Bahnhofstrasse 17, 5500 Bischofshofen',
-                'Tel: 0660 57 21 403',
-                'hello@skinlux.at'
-            ];
-
-            contactLines.forEach((line, index) => {
-                const lineWidth = doc.getTextWidth(line);
-                doc.text(line, centerX - lineWidth / 2, footerY + (index * 5));
-            });
-
-            // Voucher ID at very bottom
-            doc.setFontSize(8);
-            doc.setTextColor(180, 180, 180);
-            const voucherId = `ORD-${data.orderNumber}`;
-            const idWidth = doc.getTextWidth(voucherId);
-            doc.text(voucherId, centerX - idWidth / 2, footerY + 25);
-        }
+        // Voucher ID ganz unten
+        doc.setFontSize(7);
+        doc.setTextColor(180, 180, 180);
+        const voucherId = `ORD-${data.orderNumber}`;
+        const idWidth = doc.getTextWidth(voucherId);
+        doc.text(voucherId, centerX - idWidth / 2, pageHeight - 8);
     }
 
     // Helper function to convert numbers to German words

@@ -37,7 +37,7 @@ export class PDFGenerator {
         const textGray = [100, 100, 100] as [number, number, number]; // Medium gray
 
         // === MINIMALIST SINGLE-PAGE LAYOUT ===
-        this.renderModernLayout(doc, data, bankDetails, recipientName, isGift, primaryColor, accentColor, lightGray, textGray);
+        await this.renderModernLayout(doc, data, bankDetails, recipientName, isGift, primaryColor, accentColor, lightGray, textGray);
 
         const pdfBytes = new Uint8Array(doc.output('arraybuffer'));
 
@@ -46,7 +46,7 @@ export class PDFGenerator {
         return pdfBytes;
     }
 
-    private static renderModernLayout(
+    private static async renderModernLayout(
         doc: jsPDF,
         data: VoucherEmailData,
         bankDetails: BankDetails,
@@ -64,16 +64,26 @@ export class PDFGenerator {
         // === HEADER SECTION ===
         let currentY = 60;
 
-        // Minimalist brand
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(16);
-        doc.setTextColor(...textGray);
-        const brandText = 'SKINLUX';
-        const brandWidth = doc.getTextWidth(brandText);
-        doc.text(brandText, centerX - brandWidth / 2, currentY);
+        // Skinlux Logo
+        const logoBase64 = await this.loadLogoAsBase64();
+        if (logoBase64) {
+            // Logo als Bild hinzufügen (30mm breit, automatische Höhe)
+            const logoWidth = 30;
+            const logoHeight = 15; // Geschätzte Höhe, kann angepasst werden
+            doc.addImage(logoBase64, 'PNG', centerX - logoWidth / 2, currentY - 10, logoWidth, logoHeight);
+            currentY += logoHeight + 5;
+        } else {
+            // Fallback zu Text-Logo wenn Bild nicht geladen werden kann
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(16);
+            doc.setTextColor(...textGray);
+            const brandText = 'SKINLUX';
+            const brandWidth = doc.getTextWidth(brandText);
+            doc.text(brandText, centerX - brandWidth / 2, currentY);
+            currentY += 8;
+        }
 
         // Subtle line under brand
-        currentY += 8;
         doc.setDrawColor(...lightGray);
         doc.setLineWidth(0.5);
         doc.line(centerX - 30, currentY, centerX + 30, currentY);
@@ -296,5 +306,39 @@ export class PDFGenerator {
 
         // Return known amount or fallback to numeric
         return commonAmounts[amount] || `${amount} Euro`;
+    }
+
+    private static async loadLogoAsBase64(): Promise<string> {
+        try {
+            // Dynamischer Import für Node.js Module (nur server-side)
+            if (typeof window === 'undefined') {
+                const fs = await import('fs');
+                const path = await import('path');
+
+                const logoPath = path.join(process.cwd(), 'public', 'images', 'logo', 'skinlux-logo.png');
+                const logoBuffer = fs.readFileSync(logoPath);
+                return `data:image/png;base64,${logoBuffer.toString('base64')}`;
+            } else {
+                // Client-side fallback (falls jemals benötigt)
+                const logoPath = '/images/logo/skinlux-logo.png';
+                const response = await fetch(logoPath);
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load logo: ${response.status}`);
+                }
+
+                const buffer = await response.arrayBuffer();
+                const bytes = new Uint8Array(buffer);
+                let binary = '';
+                for (let i = 0; i < bytes.byteLength; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+
+                return `data:image/png;base64,${btoa(binary)}`;
+            }
+        } catch (error) {
+            console.warn('⚠️ Failed to load logo:', error);
+            return ''; // Fallback zu Text-Logo
+        }
     }
 }

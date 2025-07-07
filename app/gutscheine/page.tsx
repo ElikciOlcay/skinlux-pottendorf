@@ -133,7 +133,6 @@ export default function Gutscheine() {
             console.log('🏢 Current subdomain from client:', currentSubdomain);
 
             // Erstelle Voucher Data Object (mit allen benötigten Spalten)
-            const { senderEmailRepeat, ...formDataWithoutRepeat } = formData;
             const voucherData = {
                 code: voucherCode,
                 order_number: orderNumber,

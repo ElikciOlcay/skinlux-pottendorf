@@ -100,7 +100,7 @@ export class PDFGenerator {
         doc.text(headerText, centerX - headerWidth / 2, currentY);
 
         // Gutschein-Nummer diskret
-        currentY += 2;
+        currentY += 4;
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(...lightGray);

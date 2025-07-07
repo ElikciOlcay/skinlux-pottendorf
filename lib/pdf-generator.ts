@@ -224,7 +224,6 @@ export class PDFGenerator {
 
         // === FOOTER ===
         // Berechne verfügbaren Platz für Footer
-        const footerHeight = 30; // Geschätzte Footer-Höhe (4 Zeilen à 5mm + padding)
         const minFooterSpace = pageHeight - 50; // Maximal erlaubte Footer-Position
 
         // Wenn der Content zu lang ist, positioniere Footer am unteren Rand

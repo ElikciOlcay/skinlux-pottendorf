@@ -223,7 +223,10 @@ export class PDFGenerator {
         }
 
         // === FOOTER ===
-        const footerY = pageHeight - 50; // Mehr Platz für Footer
+        // Stelle sicher, dass genug Abstand zum Content ist
+        currentY += 40; // Mehr Abstand vor Footer
+        const minFooterY = Math.max(currentY, pageHeight - 70); // Mindestens 70px vom unteren Rand
+        const footerY = minFooterY;
 
         // Simple contact - using data from bankDetails
         doc.setFont('helvetica', 'normal');
@@ -247,7 +250,7 @@ export class PDFGenerator {
         doc.setTextColor(180, 180, 180);
         const voucherId = `ORD-${data.orderNumber}`;
         const idWidth = doc.getTextWidth(voucherId);
-        doc.text(voucherId, centerX - idWidth / 2, pageHeight - 10);
+        doc.text(voucherId, centerX - idWidth / 2, footerY + 25); // 25px unter dem letzten Footer-Text
     }
 
     // Helper function to convert numbers to German words

@@ -510,7 +510,7 @@ export default function Gutscheine() {
                                                 💌 Persönliche Nachricht für den Gutschein
                                             </label>
                                             <p className="text-xs text-gray-500 mb-3">
-                                                Diese Nachricht wird auf dem Gutschein-PDF gedruckt. Ideal für Geschenke - z.B. "Alles Gute zum Geburtstag, liebe Maria!"
+                                                Diese Nachricht wird auf dem Gutschein-PDF gedruckt. Ideal für Geschenke - z.B. &quot;Alles Gute zum Geburtstag, liebe Maria!&quot;
                                             </p>
                                             <textarea
                                                 placeholder="z.B. Alles Gute zum Geburtstag! Ich hoffe du genießt deine Auszeit bei Skinlux ❤️"

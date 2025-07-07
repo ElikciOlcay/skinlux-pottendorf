@@ -89,25 +89,6 @@ export default function VoucherDetailPage() {
         amount: 0
     });
 
-    useEffect(() => {
-        const checkAuthAndLoadVoucher = async () => {
-            try {
-                const { isAdmin } = await AdminAuth.isAdmin();
-                if (!isAdmin) {
-                    router.push("/admin");
-                    return;
-                }
-
-                await loadVoucherDetail();
-            } catch (error) {
-                console.error("Auth check failed:", error);
-                router.push("/admin");
-            }
-        };
-
-        checkAuthAndLoadVoucher();
-    }, [router, voucherId]);
-
     const loadVoucherDetail = useCallback(async () => {
         try {
             setLoading(true);
@@ -146,6 +127,25 @@ export default function VoucherDetailPage() {
             setLoading(false);
         }
     }, [voucherId]);
+
+    useEffect(() => {
+        const checkAuthAndLoadVoucher = async () => {
+            try {
+                const { isAdmin } = await AdminAuth.isAdmin();
+                if (!isAdmin) {
+                    router.push("/admin");
+                    return;
+                }
+
+                await loadVoucherDetail();
+            } catch (error) {
+                console.error("Auth check failed:", error);
+                router.push("/admin");
+            }
+        };
+
+        checkAuthAndLoadVoucher();
+    }, [router, voucherId, loadVoucherDetail]);
 
     const handleSaveChanges = async () => {
         try {

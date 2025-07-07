@@ -1,7 +1,10 @@
 import { jsPDF } from 'jspdf';
 import { VoucherEmailData, BankDetails } from './email';
+import { SKINLUX_LOGO_BASE64 } from './skinlux-logo';
 
 export class PDFGenerator {
+
+
     // Generate a PDF voucher using jsPDF (reliable and fast)
     static async generateVoucherPDF(data: VoucherEmailData): Promise<Uint8Array> {
         console.log('🖨️ Starting jsPDF generation for voucher:', data.voucherCode);
@@ -309,28 +312,8 @@ export class PDFGenerator {
     }
 
     private static async loadLogoAsBase64(): Promise<string> {
-        try {
-            // Versuche Logo über öffentliche URL zu laden (funktioniert lokal und in Production)
-            const logoUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/images/logo/skinlux-logo.png`;
-            console.log('🔄 Trying to load logo from:', logoUrl);
-
-            const response = await fetch(logoUrl);
-            if (!response.ok) {
-                throw new Error(`Failed to load logo: ${response.status}`);
-            }
-
-            const buffer = await response.arrayBuffer();
-            const bytes = new Uint8Array(buffer);
-            let binary = '';
-            for (let i = 0; i < bytes.byteLength; i++) {
-                binary += String.fromCharCode(bytes[i]);
-            }
-
-            console.log('✅ Logo loaded successfully');
-            return `data:image/png;base64,${btoa(binary)}`;
-        } catch (error) {
-            console.warn('⚠️ Failed to load logo, using text fallback:', error);
-            return ''; // Fallback zu Text-Logo
-        }
+        // Verwende das importierte Skinlux Logo (saubere Export/Import-Struktur)
+        console.log('✅ Using imported Skinlux logo from skinlux-logo.ts');
+        return SKINLUX_LOGO_BASE64;
     }
 }

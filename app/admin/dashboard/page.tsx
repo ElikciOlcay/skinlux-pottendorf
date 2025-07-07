@@ -5,95 +5,90 @@ import { useRouter } from "next/navigation";
 import {
     LogOut,
     Gift,
-    CheckCircle,
-    Clock,
-    XCircle,
-    Eye,
-    User,
     Calendar,
-    AlertTriangle,
-    Banknote,
-    Settings,
-    Save,
-    Search,
-    RefreshCw,
-    BarChart3,
-    Euro,
-    Mail,
-    Plus
+    ShoppingCart,
+    Heart,
+    ExternalLink,
+    User,
+    Clock,
+    Sparkles,
+    Activity,
+    Zap
 } from "lucide-react";
-import { AdminAuth, AdminVouchers, type AdminAccess } from "@/lib/supabase-auth";
-import { Voucher } from "@/lib/supabase";
+import { AdminAuth, type AdminAccess } from "@/lib/supabase-auth";
+import { Inter } from "next/font/google";
 
-interface BankDetails {
-    bankName: string;
-    accountHolder: string;
-    iban: string;
-    bic: string;
-    reference: string;
-    voucherValidityMonths: number;
-    sendVoucherAsPDF: boolean;
-    // Address fields for vouchers and emails
-    businessName: string;
-    streetAddress: string;
-    postalCode: string;
-    city: string;
-    country: string;
-    phone?: string;
-    email: string;
-    website: string;
+// Inter Font konfigurieren
+const inter = Inter({
+    subsets: ["latin"],
+    weight: ['300', '400', '500', '600', '700', '800', '900'],
+    variable: '--font-inter'
+});
+
+interface DashboardTile {
+    id: string;
+    title: string;
+    description: string;
+    url: string;
+    icon: React.ReactNode;
+    color: string;
+    gradient: string;
+    bgPattern?: string;
 }
 
 export default function AdminDashboard() {
     const router = useRouter();
     const [adminData, setAdminData] = useState<AdminAccess | null>(null);
-    const [vouchers, setVouchers] = useState<Voucher[]>([]);
-    const [filteredVouchers, setFilteredVouchers] = useState<Voucher[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-    const [showBankSettings, setShowBankSettings] = useState(false);
-    const [bankDetails, setBankDetails] = useState<BankDetails>({
-        bankName: '',
-        accountHolder: '',
-        iban: '',
-        bic: '',
-        reference: 'Gutschein-Bestellung',
-        voucherValidityMonths: 12,
-        sendVoucherAsPDF: false,
-        // Default address values
-        businessName: 'Skinlux Bischofshofen',
-        streetAddress: 'Salzburger Straße 45',
-        postalCode: '5500',
-        city: 'Bischofshofen',
-        country: 'Österreich',
-        phone: '+43 123 456 789',
-        email: 'hello@skinlux.at',
-        website: 'skinlux.at'
-    });
-    const [savingBankDetails, setSavingBankDetails] = useState(false);
+    const [hoveredTile, setHoveredTile] = useState<string | null>(null);
 
-    // Filter und Search States
-    const [searchTerm, setSearchTerm] = useState("");
-    const [statusFilter, setStatusFilter] = useState("all");
-    const [refreshing, setRefreshing] = useState(false);
+    // Dashboard Kacheln mit modernerem Design
+    const dashboardTiles: DashboardTile[] = [
+        {
+            id: "shore",
+            title: "Buchungen Shore",
+            description: "Terminplanung und Kundenverwaltung",
+            url: "https://my.shore.com/calendar/week",
+            icon: <Calendar className="w-9 h-9" />,
+            color: "blue",
+            gradient: "from-blue-500 to-indigo-600",
+            bgPattern: "bg-gradient-to-br from-blue-500/20 to-indigo-600/20"
+        },
+        {
+            id: "pocketbill",
+            title: "Kasse",
+            description: "PocketBill Kassensystem",
+            url: "https://app.pocketbill.at/cashRegisters/sell",
+            icon: <ShoppingCart className="w-9 h-9" />,
+            color: "emerald",
+            gradient: "from-emerald-500 to-teal-600",
+            bgPattern: "bg-gradient-to-br from-emerald-500/20 to-teal-600/20"
+        },
+        {
+            id: "treatflow",
+            title: "Treatflow",
+            description: "Behandlungsdokumentation",
+            url: "https://my.treatflow.io/",
+            icon: <Heart className="w-9 h-9" />,
+            color: "pink",
+            gradient: "from-pink-500 to-rose-600",
+            bgPattern: "bg-gradient-to-br from-pink-500/20 to-rose-600/20"
+        },
+        {
+            id: "vouchers",
+            title: "Gutscheine",
+            description: "Gutschein-Management",
+            url: "/gutscheine",
+            icon: <Gift className="w-9 h-9" />,
+            color: "purple",
+            gradient: "from-purple-500 to-violet-600",
+            bgPattern: "bg-gradient-to-br from-purple-500/20 to-violet-600/20"
+        }
+    ];
 
-    // Loading States für Status-Updates
-    const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
-
-    // Gutschein-Verkauf States
-    const [showVoucherForm, setShowVoucherForm] = useState(false);
-    const [creatingVoucher, setCreatingVoucher] = useState(false);
-    const [voucherForm, setVoucherForm] = useState({
-        amount: "",
-        senderName: "",
-        senderEmail: "",
-        senderPhone: "",
-        voucherCode: ""
-    });
-
-    // Auth-Check und Daten laden
+    // Auth-Check beim Component-Mount
     useEffect(() => {
-        const checkAuthAndLoadData = async () => {
+        const checkAuth = async () => {
             try {
                 const { isAdmin } = await AdminAuth.isAdmin();
 
@@ -104,62 +99,16 @@ export default function AdminDashboard() {
 
                 const adminInfo = await AdminAuth.getAdminData();
                 setAdminData(adminInfo);
-
-                await loadVouchers();
-                await loadBankDetails();
             } catch (error) {
                 console.error("Auth check failed:", error);
                 router.push("/admin");
+            } finally {
+                setLoading(false);
             }
         };
 
-        checkAuthAndLoadData();
+        checkAuth();
     }, [router]);
-
-    // Filter vouchers when search or filter changes
-    useEffect(() => {
-        let filtered = vouchers;
-
-        // Search filter
-        if (searchTerm) {
-            filtered = filtered.filter(voucher =>
-                voucher.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                voucher.sender_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                voucher.sender_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                voucher.payment_reference?.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-        }
-
-        // Status filter
-        if (statusFilter !== "all") {
-            filtered = filtered.filter(voucher => voucher.payment_status === statusFilter);
-        }
-
-        setFilteredVouchers(filtered);
-    }, [vouchers, searchTerm, statusFilter]);
-
-    const loadVouchers = async () => {
-        try {
-            const result = await AdminVouchers.getAllVouchers();
-            if (result.success) {
-                setVouchers(result.vouchers || []);
-                setError("");
-            } else {
-                setError(result.error || "Fehler beim Laden der Vouchers");
-            }
-        } catch (error) {
-            setError("Unerwarteter Fehler beim Laden der Vouchers");
-            console.error("Load vouchers error:", error);
-        } finally {
-            setLoading(false);
-            setRefreshing(false);
-        }
-    };
-
-    const handleRefresh = async () => {
-        setRefreshing(true);
-        await loadVouchers();
-    };
 
     const handleLogout = async () => {
         const result = await AdminAuth.signOut();
@@ -168,258 +117,82 @@ export default function AdminDashboard() {
         }
     };
 
-    const updateVoucherStatus = async (voucherId: string, newStatus: string) => {
-        try {
-            setUpdatingStatus(voucherId);
-            setError(""); // Clear any previous errors
-
-            const result = await AdminVouchers.updateVoucherStatus(voucherId, newStatus);
-            if (result.success) {
-                await loadVouchers();
-            } else {
-                setError(result.error || "Fehler beim Aktualisieren");
-            }
-        } catch (error) {
-            setError("Fehler beim Aktualisieren des Voucher-Status");
-            console.error("Update error:", error);
-        } finally {
-            setUpdatingStatus(null);
+    const handleTileClick = (tile: DashboardTile) => {
+        if (tile.id === "vouchers") {
+            // Interne Navigation für Gutscheine
+            router.push(tile.url);
+        } else {
+            // Externe Links in neuem Tab öffnen
+            window.open(tile.url, '_blank', 'noopener,noreferrer');
         }
     };
 
-    const getStatusIcon = (status: string) => {
-        switch (status) {
-            case 'paid':
-            case 'active':
-                return <CheckCircle className="w-4 h-4 text-green-500" />;
-            case 'pending':
-                return <Clock className="w-4 h-4 text-amber-500" />;
-            case 'cancelled':
-                return <XCircle className="w-4 h-4 text-red-500" />;
-            default:
-                return <AlertTriangle className="w-4 h-4 text-gray-500" />;
-        }
-    };
-
-    const getStatusBadge = (status: string) => {
-        const statusMap = {
-            'paid': 'bg-green-50 text-green-700 border-green-200',
-            'active': 'bg-green-50 text-green-700 border-green-200',
-            'pending': 'bg-amber-50 text-amber-700 border-amber-200',
-            'cancelled': 'bg-red-50 text-red-700 border-red-200'
-        };
-        return statusMap[status as keyof typeof statusMap] || 'bg-gray-50 text-gray-700 border-gray-200';
-    };
-
-    const loadBankDetails = async () => {
-        try {
-            const response = await fetch('/api/bank-details');
-            if (response.ok) {
-                const result = await response.json();
-                setBankDetails(result.bankDetails);
-            }
-        } catch (error) {
-            console.error('Error loading bank details:', error);
-            setBankDetails({
-                bankName: 'Sparkasse Pongau',
-                accountHolder: 'Skinlux Bischofshofen',
-                iban: 'AT00 0000 0000 0000 0000',
-                bic: 'SPALAT2G',
-                reference: 'Gutschein-Bestellung',
-                voucherValidityMonths: 12,
-                sendVoucherAsPDF: false,
-                // Default address values
-                businessName: 'Skinlux Bischofshofen',
-                streetAddress: 'Salzburger Straße 45',
-                postalCode: '5500',
-                city: 'Bischofshofen',
-                country: 'Österreich',
-                phone: '+43 123 456 789',
-                email: 'hello@skinlux.at',
-                website: 'skinlux.at'
-            });
-        }
-    };
-
-    const saveBankDetails = async () => {
-        setSavingBankDetails(true);
-        try {
-            const response = await fetch('/api/bank-details', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(bankDetails)
-            });
-
-            if (response.ok) {
-                localStorage.setItem('skinlux_bank_details', JSON.stringify(bankDetails));
-                setError("");
-                setShowBankSettings(false);
-            } else {
-                const error = await response.json();
-                setError(`Fehler beim Speichern: ${error.error}`);
-            }
-        } catch (error) {
-            console.error('Error saving bank details:', error);
-            setError('Fehler beim Speichern der Bankdaten');
-        } finally {
-            setSavingBankDetails(false);
-        }
-    };
-
-    // Gutscheinnummer generieren (einheitliches Format: SLX1234)
-    const generateVoucherCode = () => {
-        const randomNum = Math.floor(Math.random() * 10000);
-        return `SLX${randomNum.toString().padStart(4, '0')}`;
-    };
-
-    const handleCreateVoucher = async () => {
-        try {
-            setCreatingVoucher(true);
-            setError("");
-
-            // Validierung
-            if (!voucherForm.amount || !voucherForm.senderName) {
-                throw new Error("Bitte füllen Sie alle Pflichtfelder aus");
-            }
-
-            const amount = parseFloat(voucherForm.amount);
-            if (amount < 10 || amount > 1000) {
-                throw new Error("Gutscheinwert muss zwischen €10 und €1000 liegen");
-            }
-
-            // API-Aufruf zum Erstellen des Gutscheins
-            const response = await fetch('/api/vouchers', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    amount: amount,
-                    sender_name: voucherForm.senderName,
-                    sender_email: voucherForm.senderEmail || null, // E-Mail ist optional für Admin-Gutscheine
-                    sender_phone: voucherForm.senderPhone || null,
-                    message: null,
-                    code: voucherForm.voucherCode,
-                    admin_created: true // API erkennt Admin-Gutscheine und setzt korrekte Werte
-                })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Fehler beim Erstellen des Gutscheins');
-            }
-
-            const result = await response.json();
-
-            if (!result.success) {
-                throw new Error(result.error || 'Fehler beim Erstellen des Gutscheins');
-            }
-
-            // Formular zurücksetzen
-            setVoucherForm({
-                amount: "",
-                senderName: "",
-                senderEmail: "",
-                senderPhone: "",
-                voucherCode: ""
-            });
-
-            setShowVoucherForm(false);
-            await loadVouchers(); // Gutscheine neu laden
-
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'Unbekannter Fehler');
-        } finally {
-            setCreatingVoucher(false);
-        }
-    };
-
-    // Gutscheinnummer generieren, wenn Form geöffnet wird
-    const handleOpenVoucherForm = () => {
-        const newCode = generateVoucherCode();
-        setVoucherForm(prev => ({ ...prev, voucherCode: newCode }));
-        setShowVoucherForm(true);
+    const getCurrentTimeGreeting = () => {
+        const hour = new Date().getHours();
+        if (hour < 12) return "Guten Morgen";
+        if (hour < 18) return "Guten Tag";
+        return "Guten Abend";
     };
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
+            <div className={`min-h-screen bg-slate-950 flex items-center justify-center ${inter.variable}`} style={{ fontFamily: 'var(--font-inter)' }}>
                 <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4">
-                        <div className="animate-spin w-8 h-8 border-2 border-slate-900 border-t-transparent rounded-full"></div>
+                    <div className="relative">
+                        <div className="w-20 h-20 border-4 border-purple-500/20 rounded-full"></div>
+                        <div className="absolute top-0 w-20 h-20 border-4 border-purple-500 rounded-full animate-spin border-t-transparent"></div>
                     </div>
-                    <p className="text-slate-600 font-medium">Lade Dashboard...</p>
+                    <p className="text-slate-400 mt-4 font-medium tracking-tight">Dashboard wird geladen...</p>
                 </div>
             </div>
         );
     }
 
-    const stats = {
-        total: vouchers.length,
-        pending: vouchers.filter(v => v.payment_status === 'pending').length,
-        paid: vouchers.filter(v => v.payment_status === 'paid').length,
-        revenue: vouchers
-            .filter(v => v.payment_status === 'paid')
-            .reduce((sum, v) => sum + Number(v.amount), 0)
-    };
-
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-            {/* Modern Header */}
-            <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 sticky top-0 z-50">
+        <div className={`min-h-screen bg-slate-950 ${inter.variable}`} style={{ fontFamily: 'var(--font-inter)' }}>
+            {/* Modern Gradient Background */}
+            <div className="fixed inset-0 bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950 pointer-events-none" />
+            <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/10 via-transparent to-transparent pointer-events-none" />
+
+            {/* Header */}
+            <header className="relative bg-slate-900/50 backdrop-blur-xl border-b border-slate-800/50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center py-4">
+                    <div className="flex justify-between items-center h-16">
                         <div className="flex items-center space-x-4">
-                            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-slate-900 to-slate-700 rounded-xl">
-                                <BarChart3 className="w-5 h-5 text-white" />
-                            </div>
-                            <div>
-                                <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-                                    Skinlux Admin
-                                </h1>
-                                {adminData && (
-                                    <p className="text-sm text-slate-500">
-                                        {adminData.role === 'super_admin' ? '👑 Super Admin' : '👤 Admin'}
-                                        {adminData.studio && ` • ${adminData.studio.name}`}
-                                    </p>
-                                )}
+                            <div className="flex items-center space-x-3">
+                                <div className="relative">
+                                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/25">
+                                        <Sparkles className="w-6 h-6 text-white" />
+                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl blur-lg opacity-50"></div>
+                                </div>
+                                <div>
+                                    <h1 className="text-xl font-bold text-white tracking-tight" style={{ fontFamily: 'var(--font-inter)' }}>Skinlux Partner</h1>
+                                    <p className="text-xs text-slate-400 font-medium" style={{ fontFamily: 'var(--font-inter)' }}>Dashboard</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="flex items-center space-x-3">
-                            <button
-                                onClick={handleRefresh}
-                                disabled={refreshing}
-                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50"
-                            >
-                                <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
-                                Aktualisieren
-                            </button>
-
-                            <button
-                                onClick={handleOpenVoucherForm}
-                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg shadow-green-500/25"
-                            >
-                                <Plus className="w-4 h-4 mr-2" />
-                                Gutschein verkaufen
-                            </button>
-
-                            <button
-                                onClick={() => setShowBankSettings(!showBankSettings)}
-                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg shadow-blue-500/25"
-                            >
-                                <Settings className="w-4 h-4 mr-2" />
-                                Einstellungen
-                            </button>
+                        <div className="flex items-center space-x-4">
+                            <div className="text-sm text-slate-400">
+                                {adminData && (
+                                    <span className="flex items-center space-x-2">
+                                        <div className="w-8 h-8 bg-slate-800 rounded-lg flex items-center justify-center">
+                                            <User className="w-4 h-4 text-slate-400" />
+                                        </div>
+                                        <span className="hidden sm:inline font-medium" style={{ fontFamily: 'var(--font-inter)' }}>{adminData.role === 'super_admin' ? 'Super Admin' : 'Admin'}</span>
+                                        {adminData.studio && <span className="hidden sm:inline font-normal" style={{ fontFamily: 'var(--font-inter)' }}>• {adminData.studio.name}</span>}
+                                    </span>
+                                )}
+                            </div>
 
                             <button
                                 onClick={handleLogout}
-                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-slate-800 to-slate-900 rounded-lg hover:from-slate-900 hover:to-black transition-all duration-200 shadow-lg shadow-slate-500/25"
+                                className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-200"
+                                style={{ fontFamily: 'var(--font-inter)' }}
                             >
-                                <LogOut className="w-4 h-4 mr-2" />
-                                Abmelden
+                                <LogOut className="w-4 h-4" />
+                                <span className="hidden sm:inline">Abmelden</span>
                             </button>
                         </div>
                     </div>
@@ -427,666 +200,139 @@ export default function AdminDashboard() {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Bank Settings Modal */}
-                {showBankSettings && (
-                    <div className="mb-8 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 p-8">
-                        <div className="flex items-center justify-between mb-8">
-                            <div className="flex items-center space-x-3">
-                                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl">
-                                    <Banknote className="w-5 h-5 text-white" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-bold text-slate-900">Bankdaten & Einstellungen</h2>
-                                    <p className="text-sm text-slate-500">Konfiguration für Überweisungen und Gutscheine</p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => setShowBankSettings(false)}
-                                className="text-slate-400 hover:text-slate-600 transition-colors"
-                            >
-                                <XCircle className="w-6 h-6" />
-                            </button>
-                        </div>
+            <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* Welcome Section */}
+                <div className="mb-10">
+                    <h2 className="text-4xl font-bold text-white mb-3 tracking-tight" style={{ fontFamily: 'var(--font-inter)' }}>
+                        {getCurrentTimeGreeting()}!
+                    </h2>
+                    <p className="text-slate-400 text-lg font-light" style={{ fontFamily: 'var(--font-inter)' }}>
+                        Willkommen in Ihrem Partner Dashboard. Wählen Sie eine Anwendung aus:
+                    </p>
+                </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-slate-700">
-                                    Bank Name
-                                </label>
-                                <input
-                                    type="text"
-                                    value={bankDetails.bankName}
-                                    onChange={(e) => setBankDetails(prev => ({ ...prev, bankName: e.target.value }))}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                    placeholder="z.B. Sparkasse Pongau"
-                                />
-                            </div>
+                {/* Dashboard Tiles Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                    {dashboardTiles.map((tile) => (
+                        <div
+                            key={tile.id}
+                            onClick={() => handleTileClick(tile)}
+                            onMouseEnter={() => setHoveredTile(tile.id)}
+                            onMouseLeave={() => setHoveredTile(null)}
+                            className="group relative cursor-pointer transform transition-all duration-300 hover:scale-105"
+                        >
+                            {/* Background Glow Effect */}
+                            <div className={`absolute inset-0 ${tile.bgPattern} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
 
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-slate-700">
-                                    Kontoinhaber
-                                </label>
-                                <input
-                                    type="text"
-                                    value={bankDetails.accountHolder}
-                                    onChange={(e) => setBankDetails(prev => ({ ...prev, accountHolder: e.target.value }))}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                    placeholder="z.B. Skinlux Bischofshofen"
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-slate-700">
-                                    IBAN
-                                </label>
-                                <input
-                                    type="text"
-                                    value={bankDetails.iban}
-                                    onChange={(e) => setBankDetails(prev => ({ ...prev, iban: e.target.value }))}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                    placeholder="AT00 0000 0000 0000 0000"
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-slate-700">
-                                    BIC
-                                </label>
-                                <input
-                                    type="text"
-                                    value={bankDetails.bic}
-                                    onChange={(e) => setBankDetails(prev => ({ ...prev, bic: e.target.value }))}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                    placeholder="z.B. SPALAT2G"
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-slate-700">
-                                    Verwendungszweck-Vorlage
-                                </label>
-                                <input
-                                    type="text"
-                                    value={bankDetails.reference}
-                                    onChange={(e) => setBankDetails(prev => ({ ...prev, reference: e.target.value }))}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                    placeholder="z.B. Gutschein-Bestellung"
-                                />
-                                <p className="text-xs text-slate-500">
-                                    Diese Vorlage wird in E-Mails verwendet. Die Bestellnummer wird automatisch hinzugefügt.
-                                </p>
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-slate-700">
-                                    Gutschein-Gültigkeitsdauer (Monate)
-                                </label>
-                                <select
-                                    value={bankDetails.voucherValidityMonths}
-                                    onChange={(e) => setBankDetails(prev => ({ ...prev, voucherValidityMonths: Number(e.target.value) }))}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                >
-                                    <option value={6}>6 Monate</option>
-                                    <option value={12}>12 Monate (Standard)</option>
-                                    <option value={18}>18 Monate</option>
-                                    <option value={24}>24 Monate</option>
-                                    <option value={36}>36 Monate</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        {/* Adress-Sektion */}
-                        <div className="mb-8">
-                            <div className="flex items-center space-x-3 mb-6">
-                                <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg">
-                                    <Settings className="w-4 h-4 text-white" />
-                                </div>
-                                <div>
-                                    <h3 className="text-lg font-semibold text-slate-900">Geschäftsadresse</h3>
-                                    <p className="text-sm text-slate-500">Wird auf Gutscheinen und in E-Mails angezeigt</p>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700">
-                                        Firmenname
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={bankDetails.businessName}
-                                        onChange={(e) => setBankDetails(prev => ({ ...prev, businessName: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                        placeholder="z.B. Skinlux Bischofshofen"
-                                    />
+                            <div className="relative bg-slate-900/90 backdrop-blur-sm rounded-2xl border border-slate-800 overflow-hidden hover:border-slate-700 transition-all duration-300">
+                                {/* Animated Background Pattern */}
+                                <div className="absolute inset-0 opacity-5">
+                                    <div className="absolute inset-0" style={{
+                                        backgroundImage: `radial-gradient(circle at 20% 50%, ${tile.color} 0%, transparent 50%)`,
+                                        transform: hoveredTile === tile.id ? 'scale(2)' : 'scale(1)',
+                                        transition: 'transform 0.5s ease'
+                                    }}></div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700">
-                                        Straße & Hausnummer
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={bankDetails.streetAddress}
-                                        onChange={(e) => setBankDetails(prev => ({ ...prev, streetAddress: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                        placeholder="z.B. Salzburger Straße 45"
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700">
-                                        Postleitzahl
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={bankDetails.postalCode}
-                                        onChange={(e) => setBankDetails(prev => ({ ...prev, postalCode: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                        placeholder="z.B. 5500"
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700">
-                                        Stadt
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={bankDetails.city}
-                                        onChange={(e) => setBankDetails(prev => ({ ...prev, city: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                        placeholder="z.B. Bischofshofen"
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700">
-                                        Land
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={bankDetails.country}
-                                        onChange={(e) => setBankDetails(prev => ({ ...prev, country: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                        placeholder="z.B. Österreich"
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700">
-                                        Telefon
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={bankDetails.phone || ''}
-                                        onChange={(e) => setBankDetails(prev => ({ ...prev, phone: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                        placeholder="z.B. +43 123 456 789"
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700">
-                                        E-Mail Adresse
-                                    </label>
-                                    <input
-                                        type="email"
-                                        value={bankDetails.email}
-                                        onChange={(e) => setBankDetails(prev => ({ ...prev, email: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                        placeholder="z.B. hello@skinlux.at"
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="block text-sm font-semibold text-slate-700">
-                                        Website
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={bankDetails.website}
-                                        onChange={(e) => setBankDetails(prev => ({ ...prev, website: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                                        placeholder="z.B. skinlux.at"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Gutschein-Einstellungen */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            <div className="md:col-span-2 space-y-3">
-                                <label className="block text-sm font-semibold text-slate-700">
-                                    E-Mail-Gutschein Format
-                                </label>
-                                <div className="flex items-center space-x-6">
-                                    <label className="flex items-center space-x-3 cursor-pointer">
-                                        <input
-                                            type="radio"
-                                            name="voucherFormat"
-                                            checked={!bankDetails.sendVoucherAsPDF}
-                                            onChange={() => setBankDetails(prev => ({ ...prev, sendVoucherAsPDF: false }))}
-                                            className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300"
-                                        />
-                                        <span className="text-sm font-medium text-slate-700">📧 HTML-E-Mail (interaktiv)</span>
-                                    </label>
-                                    <label className="flex items-center space-x-3 cursor-pointer">
-                                        <input
-                                            type="radio"
-                                            name="voucherFormat"
-                                            checked={bankDetails.sendVoucherAsPDF}
-                                            onChange={() => setBankDetails(prev => ({ ...prev, sendVoucherAsPDF: true }))}
-                                            className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300"
-                                        />
-                                        <span className="text-sm font-medium text-slate-700">📄 PDF-Anhang (ausdruckbar)</span>
-                                    </label>
-                                </div>
-                                <p className="text-xs text-slate-500">
-                                    {bankDetails.sendVoucherAsPDF
-                                        ? "Gutscheine werden als PDF-Datei im E-Mail-Anhang versendet"
-                                        : "Gutscheine werden als schöne HTML-E-Mail versendet"
-                                    }
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex justify-end space-x-3">
-                            <button
-                                onClick={() => setShowBankSettings(false)}
-                                className="px-6 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
-                            >
-                                Abbrechen
-                            </button>
-                            <button
-                                onClick={saveBankDetails}
-                                disabled={savingBankDetails}
-                                className="inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg shadow-green-500/25 disabled:opacity-50"
-                            >
-                                {savingBankDetails ? (
-                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                ) : (
-                                    <Save className="w-4 h-4 mr-2" />
-                                )}
-                                Speichern
-                            </button>
-                        </div>
-                    </div>
-                )}
-
-                {/* Gutschein-Verkauf Modal */}
-                {showVoucherForm && (
-                    <div className="mb-8 bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 p-8">
-                        <div className="flex items-center justify-between mb-8">
-                            <div className="flex items-center space-x-3">
-                                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-xl">
-                                    <Gift className="w-5 h-5 text-white" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-bold text-slate-900">Gutschein verkaufen</h2>
-                                    <p className="text-sm text-slate-500">Vor-Ort-Verkauf mit sofortiger Bezahlung</p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => setShowVoucherForm(false)}
-                                className="text-slate-400 hover:text-slate-600 transition-colors"
-                            >
-                                <XCircle className="w-6 h-6" />
-                            </button>
-                        </div>
-
-                        <div className="max-w-md mx-auto space-y-6">
-                            {/* Gutschein-Code Display */}
-                            <div className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-xl p-6 text-center">
-                                <h3 className="text-lg font-semibold text-green-800 mb-2">Gutschein-Code</h3>
-                                <div className="text-2xl font-bold text-green-900 font-mono tracking-wider">
-                                    {voucherForm.voucherCode}
-                                </div>
-                                <p className="text-sm text-green-700 mt-2">Dieser Code wird auf dem Gutschein gedruckt</p>
-                            </div>
-
-                            {/* Käufer-Informationen */}
-                            <div className="space-y-4">
-                                <div>
-                                    <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
-                                        <User className="w-5 h-5 mr-2 text-blue-600" />
-                                        Käufer-Informationen
-                                    </h3>
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                        Name *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={voucherForm.senderName}
-                                        onChange={(e) => setVoucherForm(prev => ({ ...prev, senderName: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                                        placeholder="Vor- und Nachname"
-                                        required
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                        E-Mail
-                                    </label>
-                                    <input
-                                        type="email"
-                                        value={voucherForm.senderEmail}
-                                        onChange={(e) => setVoucherForm(prev => ({ ...prev, senderEmail: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                                        placeholder="kunde@email.com (optional)"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                        Telefon
-                                    </label>
-                                    <input
-                                        type="tel"
-                                        value={voucherForm.senderPhone}
-                                        onChange={(e) => setVoucherForm(prev => ({ ...prev, senderPhone: e.target.value }))}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                                        placeholder="+43 123 456 789"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                                        Gutscheinwert * (€)
-                                    </label>
-                                    <div className="relative">
-                                        <Euro className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-                                        <input
-                                            type="number"
-                                            value={voucherForm.amount}
-                                            onChange={(e) => setVoucherForm(prev => ({ ...prev, amount: e.target.value }))}
-                                            className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                                            placeholder="50"
-                                            min="10"
-                                            max="1000"
-                                            required
-                                        />
+                                {/* Gradient Header */}
+                                <div className={`h-32 bg-gradient-to-br ${tile.gradient} flex items-center justify-center relative overflow-hidden`}>
+                                    {/* Animated background elements */}
+                                    <div className="absolute inset-0">
+                                        <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+                                        <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
                                     </div>
-                                    <p className="text-xs text-slate-500 mt-1">Zwischen €10 und €1000</p>
+
+                                    <div className="text-white relative z-10 group-hover:scale-110 transition-transform duration-300">
+                                        {tile.icon}
+                                    </div>
+                                    <div className="absolute top-3 right-3">
+                                        <ExternalLink className="w-4 h-4 text-white/50 group-hover:text-white/80 transition-all duration-300" />
+                                    </div>
                                 </div>
 
+                                {/* Content */}
+                                <div className="p-6">
+                                    <h3 className="text-lg font-semibold text-white mb-2 tracking-tight" style={{ fontFamily: 'var(--font-inter)' }}>
+                                        {tile.title}
+                                    </h3>
+                                    <p className="text-sm text-slate-400 leading-relaxed font-light" style={{ fontFamily: 'var(--font-inter)' }}>
+                                        {tile.description}
+                                    </p>
 
-                            </div>
-
-                            {/* Info-Box */}
-                            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                                <div className="flex items-center space-x-2 mb-2">
-                                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                                    <span className="text-sm font-semibold text-blue-900">Vor-Ort-Verkauf</span>
+                                    {/* Hover indicator */}
+                                    <div className="mt-4 flex items-center text-xs font-medium text-slate-500 group-hover:text-slate-300 transition-colors" style={{ fontFamily: 'var(--font-inter)' }}>
+                                        <span>Öffnen</span>
+                                        <ExternalLink className="w-3 h-3 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                                    </div>
                                 </div>
-                                <ul className="text-sm text-blue-800 space-y-1">
-                                    <li>• Sofortige Barzahlung</li>
-                                    <li>• Gutschein wird ausgedruckt</li>
-                                    <li>• Status: Bezahlt & Aktiv</li>
-                                </ul>
                             </div>
                         </div>
+                    ))}
+                </div>
 
-                        <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-slate-200">
-                            <button
-                                onClick={() => setShowVoucherForm(false)}
-                                className="px-6 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
-                            >
-                                Abbrechen
-                            </button>
-                            <button
-                                onClick={handleCreateVoucher}
-                                disabled={creatingVoucher || !voucherForm.amount || !voucherForm.senderName}
-                                className="inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg shadow-green-500/25 disabled:opacity-50"
-                            >
-                                {creatingVoucher ? (
-                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                                ) : (
-                                    <Gift className="w-4 h-4 mr-2" />
-                                )}
-                                {creatingVoucher ? "Erstelle Gutschein..." : "Gutschein verkaufen"}
-                            </button>
-                        </div>
-                    </div>
-                )}
-
-                {/* Error Message */}
-                {error && (
-                    <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl flex items-center space-x-3">
-                        <AlertTriangle className="w-5 h-5 text-red-500" />
-                        <span>{error}</span>
-                    </div>
-                )}
-
-                {/* Enhanced Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-white/90 backdrop-blur-xl p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Gesamt</p>
-                                <p className="text-3xl font-bold text-slate-900 mt-1">{stats.total}</p>
-                                <p className="text-sm text-slate-600 mt-1">Gutscheine</p>
+                {/* Modern Stats Section */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                    {/* Live Time Card */}
+                    <div className="bg-slate-900/90 backdrop-blur-sm rounded-2xl border border-slate-800 p-6 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
+                        <div className="relative">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-sm font-medium text-slate-400" style={{ fontFamily: 'var(--font-inter)' }}>Live Zeit</h3>
+                                <Clock className="w-4 h-4 text-slate-500" />
                             </div>
-                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
-                                <Gift className="w-6 h-6 text-white" />
+                            <div className="text-3xl font-bold text-white tracking-tighter" style={{ fontFamily: 'var(--font-inter)' }}>
+                                {new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                            <div className="text-sm text-slate-500 mt-1 font-light" style={{ fontFamily: 'var(--font-inter)' }}>
+                                {new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })}
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white/90 backdrop-blur-xl p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Bezahlt</p>
-                                <p className="text-3xl font-bold text-slate-900 mt-1">{stats.paid}</p>
-                                <p className="text-sm text-slate-600 mt-1">Aktive Gutscheine</p>
+                    {/* System Status Card */}
+                    <div className="bg-slate-900/90 backdrop-blur-sm rounded-2xl border border-slate-800 p-6 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-full blur-3xl"></div>
+                        <div className="relative">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-sm font-medium text-slate-400" style={{ fontFamily: 'var(--font-inter)' }}>System Status</h3>
+                                <Activity className="w-4 h-4 text-slate-500" />
                             </div>
-                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl">
-                                <CheckCircle className="w-6 h-6 text-white" />
+                            <div className="flex items-center space-x-3">
+                                <div className="relative">
+                                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
+                                </div>
+                                <span className="text-2xl font-semibold text-white" style={{ fontFamily: 'var(--font-inter)' }}>Alles Online</span>
                             </div>
+                            <div className="text-sm text-slate-500 mt-1 font-light" style={{ fontFamily: 'var(--font-inter)' }}>Alle Systeme funktionieren einwandfrei</div>
                         </div>
                     </div>
 
-                    <div className="bg-white/90 backdrop-blur-xl p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Ausstehend</p>
-                                <p className="text-3xl font-bold text-slate-900 mt-1">{stats.pending}</p>
-                                <p className="text-sm text-slate-600 mt-1">Zu bearbeiten</p>
+                    {/* Quick Actions Card */}
+                    <div className="bg-slate-900/90 backdrop-blur-sm rounded-2xl border border-slate-800 p-6 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
+                        <div className="relative">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-sm font-medium text-slate-400" style={{ fontFamily: 'var(--font-inter)' }}>Schnellzugriff</h3>
+                                <Zap className="w-4 h-4 text-slate-500" />
                             </div>
-                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl">
-                                <Clock className="w-6 h-6 text-white" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white/90 backdrop-blur-xl p-6 rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Umsatz</p>
-                                <p className="text-3xl font-bold text-slate-900 mt-1">€{stats.revenue.toLocaleString()}</p>
-                                <p className="text-sm text-slate-600 mt-1">Gesamtwert</p>
-                            </div>
-                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl">
-                                <Euro className="w-6 h-6 text-white" />
+                            <div className="flex flex-wrap gap-2">
+                                <span className="px-3 py-1.5 bg-slate-800 text-slate-300 text-xs font-medium rounded-lg" style={{ fontFamily: 'var(--font-inter)' }}>Alt + 1 Shore</span>
+                                <span className="px-3 py-1.5 bg-slate-800 text-slate-300 text-xs font-medium rounded-lg" style={{ fontFamily: 'var(--font-inter)' }}>Alt + 2 Kasse</span>
+                                <span className="px-3 py-1.5 bg-slate-800 text-slate-300 text-xs font-medium rounded-lg" style={{ fontFamily: 'var(--font-inter)' }}>Alt + 3 Treatflow</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Enhanced Vouchers Table */}
-                <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 overflow-hidden">
-                    {/* Table Header */}
-                    <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/50">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-                            <div>
-                                <h2 className="text-xl font-bold text-slate-900">Gutschein-Übersicht</h2>
-                                <p className="text-sm text-slate-500 mt-1">{filteredVouchers.length} von {vouchers.length} Gutscheinen</p>
-                            </div>
-
-                            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
-                                {/* Search */}
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                    <input
-                                        type="text"
-                                        placeholder="Suchen..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                                    />
-                                </div>
-
-                                {/* Status Filter */}
-                                <select
-                                    value={statusFilter}
-                                    onChange={(e) => setStatusFilter(e.target.value)}
-                                    className="px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                                >
-                                    <option value="all">Alle Status</option>
-                                    <option value="pending">Ausstehend</option>
-                                    <option value="paid">Bezahlt</option>
-                                    <option value="cancelled">Storniert</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Table Content */}
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-slate-200">
-                            <thead className="bg-slate-50/50">
-                                <tr>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                        Gutschein
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                        Käufer
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                        Betrag
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                        Erstellt
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                        Aktionen
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-slate-100">
-                                {filteredVouchers.map((voucher) => (
-                                    <tr key={voucher.id} className="hover:bg-slate-50/50 transition-colors">
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-3">
-                                                <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
-                                                    <Gift className="w-4 h-4 text-blue-600" />
-                                                </div>
-                                                <div>
-                                                    <div className="text-sm font-semibold text-slate-900">
-                                                        {voucher.code}
-                                                    </div>
-                                                    <div className="text-xs text-slate-500">
-                                                        {voucher.payment_reference || voucher.id.slice(0, 8)}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-3">
-                                                <div className="flex items-center justify-center w-8 h-8 bg-slate-100 rounded-lg">
-                                                    <User className="w-4 h-4 text-slate-600" />
-                                                </div>
-                                                <div>
-                                                    <div className="text-sm font-medium text-slate-900">
-                                                        {voucher.sender_name}
-                                                    </div>
-                                                    <div className="text-xs text-slate-500 flex items-center space-x-1">
-                                                        <Mail className="w-3 h-3" />
-                                                        <span>{voucher.sender_email}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-lg font-bold text-slate-900">
-                                                €{Number(voucher.amount).toFixed(0)}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-2">
-                                                {getStatusIcon(voucher.payment_status)}
-                                                <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full border ${getStatusBadge(voucher.payment_status)}`}>
-                                                    {voucher.payment_status}
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-2 text-sm text-slate-500">
-                                                <Calendar className="w-4 h-4" />
-                                                <span>{new Date(voucher.created_at).toLocaleDateString('de-DE')}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-3">
-                                                {voucher.payment_status === 'pending' && (
-                                                    <button
-                                                        onClick={() => updateVoucherStatus(voucher.id, 'paid')}
-                                                        disabled={updatingStatus === voucher.id}
-                                                        className="inline-flex items-center px-3 py-1 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                                    >
-                                                        {updatingStatus === voucher.id ? (
-                                                            <>
-                                                                <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-green-600 mr-1"></div>
-                                                                Wird aktualisiert...
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <CheckCircle className="w-3 h-3 mr-1" />
-                                                                Als bezahlt markieren
-                                                            </>
-                                                        )}
-                                                    </button>
-                                                )}
-                                                <a
-                                                    href={`/admin/orders/${voucher.id}`}
-                                                    className="inline-flex items-center justify-center w-8 h-8 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
-                                                    title="Details anzeigen"
-                                                >
-                                                    <Eye className="w-4 h-4" />
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Empty State */}
-                    {filteredVouchers.length === 0 && !loading && (
-                        <div className="text-center py-16">
-                            <div className="flex items-center justify-center w-16 h-16 bg-slate-100 rounded-2xl mx-auto mb-4">
-                                <Gift className="w-8 h-8 text-slate-400" />
-                            </div>
-                            <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                                {searchTerm || statusFilter !== 'all' ? 'Keine Ergebnisse gefunden' : 'Keine Gutscheine vorhanden'}
-                            </h3>
-                            <p className="text-slate-500 max-w-sm mx-auto">
-                                {searchTerm || statusFilter !== 'all'
-                                    ? 'Versuchen Sie andere Suchbegriffe oder Filter.'
-                                    : 'Es wurden noch keine Gutscheine erstellt.'
-                                }
-                            </p>
-                        </div>
-                    )}
+                {/* Footer */}
+                <div className="text-center pt-8 border-t border-slate-800/50">
+                    <p className="text-sm text-slate-500 font-light" style={{ fontFamily: 'var(--font-inter)' }}>
+                        Skinlux Partner Dashboard • Alle Ihre Anwendungen an einem Ort
+                    </p>
+                    <p className="text-xs text-slate-600 mt-1 font-light" style={{ fontFamily: 'var(--font-inter)' }}>
+                        © 2024 Skinlux. Alle Rechte vorbehalten.
+                    </p>
                 </div>
             </main>
         </div>

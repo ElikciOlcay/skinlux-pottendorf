@@ -167,31 +167,56 @@ export class PDFGenerator {
         const expiryWidth = doc.getTextWidth(expiryText);
         doc.text(expiryText, centerX - expiryWidth / 2, currentY);
 
-        // === MESSAGE (if exists) ===
+        // === PERSÖNLICHE NACHRICHT (if exists) ===
         if (data.message) {
-            currentY += 40;
+            currentY += 45;
 
-            // Message in subtle box
+            // Elegant message section with accent color
+            const messageBoxWidth = 160;
+            const messageBoxX = centerX - messageBoxWidth / 2;
+
+            // Title "Persönliche Nachricht" mit Icon
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(...textGray);
+            const titleText = '💌 Persönliche Nachricht';
+            const titleWidth = doc.getTextWidth(titleText);
+            doc.text(titleText, centerX - titleWidth / 2, currentY);
+
+            currentY += 12;
+
+            // Message text with better formatting
             doc.setFont('helvetica', 'italic');
             doc.setFontSize(12);
-            doc.setTextColor(...textGray);
+            doc.setTextColor(...primaryColor);
 
             const messageLines = doc.splitTextToSize(`"${data.message}"`, 140);
             const messageHeight = messageLines.length * 6;
 
-            // Background for message
-            doc.setFillColor(255, 255, 255);
-            doc.setDrawColor(...lightGray);
-            doc.setLineWidth(0.5);
-            doc.roundedRect(centerX - 75, currentY - 5, 150, messageHeight + 10, 5, 5, 'FD');
+            // Beautiful background with accent border
+            doc.setFillColor(255, 250, 252); // Very light pink tint
+            doc.setDrawColor(...accentColor);
+            doc.setLineWidth(1);
+            doc.roundedRect(messageBoxX, currentY - 8, messageBoxWidth, messageHeight + 16, 8, 8, 'FD');
 
-            // Message text
+            // Message text centered with proper spacing
             messageLines.forEach((line: string, index: number) => {
                 const lineWidth = doc.getTextWidth(line);
-                doc.text(line, centerX - lineWidth / 2, currentY + 5 + (index * 6));
+                doc.text(line, centerX - lineWidth / 2, currentY + 2 + (index * 6));
             });
 
-            currentY += messageHeight + 15;
+            // Signature line if it's a gift
+            if (isGift) {
+                currentY += messageHeight + 8;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                doc.setTextColor(...textGray);
+                const signatureText = `— ${data.senderName}`;
+                const signatureWidth = doc.getTextWidth(signatureText);
+                doc.text(signatureText, centerX + 50 - signatureWidth, currentY);
+            }
+
+            currentY += messageHeight + 20;
         }
 
         // === FOOTER ===

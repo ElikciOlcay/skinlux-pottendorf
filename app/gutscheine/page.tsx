@@ -505,12 +505,24 @@ export default function Gutscheine() {
 
                                     {/* Nachricht nur bei E-Mail-Versand und PDF-Einstellung anzeigen */}
                                     {deliveryMethod === 'email' && sendVoucherAsPDF && (
-                                        <textarea
-                                            placeholder="Persönliche Nachricht (optional)"
-                                            value={formData.message}
-                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-300 focus:outline-none transition-colors h-24 resize-none"
-                                        />
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                💌 Persönliche Nachricht für den Gutschein
+                                            </label>
+                                            <p className="text-xs text-gray-500 mb-3">
+                                                Diese Nachricht wird auf dem Gutschein-PDF gedruckt. Ideal für Geschenke - z.B. "Alles Gute zum Geburtstag, liebe Maria!"
+                                            </p>
+                                            <textarea
+                                                placeholder="z.B. Alles Gute zum Geburtstag! Ich hoffe du genießt deine Auszeit bei Skinlux ❤️"
+                                                value={formData.message}
+                                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-300 focus:outline-none transition-colors h-24 resize-none"
+                                                maxLength={200}
+                                            />
+                                            <p className="text-xs text-gray-400 mt-1">
+                                                Optional • Maximal 200 Zeichen • Wird auf dem Gutschein angezeigt
+                                            </p>
+                                        </div>
                                     )}
                                 </div>
                             </div>

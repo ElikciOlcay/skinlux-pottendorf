@@ -142,11 +142,11 @@ export class PDFGenerator {
             const messageBoxWidth = 160;
             const messageBoxX = centerX - messageBoxWidth / 2;
 
-            // Title "Persönliche Nachricht" mit Icon
+            // Title "Persönliche Nachricht" ohne Emoji (wegen Unicode-Problemen)
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(11);
             doc.setTextColor(...textGray);
-            const titleText = '💌 Persönliche Nachricht';
+            const titleText = 'Persönliche Nachricht';
             const titleWidth = doc.getTextWidth(titleText);
             doc.text(titleText, centerX - titleWidth / 2, currentY);
 
@@ -183,11 +183,11 @@ export class PDFGenerator {
                 doc.text(signatureText, centerX + 50 - signatureWidth, currentY);
             }
 
-            currentY += messageHeight + 30; // Mehr Abstand nach der Nachricht
+            currentY += messageHeight + 40; // Noch mehr Abstand nach der Nachricht
         }
 
         // === CODE SECTION ===
-        currentY += 30;
+        currentY += 40; // Mehr Abstand vor dem Code
 
         // Code in elegant box
         doc.setFont('helvetica', 'normal');
@@ -207,7 +207,7 @@ export class PDFGenerator {
         doc.text(codeText, centerX - codeWidth / 2, currentY);
 
         // === EXPIRY ===
-        currentY += 35;
+        currentY += 40; // Mehr Abstand vor dem Gültigkeitsdatum
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(12);
         doc.setTextColor(...textGray);
@@ -220,14 +220,12 @@ export class PDFGenerator {
         doc.text(expiryText, centerX - expiryWidth / 2, currentY);
 
         // === FOOTER ===
-        // Berechne verfügbaren Platz für Footer - mehr Platz lassen wenn Nachricht vorhanden
-        const footerSpaceNeeded = data.message ? 80 : 50; // Mehr Platz für Nachrichten
+        // Berechne verfügbaren Platz für Footer - noch mehr Platz lassen wenn Nachricht vorhanden
+        const footerSpaceNeeded = data.message ? 100 : 70; // Noch mehr Platz für Nachrichten
         const minFooterSpace = pageHeight - footerSpaceNeeded;
 
-
-
         // Wenn der Content zu lang ist, positioniere Footer am unteren Rand
-        if (currentY + 30 > minFooterSpace) {
+        if (currentY + 50 > minFooterSpace) {
             console.log('📄 Content too long, positioning footer at bottom of page');
             // Footer fest am unteren Rand positionieren - mehr Platz für Nachrichten
             const footerY = data.message ? pageHeight - 55 : pageHeight - 45;
@@ -255,8 +253,8 @@ export class PDFGenerator {
             const idWidth = doc.getTextWidth(voucherId);
             doc.text(voucherId, centerX - idWidth / 2, pageHeight - 8);
         } else {
-            // Normaler Footer mit Abstand zum Content
-            currentY += 30;
+            // Normaler Footer mit mehr Abstand zum Content
+            currentY += 50; // Mehr Abstand vor dem Footer
             const footerY = currentY;
 
             // Simple contact - using data from bankDetails

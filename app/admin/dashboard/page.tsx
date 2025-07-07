@@ -77,6 +77,9 @@ export default function AdminDashboard() {
     const [statusFilter, setStatusFilter] = useState("all");
     const [refreshing, setRefreshing] = useState(false);
 
+    // Loading States für Status-Updates
+    const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
+
     // Gutschein-Verkauf States
     const [showVoucherForm, setShowVoucherForm] = useState(false);
     const [creatingVoucher, setCreatingVoucher] = useState(false);
@@ -167,6 +170,9 @@ export default function AdminDashboard() {
 
     const updateVoucherStatus = async (voucherId: string, newStatus: string) => {
         try {
+            setUpdatingStatus(voucherId);
+            setError(""); // Clear any previous errors
+
             const result = await AdminVouchers.updateVoucherStatus(voucherId, newStatus);
             if (result.success) {
                 await loadVouchers();
@@ -176,6 +182,8 @@ export default function AdminDashboard() {
         } catch (error) {
             setError("Fehler beim Aktualisieren des Voucher-Status");
             console.error("Update error:", error);
+        } finally {
+            setUpdatingStatus(null);
         }
     };
 
@@ -1031,10 +1039,20 @@ export default function AdminDashboard() {
                                                 {voucher.payment_status === 'pending' && (
                                                     <button
                                                         onClick={() => updateVoucherStatus(voucher.id, 'paid')}
-                                                        className="inline-flex items-center px-3 py-1 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors"
+                                                        disabled={updatingStatus === voucher.id}
+                                                        className="inline-flex items-center px-3 py-1 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                                     >
-                                                        <CheckCircle className="w-3 h-3 mr-1" />
-                                                        Als bezahlt markieren
+                                                        {updatingStatus === voucher.id ? (
+                                                            <>
+                                                                <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-green-600 mr-1"></div>
+                                                                Wird aktualisiert...
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <CheckCircle className="w-3 h-3 mr-1" />
+                                                                Als bezahlt markieren
+                                                            </>
+                                                        )}
                                                     </button>
                                                 )}
                                                 <a

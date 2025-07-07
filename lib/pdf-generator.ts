@@ -168,6 +168,9 @@ export class PDFGenerator {
         doc.text(expiryText, centerX - expiryWidth / 2, currentY);
 
         // === PERSÖNLICHE NACHRICHT (if exists) ===
+        console.log('📄 PDF Generator - Checking message field:', data.message);
+        console.log('📄 PDF Generator - Message exists?', !!data.message);
+        console.log('📄 PDF Generator - Full data object:', JSON.stringify(data, null, 2));
         if (data.message) {
             console.log('📄 Adding personal message to PDF:', data.message);
             currentY += 45;

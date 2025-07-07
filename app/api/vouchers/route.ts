@@ -432,6 +432,7 @@ export async function PATCH(request: NextRequest) {
                     console.log(`📧 Sending digital voucher via email (Format: ${sendAsPDF ? 'PDF' : 'HTML'})...`);
                     console.log(`📧 EmailService.sendVoucherByEmail called with sendAsPDF: ${sendAsPDF}`);
 
+                    console.log('📧 DEBUG: EmailData being sent to sendVoucherByEmail:', JSON.stringify(emailData, null, 2));
                     const emailResult = await EmailService.sendVoucherByEmail(emailData, sendAsPDF);
                     voucherEmailResult = {
                         success: emailResult.success,

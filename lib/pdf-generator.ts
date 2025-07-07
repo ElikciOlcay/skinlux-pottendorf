@@ -134,46 +134,9 @@ export class PDFGenerator {
         const writtenWidth = doc.getTextWidth(writtenAmount);
         doc.text(writtenAmount, centerX - writtenWidth / 2, currentY);
 
-        // === CODE SECTION ===
-        currentY += 50;
-
-        // Code in elegant box
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(16);
-        doc.setTextColor(...primaryColor);
-        const codeText = data.voucherCode;
-        const codeWidth = doc.getTextWidth(codeText);
-        const boxWidth = codeWidth + 40;
-        const boxHeight = 15;
-        const boxX = centerX - boxWidth / 2;
-
-        // Subtle background box
-        doc.setFillColor(...lightGray);
-        doc.roundedRect(boxX, currentY - 10, boxWidth, boxHeight, 3, 3, 'F');
-
-        // Code text
-        doc.text(codeText, centerX - codeWidth / 2, currentY);
-
-        // === EXPIRY ===
-        currentY += 35;
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(12);
-        doc.setTextColor(...textGray);
-        const expiryText = `Gültig bis ${new Date(data.expiresAt).toLocaleDateString('de-DE', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        })}`;
-        const expiryWidth = doc.getTextWidth(expiryText);
-        doc.text(expiryText, centerX - expiryWidth / 2, currentY);
-
-        // === PERSÖNLICHE NACHRICHT (if exists) ===
-        console.log('📄 PDF Generator - Checking message field:', data.message);
-        console.log('📄 PDF Generator - Message exists?', !!data.message);
-        console.log('📄 PDF Generator - Full data object:', JSON.stringify(data, null, 2));
+        // === PERSÖNLICHE NACHRICHT (direkt nach dem Betrag) ===
         if (data.message) {
-            console.log('📄 Adding personal message to PDF:', data.message);
-            currentY += 45;
+            currentY += 35;
 
             // Elegant message section with accent color
             const messageBoxWidth = 160;
@@ -220,20 +183,54 @@ export class PDFGenerator {
                 doc.text(signatureText, centerX + 50 - signatureWidth, currentY);
             }
 
-            currentY += messageHeight + 25;
-        } else {
-            console.log('📄 No personal message provided for PDF');
+            currentY += messageHeight + 30; // Mehr Abstand nach der Nachricht
         }
 
+        // === CODE SECTION ===
+        currentY += 30;
+
+        // Code in elegant box
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(16);
+        doc.setTextColor(...primaryColor);
+        const codeText = data.voucherCode;
+        const codeWidth = doc.getTextWidth(codeText);
+        const boxWidth = codeWidth + 40;
+        const boxHeight = 15;
+        const boxX = centerX - boxWidth / 2;
+
+        // Subtle background box
+        doc.setFillColor(...lightGray);
+        doc.roundedRect(boxX, currentY - 10, boxWidth, boxHeight, 3, 3, 'F');
+
+        // Code text
+        doc.text(codeText, centerX - codeWidth / 2, currentY);
+
+        // === EXPIRY ===
+        currentY += 35;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(12);
+        doc.setTextColor(...textGray);
+        const expiryText = `Gültig bis ${new Date(data.expiresAt).toLocaleDateString('de-DE', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })}`;
+        const expiryWidth = doc.getTextWidth(expiryText);
+        doc.text(expiryText, centerX - expiryWidth / 2, currentY);
+
         // === FOOTER ===
-        // Berechne verfügbaren Platz für Footer
-        const minFooterSpace = pageHeight - 50; // Maximal erlaubte Footer-Position
+        // Berechne verfügbaren Platz für Footer - mehr Platz lassen wenn Nachricht vorhanden
+        const footerSpaceNeeded = data.message ? 80 : 50; // Mehr Platz für Nachrichten
+        const minFooterSpace = pageHeight - footerSpaceNeeded;
+
+
 
         // Wenn der Content zu lang ist, positioniere Footer am unteren Rand
-        if (currentY + 20 > minFooterSpace) {
+        if (currentY + 30 > minFooterSpace) {
             console.log('📄 Content too long, positioning footer at bottom of page');
-            // Footer fest am unteren Rand positionieren
-            const footerY = pageHeight - 45;
+            // Footer fest am unteren Rand positionieren - mehr Platz für Nachrichten
+            const footerY = data.message ? pageHeight - 55 : pageHeight - 45;
 
             // Simple contact - using data from bankDetails
             doc.setFont('helvetica', 'normal');

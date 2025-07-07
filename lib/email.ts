@@ -406,11 +406,11 @@ export class EmailService {
             sendVoucherAsPDF: false,
             // Default address values
             businessName: 'Skinlux Bischofshofen',
-            streetAddress: 'Salzburger Straße 45',
+            streetAddress: 'Bahnhofstrasse 17',
             postalCode: '5500',
             city: 'Bischofshofen',
             country: 'Österreich',
-            phone: '+43 123 456 789',
+            phone: '0660 57 21 403',
             email: 'hello@skinlux.at',
             website: 'skinlux.at'
         };
@@ -538,8 +538,8 @@ export class EmailService {
                 
                 <div class="footer">
                     <p><strong>Skinlux Bischofshofen</strong><br>
-                    Salzburger Straße 45, 5500 Bischofshofen<br>
-                    Tel: +43 123 456 789<br>
+                    Bahnhofstrasse 17, 5500 Bischofshofen<br>
+                    Tel: 0660 57 21 403<br>
                     E-Mail: hello@skinlux.at</p>
                     
                     <p style="margin-top: 20px; font-size: 12px;">
@@ -776,8 +776,8 @@ export class EmailService {
                 
                 <div class="footer">
                     <p><strong>Skinlux Bischofshofen</strong><br>
-                    Salzburger Straße 45, 5500 Bischofshofen<br>
-                    Tel: +43 123 456 789<br>
+                    Bahnhofstrasse 17, 5500 Bischofshofen<br>
+                    Tel: 0660 57 21 403<br>
                     E-Mail: hello@skinlux.at<br>
                     Web: <a href="https://skinlux.at" style="color: #059669;">skinlux.at</a></p>
                     
@@ -1118,9 +1118,9 @@ export class EmailService {
                         <div style="margin-top: 30px; padding: 25px; background: #f9fafb; border-radius: 15px;">
                             <h4 style="color: #374151; margin-bottom: 15px;">📞 Oder rufen Sie uns an:</h4>
                             <p style="margin: 0; color: #6b7280;">
-                                <strong>Telefon:</strong> +43 123 456 789<br>
+                                <strong>Telefon:</strong> 0660 57 21 403<br>
                                 <strong>E-Mail:</strong> hello@skinlux.at<br>
-                                <strong>Adresse:</strong> Salzburger Straße 45, 5500 Bischofshofen
+                                <strong>Adresse:</strong> Bahnhofstrasse 17, 5500 Bischofshofen
                             </p>
                         </div>
                     </div>
@@ -1128,8 +1128,8 @@ export class EmailService {
                 
                 <div class="footer">
                     <div class="footer-logo">SKINLUX</div>
-                    <p><strong>Salzburger Straße 45, 5500 Bischofshofen</strong><br>
-                    Tel: +43 123 456 789 | E-Mail: hello@skinlux.at<br>
+                    <p><strong>Bahnhofstrasse 17, 5500 Bischofshofen</strong><br>
+                    Tel: 0660 57 21 403 | E-Mail: hello@skinlux.at<br>
                     Web: <a href="https://skinlux.at" style="color: #059669;">skinlux.at</a></p>
                     
                     <div style="margin: 25px 0; padding: 20px; background: #f3f4f6; border-radius: 10px;">
@@ -1239,8 +1239,8 @@ export class EmailService {
                 
                 <div class="footer">
                     <p><strong>Skinlux Bischofshofen</strong><br>
-                    Salzburger Straße 45, 5500 Bischofshofen<br>
-                    Tel: +43 123 456 789<br>
+                    Bahnhofstrasse 17, 5500 Bischofshofen<br>
+                    Tel: 0660 57 21 403<br>
                     E-Mail: hello@skinlux.at<br>
                     Web: <a href="https://skinlux.at" style="color: #059669;">skinlux.at</a></p>
                     

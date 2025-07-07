@@ -37,8 +37,8 @@ const Contact = () => {
                             transition={{ duration: 0.8 }}
                             className="bg-white p-10 text-center"
                         >
-                            <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center" style={{ backgroundColor: 'var(--color-secondary)', opacity: 0.1 }}>
-                                <Calendar className="w-8 h-8" style={{ color: 'var(--color-secondary)', opacity: 1 }} />
+                            <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-xl" style={{ backgroundColor: 'rgba(167, 139, 250, 0.1)' }}>
+                                <Calendar className="w-8 h-8" style={{ color: 'var(--color-secondary)' }} />
                             </div>
                             <h3 className="text-2xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
                                 Online Buchung

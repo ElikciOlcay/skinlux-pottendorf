@@ -186,7 +186,7 @@ export class PDFGenerator {
                 doc.text(signatureText, centerX + 50 - signatureWidth, currentY);
             }
 
-            currentY += messageHeight + 40; // Noch mehr Abstand nach der Nachricht
+            currentY += messageHeight + 60; // Deutlich mehr Abstand nach der Nachricht
         }
 
         // === CODE SECTION ===
@@ -224,14 +224,14 @@ export class PDFGenerator {
 
         // === FOOTER ===
         // Berechne verfügbaren Platz für Footer - noch mehr Platz lassen wenn Nachricht vorhanden
-        const footerSpaceNeeded = data.message ? 120 : 90; // Noch mehr Platz für Nachrichten
+        const footerSpaceNeeded = data.message ? 150 : 90; // Noch mehr Platz für Nachrichten
         const minFooterSpace = pageHeight - footerSpaceNeeded;
 
         // Wenn der Content zu lang ist, positioniere Footer am unteren Rand
-        if (currentY + 60 > minFooterSpace) {
+        if (currentY + 80 > minFooterSpace) {
             console.log('📄 Content too long, positioning footer at bottom of page');
-            // Footer fest am unteren Rand positionieren - weiter unten
-            const footerY = data.message ? pageHeight - 65 : pageHeight - 55;
+            // Footer fest am unteren Rand positionieren - noch weiter unten
+            const footerY = data.message ? pageHeight - 75 : pageHeight - 55;
 
             // Simple contact - using data from bankDetails
             doc.setFont('helvetica', 'normal');

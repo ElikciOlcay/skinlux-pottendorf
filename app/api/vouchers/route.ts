@@ -207,9 +207,9 @@ export async function POST(request: NextRequest) {
             expires_at: voucherData.expires_at,
             valid_until: voucherData.valid_until,
             // Standard-Werte für Constraint-Felder setzen
-            payment_status: 'pending',  // Constraint: ['pending', 'paid', 'cancelled']
-            delivery_method: 'email',   // Constraint: ['email', 'post']
-            status: 'pending',          // Constraint: ['pending', 'active', 'redeemed', 'expired', 'cancelled']
+            payment_status: isAdminCreated ? 'paid' : 'pending',  // Admin-Gutscheine sind sofort bezahlt
+            delivery_method: 'email',   // Constraint: ['email', 'post'] - 'print' ist nicht erlaubt
+            status: isAdminCreated ? 'active' : 'pending',        // Admin-Gutscheine sind sofort aktiv
             is_used: false,
             remaining_amount: voucherData.amount  // Initial gleich dem Vollbetrag
         };
@@ -306,6 +306,7 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json({
+            success: true,
             voucher,
             orderNumber,
             emailStatus: {

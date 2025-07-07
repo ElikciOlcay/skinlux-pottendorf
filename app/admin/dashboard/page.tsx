@@ -290,20 +290,11 @@ export default function AdminDashboard() {
                 body: JSON.stringify({
                     amount: amount,
                     sender_name: voucherForm.senderName,
-                    sender_email: voucherForm.senderEmail,
+                    sender_email: voucherForm.senderEmail || null, // E-Mail ist optional für Admin-Gutscheine
                     sender_phone: voucherForm.senderPhone || null,
                     message: null,
                     code: voucherForm.voucherCode,
-                    delivery_method: "print", // Vor-Ort immer ausdrucken
-                    payment_method: "cash", // Vor-Ort immer Barzahlung
-                    payment_status: "paid", // Vor-Ort immer sofort bezahlt
-                    admin_created: true,
-                    recipient_name: null,
-                    recipient_email: null,
-                    recipient_phone: null,
-                    recipient_address: null,
-                    recipient_postal_code: null,
-                    recipient_city: null
+                    admin_created: true // API erkennt Admin-Gutscheine und setzt korrekte Werte
                 })
             });
 

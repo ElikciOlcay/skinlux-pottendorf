@@ -96,7 +96,7 @@ export default function Gallery() {
                         Überzeugen Sie sich selbst von unserer Qualität
                     </p>
                     <a
-                        href="https://instagram.com/skinlux"
+                        href="https://www.instagram.com/skinlux_bischofshofen/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs font-light tracking-widest uppercase hover:text-secondary transition-colors"

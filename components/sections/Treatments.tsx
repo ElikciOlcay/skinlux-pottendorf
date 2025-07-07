@@ -14,7 +14,7 @@ const treatments = [
         title: "Laser Haarentfernung",
         description: "Dauerhafte Haarentfernung mit modernster Diodenlaser-Technologie.",
         icon: Zap,
-        href: '/preise/laser'
+        href: '/behandlungen/laser-haarentfernung'
     },
     {
         id: 'hydra-facial',

@@ -83,7 +83,7 @@ const Footer = () => {
                                 Gutscheine
                             </Link>
                             <a
-                                href="https://instagram.com/skinlux"
+                                href="https://www.instagram.com/skinlux_bischofshofen/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="block font-light text-gray-600 hover:text-black transition-colors"

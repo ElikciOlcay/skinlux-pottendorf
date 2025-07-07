@@ -81,7 +81,7 @@ export default function AdminDashboard() {
             id: "vouchers",
             title: "Gutscheine",
             description: "Gutschein-Management",
-            url: "/gutscheine",
+            url: "/admin/vouchers",
             icon: <Gift className="w-9 h-9" />,
             color: "purple",
             gradient: "from-purple-500 to-violet-600",
@@ -215,8 +215,8 @@ export default function AdminDashboard() {
                             <button
                                 onClick={toggleTheme}
                                 className={`p-2 rounded-lg transition-all duration-200 ${theme === 'dark'
-                                        ? 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                    ? 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                                     }`}
                                 title={theme === 'dark' ? 'Hell-Modus aktivieren' : 'Dunkel-Modus aktivieren'}
                             >
@@ -226,8 +226,8 @@ export default function AdminDashboard() {
                             <button
                                 onClick={handleLogout}
                                 className={`flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${theme === 'dark'
-                                        ? 'text-slate-300 hover:text-white hover:bg-slate-800/50'
-                                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                                    ? 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
                                     }`}
                                 style={{ fontFamily: 'var(--font-inter)' }}
                             >
@@ -265,8 +265,8 @@ export default function AdminDashboard() {
                             <div className={`absolute inset-0 ${tile.bgPattern} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
 
                             <div className={`relative ${theme === 'dark'
-                                    ? 'bg-slate-900/90 border-slate-800 hover:border-slate-700'
-                                    : 'bg-white border-gray-200 hover:border-gray-300 shadow-lg hover:shadow-xl'
+                                ? 'bg-slate-900/90 border-slate-800 hover:border-slate-700'
+                                : 'bg-white border-gray-200 hover:border-gray-300 shadow-lg hover:shadow-xl'
                                 } backdrop-blur-sm rounded-2xl border overflow-hidden transition-all duration-300`}>
                                 {/* Animated Background Pattern */}
                                 <div className="absolute inset-0 opacity-5">
@@ -317,8 +317,8 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                     {/* Live Time Card */}
                     <div className={`${theme === 'dark'
-                            ? 'bg-slate-900/90 border-slate-800'
-                            : 'bg-white border-gray-200 shadow-lg'
+                        ? 'bg-slate-900/90 border-slate-800'
+                        : 'bg-white border-gray-200 shadow-lg'
                         } backdrop-blur-sm rounded-2xl border p-6 relative overflow-hidden transition-all duration-300`}>
                         <div className={`absolute top-0 right-0 w-32 h-32 ${theme === 'dark' ? 'bg-gradient-to-br from-blue-500/10 to-purple-500/10' : 'bg-gradient-to-br from-blue-200/20 to-purple-200/20'} rounded-full blur-3xl`}></div>
                         <div className="relative">
@@ -337,8 +337,8 @@ export default function AdminDashboard() {
 
                     {/* System Status Card */}
                     <div className={`${theme === 'dark'
-                            ? 'bg-slate-900/90 border-slate-800'
-                            : 'bg-white border-gray-200 shadow-lg'
+                        ? 'bg-slate-900/90 border-slate-800'
+                        : 'bg-white border-gray-200 shadow-lg'
                         } backdrop-blur-sm rounded-2xl border p-6 relative overflow-hidden transition-all duration-300`}>
                         <div className={`absolute top-0 right-0 w-32 h-32 ${theme === 'dark' ? 'bg-gradient-to-br from-green-500/10 to-emerald-500/10' : 'bg-gradient-to-br from-green-200/20 to-emerald-200/20'} rounded-full blur-3xl`}></div>
                         <div className="relative">
@@ -359,8 +359,8 @@ export default function AdminDashboard() {
 
                     {/* Quick Actions Card */}
                     <div className={`${theme === 'dark'
-                            ? 'bg-slate-900/90 border-slate-800'
-                            : 'bg-white border-gray-200 shadow-lg'
+                        ? 'bg-slate-900/90 border-slate-800'
+                        : 'bg-white border-gray-200 shadow-lg'
                         } backdrop-blur-sm rounded-2xl border p-6 relative overflow-hidden transition-all duration-300`}>
                         <div className={`absolute top-0 right-0 w-32 h-32 ${theme === 'dark' ? 'bg-gradient-to-br from-purple-500/10 to-pink-500/10' : 'bg-gradient-to-br from-purple-200/20 to-pink-200/20'} rounded-full blur-3xl`}></div>
                         <div className="relative">

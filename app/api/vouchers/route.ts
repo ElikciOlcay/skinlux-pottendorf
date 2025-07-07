@@ -241,68 +241,73 @@ export async function POST(request: NextRequest) {
         console.log('✅ API Route: Voucher created successfully:', voucher);
 
         // ========== E-MAIL-VERSENDUNG ==========
-        console.log('📧 Starting email notifications...');
-
-        // Generate order number for emails
-        const orderNumber = `ORD-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
-
-        // Prepare email data
-        const emailData: VoucherEmailData = {
-            voucherCode: voucher.code,
-            amount: voucher.amount,
-            senderName: voucher.sender_name,
-            senderEmail: voucher.sender_email,
-            senderPhone: voucher.sender_phone,
-            recipientName: voucher.recipient_name,
-            message: voucher.message,
-            orderNumber: orderNumber,
-            expiresAt: voucher.expires_at
-        };
-
-        // Send emails (both in parallel) - nur wenn E-Mail vorhanden
-        const emailPromises = [];
-
-        if (voucher.sender_email) {
-            emailPromises.push(EmailService.sendCustomerConfirmation(emailData));
-        }
-
-        // Admin-E-Mail immer senden
-        emailPromises.push(EmailService.sendAdminNotification(emailData));
-
-        const emailResults = await Promise.allSettled(emailPromises);
-
-        // Log email results
+        // Für Admin-erstellte Gutscheine keine E-Mails versenden (Vor-Ort-Verkauf)
         let customerEmailSuccess = false;
         let adminEmailSuccess = false;
 
-        if (voucher.sender_email && emailResults.length > 1) {
-            // Kunden-E-Mail wurde gesendet
-            const customerResult = emailResults[0];
-            if (customerResult.status === 'fulfilled') {
-                customerEmailSuccess = customerResult.value.success;
-                console.log('✅ Customer email:', customerResult.value.success ? 'sent' : 'failed', customerResult.value);
-            } else {
-                console.error('❌ Customer email error:', customerResult.reason);
+        // Generate order number for response
+        const orderNumber = `ORD-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
+
+        if (!isAdminCreated) {
+            console.log('📧 Starting email notifications for online voucher...');
+
+            // Prepare email data
+            const emailData: VoucherEmailData = {
+                voucherCode: voucher.code,
+                amount: voucher.amount,
+                senderName: voucher.sender_name,
+                senderEmail: voucher.sender_email,
+                senderPhone: voucher.sender_phone,
+                recipientName: voucher.recipient_name,
+                message: voucher.message,
+                orderNumber: orderNumber,
+                expiresAt: voucher.expires_at
+            };
+
+            // Send emails (both in parallel) - nur wenn E-Mail vorhanden
+            const emailPromises = [];
+
+            if (voucher.sender_email) {
+                emailPromises.push(EmailService.sendCustomerConfirmation(emailData));
             }
 
-            // Admin-E-Mail ist die zweite
-            const adminResult = emailResults[1];
-            if (adminResult.status === 'fulfilled') {
-                adminEmailSuccess = adminResult.value.success;
-                console.log('✅ Admin email:', adminResult.value.success ? 'sent' : 'failed', adminResult.value);
+            // Admin-E-Mail nur bei Online-Bestellungen senden
+            emailPromises.push(EmailService.sendAdminNotification(emailData));
+
+            const emailResults = await Promise.allSettled(emailPromises);
+
+            // Log email results
+            if (voucher.sender_email && emailResults.length > 1) {
+                // Kunden-E-Mail wurde gesendet
+                const customerResult = emailResults[0];
+                if (customerResult.status === 'fulfilled') {
+                    customerEmailSuccess = customerResult.value.success;
+                    console.log('✅ Customer email:', customerResult.value.success ? 'sent' : 'failed', customerResult.value);
+                } else {
+                    console.error('❌ Customer email error:', customerResult.reason);
+                }
+
+                // Admin-E-Mail ist die zweite
+                const adminResult = emailResults[1];
+                if (adminResult.status === 'fulfilled') {
+                    adminEmailSuccess = adminResult.value.success;
+                    console.log('✅ Admin email:', adminResult.value.success ? 'sent' : 'failed', adminResult.value);
+                } else {
+                    console.error('❌ Admin email error:', adminResult.reason);
+                }
             } else {
-                console.error('❌ Admin email error:', adminResult.reason);
+                // Nur Admin-E-Mail wurde gesendet
+                console.log('ℹ️ No customer email sent (no email address provided)');
+                const adminResult = emailResults[0];
+                if (adminResult.status === 'fulfilled') {
+                    adminEmailSuccess = adminResult.value.success;
+                    console.log('✅ Admin email:', adminResult.value.success ? 'sent' : 'failed', adminResult.value);
+                } else {
+                    console.error('❌ Admin email error:', adminResult.reason);
+                }
             }
         } else {
-            // Nur Admin-E-Mail wurde gesendet
-            console.log('ℹ️ No customer email sent (no email address provided)');
-            const adminResult = emailResults[0];
-            if (adminResult.status === 'fulfilled') {
-                adminEmailSuccess = adminResult.value.success;
-                console.log('✅ Admin email:', adminResult.value.success ? 'sent' : 'failed', adminResult.value);
-            } else {
-                console.error('❌ Admin email error:', adminResult.reason);
-            }
+            console.log('ℹ️ Admin voucher - no emails sent (in-person sale)');
         }
 
         return NextResponse.json({

@@ -430,9 +430,6 @@ export class EmailService {
                 .header { background: linear-gradient(135deg, #1f2937 0%, #374151 100%); color: white; padding: 40px 30px; text-align: center; }
                 .logo { font-size: 32px; font-weight: 300; margin-bottom: 10px; }
                 .content { padding: 40px 30px; }
-                .voucher-box { background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); border-radius: 16px; padding: 30px; margin: 30px 0; text-align: center; }
-                .voucher-code { font-size: 28px; font-weight: bold; color: #1f2937; letter-spacing: 2px; margin: 15px 0; }
-                .amount { font-size: 36px; font-weight: bold; color: #059669; margin: 10px 0; }
                 .details { background-color: #f9fafb; border-radius: 12px; padding: 25px; margin: 25px 0; }
                 .detail-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 8px 0; border-bottom: 1px solid #e5e7eb; }
                 .detail-label { font-weight: 600; color: #6b7280; }
@@ -453,13 +450,6 @@ export class EmailService {
                     <h1>Vielen Dank für Ihre Bestellung!</h1>
                     <p>Liebe/r ${data.senderName},</p>
                     <p>Ihre Gutschein-Bestellung wurde erfolgreich bei uns eingegangen und wird bearbeitet.</p>
-                    
-                    <div class="voucher-box">
-                        <h2>Ihr Gutschein</h2>
-                        <div class="voucher-code">${data.voucherCode}</div>
-                        <div class="amount">€${data.amount}</div>
-                        <p>Gültig bis: ${new Date(data.expiresAt).toLocaleDateString('de-DE')}</p>
-                    </div>
                     
                     <div class="details">
                         <h3>Bestelldetails</h3>
@@ -493,6 +483,10 @@ export class EmailService {
                             <span class="detail-value">${data.message}</span>
                         </div>
                         ` : ''}
+                        <div class="detail-row">
+                            <span class="detail-label">Betrag:</span>
+                            <span class="detail-value">€${data.amount}</span>
+                        </div>
                     </div>
                     
                     <div class="important">
@@ -519,10 +513,6 @@ export class EmailService {
                                     <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #1f2937; font-family: monospace; font-weight: 600;">${bankDetails.bic}</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: #6b7280;">Betrag:</td>
-                                    <td style="padding: 8px 0; border-bottom: 1px solid #f3f4f6; color: #059669; font-weight: bold; font-size: 18px;">€${data.amount}</td>
-                                </tr>
-                                <tr>
                                     <td style="padding: 8px 0; font-weight: 600; color: #6b7280;">Verwendungszweck:</td>
                                     <td style="padding: 8px 0; color: #1f2937; font-weight: 600;">${bankDetails.reference} ${data.orderNumber}</td>
                                 </tr>
@@ -535,7 +525,7 @@ export class EmailService {
                             </p>
                         </div>
                         
-                        <p><strong>Nach Zahlungseingang wird Ihr Gutschein automatisch aktiviert und Sie erhalten eine Bestätigungs-E-Mail.</strong></p>
+                        <p><strong>Nach Zahlungseingang wird Ihr Gutschein automatisch aktiviert und Sie erhalten eine Bestätigungs-E-Mail mit dem Gutschein-Code.</strong></p>
                     </div>
                     
                     <p>Bei Fragen stehen wir Ihnen gerne zur Verfügung!</p>

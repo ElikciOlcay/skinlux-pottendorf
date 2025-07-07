@@ -310,34 +310,26 @@ export class PDFGenerator {
 
     private static async loadLogoAsBase64(): Promise<string> {
         try {
-            // Dynamischer Import für Node.js Module (nur server-side)
-            if (typeof window === 'undefined') {
-                const fs = await import('fs');
-                const path = await import('path');
+            // Versuche Logo über öffentliche URL zu laden (funktioniert lokal und in Production)
+            const logoUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/images/logo/skinlux-logo.png`;
+            console.log('🔄 Trying to load logo from:', logoUrl);
 
-                const logoPath = path.join(process.cwd(), 'public', 'images', 'logo', 'skinlux-logo.png');
-                const logoBuffer = fs.readFileSync(logoPath);
-                return `data:image/png;base64,${logoBuffer.toString('base64')}`;
-            } else {
-                // Client-side fallback (falls jemals benötigt)
-                const logoPath = '/images/logo/skinlux-logo.png';
-                const response = await fetch(logoPath);
-
-                if (!response.ok) {
-                    throw new Error(`Failed to load logo: ${response.status}`);
-                }
-
-                const buffer = await response.arrayBuffer();
-                const bytes = new Uint8Array(buffer);
-                let binary = '';
-                for (let i = 0; i < bytes.byteLength; i++) {
-                    binary += String.fromCharCode(bytes[i]);
-                }
-
-                return `data:image/png;base64,${btoa(binary)}`;
+            const response = await fetch(logoUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to load logo: ${response.status}`);
             }
+
+            const buffer = await response.arrayBuffer();
+            const bytes = new Uint8Array(buffer);
+            let binary = '';
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+
+            console.log('✅ Logo loaded successfully');
+            return `data:image/png;base64,${btoa(binary)}`;
         } catch (error) {
-            console.warn('⚠️ Failed to load logo:', error);
+            console.warn('⚠️ Failed to load logo, using text fallback:', error);
             return ''; // Fallback zu Text-Logo
         }
     }

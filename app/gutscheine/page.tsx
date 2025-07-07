@@ -25,6 +25,7 @@ export default function Gutscheine() {
     const [formData, setFormData] = useState({
         senderName: "",
         senderEmail: "",
+        senderEmailRepeat: "",
         senderPhone: "",
         message: "",
         // Für Postversand
@@ -70,9 +71,9 @@ export default function Gutscheine() {
             case 2:
                 return getAmount() >= 25;
             case 3:
-                return true; // Liefermethode ist immer gewählt (default: email)
+                return true;
             case 4:
-                return !!(formData.senderName && formData.senderEmail && formData.senderPhone);
+                return !!(formData.senderName && formData.senderEmail && formData.senderPhone && formData.senderEmailRepeat && formData.senderEmail === formData.senderEmailRepeat);
             case 5:
                 if (deliveryMethod === 'post') {
                     return !!(formData.recipientName && formData.recipientAddress &&
@@ -132,6 +133,7 @@ export default function Gutscheine() {
             console.log('🏢 Current subdomain from client:', currentSubdomain);
 
             // Erstelle Voucher Data Object (mit allen benötigten Spalten)
+            const { senderEmailRepeat, ...formDataWithoutRepeat } = formData;
             const voucherData = {
                 code: voucherCode,
                 order_number: orderNumber,
@@ -493,6 +495,18 @@ export default function Gutscheine() {
                                         onChange={(e) => setFormData({ ...formData, senderEmail: e.target.value })}
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-300 focus:outline-none transition-colors"
                                     />
+
+                                    <input
+                                        type="email"
+                                        placeholder="E-Mail wiederholen"
+                                        required
+                                        value={formData.senderEmailRepeat}
+                                        onChange={(e) => setFormData({ ...formData, senderEmailRepeat: e.target.value })}
+                                        className={`w-full px-4 py-3 border rounded-xl focus:border-pink-300 focus:outline-none transition-colors ${formData.senderEmailRepeat && formData.senderEmail !== formData.senderEmailRepeat ? 'border-red-400' : 'border-gray-300'}`}
+                                    />
+                                    {formData.senderEmailRepeat && formData.senderEmail !== formData.senderEmailRepeat && (
+                                        <p className="text-red-500 text-sm">Die E-Mail-Adressen stimmen nicht überein.</p>
+                                    )}
 
                                     <input
                                         type="tel"

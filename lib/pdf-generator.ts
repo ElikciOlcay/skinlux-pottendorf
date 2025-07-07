@@ -91,8 +91,17 @@ export class PDFGenerator {
         doc.setLineWidth(0.5);
         doc.line(centerX - 30, currentY, centerX + 30, currentY);
 
+        // === GUTSCHEINNUMMER IM HEADER ===
+        currentY += 20;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(...textGray);
+        const voucherNumberText = `Gutschein-Nr.: ${data.voucherCode}`;
+        const voucherNumberWidth = doc.getTextWidth(voucherNumberText);
+        doc.text(voucherNumberText, centerX - voucherNumberWidth / 2, currentY);
+
         // === MAIN CONTENT ===
-        currentY += 50;
+        currentY += 40;
 
         // Gift indicator (if applicable)
         if (isGift) {
@@ -189,25 +198,7 @@ export class PDFGenerator {
             currentY += messageHeight + 60; // Deutlich mehr Abstand nach der Nachricht
         }
 
-        // === CODE SECTION ===
-        currentY += 40; // Mehr Abstand vor dem Code
-
-        // Code in elegant box
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(16);
-        doc.setTextColor(...primaryColor);
-        const codeText = data.voucherCode;
-        const codeWidth = doc.getTextWidth(codeText);
-        const boxWidth = codeWidth + 40;
-        const boxHeight = 15;
-        const boxX = centerX - boxWidth / 2;
-
-        // Subtle background box
-        doc.setFillColor(...lightGray);
-        doc.roundedRect(boxX, currentY - 10, boxWidth, boxHeight, 3, 3, 'F');
-
-        // Code text
-        doc.text(codeText, centerX - codeWidth / 2, currentY);
+        // === CODE SECTION ENTFERNT - Gutscheinnummer ist jetzt im Header ===
 
         // === EXPIRY ===
         currentY += 40; // Mehr Abstand vor dem Gültigkeitsdatum
@@ -239,9 +230,9 @@ export class PDFGenerator {
             doc.setTextColor(...textGray);
 
             const contactLines = [
-                bankDetails.businessName || 'Skinlux Bischofshofen',
-                `${bankDetails.streetAddress || 'Salzburger Straße 45'}, ${bankDetails.postalCode || '5500'} ${bankDetails.city || 'Bischofshofen'}`,
-                `Tel: ${bankDetails.phone || '+43 123 456 789'} • ${bankDetails.email || 'hello@skinlux.at'}`
+                'Skinlux Bischofshofen',
+                'Bahnhofstrasse 17, 5500 Bischofshofen',
+                'Tel: 0660 57 21 403 • hello@skinlux.at'
             ];
 
             contactLines.forEach((line, index) => {
@@ -266,10 +257,10 @@ export class PDFGenerator {
             doc.setTextColor(...textGray);
 
             const contactLines = [
-                bankDetails.businessName || 'Skinlux Bischofshofen',
-                `${bankDetails.streetAddress || 'Salzburger Straße 45'}, ${bankDetails.postalCode || '5500'} ${bankDetails.city || 'Bischofshofen'}`,
-                `Tel: ${bankDetails.phone || '+43 123 456 789'}`,
-                `${bankDetails.email || 'hello@skinlux.at'} • ${bankDetails.website || 'skinlux.at'}`
+                'Skinlux Bischofshofen',
+                'Bahnhofstrasse 17, 5500 Bischofshofen',
+                'Tel: 0660 57 21 403',
+                'hello@skinlux.at'
             ];
 
             contactLines.forEach((line, index) => {

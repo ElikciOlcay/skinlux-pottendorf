@@ -8,17 +8,34 @@ export const LISA_KNOWLEDGE = {
 
     studio: {
         name: "SkinLux",
-        location: "Bischofshofen, Pongau",
+        slogan: "Medical Beauty Studio",
+        location: "Bischofshofen, Pongau, Salzburg",
         address: "Franz-Mohshammer-Platz 2/1, 5500 Bischofshofen",
         phone: "+43 660 57 21 403",
         email: "info@skinlux.at",
         website: "www.skinlux.at",
         founded: "2020",
         team: [
-            { name: "Gökce", role: "Gründerin & Leiterin" },
-            { name: "Olcay", role: "Marketing & Digitalisierung" },
-            { name: "Thereza", role: "Laser Expertin" },
-            { name: "Petra", role: "Laser Expertin" }
+            { name: "Gökce", role: "Gründerin & Leiterin", expertise: "Über 10 Jahre Erfahrung in der Beauty-Branche" },
+            { name: "Olcay", role: "Marketing & Digitalisierung", expertise: "Spezialist für digitale Prozesse" },
+            { name: "Thereza", role: "Laser Expertin", expertise: "Zertifizierte Lasertherapeutin" },
+            { name: "Petra", role: "Laser Expertin", expertise: "Spezialisiert auf Hautanalyse und Laserbehandlungen" }
+        ],
+        philosophy: "Wir kombinieren modernste Technologie mit persönlicher Betreuung für optimale Ergebnisse",
+        certifications: [
+            "Zertifiziertes Medical Beauty Studio",
+            "FDA-zugelassene Laser-Technologie",
+            "Regelmäßige Schulungen und Weiterbildungen",
+            "Höchste Hygienestandards"
+        ],
+        specialFeatures: [
+            "Kostenlose Erstberatung",
+            "Kostenlose Laser-Probebehandlung",
+            "Individuelle Behandlungspläne",
+            "Modernste Diodenlaser-Technologie",
+            "Schmerzarme Behandlungen",
+            "Flexible Terminvereinbarung",
+            "Zentrale Lage mit Parkmöglichkeiten"
         ]
     },
 
@@ -198,8 +215,59 @@ export const LISA_KNOWLEDGE = {
         {
             question: "Gibt es Nebenwirkungen?",
             answer: "Leichte Rötungen oder Schwellungen können auftreten, verschwinden aber innerhalb weniger Stunden. Unsere Experten beraten Sie ausführlich."
+        },
+        {
+            question: "Für welche Hauttypen ist die Behandlung geeignet?",
+            answer: "Unsere moderne Diodenlaser-Technologie ist für alle Hauttypen geeignet. In der kostenlosen Erstberatung analysieren wir Ihren Hauttyp genau."
+        },
+        {
+            question: "Wie lange hält das Ergebnis?",
+            answer: "Nach Abschluss der Behandlungsserie ist das Ergebnis dauerhaft. Vereinzelt können nach Jahren einzelne Härchen nachwachsen, diese können mit Auffrischungsbehandlungen entfernt werden."
+        },
+        {
+            question: "Kann ich zwischen den Behandlungen rasieren?",
+            answer: "Ja, das Rasieren zwischen den Behandlungen ist sogar erwünscht. Nur Epilieren, Wachsen oder Zupfen sollten Sie vermeiden."
         }
     ],
+
+    additionalInfo: {
+        whyChooseSkinLux: [
+            "Über 3 Jahre Erfahrung mit zufriedenen Kunden",
+            "Modernste FDA-zugelassene Technologie",
+            "Individuell angepasste Behandlungspläne",
+            "Transparente Preise ohne versteckte Kosten",
+            "Zentrale Lage in Bischofshofen",
+            "Flexible Terminvereinbarung auch am Samstag",
+            "Höchste Hygienestandards",
+            "Regelmäßige Fortbildungen des Teams"
+        ],
+        treatmentProcess: {
+            laser: [
+                "1. Kostenlose Erstberatung mit Hautanalyse",
+                "2. Individuelle Behandlungsplanung",
+                "3. Kostenlose Probebehandlung",
+                "4. Start der Behandlungsserie",
+                "5. Regelmäßige Fortschrittskontrolle",
+                "6. Nachsorge und Pflegetipps"
+            ],
+            hydrafacial: [
+                "1. Hautanalyse und Beratung",
+                "2. Tiefenreinigung und Peeling",
+                "3. Sanfte Extraktion",
+                "4. Intensive Hydration",
+                "5. Wirkstoff-Infusion",
+                "6. LED-Therapie (bei Deluxe/Platinum)"
+            ]
+        },
+        paymentOptions: [
+            "Barzahlung",
+            "Bankomatkarte",
+            "Ratenzahlung möglich",
+            "Geschenkgutscheine verfügbar"
+        ],
+        parkingInfo: "Kostenlose Parkplätze direkt vor dem Studio verfügbar. Auch mit öffentlichen Verkehrsmitteln gut erreichbar.",
+        covidMeasures: "Wir achten auf höchste Hygienestandards mit regelmäßiger Desinfektion, Luftreinigung und individuellen Behandlungszeiten."
+    },
 
     booking: {
         online: "https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone",
@@ -232,8 +300,9 @@ Deine Aufgaben:
 4. Leite zur Terminbuchung weiter
 5. Bleibe immer professionell und hilfsbereit
 
-EXTREM WICHTIGE REGEL FÜR PREISE:
-⚠️ NENNE IMMER NUR DIE EXAKTEN PREISE AUS DER WISSENSDATENBANK!
+EXTREM WICHTIGE REGELN:
+⚠️ ABSOLUTES VERBOT: NIEMALS Preise erfinden oder von anderen Behandlungen übernehmen!
+⚠️ Wenn ein Preis NICHT in der Liste steht, sage KLAR: "Für diese Zone haben wir keine spezifischen Preise hinterlegt. Bitte kontaktieren Sie uns für ein individuelles Angebot."
 
 LASER-PREISE DAMEN (Einzelbehandlung):
 - Gesicht: Wangen 35€, Kinn 35€, Oberlippe 35€, Hals 45€, Gesicht komplett 99€
@@ -248,6 +317,7 @@ LASER-PREISE HERREN (Einzelbehandlung):
 - Arme: Achseln 55€, Oberarme 50€, Unterarme 65€, Arme komplett 95€
 - Körper: Bauch 65€, Brust 80€, Schultern 50€, Rücken komplett 95€, Po gesamt 85€
 - Beine: Oberschenkel 120€, Unterschenkel 120€, Beine komplett 230€, Füße 40€
+- INTIMBEREICH HERREN: KEINE PREISE VERFÜGBAR - Individuelle Beratung erforderlich!
 
 HYDRAFACIAL-PREISE:
 - Signature (30 Min) 169€, Signature+LED (50 Min) 189€, Deluxe (50 Min) 259€, Platinum (60 Min) 289€
@@ -255,13 +325,20 @@ HYDRAFACIAL-PREISE:
 PREMIUM FACIALS:
 - Anti-Aging 129€, Hydrating 99€, Purifying 99€
 
-WICHTIG: ERFINDE NIEMALS andere Preise! Kostenlose Erstberatung und Probebehandlung bei Laser!
+WICHTIG: Bei JEDER Preisanfrage für nicht gelistete Zonen: "Für diese spezielle Zone kontaktieren Sie uns bitte für ein individuelles Angebot."
 
-Weitere Regeln:
+Weitere STRIKTE Regeln:
 - Gib nur Informationen aus der Wissensdatenbank
 - Bei medizinischen Fragen verweise auf persönliche Beratung
 - Keine Diagnosen oder medizinische Beratung
 - Betone die Vorteile einer persönlichen Beratung im Studio
+- NIEMALS Preise aus anderen Kategorien übernehmen (z.B. Damen-Preise für Herren verwenden)
+- Bei Unsicherheit IMMER sagen: "Diese Information habe ich nicht vorliegen, bitte kontaktieren Sie uns direkt."
+
+BEISPIELE FÜR KORREKTE ANTWORTEN:
+- "Für den Intimbereich bei Herren haben wir keine standardisierten Preise. Bitte kontaktieren Sie uns für ein individuelles Angebot."
+- "Diese spezielle Zone ist nicht in unserer Preisliste. Gerne erstellen wir Ihnen ein persönliches Angebot."
+- "Für genaue Informationen zu dieser Behandlung rufen Sie uns bitte an: +43 660 57 21 403"
 
 Nutze die bereitgestellten Informationen über SkinLux für deine Antworten.
 `; 

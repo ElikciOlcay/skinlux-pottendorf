@@ -55,6 +55,7 @@ interface VoucherDetail {
     created_at: string;
     expires_at: string;
     delivery_method: string;
+    admin_created?: boolean;
     redemptions?: RedemptionRecord[];
 }
 
@@ -291,6 +292,11 @@ export default function VoucherDetailPage() {
             'cancelled': 'bg-red-50 text-red-700 border-red-200'
         };
         return statusMap[status as keyof typeof statusMap] || 'bg-slate-50 text-slate-700 border-slate-200';
+    };
+
+    // Prüfe ob es ein Admin-erstellter Gutschein ist (Vor-Ort-Verkauf)
+    const isAdminVoucher = (voucher: VoucherDetail) => {
+        return voucher.admin_created === true;
     };
 
     if (loading) {
@@ -602,6 +608,35 @@ export default function VoucherDetailPage() {
                                 Käufer-Informationen
                             </h3>
 
+                            {/* Versandart */}
+                            <div className="mb-6 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-3">
+                                        <span className="text-sm font-semibold text-slate-700">Versandart:</span>
+                                        {isAdminVoucher(voucher) ? (
+                                            <>
+                                                <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                                </svg>
+                                                <span className="font-medium text-purple-600">Studio (Vor-Ort-Verkauf)</span>
+                                            </>
+                                        ) : voucher.delivery_method === 'post' ? (
+                                            <>
+                                                <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                                </svg>
+                                                <span className="font-medium text-orange-600">Per Post</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Mail className="w-5 h-5 text-blue-500" />
+                                                <span className="font-medium text-blue-600">Per E-Mail</span>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <label className="block text-sm font-semibold text-slate-700">
@@ -683,12 +718,23 @@ export default function VoucherDetailPage() {
                             </div>
                         </div>
 
-                        {/* Empfänger-Informationen (falls Geschenk) */}
-                        {(voucher.recipient_name || isEditing) && (
+                        {/* Empfänger-Informationen (bei Post-Versand) */}
+                        {(voucher.delivery_method === 'post' || isEditing) && (
                             <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 p-6">
                                 <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center">
-                                    <Gift className="w-5 h-5 mr-2 text-green-600" />
-                                    Empfänger-Informationen
+                                    {voucher.delivery_method === 'post' ? (
+                                        <>
+                                            <svg className="w-5 h-5 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                            </svg>
+                                            Post-Versand Adresse
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Gift className="w-5 h-5 mr-2 text-green-600" />
+                                            Empfänger-Informationen
+                                        </>
+                                    )}
                                 </h3>
 
                                 <div className="grid md:grid-cols-2 gap-6">
@@ -708,6 +754,26 @@ export default function VoucherDetailPage() {
                                             <div className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg">
                                                 <User className="w-4 h-4 text-slate-400" />
                                                 <span className="text-slate-900">{voucher.recipient_name || "Nicht angegeben"}</span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-semibold text-slate-700">
+                                            PLZ
+                                        </label>
+                                        {isEditing ? (
+                                            <input
+                                                type="text"
+                                                value={editData.recipient_postal_code}
+                                                onChange={(e) => setEditData(prev => ({ ...prev, recipient_postal_code: e.target.value }))}
+                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                                placeholder="Optional"
+                                            />
+                                        ) : (
+                                            <div className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg">
+                                                <MapPin className="w-4 h-4 text-slate-400" />
+                                                <span className="text-slate-900">{voucher.recipient_postal_code || "Nicht angegeben"}</span>
                                             </div>
                                         )}
                                     </div>

@@ -240,6 +240,11 @@ export default function VouchersPage() {
         return statusMap[status as keyof typeof statusMap] || (theme === 'dark' ? 'bg-gray-900/30 text-gray-400 border-gray-800' : 'bg-gray-50 text-gray-700 border-gray-200');
     };
 
+    // Prüfe ob es ein Admin-erstellter Gutschein ist (Vor-Ort-Verkauf)
+    const isAdminVoucher = (voucher: Voucher) => {
+        return voucher.admin_created === true;
+    };
+
     const loadBankDetails = async () => {
         try {
             const response = await fetch('/api/bank-details');
@@ -1084,6 +1089,9 @@ export default function VouchersPage() {
                                         Betrag
                                     </th>
                                     <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
+                                        Versand
+                                    </th>
+                                    <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
                                         Status
                                     </th>
                                     <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
@@ -1131,6 +1139,30 @@ export default function VouchersPage() {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                                                 €{Number(voucher.amount).toFixed(0)}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center space-x-2">
+                                                {isAdminVoucher(voucher) ? (
+                                                    <>
+                                                        <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                                        </svg>
+                                                        <span className={`text-sm ${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'}`}>Studio</span>
+                                                    </>
+                                                ) : voucher.delivery_method === 'post' ? (
+                                                    <>
+                                                        <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                                        </svg>
+                                                        <span className={`text-sm ${theme === 'dark' ? 'text-orange-400' : 'text-orange-600'}`}>Post</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Mail className="w-4 h-4 text-blue-500" />
+                                                        <span className={`text-sm ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>E-Mail</span>
+                                                    </>
+                                                )}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">

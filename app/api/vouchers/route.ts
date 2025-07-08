@@ -210,6 +210,7 @@ export async function POST(request: NextRequest) {
             payment_status: isAdminCreated ? 'paid' : 'pending',  // Admin-Gutscheine sind sofort bezahlt
             delivery_method: voucherData.delivery_method || 'email',   // Constraint: ['email', 'post'] - 'print' ist nicht erlaubt
             status: isAdminCreated ? 'active' : 'pending',        // Admin-Gutscheine sind sofort aktiv
+            admin_created: isAdminCreated,                        // Markiere Admin-erstellte Gutscheine
             is_used: false,
             remaining_amount: voucherData.amount  // Initial gleich dem Vollbetrag
         };

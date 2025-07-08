@@ -19,11 +19,18 @@ export interface Voucher {
     sender_name: string
     sender_email: string
     payment_status: 'pending' | 'paid' | 'cancelled'
+    status?: 'pending' | 'active' | 'used' | 'expired'
     payment_reference?: string
     is_used: boolean
     used_at?: string
     created_at: string
     expires_at: string
+    delivery_method?: 'email' | 'post'
+    recipient_name?: string
+    recipient_address?: string
+    recipient_postal_code?: string
+    recipient_city?: string
+    admin_created?: boolean
 }
 
 export interface Studio {

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Sparkles, ExternalLink } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles, ExternalLink, Gift, Euro, CreditCard } from "lucide-react";
 import { LISA_KNOWLEDGE } from "@/lib/chat/knowledge-base";
 
 interface Message {
@@ -17,6 +17,12 @@ const QUICK_REPLIES = [
     "Was kostet eine Laser-Behandlung?",
     "Wie läuft ein HydraFacial ab?",
     "Kann ich einen Termin buchen?"
+];
+
+const SMART_ACTIONS = [
+    { icon: Gift, label: "Gutschein kaufen", action: "voucher", color: "from-pink-500 to-rose-600" },
+    { icon: Euro, label: "Preisliste", action: "prices", color: "from-purple-500 to-pink-600" },
+    { icon: CreditCard, label: "Angebote", action: "offers", color: "from-blue-500 to-purple-600" }
 ];
 
 const INITIAL_MESSAGE = "Hallo! 👋 Ich bin Lisa, Ihre persönliche Beauty-Beraterin bei SkinLux. Wie kann ich Ihnen heute helfen?";
@@ -107,6 +113,17 @@ function truncateUrl(url: string, maxLength: number = 40): string {
     return start + '...' + end;
 }
 
+// Funktion zum Formatieren von Text mit Bold-Syntax
+function formatTextWithBold(text: string): React.ReactNode {
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    return parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+            return <strong key={index}>{part.slice(2, -2)}</strong>;
+        }
+        return part;
+    });
+}
+
 // Komponente zum Rendern von formatierten Nachrichten
 function MessageContent({ content }: { content: string }) {
     const parts = formatMessageWithLinks(content);
@@ -115,7 +132,7 @@ function MessageContent({ content }: { content: string }) {
         <>
             {parts.map((part, index) => {
                 if (part.type === 'text') {
-                    return <span key={index}>{part.content}</span>;
+                    return <span key={index}>{formatTextWithBold(part.content)}</span>;
                 } else if (part.type === 'link') {
                     const isPhone = part.linkType === 'phone';
                     const isEmail = part.linkType === 'email';
@@ -149,6 +166,27 @@ function MessageContent({ content }: { content: string }) {
     );
 }
 
+// Gutschein-Flow States
+interface VoucherFlow {
+    step: 'amount' | 'details' | 'payment' | 'complete' | null;
+    data: {
+        amount: number;
+        senderName: string;
+        senderEmail: string;
+        senderPhone?: string;
+        message?: string;
+        code?: string;
+        orderNumber?: string;
+    };
+}
+
+interface BankDetailsCache {
+    bankName: string;
+    accountHolder: string;
+    iban: string;
+    bic: string;
+}
+
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
@@ -161,6 +199,18 @@ export default function ChatWidget() {
     ]);
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
+    const [voucherFlow, setVoucherFlow] = useState<VoucherFlow>({
+        step: null,
+        data: {
+            amount: 0,
+            senderName: '',
+            senderEmail: '',
+            senderPhone: '',
+            message: ''
+        }
+    });
+    const [isProcessingVoucher, setIsProcessingVoucher] = useState(false);
+    const [bankDetails, setBankDetails] = useState<BankDetailsCache | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -176,7 +226,24 @@ export default function ChatWidget() {
         if (isOpen && inputRef.current) {
             inputRef.current.focus();
         }
-    }, [isOpen]);
+
+        // Lade Bankdaten beim Öffnen des Chats
+        if (isOpen && !bankDetails) {
+            fetch('/api/bank-details')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.bankDetails) {
+                        setBankDetails({
+                            bankName: data.bankDetails.bankName,
+                            accountHolder: data.bankDetails.accountHolder,
+                            iban: data.bankDetails.iban,
+                            bic: data.bankDetails.bic
+                        });
+                    }
+                })
+                .catch(err => console.error('Error loading bank details:', err));
+        }
+    }, [isOpen, bankDetails]);
 
     const handleSend = async (message: string) => {
         if (!message.trim()) return;
@@ -226,6 +293,163 @@ export default function ChatWidget() {
             }]);
         } finally {
             setIsTyping(false);
+        }
+    };
+
+    const handleSmartAction = async (action: string) => {
+        if (action === 'voucher') {
+            // Starte Gutschein-Flow
+            setVoucherFlow({
+                ...voucherFlow,
+                step: 'amount',
+                data: {
+                    amount: 0,
+                    senderName: '',
+                    senderEmail: '',
+                    senderPhone: '',
+                    message: ''
+                }
+            });
+
+            const voucherMessage: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: "Toll, dass Sie einen Gutschein verschenken möchten! 🎁\n\n**Unsere Gutscheine:**\n• Gültig für alle Behandlungen\n• 12 Monate Gültigkeit\n• Als PDF per E-Mail\n• Sichere Zahlung per Überweisung\n\nBitte wählen Sie einen Betrag:",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, voucherMessage]);
+
+        } else if (action === 'prices') {
+            handleSend("Was sind die aktuellen Preise?");
+        } else if (action === 'offers') {
+            handleSend("Welche Angebote gibt es aktuell?");
+        }
+    };
+
+    const handleVoucherAmount = (amount: number) => {
+        setVoucherFlow({
+            ...voucherFlow,
+            step: 'details',
+            data: { ...voucherFlow.data, amount }
+        });
+
+        const confirmMessage: Message = {
+            id: Date.now().toString(),
+            role: "assistant",
+            content: `Super! Ein ${amount}€ Gutschein. 💝\n\nBitte geben Sie Ihre Kontaktdaten ein:`,
+            timestamp: new Date()
+        };
+        setMessages(prev => [...prev, confirmMessage]);
+    };
+
+    const handleVoucherDetails = async () => {
+        if (!voucherFlow.data.senderName || !voucherFlow.data.senderEmail) {
+            const errorMessage: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: "Bitte füllen Sie Name und E-Mail aus. 📝",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+            return;
+        }
+
+        // Validiere Betrag
+        if (voucherFlow.data.amount < 25) {
+            const errorMessage: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: "Der Mindestbetrag für einen Gutschein beträgt 25€. 💰",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+            return;
+        }
+
+        setIsProcessingVoucher(true);
+
+        try {
+            // Generiere Gutschein-Code
+            const randomNum = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            const voucherCode = `SLX${randomNum}`;
+
+            // API-Aufruf mit korrekten Feldnamen
+            const response = await fetch('/api/vouchers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: voucherFlow.data.amount,
+                    sender_name: voucherFlow.data.senderName,
+                    sender_email: voucherFlow.data.senderEmail,
+                    sender_phone: voucherFlow.data.senderPhone || null,
+                    message: voucherFlow.data.message || null,
+                    code: voucherCode,
+                    delivery_method: 'email'
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                console.error('Voucher API error:', result);
+                throw new Error(result.error || 'Fehler beim Erstellen des Gutscheins');
+            }
+
+            if (result.success) {
+                setVoucherFlow({
+                    ...voucherFlow,
+                    step: 'complete',
+                    data: {
+                        ...voucherFlow.data,
+                        code: result.voucher.code,
+                        orderNumber: result.orderNumber
+                    }
+                });
+
+                // Verwende Bankdaten aus Cache oder Fallback
+                const bankInfo = bankDetails || {
+                    bankName: 'Sparkasse Pongau',
+                    accountHolder: 'Skinlux Bischofshofen',
+                    iban: 'AT00 0000 0000 0000 0000',
+                    bic: 'SPALAT2G'
+                };
+
+                const successMessage: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: `✨ Ihr Gutschein wurde erfolgreich erstellt!\n\n🎁 **Gutschein-Code:** ${result.voucher.code}\n📧 **Bestellnummer:** ${result.orderNumber}\n💰 **Betrag:** ${voucherFlow.data.amount}€\n\n**So geht es weiter:**\n\n1️⃣ **E-Mail-Bestätigung**\nSie erhalten in wenigen Minuten eine E-Mail mit allen Details.\n\n2️⃣ **Bezahlung**\nÜberweisen Sie den Betrag auf folgendes Konto:\n\n• **Bank:** ${bankInfo.bankName}\n• **Kontoinhaber:** ${bankInfo.accountHolder}\n• **IBAN:** ${bankInfo.iban}\n• **BIC:** ${bankInfo.bic}\n• **Verwendungszweck:** ${result.orderNumber}\n\n⚠️ **Wichtig:** Geben Sie unbedingt die Bestellnummer als Verwendungszweck an!\n\n3️⃣ **Gutschein-Versand**\nNach Zahlungseingang erhalten Sie:\n• Eine Zahlungsbestätigung per E-Mail\n• Den digitalen Gutschein als PDF\n• Optional: Ausdruckbaren Gutschein für Geschenke\n\n4️⃣ **Gültigkeit**\nDer Gutschein ist 12 Monate gültig und kann für alle unsere Behandlungen eingelöst werden.\n\n📱 **Status verfolgen**\nSie können jederzeit anrufen und mit Ihrer Bestellnummer den Status erfragen.\n\n❓ **Fragen?**\nRufen Sie uns gerne an: +43 660 57 21 403\n\nVielen Dank für Ihr Vertrauen! 💕`,
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, successMessage]);
+
+                // Reset Voucher Flow nach erfolgreicher Erstellung
+                setTimeout(() => {
+                    setVoucherFlow({
+                        step: null,
+                        data: {
+                            amount: 0,
+                            senderName: '',
+                            senderEmail: '',
+                            senderPhone: '',
+                            message: ''
+                        }
+                    });
+                }, 2000);
+            }
+        } catch (error) {
+            console.error('Voucher creation error:', error);
+            const errorMsg = error instanceof Error ? error.message : 'Unbekannter Fehler';
+            const errorMessage: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: `Es gab einen Fehler beim Erstellen des Gutscheins: ${errorMsg}\n\nBitte versuchen Sie es erneut oder rufen Sie uns an: +43 660 57 21 403`,
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
+            setIsProcessingVoucher(false);
         }
     };
 
@@ -355,11 +579,129 @@ export default function ChatWidget() {
                             </div>
                         )}
 
+                        {/* Voucher Amount Selection */}
+                        {voucherFlow.step === 'amount' && (
+                            <div className="px-4 pb-4">
+                                <div className="grid grid-cols-2 gap-2">
+                                    {[50, 100, 150, 200].map((amount) => (
+                                        <button
+                                            key={amount}
+                                            onClick={() => handleVoucherAmount(amount)}
+                                            className="p-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-lg hover:shadow-lg transition-all font-medium"
+                                        >
+                                            {amount}€
+                                        </button>
+                                    ))}
+                                </div>
+                                <p className="text-xs text-gray-500 mt-2 text-center">
+                                    Oder geben Sie unten einen anderen Betrag ein (min. 25€)
+                                </p>
+                            </div>
+                        )}
+
+                        {/* Voucher Details Form */}
+                        {voucherFlow.step === 'details' && (
+                            <div className="px-4 pb-4 space-y-3">
+                                <input
+                                    type="text"
+                                    placeholder="Ihr Name *"
+                                    value={voucherFlow.data.senderName}
+                                    onChange={(e) => setVoucherFlow({
+                                        ...voucherFlow,
+                                        data: { ...voucherFlow.data, senderName: e.target.value }
+                                    })}
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                                />
+                                <input
+                                    type="email"
+                                    placeholder="Ihre E-Mail *"
+                                    value={voucherFlow.data.senderEmail}
+                                    onChange={(e) => setVoucherFlow({
+                                        ...voucherFlow,
+                                        data: { ...voucherFlow.data, senderEmail: e.target.value }
+                                    })}
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                                />
+                                <input
+                                    type="tel"
+                                    placeholder="Telefonnummer (optional)"
+                                    value={voucherFlow.data.senderPhone}
+                                    onChange={(e) => setVoucherFlow({
+                                        ...voucherFlow,
+                                        data: { ...voucherFlow.data, senderPhone: e.target.value }
+                                    })}
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50"
+                                />
+                                <textarea
+                                    placeholder="Persönliche Nachricht (optional)"
+                                    value={voucherFlow.data.message}
+                                    onChange={(e) => setVoucherFlow({
+                                        ...voucherFlow,
+                                        data: { ...voucherFlow.data, message: e.target.value }
+                                    })}
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50 resize-none"
+                                    rows={2}
+                                />
+                                <button
+                                    onClick={handleVoucherDetails}
+                                    disabled={isProcessingVoucher}
+                                    className="w-full p-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-lg hover:shadow-lg transition-all font-medium disabled:opacity-50"
+                                >
+                                    {isProcessingVoucher ? 'Wird erstellt...' : 'Gutschein erstellen'}
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setVoucherFlow({ ...voucherFlow, step: null });
+                                        const cancelMessage: Message = {
+                                            id: Date.now().toString(),
+                                            role: "assistant",
+                                            content: "Kein Problem! Wie kann ich Ihnen sonst helfen? 😊",
+                                            timestamp: new Date()
+                                        };
+                                        setMessages(prev => [...prev, cancelMessage]);
+                                    }}
+                                    className="w-full p-2 text-gray-500 hover:text-gray-700 text-sm"
+                                >
+                                    Abbrechen
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Smart Actions */}
+                        {!voucherFlow.step && messages.length > 0 && (
+                            <div className="px-4 pb-2">
+                                <div className="flex gap-2 overflow-x-auto">
+                                    {SMART_ACTIONS.map((action) => {
+                                        const Icon = action.icon;
+                                        return (
+                                            <button
+                                                key={action.action}
+                                                onClick={() => handleSmartAction(action.action)}
+                                                className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${action.color} text-white rounded-full text-sm font-medium hover:shadow-lg transition-all whitespace-nowrap`}
+                                            >
+                                                <Icon className="w-4 h-4" />
+                                                {action.label}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
                         {/* Input */}
                         <div className="p-4 border-t">
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
+                                    // Prüfe ob Gutschein-Betrag eingegeben wird
+                                    if (voucherFlow.step === 'amount' && !isNaN(Number(inputValue))) {
+                                        const customAmount = Number(inputValue);
+                                        if (customAmount >= 25 && customAmount <= 500) {
+                                            handleVoucherAmount(customAmount);
+                                            setInputValue("");
+                                            return;
+                                        }
+                                    }
                                     handleSend(inputValue);
                                 }}
                                 className="flex gap-2"
@@ -369,9 +711,9 @@ export default function ChatWidget() {
                                     type="text"
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
-                                    placeholder="Ihre Nachricht..."
+                                    placeholder={voucherFlow.step === 'amount' ? "Betrag eingeben (25-500€)..." : "Ihre Nachricht..."}
                                     className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50"
-                                    disabled={isTyping}
+                                    disabled={isTyping || voucherFlow.step === 'details' || voucherFlow.step === 'complete'}
                                 />
                                 <motion.button
                                     type="submit"

@@ -10,7 +10,7 @@ export const LISA_KNOWLEDGE = {
         name: "SkinLux",
         slogan: "Medical Beauty Studio",
         location: "Bischofshofen, Pongau, Salzburg",
-        address: "Franz-Mohshammer-Platz 2/1, 5500 Bischofshofen",
+        address: "Bahnhofstraße 17, 5500 Bischofshofen",
         phone: "+43 660 57 21 403",
         email: "info@skinlux.at",
         website: "www.skinlux.at",

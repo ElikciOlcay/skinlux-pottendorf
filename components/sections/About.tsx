@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 
 const stats = [
-    { value: "15+", label: "Jahre Erfahrung" },
-    { value: "1000+", label: "Zufriedene Kunden" },
+    { value: "5", label: "Jahre Erfahrung" },
+    { value: "2000", label: "Zufriedene Kunden" },
     { value: "98%", label: "Erfolgsquote" },
     { value: "5.0", label: "Google Bewertung" },
 ];

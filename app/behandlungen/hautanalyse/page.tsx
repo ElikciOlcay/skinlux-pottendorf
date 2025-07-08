@@ -31,7 +31,7 @@ const analysevorteile = [
         icon: Eye,
         title: "Expertenberatung",
         description: "Persönliche Beratung durch unsere Hautexperten mit individuellen Behandlungsempfehlungen.",
-        stat: "15+",
+        stat: "5",
         statLabel: "Jahre Erfahrung"
     }
 ];

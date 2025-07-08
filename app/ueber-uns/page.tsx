@@ -293,7 +293,7 @@ export default function UeberUns() {
                                     { number: "2000+", label: "Zufriedene Kunden" },
                                     { number: "5★", label: "Google Bewertung" },
                                     { number: "95%", label: "Zufriedenheit" },
-                                    { number: "4+", label: "Jahre Erfahrung" }
+                                    { number: "5", label: "Jahre Erfahrung" }
                                 ].map((stat) => (
                                     <div key={stat.label} className="text-center">
                                         <div className="text-4xl font-light mb-3" style={{ color: 'var(--color-secondary)' }}>

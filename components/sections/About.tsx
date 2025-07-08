@@ -46,8 +46,7 @@ export default function About() {
                             </p>
 
                             <p>
-                                Mit unserer neuen HydraFacial® Behandlung und professioneller
-                                Hautanalyse erweitern wir kontinuierlich unser Angebot,
+                                Mit unserer neuen HydraFacial® Behandlung und Premium Facials erweitern wir kontinuierlich unser Angebot,
                                 um Ihren Bedürfnissen gerecht zu werden.
                             </p>
                         </div>

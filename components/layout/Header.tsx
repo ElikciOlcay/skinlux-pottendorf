@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Zap, Droplets, Sparkles, Phone, ChevronRight } from "lucide-react";
+import { FEATURES } from "@/lib/features";
 
 const navigation = [
     {
@@ -29,13 +30,14 @@ const navigation = [
                     { name: "Microneedling", href: "/behandlungen/microneedling", description: "Kollagen-Induktions-Therapie", highlight: true }
                 ]
             },
-            {
+            // Hautanalyse temporär ausgeblendet - wird später aktiviert wenn Gerät verfügbar
+            ...(FEATURES.HAUTANALYSE_ENABLED ? [{
                 category: "Analyse",
                 icon: Sparkles,
                 items: [
                     { name: "Hautanalyse", href: "/behandlungen/hautanalyse", description: "Professionelle Diagnose" }
                 ]
-            }
+            }] : [])
         ]
     },
     { name: "Über uns", href: "/ueber-uns" },

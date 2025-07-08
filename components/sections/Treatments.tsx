@@ -8,6 +8,7 @@ import {
     Camera,
     Heart
 } from "lucide-react";
+import { FEATURES } from "@/lib/features";
 
 const treatments = [
     {
@@ -40,14 +41,15 @@ const treatments = [
         href: '/behandlungen/microneedling',
         isNew: true
     },
-    {
+    // Hautanalyse temporär ausgeblendet - wird später aktiviert wenn Gerät verfügbar
+    ...(FEATURES.HAUTANALYSE_ENABLED ? [{
         id: 'hautanalyse',
         title: "Hautanalyse",
         description: "Professionelle Hautdiagnose mit modernster Technologie.",
         icon: Camera,
         href: '/behandlungen/hautanalyse',
         isNew: true
-    },
+    }] : []),
 ];
 
 export default function Treatments() {

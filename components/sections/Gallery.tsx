@@ -25,7 +25,7 @@ const galleryImages = [
     },
     {
         src: "/images/gallery/treatment-analysis.jpg", // ❌ Platzhalter - bitte hochladen
-        alt: "Hautanalyse",
+        alt: "Behandlungsraum",
         category: "Behandlung"
     },
     {

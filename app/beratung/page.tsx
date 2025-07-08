@@ -12,7 +12,7 @@ const benefits = [
     {
         icon: Clock,
         title: "30 Minuten",
-        description: "Ausführliche Beratung inkl. Hautanalyse und Testbehandlung"
+        description: "Ausführliche Beratung inkl. Hauttyp-Bestimmung und Testbehandlung"
     },
     {
         icon: Shield,
@@ -24,7 +24,7 @@ const benefits = [
 const consultationSteps = [
     {
         step: "01",
-        title: "Hautanalyse",
+        title: "Hauttyp-Bestimmung",
         description: "Bestimmung Ihres Hauttyps und Haartyps für optimale Behandlung"
     },
     {
@@ -99,7 +99,7 @@ export default function Beratung() {
 
                                 <p className="text-xl text-gray-600 mb-8 font-light leading-relaxed">
                                     Überzeugen Sie sich selbst von unserer modernen Diodenlaser-Technologie.
-                                    Kostenlose Beratung, Hautanalyse und Probebehandlung - völlig unverbindlich.
+                                    Kostenlose Beratung, Hauttyp-Bestimmung und Probebehandlung - völlig unverbindlich.
                                 </p>
 
                                 {/* Trust Badges */}

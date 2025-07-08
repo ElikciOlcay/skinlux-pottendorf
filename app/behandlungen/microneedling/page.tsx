@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Zap, Clock, Award, Star, CheckCircle, Sparkles, Heart } from "lucide-react";
+import { FEATURES } from "@/lib/features";
 
 const vorteile = [
     {
@@ -36,28 +37,29 @@ const vorteile = [
 ];
 
 const behandlungsablauf = [
-    {
+    // Hautanalyse temporär ausgeblendet - wird später aktiviert wenn Gerät verfügbar
+    ...(FEATURES.HAUTANALYSE_ENABLED ? [{
         step: "01",
         title: "Hautanalyse",
         description: "Gründliche Untersuchung Ihres Hauttyps und Ihrer Bedürfnisse"
-    },
+    }] : []),
     {
-        step: "02",
+        step: FEATURES.HAUTANALYSE_ENABLED ? "02" : "01",
         title: "Vorbereitung",
         description: "Sanfte Reinigung und Betäubungscreme für maximalen Komfort"
     },
     {
-        step: "03",
+        step: FEATURES.HAUTANALYSE_ENABLED ? "03" : "02",
         title: "Microneedling",
         description: "Präzise Behandlung mit sterilen Mikronadeln in verschiedenen Tiefen"
     },
     {
-        step: "04",
+        step: FEATURES.HAUTANALYSE_ENABLED ? "04" : "03",
         title: "Serum-Infusion",
         description: "Einarbeitung hochwirksamer Seren für optimale Regeneration"
     },
     {
-        step: "05",
+        step: FEATURES.HAUTANALYSE_ENABLED ? "05" : "04",
         title: "Nachbehandlung",
         description: "Beruhigende Maske und Pflegeberatung für die Heimanwendung"
     }

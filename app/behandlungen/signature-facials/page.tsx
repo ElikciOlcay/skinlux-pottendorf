@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Sparkles, Heart, Check, Clock, Shield, Star, Award } from "lucide-react";
 import { useRef } from "react";
+import { FEATURES } from "@/lib/features";
 
 export default function PremiumFacials() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -46,33 +47,34 @@ export default function PremiumFacials() {
     ];
 
     const ablauf = [
-        {
+        // Hautanalyse temporär ausgeblendet - wird später aktiviert wenn Gerät verfügbar
+        ...(FEATURES.HAUTANALYSE_ENABLED ? [{
             step: "01",
             title: "Hautanalyse",
             description: "Detaillierte Hautanalyse und Auswahl der passenden Circadia-Produkte"
-        },
+        }] : []),
         {
-            step: "02",
+            step: FEATURES.HAUTANALYSE_ENABLED ? "02" : "01",
             title: "Reinigung",
             description: "Professionelle Hautreinigung mit speziellen Circadia-Reinigungsprodukten"
         },
         {
-            step: "03",
+            step: FEATURES.HAUTANALYSE_ENABLED ? "03" : "02",
             title: "Peeling",
             description: "Sanftes Enzym-Peeling oder Gel-Peeling für optimale Hautpflege"
         },
         {
-            step: "04",
+            step: FEATURES.HAUTANALYSE_ENABLED ? "04" : "03",
             title: "Ausreinigung",
             description: "Manuelle Ausreinigung und Behandlung problematischer Hautpartien"
         },
         {
-            step: "05",
+            step: FEATURES.HAUTANALYSE_ENABLED ? "05" : "04",
             title: "Massage & Maske",
             description: "Entspannende Gesichtsmassage und individuell abgestimmte Maske"
         },
         {
-            step: "06",
+            step: FEATURES.HAUTANALYSE_ENABLED ? "06" : "05",
             title: "Abschlusspflege",
             description: "Finale Pflege mit hochwertigen Circadia-Produkten für langanhaltende Ergebnisse"
         }

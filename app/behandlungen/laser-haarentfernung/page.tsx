@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Zap, Check, Clock, Shield, Heart, Star, TrendingUp, Users, Award } from "lucide-react";
 import { useRef } from "react";
+import { FEATURES } from "@/lib/features";
 
 export default function LaserHaarentfernung() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -49,7 +50,9 @@ export default function LaserHaarentfernung() {
         {
             step: "01",
             title: "Beratung & Analyse",
-            description: "Kostenlose Erstberatung und professionelle Hautanalyse"
+            description: FEATURES.HAUTANALYSE_ENABLED
+                ? "Kostenlose Erstberatung und professionelle Hautanalyse"
+                : "Kostenlose Erstberatung und Hauttyp-Bestimmung"
         },
         {
             step: "02",

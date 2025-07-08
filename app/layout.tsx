@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Skinlux - Laser Haarentfernung & Kosmetik in Bischofshofen",
-  description: "Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen in Bischofshofen. HydraFacial®, Hautanalyse und mehr.",
+  description: "Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen in Bischofshofen. HydraFacial®, Premium Facials und mehr.",
   keywords: "Laser Haarentfernung, Bischofshofen, Pongau, dauerhafte Haarentfernung, Skinlux",
   openGraph: {
     title: "Skinlux - Laser Haarentfernung in Bischofshofen",

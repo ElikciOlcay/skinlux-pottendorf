@@ -521,7 +521,7 @@ export default function PremiumFacials() {
                         transition={{ duration: 0.8 }}
                     >
                         <Award className="w-16 h-16 mx-auto mb-6" style={{ color: 'var(--color-secondary)' }} />
-                        <h2 className="text-3xl md:text-4xl font-light mb-4">
+                        <h2 className="text-3xl md:text-4xl font-light mb-4 text-white">
                             Erleben Sie den Premium Unterschied
                         </h2>
                         <p className="text-lg font-light text-gray-400 mb-8 max-w-2xl mx-auto">

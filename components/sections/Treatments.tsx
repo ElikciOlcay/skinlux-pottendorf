@@ -5,7 +5,8 @@ import {
     Droplets,
     Sparkles,
     ArrowRight,
-    Camera
+    Camera,
+    Heart
 } from "lucide-react";
 
 const treatments = [
@@ -23,6 +24,13 @@ const treatments = [
         icon: Droplets,
         href: '/behandlungen/hydra-facial',
         isNew: true
+    },
+    {
+        id: 'premium-facials',
+        title: "Premium Facials",
+        description: "Exklusive 90-Minuten Gesichtsbehandlungen mit Circadia Professional.",
+        icon: Heart,
+        href: '/behandlungen/signature-facials'
     },
     {
         id: 'microneedling',

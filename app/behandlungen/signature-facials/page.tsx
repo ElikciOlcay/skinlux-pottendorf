@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, Sparkles, Heart, Check, Clock, Shield, Star, Award } from "lucide-react";
 import { useRef } from "react";
 
-export default function SignatureFacials() {
+export default function PremiumFacials() {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -121,12 +121,12 @@ export default function SignatureFacials() {
                             </div>
 
                             <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight" style={{ color: 'var(--color-primary)' }}>
-                                Signature<br />
+                                Premium<br />
                                 <span style={{ color: 'var(--color-secondary)' }}>Facials</span>
                             </h1>
 
                             <p className="text-xl text-gray-600 font-light mb-8 leading-relaxed">
-                                Erleben Sie unsere exklusiven 90-Minuten Signature Treatments.
+                                Erleben Sie unsere exklusiven 90-Minuten Premium Treatments.
                                 Jede Behandlung ist ein maßgeschneidertes Erlebnis für Ihre Haut.
                             </p>
 
@@ -197,7 +197,7 @@ export default function SignatureFacials() {
                                 />
                                 <div className="absolute -inset-4 border-2 border-secondary opacity-20 rounded-xl" />
                                 <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg">
-                                    <p className="text-sm font-light">Signature Kollektion</p>
+                                    <p className="text-sm font-light">Premium Kollektion</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -210,7 +210,7 @@ export default function SignatureFacials() {
                 <div className="container">
                     <div className="grid md:grid-cols-4 gap-8">
                         {[
-                            { number: "4", label: "Signature Behandlungen", icon: Heart },
+                            { number: "4", label: "Premium Behandlungen", icon: Heart },
                             { number: "90", label: "Minuten Luxus", icon: Clock },
                             { number: "5★", label: "Premium Service", icon: Award },
                             { number: "100%", label: "Individuell", icon: Star }
@@ -243,7 +243,7 @@ export default function SignatureFacials() {
                         className="text-center mb-16"
                     >
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
-                            Warum Signature
+                            Warum Premium
                         </span>
                         <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
                             Der <span style={{ color: 'var(--color-secondary)' }}>Unterschied</span>
@@ -359,7 +359,7 @@ export default function SignatureFacials() {
                             Investition
                         </span>
                         <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
-                            Signature <span style={{ color: 'var(--color-secondary)' }}>Preise</span>
+                            Premium <span style={{ color: 'var(--color-secondary)' }}>Preise</span>
                         </h2>
                     </motion.div>
 
@@ -522,7 +522,7 @@ export default function SignatureFacials() {
                     >
                         <Award className="w-16 h-16 mx-auto mb-6" style={{ color: 'var(--color-secondary)' }} />
                         <h2 className="text-3xl md:text-4xl font-light mb-4">
-                            Erleben Sie den Signature Unterschied
+                            Erleben Sie den Premium Unterschied
                         </h2>
                         <p className="text-lg font-light text-gray-400 mb-8 max-w-2xl mx-auto">
                             Professionelle Expertise in <span style={{ color: 'var(--color-secondary)' }}>exklusiven Gesichtsbehandlungen</span> mit Circadia Professional.

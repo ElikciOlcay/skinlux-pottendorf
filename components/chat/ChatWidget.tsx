@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Sparkles } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles, ExternalLink } from "lucide-react";
 import { LISA_KNOWLEDGE } from "@/lib/chat/knowledge-base";
 
 interface Message {
@@ -20,6 +20,134 @@ const QUICK_REPLIES = [
 ];
 
 const INITIAL_MESSAGE = "Hallo! 👋 Ich bin Lisa, Ihre persönliche Beauty-Beraterin bei SkinLux. Wie kann ich Ihnen heute helfen?";
+
+// Types für Link-Formatierung
+interface MessagePart {
+    type: 'text' | 'link';
+    content: string;
+    href?: string;
+    linkType?: 'url' | 'phone' | 'email';
+}
+
+// Funktion zum Erkennen und Formatieren von Links
+function formatMessageWithLinks(text: string): MessagePart[] {
+    // Regex für URLs
+    const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|(\+43[^\s]+)|([\w._%+-]+@[\w.-]+\.[A-Za-z]{2,})/g;
+    const parts: MessagePart[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = urlRegex.exec(text)) !== null) {
+        // Text vor dem Link
+        if (match.index > lastIndex) {
+            parts.push({
+                type: 'text',
+                content: text.slice(lastIndex, match.index)
+            });
+        }
+
+        // Der Link selbst
+        let linkText = match[0];
+        let href = linkText;
+        let linkType: 'url' | 'phone' | 'email' = 'url';
+
+        // Telefonnummer
+        if (linkText.startsWith('+43')) {
+            href = `tel:${linkText.replace(/\s/g, '')}`;
+            linkType = 'phone';
+        }
+        // E-Mail
+        else if (linkText.includes('@')) {
+            href = `mailto:${linkText}`;
+            linkType = 'email';
+        }
+        // URL ohne Protokoll
+        else if (linkText.startsWith('www.')) {
+            href = `https://${linkText}`;
+        }
+        // URL mit Protokoll bleibt unverändert
+
+        parts.push({
+            type: 'link',
+            content: linkText,
+            href: href,
+            linkType: linkType
+        });
+
+        lastIndex = match.index + match[0].length;
+    }
+
+    // Restlicher Text
+    if (lastIndex < text.length) {
+        parts.push({
+            type: 'text',
+            content: text.slice(lastIndex)
+        });
+    }
+
+    return parts;
+}
+
+// Funktion zum Kürzen von langen URLs für die Anzeige
+function truncateUrl(url: string, maxLength: number = 40): string {
+    if (url.length <= maxLength) return url;
+
+    // Versuche, den Domainnamen zu extrahieren
+    const domainMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?([^\/]+)/);
+    if (domainMatch) {
+        const domain = domainMatch[1];
+        if (domain.length < maxLength - 3) {
+            return domain + '...';
+        }
+    }
+
+    // Falls immer noch zu lang, kürze von der Mitte
+    const start = url.substring(0, maxLength / 2 - 2);
+    const end = url.substring(url.length - maxLength / 2 + 2);
+    return start + '...' + end;
+}
+
+// Komponente zum Rendern von formatierten Nachrichten
+function MessageContent({ content }: { content: string }) {
+    const parts = formatMessageWithLinks(content);
+
+    return (
+        <>
+            {parts.map((part, index) => {
+                if (part.type === 'text') {
+                    return <span key={index}>{part.content}</span>;
+                } else if (part.type === 'link') {
+                    const isPhone = part.linkType === 'phone';
+                    const isEmail = part.linkType === 'email';
+                    const isLongUrl = !isPhone && !isEmail && part.content.length > 40;
+                    const displayText = isLongUrl ? truncateUrl(part.content) : part.content;
+
+                    return (
+                        <a
+                            key={index}
+                            href={part.href}
+                            target={isPhone || isEmail ? undefined : "_blank"}
+                            rel={isPhone || isEmail ? undefined : "noopener noreferrer"}
+                            className="inline-flex items-center gap-1 underline decoration-1 decoration-dashed underline-offset-2 hover:decoration-solid transition-all break-all"
+                            style={{
+                                color: 'inherit',
+                                fontWeight: 600,
+                                wordBreak: 'break-all'
+                            }}
+                            title={isLongUrl ? part.content : undefined}
+                        >
+                            {displayText}
+                            {!isPhone && !isEmail && (
+                                <ExternalLink className="w-3 h-3 inline-block flex-shrink-0" />
+                            )}
+                        </a>
+                    );
+                }
+                return null;
+            })}
+        </>
+    );
+}
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
@@ -134,7 +262,7 @@ export default function ChatWidget() {
                         initial={{ opacity: 0, y: 100, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 100, scale: 0.95 }}
-                        className="fixed bottom-6 right-6 z-40 w-[380px] max-w-[90vw] bg-white rounded-2xl shadow-2xl overflow-hidden"
+                        className="fixed bottom-6 right-6 z-40 w-[380px] max-w-[90vw] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col"
                         style={{ height: "600px", maxHeight: "80vh" }}
                     >
                         {/* Header */}
@@ -162,7 +290,7 @@ export default function ChatWidget() {
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-1 overflow-y-auto px-4 pt-8 pb-6 space-y-4" style={{ height: "calc(100% - 200px)" }}>
+                        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 pt-8 pb-6 space-y-4" style={{ height: "calc(100% - 200px)" }}>
                             {messages.map((msg) => (
                                 <motion.div
                                     key={msg.id}
@@ -171,12 +299,14 @@ export default function ChatWidget() {
                                     className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                                 >
                                     <div
-                                        className={`max-w-[80%] p-3 rounded-xl ${msg.role === "user"
+                                        className={`max-w-[80%] p-3 rounded-xl break-words overflow-hidden ${msg.role === "user"
                                             ? "bg-gradient-to-br from-pink-500 to-rose-600 text-white"
                                             : "bg-gray-100 text-gray-800"
                                             }`}
                                     >
-                                        <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                                        <p className="text-sm whitespace-pre-wrap break-words overflow-wrap-anywhere">
+                                            <MessageContent content={msg.content} />
+                                        </p>
                                     </div>
                                 </motion.div>
                             ))}
@@ -210,13 +340,13 @@ export default function ChatWidget() {
 
                         {/* Quick Replies */}
                         {messages.length === 1 && (
-                            <div className="px-4 pb-2">
+                            <div className="px-4 pb-2 overflow-x-auto">
                                 <div className="flex flex-wrap gap-2">
                                     {QUICK_REPLIES.map((reply) => (
                                         <button
                                             key={reply}
                                             onClick={() => handleSend(reply)}
-                                            className="text-xs px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                                            className="text-xs px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors flex-shrink-0 whitespace-nowrap"
                                         >
                                             {reply}
                                         </button>

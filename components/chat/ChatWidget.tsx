@@ -264,7 +264,7 @@ export default function ChatWidget() {
             const voucherMessage: Message = {
                 id: generateMessageId(),
                 role: "assistant",
-                content: "Toll, dass Sie einen Gutschein verschenken möchten! 🎁\n\n**Unsere Gutscheine:**\n• Gültig für alle Behandlungen\n• 12 Monate Gültigkeit\n• Schön verpackt oder als PDF\n• Sichere Zahlung per Überweisung\n\n👉 Besuchen Sie unsere Gutschein-Seite: https://skinlux-bischofshofen.at/gutscheine\n\nDort können Sie ganz einfach Ihren Wunschgutschein bestellen.\n\nGerne können Sie uns auch anrufen: +43 660 57 21 403",
+                content: "Toll, dass Sie einen Gutschein verschenken möchten! 🎁\n\n**Unsere Gutscheine:**\n• Gültig für alle Behandlungen\n• Schön verpackt oder als PDF\n• Sichere Zahlung per Überweisung\n\n👉 Besuchen Sie unsere Gutschein-Seite: https://skinlux-bischofshofen.at/gutscheine\n\nDort können Sie ganz einfach Ihren Wunschgutschein bestellen.\n\nGerne können Sie uns auch anrufen: +43 660 57 21 403",
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, voucherMessage]);

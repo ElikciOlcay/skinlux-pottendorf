@@ -1,46 +1,65 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, CheckCircle, Clock, Users, Sparkles, Phone, Calendar } from "lucide-react";
+import { ArrowLeft, CheckCircle, Clock, Users, Zap, Phone, Calendar, Shield, Star, Award, Heart } from "lucide-react";
 
 const benefits = [
     {
+        icon: Zap,
+        title: "Kostenlose Probebehandlung",
+        description: "Testen Sie unsere Laser-Technologie völlig unverbindlich"
+    },
+    {
         icon: Clock,
         title: "30 Minuten",
-        description: "Ausführliche Beratung ohne Zeitdruck"
+        description: "Ausführliche Beratung inkl. Hautanalyse und Testbehandlung"
     },
     {
-        icon: Users,
-        title: "Persönlich",
-        description: "Individuelle Analyse Ihrer Bedürfnisse"
-    },
-    {
-        icon: Sparkles,
-        title: "Unverbindlich",
-        description: "Keine Verpflichtung, nur ehrliche Beratung"
+        icon: Shield,
+        title: "FDA-zertifiziert",
+        description: "Modernste Diodenlaser-Technologie für sichere Ergebnisse"
     }
 ];
 
 const consultationSteps = [
     {
         step: "01",
-        title: "Anamnese",
-        description: "Wir besprechen Ihre Hautziele und bisherige Erfahrungen"
+        title: "Hautanalyse",
+        description: "Bestimmung Ihres Hauttyps und Haartyps für optimale Behandlung"
     },
     {
         step: "02",
-        title: "Hautanalyse",
-        description: "Professionelle Analyse mit modernster Technologie"
+        title: "Aufklärung",
+        description: "Detaillierte Erklärung der Laser-Technologie und des Behandlungsablaufs"
     },
     {
         step: "03",
-        title: "Behandlungsplan",
-        description: "Individuelle Empfehlung basierend auf Ihrem Hauttyp"
+        title: "Probebehandlung",
+        description: "Kostenlose Testbehandlung an einer kleinen Hautstelle"
     },
     {
         step: "04",
-        title: "Preisübersicht",
-        description: "Transparente Kostenaufstellung ohne versteckte Gebühren"
+        title: "Behandlungsplan",
+        description: "Individueller Plan mit Anzahl der Sitzungen und transparenten Preisen"
+    }
+];
+
+const faq = [
+    {
+        question: "Ist die Laser-Haarentfernung schmerzhaft?",
+        answer: "Dank unseres integrierten Kühlsystems ist die Behandlung deutlich angenehmer als herkömmliche Methoden. Viele Kunden beschreiben es als leichtes Kribbeln."
+    },
+    {
+        question: "Wie viele Behandlungen brauche ich?",
+        answer: "In der Regel 6-8 Sitzungen für optimale Ergebnisse, abhängig von Hauttyp, Haarfarbe und Körperregion. Wir erstellen einen individuellen Plan."
+    },
+    {
+        question: "Für welche Hauttypen ist es geeignet?",
+        answer: "Unsere moderne Diodenlaser-Technologie ist für alle Hauttypen geeignet, auch für dunklere Haut und helle Härchen."
+    },
+    {
+        question: "Was kostet die Laser-Haarentfernung?",
+        answer: "Die Preise variieren je nach Körperregion. Genaue Preise erfahren Sie in der kostenlosen Beratung - transparent und ohne versteckte Kosten."
     }
 ];
 
@@ -58,38 +77,85 @@ export default function Beratung() {
                         Zurück zur Startseite
                     </Link>
 
-                    <div className="max-w-4xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-6xl font-light mb-6">
-                            <span className="block" style={{ color: 'var(--color-primary)' }}>
-                                Kostenlose
-                            </span>
-                            <span className="block mt-2" style={{ color: 'var(--color-secondary)' }}>
-                                Beratung
-                            </span>
-                        </h1>
+                    <div className="max-w-5xl mx-auto">
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            {/* Left Content */}
+                            <div>
+                                <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-secondary/10">
+                                    <Zap className="w-4 h-4" style={{ color: 'var(--color-secondary)' }} />
+                                    <span className="text-sm font-light tracking-wider uppercase" style={{ color: 'var(--color-secondary)' }}>
+                                        Kostenlose Probebehandlung
+                                    </span>
+                                </div>
 
-                        <p className="text-xl md:text-2xl text-gray-600 mb-12 font-light leading-relaxed max-w-3xl mx-auto">
-                            Beginnen Sie Ihre Verwandlung mit einer kostenlosen, unverbindlichen Beratung.
-                            Wir analysieren Ihre Haut und erstellen einen individuellen Behandlungsplan.
-                        </p>
+                                <h1 className="text-4xl md:text-6xl font-light mb-6">
+                                    <span className="block" style={{ color: 'var(--color-primary)' }}>
+                                        Laser-Haarentfernung
+                                    </span>
+                                    <span className="block mt-2" style={{ color: 'var(--color-secondary)' }}>
+                                        Kostenlos testen
+                                    </span>
+                                </h1>
 
-                        <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                            <a
-                                href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-black text-white font-light tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gray-800"
-                            >
-                                <Calendar className="w-4 h-4" />
-                                Online Termin buchen
-                            </a>
-                            <a
-                                href="tel:+436605721403"
-                                className="group inline-flex items-center justify-center gap-3 px-10 py-5 border border-gray-300 text-gray-700 font-light tracking-widest uppercase text-sm transition-all duration-300 hover:border-gray-400 hover:text-gray-900"
-                            >
-                                <Phone className="w-4 h-4" />
-                                Anrufen: +43 660 57 21 403
-                            </a>
+                                <p className="text-xl text-gray-600 mb-8 font-light leading-relaxed">
+                                    Überzeugen Sie sich selbst von unserer modernen Diodenlaser-Technologie.
+                                    Kostenlose Beratung, Hautanalyse und Probebehandlung - völlig unverbindlich.
+                                </p>
+
+                                {/* Trust Badges */}
+                                <div className="flex items-center gap-6 mb-8">
+                                    <div className="flex items-center gap-1">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star key={i} className="w-4 h-4 fill-current" style={{ color: 'var(--color-secondary)' }} />
+                                        ))}
+                                    </div>
+                                    <span className="text-sm text-gray-600 font-light">
+                                        Über 2000 zufriedene Kunden
+                                    </span>
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <a
+                                        href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-light tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gray-800"
+                                    >
+                                        <Calendar className="w-4 h-4" />
+                                        Probebehandlung buchen
+                                    </a>
+                                    <a
+                                        href="tel:+436605721403"
+                                        className="group inline-flex items-center justify-center gap-3 px-8 py-4 border border-gray-300 text-gray-700 font-light tracking-widest uppercase text-sm transition-all duration-300 hover:border-gray-400 hover:text-gray-900"
+                                    >
+                                        <Phone className="w-4 h-4" />
+                                        +43 660 57 21 403
+                                    </a>
+                                </div>
+
+                                <p className="mt-6 text-sm text-gray-600 font-light">
+                                    <span className="inline-block w-2 h-2 bg-secondary rounded-full mr-2"></span>
+                                    100% kostenlos & unverbindlich
+                                </p>
+                            </div>
+
+                            {/* Right Content - Image */}
+                            <div className="relative">
+                                <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg">
+                                    <div
+                                        className="absolute inset-0"
+                                        style={{
+                                            backgroundImage: "url('/images/gallery/treatment-laser.jpg')",
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center',
+                                            backgroundColor: '#f5f5f5'
+                                        }}
+                                    />
+                                    <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg">
+                                        <p className="text-sm font-light">FDA-zertifiziert</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -98,9 +164,18 @@ export default function Beratung() {
             {/* Benefits Section */}
             <section className="py-20 bg-gray-50">
                 <div className="container">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                            Warum <span style={{ color: 'var(--color-secondary)' }}>Skinlux</span>?
+                        </h2>
+                        <p className="text-xl text-gray-600 font-light">
+                            Modernste Technologie trifft auf jahrelange Erfahrung
+                        </p>
+                    </div>
+
                     <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
                         {benefits.map((benefit) => (
-                            <div key={benefit.title} className="text-center">
+                            <div key={benefit.title} className="text-center bg-white p-8 rounded-lg shadow-sm">
                                 <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center" style={{ backgroundColor: 'rgba(240, 163, 188, 0.1)' }}>
                                     <benefit.icon
                                         className="w-8 h-8"
@@ -125,14 +200,17 @@ export default function Beratung() {
                 <div className="container">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-3xl md:text-4xl font-light text-center mb-16" style={{ color: 'var(--color-primary)' }}>
-                            So läuft Ihre Beratung ab
+                            So läuft Ihre <span style={{ color: 'var(--color-secondary)' }}>Probebehandlung</span> ab
                         </h2>
 
                         <div className="grid md:grid-cols-2 gap-12">
                             {consultationSteps.map((step) => (
                                 <div key={step.step} className="flex gap-6">
                                     <div className="flex-shrink-0">
-                                        <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center text-sm font-light">
+                                        <div
+                                            className="w-12 h-12 rounded-full text-white flex items-center justify-center text-sm font-light"
+                                            style={{ backgroundColor: 'var(--color-secondary)' }}
+                                        >
                                             {step.step}
                                         </div>
                                     </div>
@@ -151,22 +229,46 @@ export default function Beratung() {
                 </div>
             </section>
 
-            {/* What's Included */}
+            {/* FAQ Section */}
             <section className="py-20 bg-gray-50">
                 <div className="container">
                     <div className="max-w-3xl mx-auto">
                         <h2 className="text-3xl md:text-4xl font-light text-center mb-12" style={{ color: 'var(--color-primary)' }}>
-                            Was ist in der Beratung inbegriffen
+                            Häufige <span style={{ color: 'var(--color-secondary)' }}>Fragen</span>
+                        </h2>
+
+                        <div className="space-y-8">
+                            {faq.map((item, index) => (
+                                <div key={index} className="bg-white p-6 rounded-lg shadow-sm">
+                                    <h3 className="text-lg font-light mb-3" style={{ color: 'var(--color-primary)' }}>
+                                        {item.question}
+                                    </h3>
+                                    <p className="text-gray-600 font-light leading-relaxed">
+                                        {item.answer}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* What's Included */}
+            <section className="py-20">
+                <div className="container">
+                    <div className="max-w-3xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-light text-center mb-12" style={{ color: 'var(--color-primary)' }}>
+                            Was ist <span style={{ color: 'var(--color-secondary)' }}>inbegriffen</span>
                         </h2>
 
                         <div className="space-y-6">
                             {[
-                                "Professionelle Hautanalyse mit modernster Technologie",
-                                "Individuelle Behandlungsempfehlung basierend auf Ihrem Hauttyp",
-                                "Transparente Preisübersicht und Behandlungsplan",
-                                "Beantwortung all Ihrer Fragen zu unseren Behandlungen",
-                                "Keine versteckten Kosten oder Überraschungen",
-                                "Persönliche Betreuung durch erfahrene Experten"
+                                "Professionelle Hauttyp- und Haartyp-Analyse",
+                                "Kostenlose Probebehandlung an kleiner Hautstelle",
+                                "Detaillierte Erklärung der Laser-Technologie",
+                                "Individueller Behandlungsplan mit Zeitrahmen",
+                                "Transparente Preisübersicht ohne versteckte Kosten",
+                                "Beantwortung all Ihrer Fragen zur Laser-Haarentfernung"
                             ].map((item, index) => (
                                 <div key={index} className="flex items-start gap-4">
                                     <CheckCircle
@@ -182,16 +284,46 @@ export default function Beratung() {
                 </div>
             </section>
 
+            {/* Stats Section */}
+            <section className="py-20 bg-black text-white">
+                <div className="container">
+                    <div className="max-w-4xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-light text-center mb-12">
+                            Unsere <span style={{ color: 'var(--color-secondary)' }}>Ergebnisse</span>
+                        </h2>
+
+                        <div className="grid md:grid-cols-4 gap-8 text-center">
+                            {[
+                                { number: "2000+", label: "Zufriedene Kunden", icon: Users },
+                                { number: "99%", label: "Zufriedenheitsrate", icon: Heart },
+                                { number: "5", label: "Jahre Erfahrung", icon: Award },
+                                { number: "5.0", label: "Google Bewertung", icon: Star }
+                            ].map((stat) => (
+                                <div key={stat.label}>
+                                    <stat.icon className="w-8 h-8 mx-auto mb-4" style={{ color: 'var(--color-secondary)' }} />
+                                    <div className="text-3xl font-light mb-2" style={{ color: 'var(--color-secondary)' }}>
+                                        {stat.number}
+                                    </div>
+                                    <div className="text-sm font-light text-gray-400">
+                                        {stat.label}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* CTA Section */}
             <section className="py-20">
                 <div className="container">
                     <div className="max-w-3xl mx-auto text-center">
                         <h2 className="text-3xl md:text-4xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
-                            Bereit für Ihre <span style={{ color: 'var(--color-secondary)' }}>Verwandlung</span>?
+                            Bereit für <span style={{ color: 'var(--color-secondary)' }}>dauerhafte Haarfreiheit</span>?
                         </h2>
                         <p className="text-xl text-gray-600 font-light mb-10">
-                            Vereinbaren Sie noch heute Ihre kostenlose Beratung und machen Sie den ersten Schritt
-                            zu der Haut, die Sie sich schon immer gewünscht haben.
+                            Vereinbaren Sie noch heute Ihre kostenlose Probebehandlung und überzeugen Sie sich selbst
+                            von unserer modernen Laser-Technologie.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-6 justify-center">
                             <a
@@ -201,16 +333,20 @@ export default function Beratung() {
                                 className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-black text-white font-light tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gray-800"
                             >
                                 <Calendar className="w-4 h-4" />
-                                Online Termin buchen
+                                Kostenlose Probebehandlung buchen
                             </a>
                             <a
                                 href="tel:+436605721403"
                                 className="group inline-flex items-center justify-center gap-3 px-10 py-5 border border-gray-300 text-gray-700 font-light tracking-widest uppercase text-sm transition-all duration-300 hover:border-gray-400 hover:text-gray-900"
                             >
                                 <Phone className="w-4 h-4" />
-                                Anrufen: +43 660 57 21 403
+                                Direkt anrufen
                             </a>
                         </div>
+
+                        <p className="mt-8 text-sm text-gray-500 font-light">
+                            100% kostenlos • Keine Verpflichtung • Individuelle Beratung
+                        </p>
                     </div>
                 </div>
             </section>

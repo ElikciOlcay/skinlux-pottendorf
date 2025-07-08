@@ -16,7 +16,8 @@ const navigation = [
                 category: "Laser",
                 icon: Zap,
                 items: [
-                    { name: "Laser Haarentfernung", href: "/behandlungen/laser-haarentfernung", description: "Dauerhafte Haarentfernung für alle Hauttypen" }
+                    { name: "Laser Haarentfernung", href: "/behandlungen/laser-haarentfernung", description: "Dauerhafte Haarentfernung für alle Hauttypen" },
+                    { name: "Kostenlose Probebehandlung", href: "/beratung", description: "Laser-Haarentfernung kostenlos testen", highlight: true }
                 ]
             },
             {
@@ -32,8 +33,7 @@ const navigation = [
                 category: "Analyse",
                 icon: Sparkles,
                 items: [
-                    { name: "Hautanalyse", href: "/behandlungen/hautanalyse", description: "Professionelle Diagnose" },
-                    { name: "Beratung", href: "/beratung", description: "Kostenlose Erstberatung" }
+                    { name: "Hautanalyse", href: "/behandlungen/hautanalyse", description: "Professionelle Diagnose" }
                 ]
             }
         ]

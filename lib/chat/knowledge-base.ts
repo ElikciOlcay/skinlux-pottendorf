@@ -322,8 +322,6 @@ LASER-PREISE HERREN (Einzelbehandlung):
 HYDRAFACIAL-PREISE:
 - Signature (30 Min) 169€, Signature+LED (50 Min) 189€, Deluxe (50 Min) 259€, Platinum (60 Min) 289€
 
-PREMIUM FACIALS:
-- Anti-Aging 129€, Hydrating 99€, Purifying 99€
 
 WICHTIG: Bei JEDER Preisanfrage für nicht gelistete Zonen: "Für diese spezielle Zone kontaktieren Sie uns bitte für ein individuelles Angebot."
 

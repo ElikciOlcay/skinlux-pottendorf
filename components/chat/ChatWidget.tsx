@@ -168,7 +168,7 @@ function MessageContent({ content }: { content: string }) {
 
 // Gutschein-Flow States
 interface VoucherFlow {
-    step: 'amount' | 'details' | 'payment' | 'complete' | null;
+    step: 'amount' | 'name' | 'email' | 'phone' | 'message' | 'confirm' | 'complete' | null;
     data: {
         amount: number;
         senderName: string;
@@ -258,6 +258,158 @@ export default function ChatWidget() {
 
         setMessages(prev => [...prev, userMessage]);
         setInputValue("");
+
+        // Handle voucher flow steps
+        // Abbruch-Check für alle Schritte
+        if (voucherFlow.step && (message.toLowerCase() === 'abbrechen' || message.toLowerCase() === 'stop' || message.toLowerCase() === 'cancel')) {
+            setVoucherFlow({
+                step: null,
+                data: {
+                    amount: 0,
+                    senderName: '',
+                    senderEmail: '',
+                    senderPhone: '',
+                    message: ''
+                }
+            });
+            const cancelMessage: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: "Kein Problem! Der Gutschein-Vorgang wurde abgebrochen. Wie kann ich Ihnen sonst helfen? 😊",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, cancelMessage]);
+            return;
+        }
+
+        if (voucherFlow.step === 'name') {
+            setVoucherFlow({
+                ...voucherFlow,
+                step: 'email',
+                data: { ...voucherFlow.data, senderName: message }
+            });
+
+            const emailPrompt: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: "Vielen Dank! Und Ihre E-Mail-Adresse? 📧",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, emailPrompt]);
+            return;
+        }
+
+        if (voucherFlow.step === 'email') {
+            // Validiere E-Mail
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(message)) {
+                const errorMessage: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: "Das sieht nicht wie eine gültige E-Mail-Adresse aus. Bitte versuchen Sie es nochmal:",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, errorMessage]);
+                return;
+            }
+
+            setVoucherFlow({
+                ...voucherFlow,
+                step: 'phone',
+                data: { ...voucherFlow.data, senderEmail: message }
+            });
+
+            const phonePrompt: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: "Möchten Sie Ihre Telefonnummer angeben? 📱\n\n(Optional - geben Sie Ihre Nummer ein oder schreiben Sie 'nein')",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, phonePrompt]);
+            return;
+        }
+
+        if (voucherFlow.step === 'phone') {
+            if (message.toLowerCase() !== 'nein' && message.toLowerCase() !== 'weiter') {
+                setVoucherFlow({
+                    ...voucherFlow,
+                    data: { ...voucherFlow.data, senderPhone: message }
+                });
+            }
+
+            setVoucherFlow({
+                ...voucherFlow,
+                step: 'message'
+            });
+
+            const messagePrompt: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: "Möchten Sie eine persönliche Nachricht für den Empfänger hinzufügen? 💌\n\n(Optional - schreiben Sie Ihre Nachricht oder 'nein')",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, messagePrompt]);
+            return;
+        }
+
+        if (voucherFlow.step === 'message') {
+            if (message.toLowerCase() !== 'nein' && message.toLowerCase() !== 'weiter') {
+                setVoucherFlow({
+                    ...voucherFlow,
+                    data: { ...voucherFlow.data, message: message }
+                });
+            }
+
+            setVoucherFlow({
+                ...voucherFlow,
+                step: 'confirm'
+            });
+
+            const confirmMessage: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: `Perfekt! Hier ist Ihre Zusammenfassung:\n\n💰 **Betrag:** ${voucherFlow.data.amount}€\n👤 **Name:** ${voucherFlow.data.senderName}\n📧 **E-Mail:** ${voucherFlow.data.senderEmail}${voucherFlow.data.senderPhone ? '\n📱 **Telefon:** ' + voucherFlow.data.senderPhone : ''}${voucherFlow.data.message ? '\n💌 **Nachricht:** ' + voucherFlow.data.message : ''}\n\nSoll ich den Gutschein jetzt erstellen? (ja/nein)`,
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, confirmMessage]);
+            return;
+        }
+
+        if (voucherFlow.step === 'confirm') {
+            if (message.toLowerCase() === 'ja' || message.toLowerCase() === 'yes') {
+                // Zeige Processing-Nachricht
+                const processingMsg: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: "Einen Moment bitte, ich erstelle Ihren Gutschein... ⏳",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, processingMsg]);
+
+                await handleVoucherDetails();
+            } else {
+                setVoucherFlow({
+                    step: null,
+                    data: {
+                        amount: 0,
+                        senderName: '',
+                        senderEmail: '',
+                        senderPhone: '',
+                        message: ''
+                    }
+                });
+                const cancelMessage: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: "Kein Problem! Der Vorgang wurde abgebrochen. Wie kann ich Ihnen sonst helfen? 😊",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, cancelMessage]);
+            }
+            return;
+        }
+
+        // Normal chat flow
         setIsTyping(true);
 
         try {
@@ -329,14 +481,14 @@ export default function ChatWidget() {
     const handleVoucherAmount = (amount: number) => {
         setVoucherFlow({
             ...voucherFlow,
-            step: 'details',
+            step: 'name',
             data: { ...voucherFlow.data, amount }
         });
 
         const confirmMessage: Message = {
             id: Date.now().toString(),
             role: "assistant",
-            content: `Super! Ein ${amount}€ Gutschein. 💝\n\nBitte geben Sie Ihre Kontaktdaten ein:`,
+            content: `Super! Ein ${amount}€ Gutschein. 💝\n\nWie ist Ihr vollständiger Name?`,
             timestamp: new Date()
         };
         setMessages(prev => [...prev, confirmMessage]);
@@ -599,73 +751,7 @@ export default function ChatWidget() {
                             </div>
                         )}
 
-                        {/* Voucher Details Form */}
-                        {voucherFlow.step === 'details' && (
-                            <div className="px-4 pb-4 space-y-3">
-                                <input
-                                    type="text"
-                                    placeholder="Ihr Name *"
-                                    value={voucherFlow.data.senderName}
-                                    onChange={(e) => setVoucherFlow({
-                                        ...voucherFlow,
-                                        data: { ...voucherFlow.data, senderName: e.target.value }
-                                    })}
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50"
-                                />
-                                <input
-                                    type="email"
-                                    placeholder="Ihre E-Mail *"
-                                    value={voucherFlow.data.senderEmail}
-                                    onChange={(e) => setVoucherFlow({
-                                        ...voucherFlow,
-                                        data: { ...voucherFlow.data, senderEmail: e.target.value }
-                                    })}
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50"
-                                />
-                                <input
-                                    type="tel"
-                                    placeholder="Telefonnummer (optional)"
-                                    value={voucherFlow.data.senderPhone}
-                                    onChange={(e) => setVoucherFlow({
-                                        ...voucherFlow,
-                                        data: { ...voucherFlow.data, senderPhone: e.target.value }
-                                    })}
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50"
-                                />
-                                <textarea
-                                    placeholder="Persönliche Nachricht (optional)"
-                                    value={voucherFlow.data.message}
-                                    onChange={(e) => setVoucherFlow({
-                                        ...voucherFlow,
-                                        data: { ...voucherFlow.data, message: e.target.value }
-                                    })}
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50 resize-none"
-                                    rows={2}
-                                />
-                                <button
-                                    onClick={handleVoucherDetails}
-                                    disabled={isProcessingVoucher}
-                                    className="w-full p-3 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-lg hover:shadow-lg transition-all font-medium disabled:opacity-50"
-                                >
-                                    {isProcessingVoucher ? 'Wird erstellt...' : 'Gutschein erstellen'}
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        setVoucherFlow({ ...voucherFlow, step: null });
-                                        const cancelMessage: Message = {
-                                            id: Date.now().toString(),
-                                            role: "assistant",
-                                            content: "Kein Problem! Wie kann ich Ihnen sonst helfen? 😊",
-                                            timestamp: new Date()
-                                        };
-                                        setMessages(prev => [...prev, cancelMessage]);
-                                    }}
-                                    className="w-full p-2 text-gray-500 hover:text-gray-700 text-sm"
-                                >
-                                    Abbrechen
-                                </button>
-                            </div>
-                        )}
+
 
                         {/* Smart Actions */}
                         {!voucherFlow.step && messages.length > 0 && (
@@ -688,6 +774,36 @@ export default function ChatWidget() {
                             </div>
                         )}
 
+                        {/* Cancel Button during Voucher Flow */}
+                        {voucherFlow.step && voucherFlow.step !== 'complete' && (
+                            <div className="px-4 pb-2">
+                                <button
+                                    onClick={() => {
+                                        setVoucherFlow({
+                                            step: null,
+                                            data: {
+                                                amount: 0,
+                                                senderName: '',
+                                                senderEmail: '',
+                                                senderPhone: '',
+                                                message: ''
+                                            }
+                                        });
+                                        const cancelMessage: Message = {
+                                            id: Date.now().toString(),
+                                            role: "assistant",
+                                            content: "Der Gutschein-Vorgang wurde abgebrochen. Wie kann ich Ihnen sonst helfen? 😊",
+                                            timestamp: new Date()
+                                        };
+                                        setMessages(prev => [...prev, cancelMessage]);
+                                    }}
+                                    className="text-sm px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full transition-colors"
+                                >
+                                    ❌ Vorgang abbrechen
+                                </button>
+                            </div>
+                        )}
+
                         {/* Input */}
                         <div className="p-4 border-t">
                             <form
@@ -698,6 +814,26 @@ export default function ChatWidget() {
                                         const customAmount = Number(inputValue);
                                         if (customAmount >= 25 && customAmount <= 500) {
                                             handleVoucherAmount(customAmount);
+                                            setInputValue("");
+                                            return;
+                                        } else if (customAmount < 25) {
+                                            const errorMsg: Message = {
+                                                id: Date.now().toString(),
+                                                role: "assistant",
+                                                content: "Der Mindestbetrag für einen Gutschein beträgt 25€. Bitte wählen Sie einen höheren Betrag:",
+                                                timestamp: new Date()
+                                            };
+                                            setMessages(prev => [...prev, errorMsg]);
+                                            setInputValue("");
+                                            return;
+                                        } else if (customAmount > 500) {
+                                            const errorMsg: Message = {
+                                                id: Date.now().toString(),
+                                                role: "assistant",
+                                                content: "Der Maximalbetrag für einen Online-Gutschein beträgt 500€. Für höhere Beträge kontaktieren Sie uns bitte direkt.",
+                                                timestamp: new Date()
+                                            };
+                                            setMessages(prev => [...prev, errorMsg]);
                                             setInputValue("");
                                             return;
                                         }
@@ -711,13 +847,21 @@ export default function ChatWidget() {
                                     type="text"
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
-                                    placeholder={voucherFlow.step === 'amount' ? "Betrag eingeben (25-500€)..." : "Ihre Nachricht..."}
+                                    placeholder={
+                                        voucherFlow.step === 'amount' ? "Betrag eingeben (25-500€)..." :
+                                            voucherFlow.step === 'name' ? "Ihr vollständiger Name..." :
+                                                voucherFlow.step === 'email' ? "Ihre E-Mail-Adresse..." :
+                                                    voucherFlow.step === 'phone' ? "Telefonnummer oder 'nein'..." :
+                                                        voucherFlow.step === 'message' ? "Ihre Nachricht oder 'nein'..." :
+                                                            voucherFlow.step === 'confirm' ? "Ja oder Nein..." :
+                                                                "Ihre Nachricht..."
+                                    }
                                     className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50"
-                                    disabled={isTyping || voucherFlow.step === 'details' || voucherFlow.step === 'complete'}
+                                    disabled={isTyping || voucherFlow.step === 'complete'}
                                 />
                                 <motion.button
                                     type="submit"
-                                    disabled={!inputValue.trim() || isTyping}
+                                    disabled={!inputValue.trim() || isTyping || isProcessingVoucher}
                                     className="p-2 bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}

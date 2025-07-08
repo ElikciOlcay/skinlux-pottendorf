@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Zap, Droplets, Sparkles, Phone, ChevronRight } from "lucide-react";
 import { FEATURES } from "@/lib/features";
+import { usePathname } from "next/navigation";
 
 const navigation = [
     {
@@ -51,6 +52,7 @@ export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [mobileActiveMenu, setMobileActiveMenu] = useState<string | null>(null);
+    const pathname = usePathname();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -94,7 +96,7 @@ export default function Header() {
                             className="flex items-center"
                         >
                             <Image
-                                src="/images/logo/skinlux-logo.png"
+                                src={isScrolled ? "/images/logo/skinlux-logo.png" : (pathname === "/" ? "/images/logo/skinlux-logo-white.png" : "/images/logo/skinlux-logo.png")}
                                 alt="SKINLUX"
                                 width={140}
                                 height={48}
@@ -115,7 +117,7 @@ export default function Header() {
                             >
                                 <Link
                                     href={item.href}
-                                    className="relative text-sm font-light tracking-widest uppercase text-gray-700 hover:text-gray-900 transition-colors group flex items-center gap-1"
+                                    className={`relative text-sm font-light tracking-widest uppercase transition-colors group flex items-center gap-1 ${pathname === '/' && !isScrolled ? 'text-white hover:text-pink-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]' : 'text-gray-700 hover:text-gray-900'}`}
                                 >
                                     {item.name}
                                     {item.hasDropdown && (

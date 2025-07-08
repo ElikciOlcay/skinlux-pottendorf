@@ -91,7 +91,7 @@ export default function UeberUns() {
                                 {/* Studio Interior Image */}
                                 <div className="relative h-[500px] rounded-lg overflow-hidden shadow-lg">
                                     <Image
-                                        src="https://images.unsplash.com/photo-1629397685944-0b1c12b2f4f0?w=800&h=600&fit=crop"
+                                        src="/images/about/studio/interior.jpg"
                                         alt="Skinlux Studio Interior"
                                         fill
                                         className="object-cover"
@@ -121,30 +121,35 @@ export default function UeberUns() {
                                 Unser <span style={{ color: 'var(--color-secondary)' }}>Team</span>
                             </h2>
                             <p className="text-xl text-gray-600 font-light">
-                                Erfahrene Experten für Ihre Schönheit
+                                Unser professionelles Team für Ihre Schönheit
                             </p>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-8">
+                        <div className="grid md:grid-cols-2 gap-8">
                             {[
                                 {
-                                    name: "Dr. Sarah Müller",
+                                    name: "Gökce",
                                     role: "Gründerin & Leiterin",
-                                    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=500&fit=crop"
+                                    image: "/images/about/team/goekce.jpg"
                                 },
                                 {
-                                    name: "Lisa Wagner",
-                                    role: "Beauty Expertin",
-                                    image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=500&fit=crop"
+                                    name: "Olcay",
+                                    role: "Marketing & Digitalisierung",
+                                    image: "/images/about/team/olcay.jpg"
                                 },
                                 {
-                                    name: "Anna Schmidt",
-                                    role: "Laser Spezialistin",
-                                    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=500&fit=crop"
+                                    name: "Thereza",
+                                    role: "Laser Expertin",
+                                    image: "/images/about/team/thereza.jpg"
+                                },
+                                {
+                                    name: "Petra",
+                                    role: "Laser Expertin",
+                                    image: "/images/about/team/petra.jpg"
                                 }
                             ].map((member) => (
                                 <div key={member.name} className="group">
-                                    <div className="relative h-[400px] rounded-lg overflow-hidden mb-6">
+                                    <div className="relative aspect-square rounded-lg overflow-hidden mb-6">
                                         <Image
                                             src={member.image}
                                             alt={member.name}
@@ -171,7 +176,7 @@ export default function UeberUns() {
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1920&h=800&fit=crop"
+                        src="/images/about/studio/background.jpg"
                         alt="Beauty Background"
                         fill
                         className="object-cover opacity-10"
@@ -244,19 +249,19 @@ export default function UeberUns() {
                         <div className="grid md:grid-cols-4 gap-4">
                             {[
                                 {
-                                    image: "https://images.unsplash.com/photo-1631561618498-48952106e66a?w=400&h=400&fit=crop",
+                                    image: "/images/about/gallery/behandlungsraum.jpg",
                                     alt: "Behandlungsraum"
                                 },
                                 {
-                                    image: "https://images.unsplash.com/photo-1629397685931-f5c83c4e4a3b?w=400&h=400&fit=crop",
+                                    image: "/images/about/gallery/empfang.jpg",
                                     alt: "Empfangsbereich"
                                 },
                                 {
-                                    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=400&fit=crop",
+                                    image: "/images/about/gallery/technologie.jpg",
                                     alt: "Moderne Technologie"
                                 },
                                 {
-                                    image: "https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=400&h=400&fit=crop",
+                                    image: "/images/about/gallery/entspannung.jpg",
                                     alt: "Entspannungsbereich"
                                 }
                             ].map((item, index) => (
@@ -285,7 +290,7 @@ export default function UeberUns() {
                     <div className="max-w-6xl mx-auto">
                         <div className="bg-gradient-to-br from-gray-900 to-black p-12 md:p-16 text-white rounded-lg">
                             <h2 className="text-3xl md:text-4xl font-light text-center mb-12">
-                                Warum <span style={{ color: 'var(--color-secondary)' }}>Skinlux</span>?
+                                <span style={{ color: 'white' }}>Warum</span> <span style={{ color: 'var(--color-secondary)' }}>Skinlux</span><span style={{ color: 'white' }}>?</span>
                             </h2>
 
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">

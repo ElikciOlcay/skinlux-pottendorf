@@ -31,6 +31,8 @@ export interface Voucher {
     recipient_postal_code?: string
     recipient_city?: string
     admin_created?: boolean
+    deleted_at?: string
+    deleted_by?: string
 }
 
 export interface Studio {

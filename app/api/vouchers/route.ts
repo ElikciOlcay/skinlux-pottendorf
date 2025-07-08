@@ -35,11 +35,24 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        // Alle Vouchers laden - server-side, umgeht RLS
-        const { data, error } = await supabaseAdmin
+        // Hole URL parameters für Trash-Filter
+        const url = new URL(request.url);
+        const includeDeleted = url.searchParams.get('include_deleted') === 'true';
+        const onlyDeleted = url.searchParams.get('only_deleted') === 'true';
+
+        let query = supabaseAdmin
             .from('vouchers')
             .select('*')
             .order('created_at', { ascending: false });
+
+        // Filter nach Löschstatus
+        if (onlyDeleted) {
+            query = query.not('deleted_at', 'is', null);
+        } else if (!includeDeleted) {
+            query = query.is('deleted_at', null);
+        }
+
+        const { data, error } = await query;
 
         if (error) {
             console.error('Database error:', error);
@@ -321,6 +334,141 @@ export async function POST(request: NextRequest) {
                 admin: adminEmailSuccess
             }
         }, { status: 201 });
+
+    } catch (err: unknown) {
+        console.error('💥 API Route: Error:', err);
+        return NextResponse.json(
+            { error: err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten' },
+            { status: 500 }
+        );
+    }
+}
+
+// DELETE endpoint for soft delete
+export async function DELETE(request: NextRequest) {
+    try {
+        console.log('🗑️ API Route: Soft deleting voucher...');
+
+        const body = await request.json();
+        const { voucherId, adminName, permanent } = body;
+
+        if (!voucherId) {
+            return NextResponse.json(
+                { error: 'voucherId ist erforderlich' },
+                { status: 400 }
+            );
+        }
+
+        const supabaseAdmin = createSupabaseAdmin();
+        if (!supabaseAdmin) {
+            return NextResponse.json(
+                { error: 'Datenbankverbindung nicht verfügbar' },
+                { status: 500 }
+            );
+        }
+
+        if (permanent) {
+            // Endgültiges Löschen
+            console.log('💀 Permanently deleting voucher:', voucherId);
+            const { error } = await supabaseAdmin
+                .from('vouchers')
+                .delete()
+                .eq('id', voucherId);
+
+            if (error) {
+                console.error('❌ Database error:', error);
+                return NextResponse.json(
+                    { error: `Datenbankfehler: ${error.message}` },
+                    { status: 500 }
+                );
+            }
+
+            console.log('✅ Voucher permanently deleted');
+            return NextResponse.json({ success: true, message: 'Gutschein endgültig gelöscht' });
+        } else {
+            // Soft Delete
+            console.log('🗑️ Soft deleting voucher:', voucherId);
+            const { data, error } = await supabaseAdmin
+                .from('vouchers')
+                .update({
+                    deleted_at: new Date().toISOString(),
+                    deleted_by: adminName || 'Admin'
+                })
+                .eq('id', voucherId)
+                .select()
+                .single();
+
+            if (error) {
+                console.error('❌ Database error:', error);
+                return NextResponse.json(
+                    { error: `Datenbankfehler: ${error.message}` },
+                    { status: 500 }
+                );
+            }
+
+            console.log('✅ Voucher soft deleted successfully:', data);
+            return NextResponse.json({ success: true, message: 'Gutschein in Papierkorb verschoben', voucher: data });
+        }
+
+    } catch (err: unknown) {
+        console.error('💥 API Route: Error:', err);
+        return NextResponse.json(
+            { error: err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten' },
+            { status: 500 }
+        );
+    }
+}
+
+// PUT endpoint for restore
+export async function PUT(request: NextRequest) {
+    try {
+        console.log('♻️ API Route: Restoring voucher...');
+
+        const body = await request.json();
+        const { voucherId, action } = body;
+
+        if (!voucherId) {
+            return NextResponse.json(
+                { error: 'voucherId ist erforderlich' },
+                { status: 400 }
+            );
+        }
+
+        if (action !== 'restore') {
+            return NextResponse.json(
+                { error: 'Ungültige Aktion' },
+                { status: 400 }
+            );
+        }
+
+        const supabaseAdmin = createSupabaseAdmin();
+        if (!supabaseAdmin) {
+            return NextResponse.json(
+                { error: 'Datenbankverbindung nicht verfügbar' },
+                { status: 500 }
+            );
+        }
+
+        const { data, error } = await supabaseAdmin
+            .from('vouchers')
+            .update({
+                deleted_at: null,
+                deleted_by: null
+            })
+            .eq('id', voucherId)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('❌ Database error:', error);
+            return NextResponse.json(
+                { error: `Datenbankfehler: ${error.message}` },
+                { status: 500 }
+            );
+        }
+
+        console.log('✅ Voucher restored successfully:', data);
+        return NextResponse.json({ success: true, message: 'Gutschein wiederhergestellt', voucher: data });
 
     } catch (err: unknown) {
         console.error('💥 API Route: Error:', err);

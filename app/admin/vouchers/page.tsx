@@ -22,7 +22,11 @@ import {
     Plus,
     ArrowLeft,
     Sun,
-    Moon
+    Moon,
+    MoreVertical,
+    Trash2,
+    RotateCcw,
+    X
 } from "lucide-react";
 import { AdminAuth, AdminVouchers, type AdminAccess } from "@/lib/supabase-auth";
 import { Voucher } from "@/lib/supabase";
@@ -58,7 +62,6 @@ export default function VouchersPage() {
     const router = useRouter();
     const [adminData, setAdminData] = useState<AdminAccess | null>(null);
     const [vouchers, setVouchers] = useState<Voucher[]>([]);
-    const [filteredVouchers, setFilteredVouchers] = useState<Voucher[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [showBankSettings, setShowBankSettings] = useState(false);
@@ -89,8 +92,19 @@ export default function VouchersPage() {
     const [statusFilter, setStatusFilter] = useState("all");
     const [refreshing, setRefreshing] = useState(false);
 
+    // Pagination States
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+
+    // Papierkorb States
+    const [currentTab, setCurrentTab] = useState<'active' | 'trash'>('active');
+    const [deletedVouchers, setDeletedVouchers] = useState<Voucher[]>([]);
+
     // Loading States für Status-Updates
     const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
+
+    // Dropdown Menu State
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
     // Gutschein-Verkauf States
     const [showVoucherForm, setShowVoucherForm] = useState(false);
@@ -113,6 +127,26 @@ export default function VouchersPage() {
             setTheme(prefersDark ? 'dark' : 'light');
         }
     }, []);
+
+    // Click outside handler für Dropdown
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            if (!target.closest('.dropdown-container')) {
+                setOpenDropdown(null);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    // Dropdown toggle
+    const toggleDropdown = (voucherId: string) => {
+        setOpenDropdown(openDropdown === voucherId ? null : voucherId);
+    };
 
     // Auth-Check und Daten laden
     useEffect(() => {
@@ -139,36 +173,69 @@ export default function VouchersPage() {
         checkAuthAndLoadData();
     }, [router]);
 
-    // Filter vouchers when search or filter changes
+    // Filter basierend auf Tab und Suchkriterien
+    const currentVouchers = currentTab === 'active' ? vouchers : deletedVouchers;
+
+    const filteredVouchers = currentVouchers.filter(voucher => {
+        const matchesSearch = searchTerm === "" ||
+            voucher.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            voucher.sender_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (voucher.sender_email && voucher.sender_email.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        const matchesStatus = statusFilter === "all" ||
+            voucher.payment_status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    // Pagination-Berechnungen
+    const totalItems = filteredVouchers.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedVouchers = filteredVouchers.slice(startIndex, endIndex);
+
+    // Seite zurücksetzen, wenn Filter geändert werden
     useEffect(() => {
-        let filtered = vouchers;
+        setCurrentPage(1);
+    }, [searchTerm, statusFilter, currentTab]);
 
-        // Search filter
-        if (searchTerm) {
-            filtered = filtered.filter(voucher =>
-                voucher.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                voucher.sender_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                voucher.sender_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                voucher.payment_reference?.toLowerCase().includes(searchTerm.toLowerCase())
-            );
+    // Pagination-Funktionen
+    const goToPage = (page: number) => {
+        setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+    };
+
+    const goToNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
         }
+    };
 
-        // Status filter
-        if (statusFilter !== "all") {
-            filtered = filtered.filter(voucher => voucher.payment_status === statusFilter);
+    const goToPrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
         }
-
-        setFilteredVouchers(filtered);
-    }, [vouchers, searchTerm, statusFilter]);
+    };
 
     const loadVouchers = async () => {
         try {
-            const result = await AdminVouchers.getAllVouchers();
-            if (result.success) {
-                setVouchers(result.vouchers || []);
+            // Lade aktive Gutscheine
+            const activeResponse = await fetch('/api/vouchers');
+            const activeResult = await activeResponse.json();
+
+            // Lade gelöschte Gutscheine
+            const deletedResponse = await fetch('/api/vouchers?only_deleted=true');
+            const deletedResult = await deletedResponse.json();
+
+            if (activeResult.vouchers) {
+                setVouchers(activeResult.vouchers);
                 setError("");
             } else {
-                setError(result.error || "Fehler beim Laden der Vouchers");
+                setError("Fehler beim Laden der Vouchers");
+            }
+
+            if (deletedResult.vouchers) {
+                setDeletedVouchers(deletedResult.vouchers);
             }
         } catch (error) {
             setError("Unerwarteter Fehler beim Laden der Vouchers");
@@ -357,6 +424,73 @@ export default function VouchersPage() {
         const newCode = generateVoucherCode();
         setVoucherForm(prev => ({ ...prev, voucherCode: newCode }));
         setShowVoucherForm(true);
+    };
+
+    // Soft Delete Gutschein
+    const handleDeleteVoucher = async (voucherId: string, permanent = false) => {
+        try {
+            setUpdatingStatus(voucherId);
+            setError("");
+
+            const adminName = 'Admin';
+
+            const response = await fetch('/api/vouchers', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    voucherId,
+                    adminName,
+                    permanent
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                await loadVouchers(); // Gutscheine neu laden
+            } else {
+                setError(result.error || 'Fehler beim Löschen');
+            }
+        } catch (error) {
+            setError('Fehler beim Löschen des Gutscheins');
+            console.error('Delete error:', error);
+        } finally {
+            setUpdatingStatus(null);
+        }
+    };
+
+    // Gutschein wiederherstellen
+    const handleRestoreVoucher = async (voucherId: string) => {
+        try {
+            setUpdatingStatus(voucherId);
+            setError("");
+
+            const response = await fetch('/api/vouchers', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    voucherId,
+                    action: 'restore'
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                await loadVouchers(); // Gutscheine neu laden
+            } else {
+                setError(result.error || 'Fehler beim Wiederherstellen');
+            }
+        } catch (error) {
+            setError('Fehler beim Wiederherstellen des Gutscheins');
+            console.error('Restore error:', error);
+        } finally {
+            setUpdatingStatus(null);
+        }
     };
 
     if (loading) {
@@ -1032,213 +1166,615 @@ export default function VouchersPage() {
 
                 {/* Enhanced Vouchers Table */}
                 <div className={`${theme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-gray-200'} backdrop-blur-xl rounded-2xl shadow-xl border overflow-hidden`}>
-                    {/* Table Header */}
+                    {/* Tab Header */}
                     <div className={`px-6 py-4 border-b ${theme === 'dark' ? 'border-slate-800 bg-slate-900/50' : 'border-gray-200 bg-gray-50/50'}`}>
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-                            <div>
-                                <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Gutschein-Übersicht</h2>
-                                <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} mt-1`}>{filteredVouchers.length} von {vouchers.length} Gutscheinen</p>
+                        <div className="flex flex-col space-y-4">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Gutschein-Verwaltung</h2>
+                                    <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} mt-1`}>
+                                        {currentTab === 'active'
+                                            ? `${filteredVouchers.length} von ${vouchers.length} aktiven Gutscheinen`
+                                            : `${deletedVouchers.length} gelöschte Gutscheine`
+                                        }
+                                    </p>
+                                </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
-                                {/* Search */}
+                            {/* Tabs */}
+                            <div className="flex space-x-1">
+                                <button
+                                    onClick={() => setCurrentTab('active')}
+                                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${currentTab === 'active'
+                                        ? theme === 'dark'
+                                            ? 'bg-blue-900/50 text-blue-300 border border-blue-800'
+                                            : 'bg-blue-50 text-blue-700 border border-blue-200'
+                                        : theme === 'dark'
+                                            ? 'text-slate-400 hover:text-white hover:bg-slate-800'
+                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    <div className="flex items-center space-x-2">
+                                        <Gift className="w-4 h-4" />
+                                        <span>Aktive Gutscheine</span>
+                                        <span className={`px-2 py-0.5 text-xs rounded-full ${theme === 'dark' ? 'bg-slate-700 text-slate-300' : 'bg-gray-200 text-gray-600'
+                                            }`}>
+                                            {vouchers.length}
+                                        </span>
+                                    </div>
+                                </button>
+                                <button
+                                    onClick={() => setCurrentTab('trash')}
+                                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${currentTab === 'trash'
+                                        ? theme === 'dark'
+                                            ? 'bg-red-900/50 text-red-300 border border-red-800'
+                                            : 'bg-red-50 text-red-700 border border-red-200'
+                                        : theme === 'dark'
+                                            ? 'text-slate-400 hover:text-white hover:bg-slate-800'
+                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    <div className="flex items-center space-x-2">
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        <span>Papierkorb</span>
+                                        <span className={`px-2 py-0.5 text-xs rounded-full ${theme === 'dark' ? 'bg-slate-700 text-slate-300' : 'bg-gray-200 text-gray-600'
+                                            }`}>
+                                            {deletedVouchers.length}
+                                        </span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Simplified Filter Section */}
+                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+
+                            {/* Search Bar */}
+                            <div className="flex-1">
                                 <div className="relative">
                                     <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-400'}`} />
                                     <input
                                         type="text"
-                                        placeholder="Suchen..."
+                                        placeholder="Gutscheine durchsuchen..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className={`pl-10 pr-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm ${theme === 'dark'
+                                        className={`w-full pl-10 pr-10 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${theme === 'dark'
                                             ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400'
                                             : 'bg-white border-gray-200 text-gray-900 placeholder-gray-400'
                                             } border`}
                                     />
+                                    {searchTerm && (
+                                        <button
+                                            onClick={() => setSearchTerm('')}
+                                            className={`absolute right-3 top-1/2 transform -translate-y-1/2 ${theme === 'dark' ? 'text-slate-400 hover:text-slate-200' : 'text-gray-400 hover:text-gray-600'} transition-colors`}
+                                        >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    )}
                                 </div>
+                            </div>
 
-                                {/* Status Filter */}
-                                <select
-                                    value={statusFilter}
-                                    onChange={(e) => setStatusFilter(e.target.value)}
-                                    className={`px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm ${theme === 'dark'
+                            {/* Status Filter Buttons */}
+                            <div className="flex flex-wrap gap-2">
+                                <button
+                                    onClick={() => setStatusFilter('all')}
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'all'
+                                        ? theme === 'dark'
+                                            ? 'bg-blue-600 text-white shadow-lg'
+                                            : 'bg-blue-600 text-white shadow-lg'
+                                        : theme === 'dark'
+                                            ? 'text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700'
+                                            : 'text-gray-600 bg-white hover:bg-gray-50 border border-gray-200'
+                                        }`}
+                                >
+                                    Alle ({stats.total})
+                                </button>
+
+                                <button
+                                    onClick={() => setStatusFilter('pending')}
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'pending'
+                                        ? theme === 'dark'
+                                            ? 'bg-amber-600 text-white shadow-lg'
+                                            : 'bg-amber-600 text-white shadow-lg'
+                                        : theme === 'dark'
+                                            ? 'text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700'
+                                            : 'text-gray-600 bg-white hover:bg-gray-50 border border-gray-200'
+                                        }`}
+                                >
+                                    <Clock className="w-4 h-4 mr-1" />
+                                    Ausstehend ({stats.pending})
+                                </button>
+
+                                <button
+                                    onClick={() => setStatusFilter('paid')}
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'paid'
+                                        ? theme === 'dark'
+                                            ? 'bg-green-600 text-white shadow-lg'
+                                            : 'bg-green-600 text-white shadow-lg'
+                                        : theme === 'dark'
+                                            ? 'text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700'
+                                            : 'text-gray-600 bg-white hover:bg-gray-50 border border-gray-200'
+                                        }`}
+                                >
+                                    <CheckCircle className="w-4 h-4 mr-1" />
+                                    Bezahlt ({stats.paid})
+                                </button>
+                            </div>
+
+                            {/* Clear All Filters */}
+                            {(searchTerm || statusFilter !== 'all') && (
+                                <button
+                                    onClick={() => {
+                                        setSearchTerm('');
+                                        setStatusFilter('all');
+                                    }}
+                                    className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${theme === 'dark'
+                                        ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                                        }`}
+                                    title="Alle Filter zurücksetzen"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Table Content */}
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-slate-800">
+                        <thead className={theme === 'dark' ? 'bg-slate-900/50' : 'bg-gray-50/50'}>
+                            <tr>
+                                <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
+                                    Gutschein
+                                </th>
+                                <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
+                                    Käufer
+                                </th>
+                                <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
+                                    Betrag
+                                </th>
+                                <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
+                                    Versand
+                                </th>
+                                <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
+                                    Status
+                                </th>
+                                <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
+                                    Erstellt
+                                </th>
+                                <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
+                                    Aktionen
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className={`${theme === 'dark' ? 'bg-slate-900 divide-slate-800' : 'bg-white divide-gray-100'} divide-y`}>
+                            {paginatedVouchers.map((voucher) => (
+                                <tr key={voucher.id} className={`${theme === 'dark' ? 'hover:bg-slate-800/50' : 'hover:bg-gray-50/50'} transition-colors`}>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center space-x-3">
+                                            <div className={`flex items-center justify-center w-8 h-8 ${theme === 'dark' ? 'bg-blue-900/30' : 'bg-blue-100'} rounded-lg`}>
+                                                <Gift className="w-4 h-4 text-blue-600" />
+                                            </div>
+                                            <div>
+                                                <div className={`text-sm font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                                                    {voucher.code}
+                                                </div>
+                                                <div className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
+                                                    {voucher.payment_reference || voucher.id.slice(0, 8)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center space-x-3">
+                                            <div className={`flex items-center justify-center w-8 h-8 ${theme === 'dark' ? 'bg-slate-800' : 'bg-gray-100'} rounded-lg`}>
+                                                <User className={`w-4 h-4 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-600'}`} />
+                                            </div>
+                                            <div>
+                                                <div className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                                                    {voucher.sender_name}
+                                                </div>
+                                                <div className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} flex items-center space-x-1`}>
+                                                    <Mail className="w-3 h-3" />
+                                                    <span>{voucher.sender_email}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                                            €{Number(voucher.amount).toFixed(0)}
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center space-x-2">
+                                            {isAdminVoucher(voucher) ? (
+                                                <>
+                                                    <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                                    </svg>
+                                                    <span className={`text-sm ${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'}`}>Studio</span>
+                                                </>
+                                            ) : voucher.delivery_method === 'post' ? (
+                                                <>
+                                                    <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                                    </svg>
+                                                    <span className={`text-sm ${theme === 'dark' ? 'text-orange-400' : 'text-orange-600'}`}>Post</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Mail className="w-4 h-4 text-blue-500" />
+                                                    <span className={`text-sm ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>E-Mail</span>
+                                                </>
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center space-x-2">
+                                            {getStatusIcon(voucher.payment_status)}
+                                            <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full border ${getStatusBadge(voucher.payment_status)}`}>
+                                                {voucher.payment_status}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className={`flex items-center space-x-2 text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
+                                            <Calendar className="w-4 h-4" />
+                                            <span>{new Date(voucher.created_at).toLocaleDateString('de-DE')}</span>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="relative dropdown-container">
+                                            {currentTab === 'active' ? (
+                                                <>
+                                                    <button
+                                                        onClick={() => toggleDropdown(voucher.id)}
+                                                        className={`inline-flex items-center justify-center w-8 h-8 rounded-lg transition-colors ${theme === 'dark'
+                                                            ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                                                            : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                                                            }`}
+                                                        title="Aktionen"
+                                                    >
+                                                        <MoreVertical className="w-4 h-4" />
+                                                    </button>
+
+                                                    {openDropdown === voucher.id && (
+                                                        <div className={`absolute right-0 top-full mt-2 w-48 ${theme === 'dark'
+                                                            ? 'bg-slate-800 border-slate-700 shadow-xl'
+                                                            : 'bg-white border-gray-200 shadow-lg'
+                                                            } border rounded-lg py-1 z-50`}>
+
+                                                            <a
+                                                                href={`/admin/orders/${voucher.id}`}
+                                                                className={`flex items-center px-4 py-2 text-sm transition-colors ${theme === 'dark'
+                                                                    ? 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                                                                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                                                                    }`}
+                                                                onClick={() => setOpenDropdown(null)}
+                                                            >
+                                                                <Eye className="w-4 h-4 mr-3" />
+                                                                Details anzeigen
+                                                            </a>
+
+                                                            {voucher.payment_status === 'pending' && (
+                                                                <button
+                                                                    onClick={() => {
+                                                                        updateVoucherStatus(voucher.id, 'paid');
+                                                                        setOpenDropdown(null);
+                                                                    }}
+                                                                    disabled={updatingStatus === voucher.id}
+                                                                    className={`w-full flex items-center px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                                                        ? 'text-green-400 hover:bg-slate-700'
+                                                                        : 'text-green-600 hover:bg-gray-100'
+                                                                        }`}
+                                                                >
+                                                                    {updatingStatus === voucher.id ? (
+                                                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-600 mr-3"></div>
+                                                                    ) : (
+                                                                        <CheckCircle className="w-4 h-4 mr-3" />
+                                                                    )}
+                                                                    Als bezahlt markieren
+                                                                </button>
+                                                            )}
+
+                                                            <div className={`border-t ${theme === 'dark' ? 'border-slate-700' : 'border-gray-200'} my-1`}></div>
+
+                                                            <button
+                                                                onClick={() => {
+                                                                    handleDeleteVoucher(voucher.id, false);
+                                                                    setOpenDropdown(null);
+                                                                }}
+                                                                disabled={updatingStatus === voucher.id}
+                                                                className={`w-full flex items-center px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                                                    ? 'text-red-400 hover:bg-slate-700'
+                                                                    : 'text-red-600 hover:bg-gray-100'
+                                                                    }`}
+                                                            >
+                                                                <Trash2 className="w-4 h-4 mr-3" />
+                                                                Löschen
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <button
+                                                        onClick={() => toggleDropdown(voucher.id)}
+                                                        className={`inline-flex items-center justify-center w-8 h-8 rounded-lg transition-colors ${theme === 'dark'
+                                                            ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                                                            : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                                                            }`}
+                                                        title="Aktionen"
+                                                    >
+                                                        <MoreVertical className="w-4 h-4" />
+                                                    </button>
+
+                                                    {openDropdown === voucher.id && (
+                                                        <div className={`absolute right-0 top-full mt-2 w-48 ${theme === 'dark'
+                                                            ? 'bg-slate-800 border-slate-700 shadow-xl'
+                                                            : 'bg-white border-gray-200 shadow-lg'
+                                                            } border rounded-lg py-1 z-50`}>
+
+                                                            <a
+                                                                href={`/admin/orders/${voucher.id}`}
+                                                                className={`flex items-center px-4 py-2 text-sm transition-colors ${theme === 'dark'
+                                                                    ? 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                                                                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                                                                    }`}
+                                                                onClick={() => setOpenDropdown(null)}
+                                                            >
+                                                                <Eye className="w-4 h-4 mr-3" />
+                                                                Details anzeigen
+                                                            </a>
+
+                                                            <button
+                                                                onClick={() => {
+                                                                    handleRestoreVoucher(voucher.id);
+                                                                    setOpenDropdown(null);
+                                                                }}
+                                                                disabled={updatingStatus === voucher.id}
+                                                                className={`w-full flex items-center px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                                                    ? 'text-blue-400 hover:bg-slate-700'
+                                                                    : 'text-blue-600 hover:bg-gray-100'
+                                                                    }`}
+                                                            >
+                                                                {updatingStatus === voucher.id ? (
+                                                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-3"></div>
+                                                                ) : (
+                                                                    <RotateCcw className="w-4 h-4 mr-3" />
+                                                                )}
+                                                                Wiederherstellen
+                                                            </button>
+
+                                                            <div className={`border-t ${theme === 'dark' ? 'border-slate-700' : 'border-gray-200'} my-1`}></div>
+
+                                                            <button
+                                                                onClick={() => {
+                                                                    if (confirm('Sind Sie sicher, dass Sie diesen Gutschein ENDGÜLTIG löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!')) {
+                                                                        handleDeleteVoucher(voucher.id, true);
+                                                                        setOpenDropdown(null);
+                                                                    }
+                                                                }}
+                                                                disabled={updatingStatus === voucher.id}
+                                                                className={`w-full flex items-center px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                                                    ? 'text-red-400 hover:bg-slate-700'
+                                                                    : 'text-red-600 hover:bg-gray-100'
+                                                                    }`}
+                                                            >
+                                                                <X className="w-4 h-4 mr-3" />
+                                                                Endgültig löschen
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                    <div className={`${theme === 'dark'
+                        ? 'bg-slate-900/50 border-slate-800'
+                        : 'bg-gray-50/50 border-gray-200'
+                        } border rounded-xl mt-6 p-4`}>
+
+                        {/* Pagination Header */}
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0 mb-4">
+                            <div className="flex items-center space-x-4">
+                                <div className={`text-sm ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`}>
+                                    Zeige {startIndex + 1} bis {Math.min(endIndex, totalItems)} von {totalItems} Gutscheinen
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <span className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
+                                        Pro Seite:
+                                    </span>
+                                    <select
+                                        value={itemsPerPage}
+                                        onChange={(e) => {
+                                            setItemsPerPage(Number(e.target.value));
+                                            setCurrentPage(1);
+                                        }}
+                                        className={`px-3 py-1 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${theme === 'dark'
+                                            ? 'bg-slate-800 border-slate-700 text-white'
+                                            : 'bg-white border-gray-200 text-gray-900'
+                                            } border`}
+                                    >
+                                        <option value={5}>5</option>
+                                        <option value={10}>10</option>
+                                        <option value={25}>25</option>
+                                        <option value={50}>50</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
+                                Seite {currentPage} von {totalPages}
+                            </div>
+                        </div>
+
+                        {/* Pagination Controls */}
+                        <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+
+                            {/* Previous/Next Buttons */}
+                            <div className="flex items-center space-x-2">
+                                <button
+                                    onClick={goToPrevPage}
+                                    disabled={currentPage === 1}
+                                    className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                        ? 'text-slate-300 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-900'
+                                        : 'text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 disabled:bg-gray-100'
+                                        }`}
+                                >
+                                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                    Zurück
+                                </button>
+
+                                <button
+                                    onClick={goToNextPage}
+                                    disabled={currentPage === totalPages}
+                                    className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                        ? 'text-slate-300 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-900'
+                                        : 'text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 disabled:bg-gray-100'
+                                        }`}
+                                >
+                                    Weiter
+                                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            {/* Page Numbers */}
+                            <div className="flex items-center space-x-1">
+                                {/* Erste Seite */}
+                                {currentPage > 3 && (
+                                    <>
+                                        <button
+                                            onClick={() => goToPage(1)}
+                                            className={`w-8 h-8 text-sm rounded-lg transition-colors ${theme === 'dark'
+                                                ? 'text-slate-300 hover:bg-slate-800'
+                                                : 'text-gray-700 hover:bg-gray-100'
+                                                }`}
+                                        >
+                                            1
+                                        </button>
+                                        {currentPage > 4 && (
+                                            <span className={`px-2 ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>...</span>
+                                        )}
+                                    </>
+                                )}
+
+                                {/* Aktuelle Seiten */}
+                                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                                    let pageNum;
+                                    if (totalPages <= 5) {
+                                        pageNum = i + 1;
+                                    } else if (currentPage <= 3) {
+                                        pageNum = i + 1;
+                                    } else if (currentPage >= totalPages - 2) {
+                                        pageNum = totalPages - 4 + i;
+                                    } else {
+                                        pageNum = currentPage - 2 + i;
+                                    }
+
+                                    if (pageNum < 1 || pageNum > totalPages) return null;
+
+                                    return (
+                                        <button
+                                            key={pageNum}
+                                            onClick={() => goToPage(pageNum)}
+                                            className={`w-8 h-8 text-sm rounded-lg transition-colors ${pageNum === currentPage
+                                                ? theme === 'dark'
+                                                    ? 'bg-blue-600 text-white'
+                                                    : 'bg-blue-600 text-white'
+                                                : theme === 'dark'
+                                                    ? 'text-slate-300 hover:bg-slate-800'
+                                                    : 'text-gray-700 hover:bg-gray-100'
+                                                }`}
+                                        >
+                                            {pageNum}
+                                        </button>
+                                    );
+                                })}
+
+                                {/* Letzte Seite */}
+                                {currentPage < totalPages - 2 && totalPages > 5 && (
+                                    <>
+                                        {currentPage < totalPages - 3 && (
+                                            <span className={`px-2 ${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'}`}>...</span>
+                                        )}
+                                        <button
+                                            onClick={() => goToPage(totalPages)}
+                                            className={`w-8 h-8 text-sm rounded-lg transition-colors ${theme === 'dark'
+                                                ? 'text-slate-300 hover:bg-slate-800'
+                                                : 'text-gray-700 hover:bg-gray-100'
+                                                }`}
+                                        >
+                                            {totalPages}
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+
+                            {/* Jump to Page */}
+                            <div className="flex items-center space-x-2">
+                                <span className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
+                                    Gehe zu:
+                                </span>
+                                <input
+                                    type="number"
+                                    min={1}
+                                    max={totalPages}
+                                    value={currentPage}
+                                    onChange={(e) => {
+                                        const page = parseInt(e.target.value);
+                                        if (page >= 1 && page <= totalPages) {
+                                            goToPage(page);
+                                        }
+                                    }}
+                                    className={`w-16 px-2 py-1 text-sm text-center rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${theme === 'dark'
                                         ? 'bg-slate-800 border-slate-700 text-white'
                                         : 'bg-white border-gray-200 text-gray-900'
                                         } border`}
-                                >
-                                    <option value="all">Alle Status</option>
-                                    <option value="pending">Ausstehend</option>
-                                    <option value="paid">Bezahlt</option>
-                                    <option value="cancelled">Storniert</option>
-                                </select>
+                                />
                             </div>
                         </div>
                     </div>
+                )}
 
-                    {/* Table Content */}
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-slate-800">
-                            <thead className={theme === 'dark' ? 'bg-slate-900/50' : 'bg-gray-50/50'}>
-                                <tr>
-                                    <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
-                                        Gutschein
-                                    </th>
-                                    <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
-                                        Käufer
-                                    </th>
-                                    <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
-                                        Betrag
-                                    </th>
-                                    <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
-                                        Versand
-                                    </th>
-                                    <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
-                                        Status
-                                    </th>
-                                    <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
-                                        Erstellt
-                                    </th>
-                                    <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
-                                        Aktionen
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className={`${theme === 'dark' ? 'bg-slate-900 divide-slate-800' : 'bg-white divide-gray-100'} divide-y`}>
-                                {filteredVouchers.map((voucher) => (
-                                    <tr key={voucher.id} className={`${theme === 'dark' ? 'hover:bg-slate-800/50' : 'hover:bg-gray-50/50'} transition-colors`}>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-3">
-                                                <div className={`flex items-center justify-center w-8 h-8 ${theme === 'dark' ? 'bg-blue-900/30' : 'bg-blue-100'} rounded-lg`}>
-                                                    <Gift className="w-4 h-4 text-blue-600" />
-                                                </div>
-                                                <div>
-                                                    <div className={`text-sm font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                                                        {voucher.code}
-                                                    </div>
-                                                    <div className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
-                                                        {voucher.payment_reference || voucher.id.slice(0, 8)}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-3">
-                                                <div className={`flex items-center justify-center w-8 h-8 ${theme === 'dark' ? 'bg-slate-800' : 'bg-gray-100'} rounded-lg`}>
-                                                    <User className={`w-4 h-4 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-600'}`} />
-                                                </div>
-                                                <div>
-                                                    <div className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                                                        {voucher.sender_name}
-                                                    </div>
-                                                    <div className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} flex items-center space-x-1`}>
-                                                        <Mail className="w-3 h-3" />
-                                                        <span>{voucher.sender_email}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                                                €{Number(voucher.amount).toFixed(0)}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-2">
-                                                {isAdminVoucher(voucher) ? (
-                                                    <>
-                                                        <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                                        </svg>
-                                                        <span className={`text-sm ${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'}`}>Studio</span>
-                                                    </>
-                                                ) : voucher.delivery_method === 'post' ? (
-                                                    <>
-                                                        <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                                                        </svg>
-                                                        <span className={`text-sm ${theme === 'dark' ? 'text-orange-400' : 'text-orange-600'}`}>Post</span>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <Mail className="w-4 h-4 text-blue-500" />
-                                                        <span className={`text-sm ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>E-Mail</span>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-2">
-                                                {getStatusIcon(voucher.payment_status)}
-                                                <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full border ${getStatusBadge(voucher.payment_status)}`}>
-                                                    {voucher.payment_status}
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className={`flex items-center space-x-2 text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
-                                                <Calendar className="w-4 h-4" />
-                                                <span>{new Date(voucher.created_at).toLocaleDateString('de-DE')}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center space-x-3">
-                                                {voucher.payment_status === 'pending' && (
-                                                    <button
-                                                        onClick={() => updateVoucherStatus(voucher.id, 'paid')}
-                                                        disabled={updatingStatus === voucher.id}
-                                                        className={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
-                                                            ? 'text-green-400 bg-green-900/30 border border-green-800 hover:bg-green-900/50'
-                                                            : 'text-green-700 bg-green-50 border border-green-200 hover:bg-green-100'
-                                                            }`}
-                                                    >
-                                                        {updatingStatus === voucher.id ? (
-                                                            <>
-                                                                <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-green-600 mr-1"></div>
-                                                                Wird aktualisiert...
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <CheckCircle className="w-3 h-3 mr-1" />
-                                                                Als bezahlt markieren
-                                                            </>
-                                                        )}
-                                                    </button>
-                                                )}
-                                                <a
-                                                    href={`/admin/orders/${voucher.id}`}
-                                                    className={`inline-flex items-center justify-center w-8 h-8 rounded-lg transition-colors ${theme === 'dark'
-                                                        ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-                                                        : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
-                                                        }`}
-                                                    title="Details anzeigen"
-                                                >
-                                                    <Eye className="w-4 h-4" />
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Empty State */}
-                    {filteredVouchers.length === 0 && !loading && (
-                        <div className="text-center py-16">
-                            <div className={`flex items-center justify-center w-16 h-16 ${theme === 'dark' ? 'bg-slate-800' : 'bg-gray-100'} rounded-2xl mx-auto mb-4`}>
-                                <Gift className={`w-8 h-8 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-400'}`} />
-                            </div>
-                            <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-2`}>
-                                {searchTerm || statusFilter !== 'all' ? 'Keine Ergebnisse gefunden' : 'Keine Gutscheine vorhanden'}
-                            </h3>
-                            <p className={`${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} max-w-sm mx-auto`}>
-                                {searchTerm || statusFilter !== 'all'
-                                    ? 'Versuchen Sie andere Suchbegriffe oder Filter.'
-                                    : 'Es wurden noch keine Gutscheine erstellt.'
-                                }
-                            </p>
+                {/* Empty State */}
+                {filteredVouchers.length === 0 && !loading && (
+                    <div className="text-center py-16">
+                        <div className={`flex items-center justify-center w-16 h-16 ${theme === 'dark' ? 'bg-slate-800' : 'bg-gray-100'} rounded-2xl mx-auto mb-4`}>
+                            <Gift className={`w-8 h-8 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-400'}`} />
                         </div>
-                    )}
-                </div>
+                        <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-2`}>
+                            {searchTerm || statusFilter !== 'all' ? 'Keine Ergebnisse gefunden' : 'Keine Gutscheine vorhanden'}
+                        </h3>
+                        <p className={`${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} max-w-sm mx-auto`}>
+                            {searchTerm || statusFilter !== 'all'
+                                ? 'Versuchen Sie andere Suchbegriffe oder Filter.'
+                                : 'Es wurden noch keine Gutscheine erstellt.'
+                            }
+                        </p>
+                    </div>
+                )}
             </main>
         </div>
     );

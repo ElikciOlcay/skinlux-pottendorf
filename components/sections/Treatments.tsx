@@ -33,14 +33,15 @@ const treatments = [
         icon: Heart,
         href: '/behandlungen/signature-facials'
     },
-    {
+    // Microneedling temporär ausgeblendet - wird später aktiviert
+    ...(FEATURES.MICRONEEDLING_ENABLED ? [{
         id: 'microneedling',
         title: "Microneedling",
         description: "Innovative Behandlung zur Kollagenproduktion für straffere Haut.",
         icon: Sparkles,
         href: '/behandlungen/microneedling',
         isNew: true
-    },
+    }] : []),
     // Hautanalyse temporär ausgeblendet - wird später aktiviert wenn Gerät verfügbar
     ...(FEATURES.HAUTANALYSE_ENABLED ? [{
         id: 'hautanalyse',

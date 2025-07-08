@@ -5,6 +5,9 @@ export const FEATURES = {
     // Hautanalyse - ausgeschaltet bis Gerät verfügbar ist
     HAUTANALYSE_ENABLED: false,
 
+    // Microneedling - ausgeschaltet bis verfügbar
+    MICRONEEDLING_ENABLED: false,
+
     // Weitere Features können hier hinzugefügt werden
     // NEUE_FEATURE: true,
 } as const;

@@ -106,7 +106,7 @@ const Footer = () => {
                                 ))}
                             </div>
                             <a
-                                href="https://g.page/r/CQg7TXOu2H5XEAE/review"
+                                href="https://g.page/r/CQg7TXOu2H5XEBM/review"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-xs font-light text-gray-600 hover:text-black transition-colors"

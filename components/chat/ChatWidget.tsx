@@ -168,12 +168,17 @@ function MessageContent({ content }: { content: string }) {
 
 // Gutschein-Flow States
 interface VoucherFlow {
-    step: 'amount' | 'name' | 'email' | 'phone' | 'message' | 'confirm' | 'complete' | null;
+    step: 'amount' | 'delivery' | 'name' | 'email' | 'phone' | 'recipient' | 'message' | 'confirm' | 'complete' | null;
     data: {
         amount: number;
+        deliveryMethod?: 'email' | 'post';
         senderName: string;
         senderEmail: string;
         senderPhone?: string;
+        recipientName?: string;
+        recipientAddress?: string;
+        recipientPostalCode?: string;
+        recipientCity?: string;
         message?: string;
         code?: string;
         orderNumber?: string;
@@ -282,6 +287,35 @@ export default function ChatWidget() {
             return;
         }
 
+        if (voucherFlow.step === 'delivery') {
+            const delivery = message.toLowerCase();
+            if (delivery !== 'email' && delivery !== 'post') {
+                const errorMessage: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: "Bitte wählen Sie 'Email' oder 'Post' als Versandart.",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, errorMessage]);
+                return;
+            }
+
+            setVoucherFlow({
+                ...voucherFlow,
+                step: 'name',
+                data: { ...voucherFlow.data, deliveryMethod: delivery as 'email' | 'post' }
+            });
+
+            const namePrompt: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: "Wie ist Ihr vollständiger Name?",
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, namePrompt]);
+            return;
+        }
+
         if (voucherFlow.step === 'name') {
             setVoucherFlow({
                 ...voucherFlow,
@@ -337,6 +371,23 @@ export default function ChatWidget() {
                 });
             }
 
+            // Bei Post-Versand nach Empfänger fragen
+            if (voucherFlow.data.deliveryMethod === 'post') {
+                setVoucherFlow({
+                    ...voucherFlow,
+                    step: 'recipient'
+                });
+
+                const recipientPrompt: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: "Für den Postversand benötige ich die Empfänger-Daten.\n\nWie heißt der Empfänger? (Vor- und Nachname)",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, recipientPrompt]);
+                return;
+            }
+
             setVoucherFlow({
                 ...voucherFlow,
                 step: 'message'
@@ -352,6 +403,78 @@ export default function ChatWidget() {
             return;
         }
 
+        if (voucherFlow.step === 'recipient') {
+            // Speichere Namen und frage nach Adresse
+            const recipientData = { ...voucherFlow.data };
+
+            if (!recipientData.recipientName) {
+                // Erster Schritt: Name
+                recipientData.recipientName = message;
+                setVoucherFlow({
+                    ...voucherFlow,
+                    data: recipientData
+                });
+
+                const addressPrompt: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: "Und die Straße mit Hausnummer?",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, addressPrompt]);
+                return;
+            } else if (!recipientData.recipientAddress) {
+                // Zweiter Schritt: Adresse
+                recipientData.recipientAddress = message;
+                setVoucherFlow({
+                    ...voucherFlow,
+                    data: recipientData
+                });
+
+                const plzPrompt: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: "Die Postleitzahl?",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, plzPrompt]);
+                return;
+            } else if (!recipientData.recipientPostalCode) {
+                // Dritter Schritt: PLZ
+                recipientData.recipientPostalCode = message;
+                setVoucherFlow({
+                    ...voucherFlow,
+                    data: recipientData
+                });
+
+                const cityPrompt: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: "Und der Ort?",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, cityPrompt]);
+                return;
+            } else {
+                // Vierter Schritt: Ort - dann weiter zur Nachricht
+                recipientData.recipientCity = message;
+                setVoucherFlow({
+                    ...voucherFlow,
+                    step: 'message',
+                    data: recipientData
+                });
+
+                const messagePrompt: Message = {
+                    id: Date.now().toString(),
+                    role: "assistant",
+                    content: "Möchten Sie eine persönliche Nachricht für den Empfänger hinzufügen? 💌\n\n(Optional - schreiben Sie Ihre Nachricht oder 'nein')",
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, messagePrompt]);
+                return;
+            }
+        }
+
         if (voucherFlow.step === 'message') {
             if (message.toLowerCase() !== 'nein' && message.toLowerCase() !== 'weiter') {
                 setVoucherFlow({
@@ -365,10 +488,16 @@ export default function ChatWidget() {
                 step: 'confirm'
             });
 
+            const isPostDelivery = voucherFlow.data.deliveryMethod === 'post';
+            const totalAmount = isPostDelivery ? voucherFlow.data.amount + 5 : voucherFlow.data.amount;
+            const versandInfo = isPostDelivery
+                ? `\n\n📮 **Versand per Post an:**\n${voucherFlow.data.recipientName}\n${voucherFlow.data.recipientAddress}\n${voucherFlow.data.recipientPostalCode} ${voucherFlow.data.recipientCity}\n📦 **Versandkosten:** 5€`
+                : '\n📧 **Versand:** Digital per E-Mail';
+
             const confirmMessage: Message = {
                 id: Date.now().toString(),
                 role: "assistant",
-                content: `Perfekt! Hier ist Ihre Zusammenfassung:\n\n💰 **Betrag:** ${voucherFlow.data.amount}€\n👤 **Name:** ${voucherFlow.data.senderName}\n📧 **E-Mail:** ${voucherFlow.data.senderEmail}${voucherFlow.data.senderPhone ? '\n📱 **Telefon:** ' + voucherFlow.data.senderPhone : ''}${voucherFlow.data.message ? '\n💌 **Nachricht:** ' + voucherFlow.data.message : ''}\n\nSoll ich den Gutschein jetzt erstellen? (ja/nein)`,
+                content: `Perfekt! Hier ist Ihre Zusammenfassung:\n\n💰 **Gutscheinwert:** ${voucherFlow.data.amount}€${isPostDelivery ? `\n📦 **Versandkosten:** 5€\n💳 **Gesamtbetrag:** ${totalAmount}€` : ''}\n👤 **Käufer:** ${voucherFlow.data.senderName}\n📧 **E-Mail:** ${voucherFlow.data.senderEmail}${voucherFlow.data.senderPhone ? '\n📱 **Telefon:** ' + voucherFlow.data.senderPhone : ''}${versandInfo}${voucherFlow.data.message ? '\n💌 **Nachricht:** ' + voucherFlow.data.message : ''}\n\nSoll ich den Gutschein jetzt erstellen? (ja/nein)`,
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, confirmMessage]);
@@ -481,17 +610,17 @@ export default function ChatWidget() {
     const handleVoucherAmount = (amount: number) => {
         setVoucherFlow({
             ...voucherFlow,
-            step: 'name',
+            step: 'delivery',
             data: { ...voucherFlow.data, amount }
         });
 
-        const confirmMessage: Message = {
+        const deliveryMessage: Message = {
             id: Date.now().toString(),
             role: "assistant",
-            content: `Super! Ein ${amount}€ Gutschein. 💝\n\nWie ist Ihr vollständiger Name?`,
+            content: `Super! Ein ${amount}€ Gutschein. 💝\n\nWie soll der Gutschein versendet werden?\n\n📧 **Digital per E-Mail** (sofort nach Zahlungseingang)\n📮 **Per Post** (schön verpackt, 3-5 Werktage + 5€ Versandkosten)\n\nBitte wählen Sie: "Email" oder "Post"`,
             timestamp: new Date()
         };
-        setMessages(prev => [...prev, confirmMessage]);
+        setMessages(prev => [...prev, deliveryMessage]);
     };
 
     const handleVoucherDetails = async () => {
@@ -538,7 +667,12 @@ export default function ChatWidget() {
                     sender_phone: voucherFlow.data.senderPhone || null,
                     message: voucherFlow.data.message || null,
                     code: voucherCode,
-                    delivery_method: 'email'
+                    delivery_method: voucherFlow.data.deliveryMethod || 'email',
+                    // Post-Versand Daten
+                    recipient_name: voucherFlow.data.recipientName || null,
+                    recipient_address: voucherFlow.data.recipientAddress || null,
+                    recipient_postal_code: voucherFlow.data.recipientPostalCode || null,
+                    recipient_city: voucherFlow.data.recipientCity || null
                 })
             });
 
@@ -568,10 +702,16 @@ export default function ChatWidget() {
                     bic: 'SPALAT2G'
                 };
 
+                const isPostDelivery = voucherFlow.data.deliveryMethod === 'post';
+                const totalAmount = isPostDelivery ? voucherFlow.data.amount + 5 : voucherFlow.data.amount;
+                const deliveryInfo = isPostDelivery
+                    ? '📮 Nach Zahlungseingang wird der Gutschein schön verpackt per Post an die angegebene Adresse versendet (3-5 Werktage).'
+                    : '📧 Nach Zahlungseingang erhalten Sie den digitalen Gutschein als PDF per E-Mail.';
+
                 const successMessage: Message = {
                     id: Date.now().toString(),
                     role: "assistant",
-                    content: `✨ Ihr Gutschein wurde erfolgreich erstellt!\n\n📧 **Bestellnummer:** ${result.orderNumber}\n💰 **Betrag:** ${voucherFlow.data.amount}€\n\n**So geht es weiter:**\n\n1️⃣ **E-Mail-Bestätigung**\nSie erhalten in wenigen Minuten eine E-Mail mit:\n• Ihrem persönlichen Gutschein-Code\n• Allen weiteren Details\n• Zahlungsinformationen\n\n2️⃣ **Bezahlung**\nÜberweisen Sie den Betrag auf folgendes Konto:\n\n• **Bank:** ${bankInfo.bankName}\n• **Kontoinhaber:** ${bankInfo.accountHolder}\n• **IBAN:** ${bankInfo.iban}\n• **BIC:** ${bankInfo.bic}\n• **Verwendungszweck:** ${result.orderNumber}\n\n⚠️ **Wichtig:** Geben Sie unbedingt die Bestellnummer als Verwendungszweck an!\n\n3️⃣ **Gutschein-Versand**\nNach Zahlungseingang erhalten Sie:\n• Eine Zahlungsbestätigung per E-Mail\n• Den digitalen Gutschein als PDF\n• Optional: Ausdruckbaren Gutschein für Geschenke\n\n4️⃣ **Gültigkeit**\nDer Gutschein ist 12 Monate gültig und kann für alle unsere Behandlungen eingelöst werden.\n\n📱 **Status verfolgen**\nSie können jederzeit anrufen und mit Ihrer Bestellnummer den Status erfragen.\n\n❓ **Fragen?**\nRufen Sie uns gerne an: +43 660 57 21 403\n\nVielen Dank für Ihr Vertrauen! 💕`,
+                    content: `✨ Ihr Gutschein wurde erfolgreich erstellt!\n\n📧 **Bestellnummer:** ${result.orderNumber}\n💰 **Gutscheinwert:** ${voucherFlow.data.amount}€${isPostDelivery ? `\n📦 **Versandkosten:** 5€\n💳 **Gesamtbetrag:** ${totalAmount}€` : ''}\n${isPostDelivery ? `📮 **Versand:** Per Post an ${voucherFlow.data.recipientName}` : '📧 **Versand:** Digital per E-Mail'}\n\n**So geht es weiter:**\n\n1️⃣ **E-Mail-Bestätigung**\nSie erhalten in wenigen Minuten eine E-Mail mit:\n• Bestellbestätigung\n• Zahlungsinformationen\n${!isPostDelivery ? '• Nach Zahlung: Ihren Gutschein-Code' : '• Versandbestätigung nach Zahlung'}\n\n2️⃣ **Bezahlung**\nÜberweisen Sie ${totalAmount}€ auf folgendes Konto:\n\n• **Bank:** ${bankInfo.bankName}\n• **Kontoinhaber:** ${bankInfo.accountHolder}\n• **IBAN:** ${bankInfo.iban}\n• **BIC:** ${bankInfo.bic}\n• **Verwendungszweck:** ${result.orderNumber}\n\n⚠️ **Wichtig:** Geben Sie unbedingt die Bestellnummer als Verwendungszweck an!\n\n3️⃣ **Gutschein-Versand**\n${deliveryInfo}\n\n4️⃣ **Gültigkeit**\nDer Gutschein ist 12 Monate gültig und kann für alle unsere Behandlungen eingelöst werden.\n\n📱 **Status verfolgen**\nSie können jederzeit anrufen und mit Ihrer Bestellnummer den Status erfragen.\n\n❓ **Fragen?**\nRufen Sie uns gerne an: +43 660 57 21 403\n\nVielen Dank für Ihr Vertrauen! 💕`,
                     timestamp: new Date()
                 };
                 setMessages(prev => [...prev, successMessage]);
@@ -849,12 +989,18 @@ export default function ChatWidget() {
                                     onChange={(e) => setInputValue(e.target.value)}
                                     placeholder={
                                         voucherFlow.step === 'amount' ? "Betrag eingeben (25-500€)..." :
-                                            voucherFlow.step === 'name' ? "Ihr vollständiger Name..." :
-                                                voucherFlow.step === 'email' ? "Ihre E-Mail-Adresse..." :
-                                                    voucherFlow.step === 'phone' ? "Telefonnummer oder 'nein'..." :
-                                                        voucherFlow.step === 'message' ? "Ihre Nachricht oder 'nein'..." :
-                                                            voucherFlow.step === 'confirm' ? "Ja oder Nein..." :
-                                                                "Ihre Nachricht..."
+                                            voucherFlow.step === 'delivery' ? "Email oder Post..." :
+                                                voucherFlow.step === 'name' ? "Ihr vollständiger Name..." :
+                                                    voucherFlow.step === 'email' ? "Ihre E-Mail-Adresse..." :
+                                                        voucherFlow.step === 'phone' ? "Telefonnummer oder 'nein'..." :
+                                                            voucherFlow.step === 'recipient' ?
+                                                                (!voucherFlow.data.recipientName ? "Name des Empfängers..." :
+                                                                    !voucherFlow.data.recipientAddress ? "Straße und Hausnummer..." :
+                                                                        !voucherFlow.data.recipientPostalCode ? "Postleitzahl..." :
+                                                                            "Ort...") :
+                                                                voucherFlow.step === 'message' ? "Ihre Nachricht oder 'nein'..." :
+                                                                    voucherFlow.step === 'confirm' ? "Ja oder Nein..." :
+                                                                        "Ihre Nachricht..."
                                     }
                                     className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50"
                                     disabled={isTyping || voucherFlow.step === 'complete'}

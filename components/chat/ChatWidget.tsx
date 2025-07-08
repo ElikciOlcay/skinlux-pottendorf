@@ -47,7 +47,7 @@ function formatMessageWithLinks(text: string): MessagePart[] {
         }
 
         // Der Link selbst
-        let linkText = match[0];
+        const linkText = match[0];
         let href = linkText;
         let linkType: 'url' | 'phone' | 'email' = 'url';
 

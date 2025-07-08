@@ -132,10 +132,10 @@ export default function Header() {
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: 10 }}
                                             transition={{ duration: 0.2 }}
-                                            className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[600px] bg-white shadow-xl"
+                                            className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[500px] bg-white shadow-xl"
                                         >
                                             <div className="p-8">
-                                                <div className="grid grid-cols-3 gap-8">
+                                                <div className="grid grid-cols-2 gap-12">
                                                     {item.dropdown?.map((category) => (
                                                         <div key={category.category}>
                                                             <div className="flex items-center gap-2 mb-4">

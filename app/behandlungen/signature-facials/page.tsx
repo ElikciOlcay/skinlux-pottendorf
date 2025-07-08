@@ -178,25 +178,25 @@ export default function SignatureFacials() {
                             </motion.p>
                         </motion.div>
 
-                        {/* Right Content - Image */}
+                        {/* Right Content - Video */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8 }}
                             className="relative"
                         >
-                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
-                                <div
-                                    className="absolute inset-0"
-                                    style={{
-                                        backgroundImage: "url('/images/treatments/signature-facials.jpg')",
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center',
-                                        backgroundColor: '#f5f5f5'
-                                    }}
+                            <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg">
+                                <video
+                                    src="/videos/signature-hero.mp4"
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                    className="w-full h-full object-cover"
+                                    poster="/images/treatments/signature-facials.jpg"
                                 />
-                                <div className="absolute -inset-4 border-2 border-secondary opacity-20" />
-                                <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2">
+                                <div className="absolute -inset-4 border-2 border-secondary opacity-20 rounded-xl" />
+                                <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg">
                                     <p className="text-sm font-light">Signature Kollektion</p>
                                 </div>
                             </div>

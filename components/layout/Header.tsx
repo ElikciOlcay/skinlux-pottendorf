@@ -41,6 +41,7 @@ const navigation = [
         ]
     },
     { name: "Über uns", href: "/ueber-uns" },
+    { name: "Standorte", href: "/standorte" },
     { name: "Gutscheine", href: "/gutscheine" },
     { name: "Kontakt", href: "/kontakt" },
 ];

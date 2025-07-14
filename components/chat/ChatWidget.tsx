@@ -177,6 +177,7 @@ function MessageContent({ content }: { content: string }) {
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
     const [showActions, setShowActions] = useState(true);
+    const [hasUserWritten, setHasUserWritten] = useState(false);
 
     // Quiz State
     const [quizState, setQuizState] = useState<QuizState>({
@@ -238,6 +239,7 @@ export default function ChatWidget() {
     // Quiz starten
     const startQuiz = () => {
         setShowActions(false);
+        setHasUserWritten(true);
         setQuizState({
             isActive: true,
             currentQuestion: 0,
@@ -259,6 +261,7 @@ export default function ChatWidget() {
     const handleQuizAnswer = (questionId: string, value: string, label: string) => {
         const newAnswer: QuizAnswer = { questionId, value, label };
         const updatedAnswers = [...quizState.answers, newAnswer];
+        setHasUserWritten(true);
 
         setQuizState(prev => ({
             ...prev,
@@ -322,7 +325,6 @@ export default function ChatWidget() {
 
             setMessages(prev => [...prev, recommendationMessage]);
             setIsTyping(false);
-            setShowActions(true);
 
             // Quiz zurücksetzen
             setQuizState({
@@ -352,6 +354,7 @@ export default function ChatWidget() {
     const handleSend = async (message: string) => {
         if (!message.trim()) return;
         setShowActions(false);
+        setHasUserWritten(true);
 
         const userMessage: Message = {
             id: generateMessageId(),
@@ -386,7 +389,6 @@ export default function ChatWidget() {
             };
 
             setMessages(prev => [...prev, assistantMessage]);
-            setShowActions(true);
         } catch (error) {
             console.error("Chat error:", error);
             setMessages(prev => [...prev, {
@@ -395,7 +397,6 @@ export default function ChatWidget() {
                 content: "Entschuldigung, es gab einen Fehler. Bitte versuchen Sie es später erneut oder rufen Sie uns direkt an: +43 660 57 21 403",
                 timestamp: new Date()
             }]);
-            setShowActions(true);
         } finally {
             setIsTyping(false);
         }
@@ -403,6 +404,7 @@ export default function ChatWidget() {
 
     const handleMainAction = async (actionId: string) => {
         setShowActions(false);
+        setHasUserWritten(true);
 
         if (actionId === 'quiz') {
             startQuiz();
@@ -414,7 +416,6 @@ export default function ChatWidget() {
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, bookingMessage]);
-            setTimeout(() => setShowActions(true), 1000);
         } else if (actionId === 'info') {
             handleSend("Welche Behandlungen bietet SkinLux an?");
         }
@@ -602,7 +603,7 @@ export default function ChatWidget() {
                         </div>
 
                         {/* Main Actions - Cleaner Design */}
-                        {showActions && !quizState.isActive && (
+                        {showActions && !quizState.isActive && !hasUserWritten && (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}

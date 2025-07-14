@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Sparkles, ExternalLink, Gift, Euro, CreditCard, Brain, ArrowRight } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles, Brain, ArrowRight, Phone, Mail, Globe } from "lucide-react";
 import { LISA_KNOWLEDGE } from "@/lib/chat/knowledge-base";
 
 interface Message {
@@ -36,18 +36,11 @@ interface Treatment {
     bookingAction: string;
 }
 
-const QUICK_REPLIES = [
-    "Welche Behandlung passt zu mir?",
-    "Was kostet eine Laser-Behandlung?",
-    "Wie läuft ein HydraFacial ab?",
-    "Kann ich einen Termin buchen?"
-];
-
-const SMART_ACTIONS = [
-    { icon: Brain, label: "Hautanalyse-Quiz", action: "quiz", color: "from-blue-500 to-purple-600" },
-    { icon: Gift, label: "Gutschein kaufen", action: "voucher", color: "from-pink-500 to-rose-600" },
-    { icon: Euro, label: "Preisliste", action: "prices", color: "from-purple-500 to-pink-600" },
-    { icon: CreditCard, label: "Angebote", action: "offers", color: "from-green-500 to-blue-600" }
+// Vereinfachte Quick Actions - nur die wichtigsten
+const MAIN_ACTIONS = [
+    { id: "quiz", label: "Hautanalyse-Quiz", icon: Brain, description: "Personalisierte Behandlungsempfehlung" },
+    { id: "booking", label: "Termin buchen", icon: Phone, description: "Online-Terminbuchung" },
+    { id: "info", label: "Behandlungsinfo", icon: Sparkles, description: "Alle Behandlungen im Überblick" }
 ];
 
 const INITIAL_MESSAGE = "Hallo! 👋 Ich bin Lisa, Ihre persönliche Beauty-Beraterin bei SkinLux. Wie kann ich Ihnen heute helfen?";
@@ -60,16 +53,20 @@ interface MessagePart {
     linkType?: 'url' | 'phone' | 'email';
 }
 
+// Utility function to detect mobile devices
+const isMobileDevice = () => {
+    if (typeof window === 'undefined') return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+};
+
 // Funktion zum Erkennen und Formatieren von Links
 function formatMessageWithLinks(text: string): MessagePart[] {
-    // Regex für URLs
     const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|(\+43[^\s]+)|([\w._%+-]+@[\w.-]+\.[A-Za-z]{2,})/g;
     const parts: MessagePart[] = [];
     let lastIndex = 0;
     let match;
 
     while ((match = urlRegex.exec(text)) !== null) {
-        // Text vor dem Link
         if (match.index > lastIndex) {
             parts.push({
                 type: 'text',
@@ -77,26 +74,19 @@ function formatMessageWithLinks(text: string): MessagePart[] {
             });
         }
 
-        // Der Link selbst
         const linkText = match[0];
         let href = linkText;
         let linkType: 'url' | 'phone' | 'email' = 'url';
 
-        // Telefonnummer
         if (linkText.startsWith('+43')) {
             href = `tel:${linkText.replace(/\s/g, '')}`;
             linkType = 'phone';
-        }
-        // E-Mail
-        else if (linkText.includes('@')) {
+        } else if (linkText.includes('@')) {
             href = `mailto:${linkText}`;
             linkType = 'email';
-        }
-        // URL ohne Protokoll
-        else if (linkText.startsWith('www.')) {
+        } else if (linkText.startsWith('www.')) {
             href = `https://${linkText}`;
         }
-        // URL mit Protokoll bleibt unverändert
 
         parts.push({
             type: 'link',
@@ -108,7 +98,6 @@ function formatMessageWithLinks(text: string): MessagePart[] {
         lastIndex = match.index + match[0].length;
     }
 
-    // Restlicher Text
     if (lastIndex < text.length) {
         parts.push({
             type: 'text',
@@ -120,10 +109,9 @@ function formatMessageWithLinks(text: string): MessagePart[] {
 }
 
 // Funktion zum Kürzen von langen URLs für die Anzeige
-function truncateUrl(url: string, maxLength: number = 40): string {
+function truncateUrl(url: string, maxLength: number = 35): string {
     if (url.length <= maxLength) return url;
 
-    // Versuche, den Domainnamen zu extrahieren
     const domainMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?([^\/]+)/);
     if (domainMatch) {
         const domain = domainMatch[1];
@@ -132,7 +120,6 @@ function truncateUrl(url: string, maxLength: number = 40): string {
         }
     }
 
-    // Falls immer noch zu lang, kürze von der Mitte
     const start = url.substring(0, maxLength / 2 - 2);
     const end = url.substring(url.length - maxLength / 2 + 2);
     return start + '...' + end;
@@ -161,7 +148,7 @@ function MessageContent({ content }: { content: string }) {
                 } else if (part.type === 'link') {
                     const isPhone = part.linkType === 'phone';
                     const isEmail = part.linkType === 'email';
-                    const isLongUrl = !isPhone && !isEmail && part.content.length > 40;
+                    const isLongUrl = !isPhone && !isEmail && part.content.length > 35;
                     const displayText = isLongUrl ? truncateUrl(part.content) : part.content;
 
                     return (
@@ -170,18 +157,14 @@ function MessageContent({ content }: { content: string }) {
                             href={part.href}
                             target={isPhone || isEmail ? undefined : "_blank"}
                             rel={isPhone || isEmail ? undefined : "noopener noreferrer"}
-                            className="inline-flex items-center gap-1 underline decoration-1 decoration-dashed underline-offset-2 hover:decoration-solid transition-all break-all"
-                            style={{
-                                color: 'inherit',
-                                fontWeight: 600,
-                                wordBreak: 'break-all'
-                            }}
+                            className="inline-flex items-center gap-1 underline decoration-1 decoration-dashed underline-offset-2 hover:decoration-solid transition-all break-all font-medium"
+                            style={{ color: 'inherit' }}
                             title={isLongUrl ? part.content : undefined}
                         >
+                            {isPhone && <Phone className="w-3 h-3 inline-block flex-shrink-0" />}
+                            {isEmail && <Mail className="w-3 h-3 inline-block flex-shrink-0" />}
+                            {!isPhone && !isEmail && <Globe className="w-3 h-3 inline-block flex-shrink-0" />}
                             {displayText}
-                            {!isPhone && !isEmail && (
-                                <ExternalLink className="w-3 h-3 inline-block flex-shrink-0" />
-                            )}
                         </a>
                     );
                 }
@@ -191,10 +174,9 @@ function MessageContent({ content }: { content: string }) {
     );
 }
 
-// Entfernt - Gutschein-Flow nicht mehr benötigt
-
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
+    const [showActions, setShowActions] = useState(true);
 
     // Quiz State
     const [quizState, setQuizState] = useState<QuizState>({
@@ -232,7 +214,6 @@ export default function ChatWidget() {
         const allRecommendations = LISA_KNOWLEDGE.skinAnalysisQuiz.recommendations;
         const matchingRecommendations: { treatments: Treatment[], priority: number }[] = [];
 
-        // Prüfe alle Empfehlungsregeln
         Object.values(allRecommendations).forEach(recommendation => {
             if (recommendation.condition(answerMap)) {
                 matchingRecommendations.push({
@@ -242,13 +223,11 @@ export default function ChatWidget() {
             }
         });
 
-        // Sortiere nach Priorität und gib Top 3 zurück
         const sortedRecommendations = matchingRecommendations
             .sort((a, b) => a.priority - b.priority)
             .flatMap(rec => rec.treatments)
             .slice(0, 3);
 
-        // Fallback wenn keine Empfehlungen gefunden wurden
         if (sortedRecommendations.length === 0) {
             return [LISA_KNOWLEDGE.skinAnalysisQuiz.defaultRecommendation];
         }
@@ -258,6 +237,7 @@ export default function ChatWidget() {
 
     // Quiz starten
     const startQuiz = () => {
+        setShowActions(false);
         setQuizState({
             isActive: true,
             currentQuestion: 0,
@@ -287,7 +267,6 @@ export default function ChatWidget() {
             isComplete: prev.currentQuestion + 1 >= LISA_KNOWLEDGE.skinAnalysisQuiz.questions.length
         }));
 
-        // Antwort als Nachricht hinzufügen
         const answerMessage: Message = {
             id: generateMessageId(),
             role: "user",
@@ -297,7 +276,6 @@ export default function ChatWidget() {
 
         setMessages(prev => [...prev, answerMessage]);
 
-        // Wenn Quiz abgeschlossen, generiere Empfehlungen
         if (quizState.currentQuestion + 1 >= LISA_KNOWLEDGE.skinAnalysisQuiz.questions.length) {
             setTimeout(() => {
                 generateAndShowRecommendations(updatedAnswers);
@@ -331,10 +309,9 @@ export default function ChatWidget() {
             });
 
             recommendationText += `\n🎯 **Nächste Schritte:**\n`;
-            recommendationText += `• Kostenlose Beratung vereinbaren\n`;
             recommendationText += `• Online-Termin buchen: https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone\n`;
             recommendationText += `• Anrufen: +43 660 57 21 403\n\n`;
-            recommendationText += `Haben Sie Fragen zu den Empfehlungen? Ich helfe gerne weiter! 😊`;
+            recommendationText += `Haben Sie weitere Fragen? Ich helfe gerne weiter! 😊`;
 
             const recommendationMessage: Message = {
                 id: generateMessageId(),
@@ -345,6 +322,7 @@ export default function ChatWidget() {
 
             setMessages(prev => [...prev, recommendationMessage]);
             setIsTyping(false);
+            setShowActions(true);
 
             // Quiz zurücksetzen
             setQuizState({
@@ -364,16 +342,17 @@ export default function ChatWidget() {
         scrollToBottom();
     }, [messages]);
 
+    // Entfernt: Auto-Focus für Mobile
     useEffect(() => {
-        if (isOpen && inputRef.current) {
+        if (isOpen && inputRef.current && !isMobileDevice()) {
             inputRef.current.focus();
         }
     }, [isOpen]);
 
     const handleSend = async (message: string) => {
         if (!message.trim()) return;
+        setShowActions(false);
 
-        // Add user message
         const userMessage: Message = {
             id: generateMessageId(),
             role: "user",
@@ -383,10 +362,6 @@ export default function ChatWidget() {
 
         setMessages(prev => [...prev, userMessage]);
         setInputValue("");
-
-        // Entfernt - kein Voucher-Flow mehr
-
-        // Normal chat flow
         setIsTyping(true);
 
         try {
@@ -403,49 +378,47 @@ export default function ChatWidget() {
 
             const data = await response.json();
 
-            // Add assistant response
             const assistantMessage: Message = {
-                id: (Date.now() + 1).toString(),
+                id: generateMessageId(),
                 role: "assistant",
                 content: data.message,
                 timestamp: new Date()
             };
 
             setMessages(prev => [...prev, assistantMessage]);
+            setShowActions(true);
         } catch (error) {
             console.error("Chat error:", error);
             setMessages(prev => [...prev, {
-                id: (Date.now() + 1).toString(),
+                id: generateMessageId(),
                 role: "assistant",
                 content: "Entschuldigung, es gab einen Fehler. Bitte versuchen Sie es später erneut oder rufen Sie uns direkt an: +43 660 57 21 403",
                 timestamp: new Date()
             }]);
+            setShowActions(true);
         } finally {
             setIsTyping(false);
         }
     };
 
-    const handleSmartAction = async (action: string) => {
-        if (action === 'quiz') {
+    const handleMainAction = async (actionId: string) => {
+        setShowActions(false);
+
+        if (actionId === 'quiz') {
             startQuiz();
-        } else if (action === 'voucher') {
-            // Verlinke zur Gutschein-Seite
-            const voucherMessage: Message = {
+        } else if (actionId === 'booking') {
+            const bookingMessage: Message = {
                 id: generateMessageId(),
                 role: "assistant",
-                content: "Toll, dass Sie einen Gutschein verschenken möchten! 🎁\n\n**Unsere Gutscheine:**\n• Gültig für alle Behandlungen\n• Schön verpackt oder als PDF\n• Sichere Zahlung per Überweisung\n\n👉 Besuchen Sie unsere Gutschein-Seite: https://bischofshofen.skinlux.at/gutscheine\n\nDort können Sie ganz einfach Ihren Wunschgutschein bestellen.\n\nGerne können Sie uns auch anrufen: +43 660 57 21 403",
+                content: "**Termin online buchen** 📅\n\nSie können ganz einfach Ihren Wunschtermin online buchen:\n\n👉 **Online-Buchung:** https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone\n\n📞 **Oder anrufen:** +43 660 57 21 403\n\n**Verfügbare Behandlungen:**\n• Laser-Haarentfernung (Probebehandlung kostenlos)\n• HydraFacial® Premium-Behandlung\n• Signature Facials mit Circadia Professional\n\nWählen Sie einfach Ihre gewünschte Behandlung und Ihren Termin aus!",
                 timestamp: new Date()
             };
-            setMessages(prev => [...prev, voucherMessage]);
-
-        } else if (action === 'prices') {
-            handleSend("Was sind die aktuellen Preise?");
-        } else if (action === 'offers') {
-            handleSend("Welche Angebote gibt es aktuell?");
+            setMessages(prev => [...prev, bookingMessage]);
+            setTimeout(() => setShowActions(true), 1000);
+        } else if (actionId === 'info') {
+            handleSend("Welche Behandlungen bietet SkinLux an?");
         }
     };
-
-    // Entfernt - keine Voucher-Funktionen mehr
 
     return (
         <>
@@ -457,12 +430,12 @@ export default function ChatWidget() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
                         onClick={() => setIsOpen(true)}
-                        className="fixed bottom-6 right-6 z-40 bg-gradient-to-br from-pink-500 to-rose-600 text-white p-4 md:p-4 rounded-full shadow-xl hover:shadow-2xl transition-shadow"
+                        className="fixed bottom-6 right-6 z-40 bg-gradient-to-br from-pink-500 to-rose-600 text-white p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
                         <div className="relative">
-                            <MessageCircle className="w-6 h-6 md:w-6 md:h-6" />
+                            <MessageCircle className="w-6 h-6" />
                             <motion.div
                                 className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full"
                                 animate={{ scale: [1, 1.2, 1] }}
@@ -480,11 +453,11 @@ export default function ChatWidget() {
                         initial={{ opacity: 0, y: 100, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 100, scale: 0.95 }}
-                        className="fixed md:bottom-6 md:right-6 inset-0 md:inset-auto z-40 md:w-[380px] md:max-w-[90vw] w-full h-full md:h-[600px] md:max-h-[80vh] bg-white md:rounded-2xl md:shadow-2xl overflow-hidden flex flex-col"
+                        className="fixed md:bottom-6 md:right-6 inset-0 md:inset-auto z-40 md:w-[400px] md:max-w-[90vw] w-full h-full md:h-[650px] md:max-h-[85vh] bg-white md:rounded-2xl md:shadow-2xl overflow-hidden flex flex-col"
                     >
                         {/* Header */}
                         <div className="bg-gradient-to-br from-pink-500 to-rose-600 p-4 text-white">
-                            <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <div className="relative">
                                         <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -493,13 +466,13 @@ export default function ChatWidget() {
                                         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold">Lisa</h3>
-                                        <p className="text-xs opacity-90">KI-Beauty-Beraterin</p>
+                                        <h3 className="font-semibold text-lg">Lisa</h3>
+                                        <p className="text-sm opacity-90">Beauty-Beraterin</p>
                                     </div>
                                 </div>
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="p-1 hover:bg-white/20 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-white/20 rounded-lg transition-colors"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
@@ -507,7 +480,7 @@ export default function ChatWidget() {
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 pt-8 pb-6 space-y-4">
+                        <div className="flex-1 overflow-y-auto px-4 pt-6 pb-4 space-y-4">
                             {messages.map((msg) => (
                                 <motion.div
                                     key={msg.id}
@@ -516,12 +489,12 @@ export default function ChatWidget() {
                                     className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                                 >
                                     <div
-                                        className={`max-w-[80%] p-3 rounded-xl break-words overflow-hidden ${msg.role === "user"
-                                            ? "bg-gradient-to-br from-pink-500 to-rose-600 text-white"
-                                            : "bg-gray-100 text-gray-800"
+                                        className={`max-w-[85%] p-4 rounded-2xl ${msg.role === "user"
+                                            ? "bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-br-lg"
+                                            : "bg-gray-50 text-gray-800 rounded-bl-lg"
                                             }`}
                                     >
-                                        <p className="text-sm whitespace-pre-wrap break-words overflow-wrap-anywhere">
+                                        <p className="text-sm leading-relaxed whitespace-pre-wrap">
                                             <MessageContent content={msg.content} />
                                         </p>
                                     </div>
@@ -535,7 +508,7 @@ export default function ChatWidget() {
                                     animate={{ opacity: 1, y: 0 }}
                                     className="flex justify-start"
                                 >
-                                    <div className="max-w-[90%] bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-200 p-4 rounded-xl">
+                                    <div className="max-w-[90%] bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-200 p-5 rounded-2xl rounded-bl-lg">
                                         {(() => {
                                             const currentQ = LISA_KNOWLEDGE.skinAnalysisQuiz.questions[quizState.currentQuestion];
                                             if (!currentQ) return null;
@@ -543,18 +516,18 @@ export default function ChatWidget() {
                                             return (
                                                 <div>
                                                     {/* Progress Bar */}
-                                                    <div className="mb-4">
-                                                        <div className="flex justify-between items-center mb-2">
+                                                    <div className="mb-5">
+                                                        <div className="flex justify-between items-center mb-3">
                                                             <span className="text-xs text-gray-600 font-medium">
                                                                 Frage {quizState.currentQuestion + 1} von {LISA_KNOWLEDGE.skinAnalysisQuiz.questions.length}
                                                             </span>
-                                                            <span className="text-xs text-blue-600 font-medium">
+                                                            <span className="text-xs text-blue-600 font-semibold">
                                                                 {Math.round(((quizState.currentQuestion + 1) / LISA_KNOWLEDGE.skinAnalysisQuiz.questions.length) * 100)}%
                                                             </span>
                                                         </div>
                                                         <div className="w-full bg-gray-200 rounded-full h-2">
                                                             <div
-                                                                className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                                                                className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
                                                                 style={{
                                                                     width: `${((quizState.currentQuestion + 1) / LISA_KNOWLEDGE.skinAnalysisQuiz.questions.length) * 100}%`
                                                                 }}
@@ -563,25 +536,25 @@ export default function ChatWidget() {
                                                     </div>
 
                                                     {/* Question */}
-                                                    <h3 className="text-sm font-medium text-gray-800 mb-3">
+                                                    <h3 className="text-sm font-medium text-gray-800 mb-4 leading-relaxed">
                                                         {currentQ.question}
                                                     </h3>
 
                                                     {/* Answer Options */}
-                                                    <div className="space-y-2">
+                                                    <div className="space-y-3">
                                                         {currentQ.options.map((option, index) => (
                                                             <motion.button
                                                                 key={option.value}
                                                                 initial={{ opacity: 0, x: -10 }}
                                                                 animate={{ opacity: 1, x: 0 }}
-                                                                transition={{ delay: index * 0.05 }}
+                                                                transition={{ delay: index * 0.1 }}
                                                                 onClick={() => handleQuizAnswer(currentQ.id, option.value, option.label)}
-                                                                className="w-full text-left p-3 bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-lg transition-all text-sm group"
+                                                                className="w-full text-left p-4 bg-white hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-xl transition-all text-sm group shadow-sm hover:shadow-md"
                                                                 whileHover={{ scale: 1.02 }}
                                                                 whileTap={{ scale: 0.98 }}
                                                             >
                                                                 <div className="flex items-center justify-between">
-                                                                    <span className="text-gray-700 group-hover:text-blue-700">
+                                                                    <span className="text-gray-700 group-hover:text-blue-700 font-medium">
                                                                         {option.label}
                                                                     </span>
                                                                     <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors" />
@@ -596,9 +569,14 @@ export default function ChatWidget() {
                                 </motion.div>
                             )}
 
+                            {/* Typing Indicator */}
                             {isTyping && (
-                                <div className="flex justify-start">
-                                    <div className="bg-gray-100 p-3 rounded-xl">
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="flex justify-start"
+                                >
+                                    <div className="bg-gray-50 p-4 rounded-2xl rounded-bl-lg">
                                         <div className="flex gap-1">
                                             <motion.div
                                                 className="w-2 h-2 bg-gray-400 rounded-full"
@@ -617,102 +595,74 @@ export default function ChatWidget() {
                                             />
                                         </div>
                                     </div>
-                                </div>
+                                </motion.div>
                             )}
 
                             <div ref={messagesEndRef} />
                         </div>
 
-                        {/* Quick Replies */}
-                        {messages.length === 1 && !quizState.isActive && (
-                            <div className="px-4 pb-2 overflow-x-auto">
-                                <div className="flex flex-wrap gap-2">
-                                    {/* Quiz-Start Button */}
-                                    <motion.button
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        onClick={startQuiz}
-                                        className="flex items-center gap-2 text-xs md:text-xs px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg transition-all flex-shrink-0 whitespace-nowrap font-medium"
-                                    >
-                                        <Brain className="w-3 h-3" />
-                                        <span className="hidden sm:inline">Hautanalyse-Quiz starten</span>
-                                        <span className="sm:hidden">Quiz starten</span>
-                                    </motion.button>
-
-                                    {QUICK_REPLIES.map((reply) => (
-                                        <button
-                                            key={reply}
-                                            onClick={() => handleSend(reply)}
-                                            className="text-xs px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors flex-shrink-0 whitespace-nowrap"
-                                        >
-                                            <span className="hidden md:inline">{reply}</span>
-                                            <span className="md:hidden">
-                                                {reply.includes("Behandlung") ? "Beratung" :
-                                                    reply.includes("Laser") ? "Preise" :
-                                                        reply.includes("HydraFacial") ? "HydraFacial" :
-                                                            "Termin"}
-                                            </span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Entfernt - Voucher Amount Selection */}
-
-
-
-                        {/* Smart Actions */}
-                        {messages.length > 0 && !quizState.isActive && (
-                            <div className="px-4 pb-2">
-                                <div className="flex gap-2 overflow-x-auto">
-                                    {SMART_ACTIONS.map((action) => {
+                        {/* Main Actions - Cleaner Design */}
+                        {showActions && !quizState.isActive && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="px-4 pb-3"
+                            >
+                                <div className="grid grid-cols-1 gap-2">
+                                    {MAIN_ACTIONS.map((action) => {
                                         const Icon = action.icon;
                                         return (
-                                            <button
-                                                key={action.action}
-                                                onClick={() => handleSmartAction(action.action)}
-                                                className={`flex items-center gap-2 px-3 md:px-4 py-2 bg-gradient-to-r ${action.color} text-white rounded-full text-xs md:text-sm font-medium hover:shadow-lg transition-all whitespace-nowrap flex-shrink-0`}
+                                            <motion.button
+                                                key={action.id}
+                                                onClick={() => handleMainAction(action.id)}
+                                                className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-xl transition-all text-left border border-gray-200 hover:border-gray-300 group"
+                                                whileHover={{ scale: 1.02 }}
+                                                whileTap={{ scale: 0.98 }}
                                             >
-                                                <Icon className="w-4 h-4" />
-                                                <span className="hidden sm:inline">{action.label}</span>
-                                                <span className="sm:hidden">
-                                                    {action.label.includes("Quiz") ? "Quiz" :
-                                                        action.label.includes("Gutschein") ? "Gutschein" :
-                                                            action.label.includes("Preisliste") ? "Preise" :
-                                                                "Angebote"}
-                                                </span>
-                                            </button>
+                                                <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                    <Icon className="w-5 h-5 text-white" />
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="font-medium text-gray-800 text-sm group-hover:text-gray-900">
+                                                        {action.label}
+                                                    </p>
+                                                    <p className="text-xs text-gray-500 truncate">
+                                                        {action.description}
+                                                    </p>
+                                                </div>
+                                                <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0" />
+                                            </motion.button>
                                         );
                                     })}
                                 </div>
-                            </div>
+                            </motion.div>
                         )}
 
-                        {/* Entfernt - Cancel Button */}
-
                         {/* Input */}
-                        <div className="p-4 border-t">
+                        <div className="p-4 border-t bg-gray-50">
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
                                     handleSend(inputValue);
                                 }}
-                                className="flex gap-2"
+                                className="flex gap-3"
                             >
                                 <input
                                     ref={inputRef}
                                     type="text"
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
-                                    placeholder={quizState.isActive ? "Quiz läuft - bitte wählen Sie eine Antwort oben" : "Ihre Nachricht..."}
-                                    className="flex-1 px-3 py-2 md:py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500/50 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
+                                    placeholder={quizState.isActive ? "Quiz läuft - bitte wählen Sie eine Antwort oben" : "Nachricht schreiben..."}
+                                    className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-sm bg-white"
                                     disabled={isTyping || quizState.isActive}
+                                    autoComplete="off"
+                                    autoCapitalize="off"
+                                    autoCorrect="off"
                                 />
                                 <motion.button
                                     type="submit"
                                     disabled={!inputValue.trim() || isTyping || quizState.isActive}
-                                    className="p-2 md:p-3 bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="p-3 bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md transition-shadow"
                                     whileHover={{ scale: quizState.isActive ? 1 : 1.05 }}
                                     whileTap={{ scale: quizState.isActive ? 1 : 0.95 }}
                                 >

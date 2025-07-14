@@ -466,7 +466,7 @@ export default function ChatWidget() {
                                         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-lg">Lisa</h3>
+                                        <h3 className="font-semibold text-lg text-white">Lisa</h3>
                                         <p className="text-sm opacity-90">Beauty-Beraterin</p>
                                     </div>
                                 </div>

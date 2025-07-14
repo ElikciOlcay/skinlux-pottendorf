@@ -281,6 +281,299 @@ export const LISA_KNOWLEDGE = {
             saturday: "09:00 - 14:00",
             sunday: "Geschlossen"
         }
+    },
+
+    // Intelligentes Hautanalyse-Quiz System
+    skinAnalysisQuiz: {
+        introduction: "Lassen Sie uns Ihre perfekte Behandlung finden! Mit wenigen Fragen erstelle ich Ihnen eine personalisierte Empfehlung.",
+
+        questions: [
+            {
+                id: "skin_concern",
+                question: "Was beschreibt Ihr Hauptanliegen am besten?",
+                type: "single_choice",
+                options: [
+                    { value: "acne", label: "Unreine Haut & Mitesser", keywords: ["unrein", "pickel", "mitesser", "akne"] },
+                    { value: "aging", label: "Falten & Anti-Aging", keywords: ["falten", "aging", "alter", "straffen"] },
+                    { value: "dryness", label: "Trockene & dehydrierte Haut", keywords: ["trocken", "dehydriert", "feuchtigkeit"] },
+                    { value: "pigmentation", label: "Pigmentflecken & ungleichmäßiger Teint", keywords: ["pigment", "flecken", "teint"] },
+                    { value: "scars", label: "Aknenarben & Hautstruktur", keywords: ["narben", "struktur", "unebenheit"] },
+                    { value: "hair_removal", label: "Unerwünschte Körperbehaarung", keywords: ["haare", "haarentfernung", "laser"] },
+                    { value: "general", label: "Allgemeine Hautpflege & Prävention", keywords: ["pflege", "prävention", "gesund"] }
+                ]
+            },  
+            {
+                id: "skin_type",
+                question: "Wie würden Sie Ihren Hauttyp beschreiben?",
+                type: "single_choice",
+                options: [
+                    { value: "oily", label: "Fettige Haut (glänzt schnell)", keywords: ["fettig", "ölig", "glänzend"] },
+                    { value: "dry", label: "Trockene Haut (spannt oft)", keywords: ["trocken", "spannt", "rau"] },
+                    { value: "combination", label: "Mischhaut (T-Zone fettig, Wangen trocken)", keywords: ["misch", "kombination"] },
+                    { value: "sensitive", label: "Empfindliche Haut (reagiert schnell)", keywords: ["empfindlich", "sensibel", "reaktiv"] },
+                    { value: "normal", label: "Normale Haut (ausgeglichen)", keywords: ["normal", "ausgeglichen"] },
+                    { value: "unsure", label: "Ich bin mir nicht sicher", keywords: ["unsicher", "weiß nicht"] }
+                ]
+            },
+            {
+                id: "treatment_goal",
+                question: "Was ist Ihr wichtigstes Behandlungsziel?",
+                type: "single_choice",
+                options: [
+                    { value: "immediate", label: "Sofortige sichtbare Ergebnisse", keywords: ["sofort", "schnell", "event"] },
+                    { value: "long_term", label: "Langfristige Hautverbesserung", keywords: ["langfristig", "dauerhaft", "nachhaltg"] },
+                    { value: "maintenance", label: "Hautpflege & Erhaltung", keywords: ["pflege", "erhaltung", "maintenance"] },
+                    { value: "specific", label: "Spezifisches Problem lösen", keywords: ["problem", "spezifisch", "gezielt"] },
+                    { value: "relaxation", label: "Entspannung & Wellness", keywords: ["entspannung", "wellness", "relax"] }
+                ]
+            },
+            {
+                id: "time_budget",
+                question: "Wie viel Zeit können Sie für eine Behandlung einplanen?",
+                type: "single_choice",
+                options: [
+                    { value: "30min", label: "30 Minuten - kurz und effektiv", keywords: ["kurz", "schnell", "30"] },
+                    { value: "60min", label: "60 Minuten - ausgewogene Behandlung", keywords: ["60", "eine stunde"] },
+                    { value: "90min", label: "90+ Minuten - intensive Behandlung", keywords: ["90", "ausführlich", "intensiv"] },
+                    { value: "flexible", label: "Flexibel - das Beste für meine Haut", keywords: ["flexibel", "egal", "optimal"] }
+                ]
+            },
+            {
+                id: "budget_range",
+                question: "In welchem Preisbereich dürfen wir Ihnen Behandlungen vorschlagen?",
+                type: "single_choice",
+                options: [
+                    { value: "budget", label: "Bis 150€ - bewusste Auswahl", keywords: ["günstig", "budget", "150"] },
+                    { value: "standard", label: "150€ - 250€ - beliebte Behandlungen", keywords: ["mittel", "standard", "200"] },
+                    { value: "premium", label: "250€+ - Premium Erlebnis", keywords: ["premium", "luxus", "teuer"] },
+                    { value: "no_limit", label: "Preis spielt keine Rolle - nur das Beste", keywords: ["egal", "bestes", "luxury"] }
+                ]
+            }
+        ],
+
+        // Intelligente Behandlungsempfehlungen basierend auf Quiz-Antworten
+        recommendations: {
+            // Budget-bewusste Empfehlungen (höchste Priorität)
+            budget_conscious: {
+                condition: (answers: Record<string, string>) => answers.budget_range === "budget",
+                priority: 1,
+                treatments: [
+                    {
+                        name: "Kostenlose Hautanalyse",
+                        subtitle: "Der perfekte Start für Ihre Hautreise",
+                        description: "Professionelle Hautanalyse und individuelle Beratung - kostenfrei und unverbindlich. Ideal um herauszufinden, welche Behandlung perfekt zu Ihnen passt.",
+                        benefits: ["Professionelle Analyse", "Kostenlos", "Individuelle Beratung", "Unverbindlich"],
+                        price: "kostenlos",
+                        duration: "30 Min",
+                        bookingAction: "consultation"
+                    },
+                    {
+                        name: "Hydrating Facial",
+                        subtitle: "Intensive Feuchtigkeitspflege",
+                        description: "60 Minuten entspannende Gesichtsbehandlung mit Circadia Professional. Perfekt für alle Hauttypen und im Budget.",
+                        benefits: ["Intensive Feuchtigkeit", "Beruhigung", "Glow-Effekt", "Entspannung"],
+                        price: "99€",
+                        duration: "60 Min",
+                        bookingAction: "facial"
+                    },
+                    {
+                        name: "Anti-Aging Facial",
+                        subtitle: "Premium Anti-Aging im Budget",
+                        description: "75 Minuten Anti-Aging Behandlung mit hochwertigen Wirkstoffen. Das beste Preis-Leistungs-Verhältnis für sichtbare Ergebnisse.",
+                        benefits: ["Faltenreduktion", "Straffung", "75 Min Luxus", "Exzellentes Preis-Leistungs-Verhältnis"],
+                        price: "129€",
+                        duration: "75 Min",
+                        bookingAction: "facial"
+                    }
+                ]
+            },
+
+            // Laser-Haarentfernung
+            hair_removal: {
+                condition: (answers: Record<string, string>) => answers.skin_concern === "hair_removal",
+                priority: 2,
+                treatments: [
+                    {
+                        name: "Laser-Haarentfernung",
+                        subtitle: "Dauerhafte Lösung für unerwünschte Haare",
+                        description: "Modernste Diodenlaser-Technologie für alle Hauttypen. Schmerzarm und dauerhaft effektiv.",
+                        benefits: ["Dauerhafte Ergebnisse", "Für alle Hauttypen", "Kostenlose Probebehandlung"],
+                        price: "ab 35€",
+                        duration: "15-60 Min je nach Zone",
+                        bookingAction: "laser"
+                    }
+                ]
+            },
+
+            // HydraFacial Empfehlungen (nur wenn Budget erlaubt)
+            immediate_results: {
+                condition: (answers: Record<string, string>) =>
+                    (answers.treatment_goal === "immediate" || answers.skin_concern === "acne" || answers.skin_concern === "general")
+                    && answers.budget_range !== "budget",
+                priority: 3,
+                treatments: [
+                    {
+                        name: "HydraFacial® Signature",
+                        subtitle: "Sofort strahlende Haut",
+                        description: "Die beliebteste Behandlung für sofortige Ergebnisse. Reinigung, Extraktion und Hydration in einem.",
+                        benefits: ["Sofort sichtbar", "Keine Ausfallzeit", "Für alle Hauttypen"],
+                        price: "169€",
+                        duration: "30 Min",
+                        bookingAction: "hydrafacial"
+                    },
+                    {
+                        name: "HydraFacial® Signature + LED",
+                        subtitle: "Mit antibakterieller LED-Therapie",
+                        description: "Perfekt bei unreiner Haut. Mit beruhigendem LED-Licht gegen Bakterien und Entzündungen.",
+                        benefits: ["Anti-bakteriell", "Beruhigend", "Sofort besser"],
+                        price: "189€",
+                        duration: "50 Min",
+                        bookingAction: "hydrafacial"
+                    }
+                ]
+            },
+
+            // Premium Facials
+            anti_aging: {
+                condition: (answers: Record<string, string>) =>
+                    answers.skin_concern === "aging" || (answers.time_budget === "90min" && answers.treatment_goal === "long_term"),
+                priority: 4,
+                treatments: [
+                    {
+                        name: "Anti-Aging Facial",
+                        subtitle: "Intensive Faltenreduktion",
+                        description: "75 Minuten pure Anti-Aging Pflege mit Circadia Professional. Für straffere und jünger wirkende Haut.",
+                        benefits: ["Faltenreduktion", "Straffung", "Regeneration"],
+                        price: "129€",
+                        duration: "75 Min",
+                        bookingAction: "facial"
+                    },
+                    {
+                        name: "HydraFacial® Deluxe",
+                        subtitle: "Premium Anti-Aging Experience",
+                        description: "Mit individueller Wirkstoff-Infusion speziell für Anti-Aging. Das Beste aus beiden Welten.",
+                        benefits: ["Individuelle Wirkstoffe", "LED-Therapie", "Premium Erlebnis"],
+                        price: "259€",
+                        duration: "50 Min",
+                        bookingAction: "hydrafacial"
+                    }
+                ]
+            },
+
+            // Hydrating Treatments
+            dry_skin: {
+                condition: (answers: Record<string, string>) => answers.skin_concern === "dryness" || answers.skin_type === "dry",
+                priority: 5,
+                treatments: [
+                    {
+                        name: "Hydrating Facial",
+                        subtitle: "Intensive Feuchtigkeitspflege",
+                        description: "60 Minuten pure Hydration für trockene und dehydrierte Haut. Mit beruhigenden Wirkstoffen.",
+                        benefits: ["Intensive Feuchtigkeit", "Beruhigung", "Glow-Effekt"],
+                        price: "99€",
+                        duration: "60 Min",
+                        bookingAction: "facial"
+                    },
+                    {
+                        name: "HydraFacial® Signature",
+                        subtitle: "Hydration auf höchstem Niveau",
+                        description: "Perfekt für dehydrierte Haut. Bis zu 28 Tage verbesserte Hautfeuchtigkeit garantiert.",
+                        benefits: ["+200% Hydration", "Sofort spürbar", "Langanhaltend"],
+                        price: "169€",
+                        duration: "30 Min",
+                        bookingAction: "hydrafacial"
+                    }
+                ]
+            },
+
+            // Purifying Treatments
+            acne_skin: {
+                condition: (answers: Record<string, string>) => answers.skin_concern === "acne" || answers.skin_type === "oily",
+                priority: 6,
+                treatments: [
+                    {
+                        name: "Purifying Facial",
+                        subtitle: "Tiefenreinigung für unreine Haut",
+                        description: "Spezielle Behandlung für unreine und fettige Haut. Porenverfeinerung und Klärung des Hautbildes.",
+                        benefits: ["Tiefenreinigung", "Porenverfeinerung", "Klärung"],
+                        price: "99€",
+                        duration: "60 Min",
+                        bookingAction: "facial"
+                    },
+                    {
+                        name: "HydraFacial® Signature + LED",
+                        subtitle: "Mit antibakterieller Therapie",
+                        description: "Ideal bei unreiner Haut. LED-Therapie wirkt antibakteriell und beruhigend.",
+                        benefits: ["Extraktion ohne Schmerz", "Antibakteriell", "Beruhigend"],
+                        price: "189€",
+                        duration: "50 Min",
+                        bookingAction: "hydrafacial"
+                    }
+                ]
+            },
+
+            // Microneedling für Narben
+            acne_scars: {
+                condition: (answers: Record<string, string>) => answers.skin_concern === "scars",
+                priority: 7,
+                treatments: [
+                    {
+                        name: "Microneedling",
+                        subtitle: "Kollagen-Induktions-Therapie",
+                        description: "Effektive Behandlung von Aknenarben und Hautunregelmäßigkeiten. Aktiviert natürliche Kollagenproduktion.",
+                        benefits: ["300% mehr Kollagen", "Narbenreduktion", "Langzeiteffekt"],
+                        price: "auf Anfrage",
+                        duration: "60 Min",
+                        bookingAction: "consultation"
+                    }
+                ]
+            },
+
+            // Pigmentflecken
+            pigmentation: {
+                condition: (answers: Record<string, string>) => answers.skin_concern === "pigmentation",
+                priority: 8,
+                treatments: [
+                    {
+                        name: "HydraFacial® Deluxe",
+                        subtitle: "Mit aufhellenden Wirkstoffen",
+                        description: "Spezielle Wirkstoff-Infusion gegen Pigmentflecken. Für einen gleichmäßigeren Teint.",
+                        benefits: ["Individuelle Wirkstoffe", "Teint-Verbesserung", "LED-Therapie"],
+                        price: "259€",
+                        duration: "50 Min",
+                        bookingAction: "hydrafacial"
+                    }
+                ]
+            },
+
+            // Premium Empfehlungen für hohes Budget
+            premium_experience: {
+                condition: (answers: Record<string, string>) => answers.budget_range === "premium" || answers.budget_range === "no_limit",
+                priority: 9,
+                treatments: [
+                    {
+                        name: "HydraFacial® Platinum",
+                        subtitle: "Das ultimative Luxury-Erlebnis",
+                        description: "60 Minuten Luxus mit Lymphdrainage und allen Premium-Features. Das Beste was wir anbieten.",
+                        benefits: ["Lymphdrainage", "Maximale Regeneration", "Luxus-Erlebnis"],
+                        price: "289€",
+                        duration: "60 Min",
+                        bookingAction: "hydrafacial"
+                    }
+                ]
+            }
+        },
+
+        // Fallback für unklare Fälle
+        defaultRecommendation: {
+            name: "Kostenlose Hautanalyse",
+            subtitle: "Der perfekte Start für Ihre Hautreise",
+            description: "Lassen Sie uns in einer kostenlosen Beratung Ihre Haut analysieren und den perfekten Behandlungsplan erstellen.",
+            benefits: ["Professionelle Analyse", "Kostenlos", "Individuelle Beratung"],
+            price: "kostenlos",
+            duration: "30 Min",
+            bookingAction: "consultation"
+        }
     }
 };
 

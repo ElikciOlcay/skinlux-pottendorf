@@ -653,7 +653,8 @@ export default function ChatWidget() {
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     placeholder={quizState.isActive ? "Quiz läuft - bitte wählen Sie eine Antwort oben" : "Nachricht schreiben..."}
-                                    className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-sm bg-white"
+                                    className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed bg-white"
+                                    style={{ fontSize: '16px' }}
                                     disabled={isTyping || quizState.isActive}
                                     autoComplete="off"
                                     autoCapitalize="off"

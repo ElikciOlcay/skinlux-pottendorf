@@ -103,8 +103,9 @@ export default function VouchersPage() {
     // Loading States für Status-Updates
     const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
 
-    // Dropdown Menu State
-    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+    // Action Modal State
+    const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
+    const [showActionModal, setShowActionModal] = useState(false);
 
     // Gutschein-Verkauf States
     const [showVoucherForm, setShowVoucherForm] = useState(false);
@@ -128,24 +129,16 @@ export default function VouchersPage() {
         }
     }, []);
 
-    // Click outside handler für Dropdown
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            const target = event.target as HTMLElement;
-            if (!target.closest('.dropdown-container')) {
-                setOpenDropdown(null);
-            }
-        };
+    // Action Modal öffnen
+    const openActionModal = (voucher: Voucher) => {
+        setSelectedVoucher(voucher);
+        setShowActionModal(true);
+    };
 
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-    // Dropdown toggle
-    const toggleDropdown = (voucherId: string) => {
-        setOpenDropdown(openDropdown === voucherId ? null : voucherId);
+    // Action Modal schließen
+    const closeActionModal = () => {
+        setSelectedVoucher(null);
+        setShowActionModal(false);
     };
 
     // Auth-Check und Daten laden
@@ -619,6 +612,140 @@ export default function VouchersPage() {
                     </div>
                 </div>
             </header>
+
+            {/* Action Modal */}
+            {showActionModal && selectedVoucher && (
+                <div className="fixed inset-0 z-[10000] flex items-center justify-center">
+                    {/* Backdrop */}
+                    <div
+                        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                        onClick={closeActionModal}
+                    ></div>
+
+                    {/* Modal */}
+                    <div className={`relative w-full max-w-md mx-4 ${theme === 'dark'
+                        ? 'bg-slate-900 border-slate-700'
+                        : 'bg-white border-gray-200'
+                        } border rounded-2xl shadow-2xl p-6`}>
+
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                                    Gutschein Aktionen
+                                </h3>
+                                <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
+                                    {selectedVoucher.code}
+                                </p>
+                            </div>
+                            <button
+                                onClick={closeActionModal}
+                                className={`${theme === 'dark' ? 'text-slate-400 hover:text-slate-200' : 'text-gray-400 hover:text-gray-600'} transition-colors`}
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="space-y-3">
+                            {/* Details anzeigen */}
+                            <a
+                                href={`/admin/orders/${selectedVoucher.id}`}
+                                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${theme === 'dark'
+                                    ? 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                                    }`}
+                                onClick={closeActionModal}
+                            >
+                                <Eye className="w-5 h-5 mr-3" />
+                                Details anzeigen
+                            </a>
+
+                            {/* Als bezahlt markieren (nur bei pending) */}
+                            {currentTab === 'active' && selectedVoucher.payment_status === 'pending' && (
+                                <button
+                                    onClick={() => {
+                                        updateVoucherStatus(selectedVoucher.id, 'paid');
+                                        closeActionModal();
+                                    }}
+                                    disabled={updatingStatus === selectedVoucher.id}
+                                    className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                        ? 'text-green-400 hover:bg-slate-800'
+                                        : 'text-green-600 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    {updatingStatus === selectedVoucher.id ? (
+                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-green-600 mr-3"></div>
+                                    ) : (
+                                        <CheckCircle className="w-5 h-5 mr-3" />
+                                    )}
+                                    Als bezahlt markieren
+                                </button>
+                            )}
+
+                            {/* Wiederherstellen (nur im Papierkorb) */}
+                            {currentTab === 'trash' && (
+                                <button
+                                    onClick={() => {
+                                        handleRestoreVoucher(selectedVoucher.id);
+                                        closeActionModal();
+                                    }}
+                                    disabled={updatingStatus === selectedVoucher.id}
+                                    className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                        ? 'text-blue-400 hover:bg-slate-800'
+                                        : 'text-blue-600 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    {updatingStatus === selectedVoucher.id ? (
+                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-3"></div>
+                                    ) : (
+                                        <RotateCcw className="w-5 h-5 mr-3" />
+                                    )}
+                                    Wiederherstellen
+                                </button>
+                            )}
+
+                            {/* Trennlinie */}
+                            <div className={`border-t ${theme === 'dark' ? 'border-slate-800' : 'border-gray-200'} my-3`}></div>
+
+                            {/* Löschen / Endgültig löschen */}
+                            {currentTab === 'active' ? (
+                                <button
+                                    onClick={() => {
+                                        handleDeleteVoucher(selectedVoucher.id, false);
+                                        closeActionModal();
+                                    }}
+                                    disabled={updatingStatus === selectedVoucher.id}
+                                    className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                        ? 'text-red-400 hover:bg-slate-800'
+                                        : 'text-red-600 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    <Trash2 className="w-5 h-5 mr-3" />
+                                    Löschen
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        if (confirm('Sind Sie sicher, dass Sie diesen Gutschein ENDGÜLTIG löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!')) {
+                                            handleDeleteVoucher(selectedVoucher.id, true);
+                                            closeActionModal();
+                                        }
+                                    }}
+                                    disabled={updatingStatus === selectedVoucher.id}
+                                    className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                        ? 'text-red-400 hover:bg-slate-800'
+                                        : 'text-red-600 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    <X className="w-5 h-5 mr-3" />
+                                    Endgültig löschen
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Main Content */}
             <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -1328,7 +1455,7 @@ export default function VouchersPage() {
                 </div>
 
                 {/* Table Content */}
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto overflow-y-visible">
                     <table className="min-w-full divide-y divide-slate-800">
                         <thead className={theme === 'dark' ? 'bg-slate-900/50' : 'bg-gray-50/50'}>
                             <tr>
@@ -1433,151 +1560,16 @@ export default function VouchersPage() {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="relative dropdown-container">
-                                            {currentTab === 'active' ? (
-                                                <>
-                                                    <button
-                                                        onClick={() => toggleDropdown(voucher.id)}
-                                                        className={`inline-flex items-center justify-center w-8 h-8 rounded-lg transition-colors ${theme === 'dark'
-                                                            ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-                                                            : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
-                                                            }`}
-                                                        title="Aktionen"
-                                                    >
-                                                        <MoreVertical className="w-4 h-4" />
-                                                    </button>
-
-                                                    {openDropdown === voucher.id && (
-                                                        <div className={`absolute right-0 top-full mt-2 w-48 ${theme === 'dark'
-                                                            ? 'bg-slate-800 border-slate-700 shadow-xl'
-                                                            : 'bg-white border-gray-200 shadow-lg'
-                                                            } border rounded-lg py-1 z-50`}>
-
-                                                            <a
-                                                                href={`/admin/orders/${voucher.id}`}
-                                                                className={`flex items-center px-4 py-2 text-sm transition-colors ${theme === 'dark'
-                                                                    ? 'text-slate-300 hover:bg-slate-700 hover:text-white'
-                                                                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                                                                    }`}
-                                                                onClick={() => setOpenDropdown(null)}
-                                                            >
-                                                                <Eye className="w-4 h-4 mr-3" />
-                                                                Details anzeigen
-                                                            </a>
-
-                                                            {voucher.payment_status === 'pending' && (
-                                                                <button
-                                                                    onClick={() => {
-                                                                        updateVoucherStatus(voucher.id, 'paid');
-                                                                        setOpenDropdown(null);
-                                                                    }}
-                                                                    disabled={updatingStatus === voucher.id}
-                                                                    className={`w-full flex items-center px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
-                                                                        ? 'text-green-400 hover:bg-slate-700'
-                                                                        : 'text-green-600 hover:bg-gray-100'
-                                                                        }`}
-                                                                >
-                                                                    {updatingStatus === voucher.id ? (
-                                                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-600 mr-3"></div>
-                                                                    ) : (
-                                                                        <CheckCircle className="w-4 h-4 mr-3" />
-                                                                    )}
-                                                                    Als bezahlt markieren
-                                                                </button>
-                                                            )}
-
-                                                            <div className={`border-t ${theme === 'dark' ? 'border-slate-700' : 'border-gray-200'} my-1`}></div>
-
-                                                            <button
-                                                                onClick={() => {
-                                                                    handleDeleteVoucher(voucher.id, false);
-                                                                    setOpenDropdown(null);
-                                                                }}
-                                                                disabled={updatingStatus === voucher.id}
-                                                                className={`w-full flex items-center px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
-                                                                    ? 'text-red-400 hover:bg-slate-700'
-                                                                    : 'text-red-600 hover:bg-gray-100'
-                                                                    }`}
-                                                            >
-                                                                <Trash2 className="w-4 h-4 mr-3" />
-                                                                Löschen
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <button
-                                                        onClick={() => toggleDropdown(voucher.id)}
-                                                        className={`inline-flex items-center justify-center w-8 h-8 rounded-lg transition-colors ${theme === 'dark'
-                                                            ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-                                                            : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
-                                                            }`}
-                                                        title="Aktionen"
-                                                    >
-                                                        <MoreVertical className="w-4 h-4" />
-                                                    </button>
-
-                                                    {openDropdown === voucher.id && (
-                                                        <div className={`absolute right-0 top-full mt-2 w-48 ${theme === 'dark'
-                                                            ? 'bg-slate-800 border-slate-700 shadow-xl'
-                                                            : 'bg-white border-gray-200 shadow-lg'
-                                                            } border rounded-lg py-1 z-50`}>
-
-                                                            <a
-                                                                href={`/admin/orders/${voucher.id}`}
-                                                                className={`flex items-center px-4 py-2 text-sm transition-colors ${theme === 'dark'
-                                                                    ? 'text-slate-300 hover:bg-slate-700 hover:text-white'
-                                                                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                                                                    }`}
-                                                                onClick={() => setOpenDropdown(null)}
-                                                            >
-                                                                <Eye className="w-4 h-4 mr-3" />
-                                                                Details anzeigen
-                                                            </a>
-
-                                                            <button
-                                                                onClick={() => {
-                                                                    handleRestoreVoucher(voucher.id);
-                                                                    setOpenDropdown(null);
-                                                                }}
-                                                                disabled={updatingStatus === voucher.id}
-                                                                className={`w-full flex items-center px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
-                                                                    ? 'text-blue-400 hover:bg-slate-700'
-                                                                    : 'text-blue-600 hover:bg-gray-100'
-                                                                    }`}
-                                                            >
-                                                                {updatingStatus === voucher.id ? (
-                                                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-3"></div>
-                                                                ) : (
-                                                                    <RotateCcw className="w-4 h-4 mr-3" />
-                                                                )}
-                                                                Wiederherstellen
-                                                            </button>
-
-                                                            <div className={`border-t ${theme === 'dark' ? 'border-slate-700' : 'border-gray-200'} my-1`}></div>
-
-                                                            <button
-                                                                onClick={() => {
-                                                                    if (confirm('Sind Sie sicher, dass Sie diesen Gutschein ENDGÜLTIG löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!')) {
-                                                                        handleDeleteVoucher(voucher.id, true);
-                                                                        setOpenDropdown(null);
-                                                                    }
-                                                                }}
-                                                                disabled={updatingStatus === voucher.id}
-                                                                className={`w-full flex items-center px-4 py-2 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
-                                                                    ? 'text-red-400 hover:bg-slate-700'
-                                                                    : 'text-red-600 hover:bg-gray-100'
-                                                                    }`}
-                                                            >
-                                                                <X className="w-4 h-4 mr-3" />
-                                                                Endgültig löschen
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </>
-                                            )}
-                                        </div>
+                                        <button
+                                            onClick={() => openActionModal(voucher)}
+                                            className={`inline-flex items-center justify-center w-8 h-8 rounded-lg transition-colors ${theme === 'dark'
+                                                ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                                                : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                                                }`}
+                                            title="Aktionen"
+                                        >
+                                            <MoreVertical className="w-4 h-4" />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}

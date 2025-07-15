@@ -34,7 +34,7 @@ export default function Hero() {
 
                     {/* Subtitle */}
                     <p className="text-xl md:text-2xl text-gray-100 mb-12 font-light leading-relaxed max-w-2xl mx-auto drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]">
-                        Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen für Ihre natürliche Schönheit im Pongau.
+                        Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen für Ihre natürliche Schönheit in Pottendorf.
                     </p>
 
                     {/* CTA Buttons */}

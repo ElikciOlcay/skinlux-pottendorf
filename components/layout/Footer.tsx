@@ -24,8 +24,8 @@ const Footer = () => {
                             <div className="flex items-start justify-center md:justify-start gap-3 text-gray-600">
                                 <MapPin className="w-4 h-4 mt-0.5" strokeWidth={1} />
                                 <div className="font-light">
-                                    <p>Bahnhofstraße 17</p>
-                                    <p>5500 Bischofshofen</p>
+                                    <p>Dr. Heinz-Fischer-Straße 3/2</p>
+                                    <p>2486 Pottendorf</p>
                                 </div>
                             </div>
                         </div>

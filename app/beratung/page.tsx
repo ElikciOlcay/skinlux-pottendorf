@@ -125,11 +125,11 @@ export default function Beratung() {
                                         Probebehandlung buchen
                                     </a>
                                     <a
-                                        href="tel:+436605721403"
+                                        href="tel:+436649188632"
                                         className="group inline-flex items-center justify-center gap-3 px-8 py-4 border border-gray-300 text-gray-700 font-light tracking-widest uppercase text-sm transition-all duration-300 hover:border-gray-400 hover:text-gray-900"
                                     >
                                         <Phone className="w-4 h-4" />
-                                        +43 660 57 21 403
+                                        +43 664 91 88 632
                                     </a>
                                 </div>
 
@@ -336,7 +336,7 @@ export default function Beratung() {
                                 Kostenlose Probebehandlung buchen
                             </a>
                             <a
-                                href="tel:+436605721403"
+                                href="tel:+436649188632"
                                 className="group inline-flex items-center justify-center gap-3 px-10 py-5 border border-gray-300 text-gray-700 font-light tracking-widest uppercase text-sm transition-all duration-300 hover:border-gray-400 hover:text-gray-900"
                             >
                                 <Phone className="w-4 h-4" />

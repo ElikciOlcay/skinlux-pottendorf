@@ -30,7 +30,7 @@ export default function Kontakt() {
 
                         <div className="inline-flex items-center gap-4 text-sm text-gray-500 font-light">
                             <Phone className="w-4 h-4" />
-                            <span>+43 660 57 21 403</span>
+                            <span>+43 664 91 88 632</span>
                             <span className="text-gray-300">|</span>
                             <Mail className="w-4 h-4" />
                             <span>info@skinlux.at</span>
@@ -82,7 +82,7 @@ export default function Kontakt() {
                                     Schnell & persönlich - Schreiben Sie uns direkt
                                 </p>
                                 <a
-                                    href="https://wa.me/436605721403?text=Hallo%20Skinlux!%20Ich%20möchte%20gerne%20einen%20Termin%20vereinbaren."
+                                    href="https://wa.me/436649188632?text=Hallo%20Skinlux!%20Ich%20möchte%20gerne%20einen%20Termin%20vereinbaren."
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 text-sm font-light text-green-600 hover:text-green-700 transition-colors group"
@@ -104,10 +104,10 @@ export default function Kontakt() {
                                     Persönliche Beratung - Wir sind für Sie da
                                 </p>
                                 <a
-                                    href="tel:+436605721403"
+                                    href="tel:+436649188632"
                                     className="inline-flex items-center gap-2 text-sm font-light text-black hover:text-gray-600 transition-colors group"
                                 >
-                                    +43 660 57 21 403
+                                    +43 664 91 88 632
                                     <ArrowLeft className="w-4 h-4 rotate-180 transition-transform group-hover:translate-x-1" />
                                 </a>
                             </div>
@@ -134,8 +134,8 @@ export default function Kontakt() {
                                                 Skinlux Medical Beauty
                                             </p>
                                             <p className="text-gray-600 font-light">
-                                                Bahnhofstraße 17<br />
-                                                5500 Bischofshofen<br />
+                                                Dr. Heinz-Fischer-Straße 3/2<br />
+                                                2486 Pottendorf<br />
                                                 Österreich
                                             </p>
                                         </div>

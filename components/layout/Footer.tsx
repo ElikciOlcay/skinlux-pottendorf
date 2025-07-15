@@ -15,11 +15,11 @@ const Footer = () => {
                         </h4>
                         <div className="space-y-3">
                             <a
-                                href="tel:+436605721403"
+                                href="tel:+436649188632"
                                 className="flex items-center justify-center md:justify-start gap-3 text-gray-600 hover:text-black transition-colors"
                             >
                                 <Phone className="w-4 h-4" strokeWidth={1} />
-                                <span className="font-light">+43 660 57 21 403</span>
+                                <span className="font-light">+43 664 91 88 632</span>
                             </a>
                             <div className="flex items-start justify-center md:justify-start gap-3 text-gray-600">
                                 <MapPin className="w-4 h-4 mt-0.5" strokeWidth={1} />

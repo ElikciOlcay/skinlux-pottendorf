@@ -84,7 +84,7 @@ const Contact = () => {
                             </p>
 
                             <a
-                                href="https://wa.me/436605721403?text=Hallo%20Skinlux!%20Ich%20möchte%20gerne%20einen%20Termin%20vereinbaren."
+                                href="https://wa.me/436649188632?text=Hallo%20Skinlux!%20Ich%20möchte%20gerne%20einen%20Termin%20vereinbaren."
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-3 px-6 py-3 bg-green-600 text-white text-sm font-light tracking-widest uppercase transition-all hover:bg-green-700"
@@ -94,7 +94,7 @@ const Contact = () => {
                             </a>
 
                             <p className="mt-4 text-sm text-gray-500 font-light">
-                                +43 660 57 21 403
+                                +43 664 91 88 632
                             </p>
                         </motion.div>
                     </div>
@@ -118,8 +118,8 @@ const Contact = () => {
                                         Standort
                                     </h4>
                                     <p className="text-gray-600 font-light">
-                                        Bahnhofstraße 17<br />
-                                        5500 Bischofshofen<br />
+                                        Dr. Heinz-Fischer-Straße 3/2<br />
+                                        2486 Pottendorf<br />
                                         Österreich
                                     </p>
                                 </div>
@@ -215,8 +215,8 @@ const Contact = () => {
                     >
                         <p className="text-sm text-gray-500 font-light">
                             Haben Sie Fragen? Rufen Sie uns gerne an:
-                            <a href="tel:+436605721403" className="ml-2 underline" style={{ color: 'var(--color-primary)' }}>
-                                +43 660 57 21 403
+                            <a href="tel:+436649188632" className="ml-2 underline" style={{ color: 'var(--color-primary)' }}>
+                                +43 664 91 88 632
                             </a>
                         </p>
                     </motion.div>

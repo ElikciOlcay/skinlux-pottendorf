@@ -504,7 +504,7 @@ export default function Hautanalyse() {
                                 <ArrowRight className="ml-2 w-5 h-5" />
                             </a>
                             <a
-                                href="tel:+436605721403"
+                                href="tel:+436649188632"
                                 className="btn-secondary-inverted inline-flex items-center justify-center text-lg px-8 py-4"
                             >
                                 Telefonische Beratung

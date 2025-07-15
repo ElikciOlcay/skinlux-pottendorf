@@ -18,25 +18,6 @@ import {
 
 const studios = [
     {
-        id: "bischofshofen",
-        name: "Studio Bischofshofen",
-        address: {
-            street: "Bahnhofstraße 17",
-            zip: "5500",
-            city: "Bischofshofen"
-        },
-        contact: {
-            phone: "0660 / 57 21 403",
-            email: "hello@skinlux.at"
-        },
-        image: "/images/about/studio/interior.jpg",
-        website: "https://www.skinlux.at/laser-haarentfernung-pongau/",
-        rating: 5.0,
-        reviews: 87,
-        isMain: true,
-        features: ["Hauptstandort", "Größtes Studio", "Vollausstattung"]
-    },
-    {
         id: "pottendorf",
         name: "Studio Pottendorf",
         address: {
@@ -52,7 +33,26 @@ const studios = [
         website: "https://www.skinlux.at/pottendorf/",
         rating: 5.0,
         reviews: 62,
-        features: ["Zentrale Lage", "Modernes Equipment", "Parkplätze"]
+        isMain: true,
+        features: ["Hauptstandort", "Zentrale Lage", "Modernes Equipment"]
+    },
+    {
+        id: "bischofshofen",
+        name: "Studio Bischofshofen",
+        address: {
+            street: "Bahnhofstraße 17",
+            zip: "5500",
+            city: "Bischofshofen"
+        },
+        contact: {
+            phone: "0660 / 57 21 403",
+            email: "hello@skinlux.at"
+        },
+        image: "/images/about/studio/interior.jpg",
+        website: "https://www.skinlux.at/laser-haarentfernung-pongau/",
+        rating: 5.0,
+        reviews: 87,
+        features: ["Schwester-Studio", "Größtes Studio", "Vollausstattung"]
     },
     {
         id: "saalfelden",

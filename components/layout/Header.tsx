@@ -204,7 +204,7 @@ export default function Header() {
                                                         <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
                                                             <div className="flex items-center gap-4 text-sm text-gray-600">
                                                                 <Phone className="w-4 h-4" />
-                                                                <span className="font-light">+43 660 57 21 403</span>
+                                                                <span className="font-light">+43 664 91 88 632</span>
                                                             </div>
                                                             <a
                                                                 href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
@@ -430,7 +430,7 @@ export default function Header() {
                                         <div className="flex items-center justify-center gap-4 text-sm text-gray-600 pt-4">
                                             <Phone className="w-4 h-4" />
                                             <a href="tel:+4366057214003" className="font-light hover:text-black transition-colors">
-                                                +43 660 57 21 403
+                                                +43 664 91 88 632
                                             </a>
                                         </div>
                                     </motion.div>

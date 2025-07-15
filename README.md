@@ -1,6 +1,6 @@
-# Skinlux Website Redesign
+# Skinlux Website - Pottendorf
 
-Modernes Website-Redesign für Skinlux - Laser Haarentfernung in Bischofshofen.
+Modernes Website für Skinlux - Laser Haarentfernung in Pottendorf.
 
 ## 🚀 Technologie-Stack
 

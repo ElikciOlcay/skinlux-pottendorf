@@ -111,13 +111,13 @@ export async function GET() {
             voucherValidityMonths: bankDetailsData.voucher_validity_months,
             sendVoucherAsPDF: bankDetailsData.send_voucher_as_pdf,
             // Address fields
-            businessName: bankDetailsData.business_name || 'Skinlux Bischofshofen',
-            streetAddress: bankDetailsData.street_address || 'Salzburger Straße 45',
-            postalCode: bankDetailsData.postal_code || '5500',
-            city: bankDetailsData.city || 'Bischofshofen',
+            businessName: bankDetailsData.business_name || 'Skinlux Pottendorf',
+            streetAddress: bankDetailsData.street_address || 'Dr. Heinz-Fischer-Straße 3/2',
+            postalCode: bankDetailsData.postal_code || '2486',
+            city: bankDetailsData.city || 'Pottendorf',
             country: bankDetailsData.country || 'Österreich',
-            phone: bankDetailsData.phone || '+43 123 456 789',
-            email: bankDetailsData.email || 'hello@skinlux.at',
+            phone: bankDetailsData.phone || '+43 664 91 88 632',
+            email: bankDetailsData.email || 'hey@skinlux.at',
             website: bankDetailsData.website || 'skinlux.at'
         };
 

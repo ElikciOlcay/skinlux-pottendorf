@@ -313,7 +313,7 @@ export default function ChatWidget() {
 
             recommendationText += `\n🎯 **Nächste Schritte:**\n`;
             recommendationText += `• Online-Termin buchen: https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone\n`;
-            recommendationText += `• Anrufen: +43 660 57 21 403\n\n`;
+            recommendationText += `• Anrufen: +43 664 91 88 632\n\n`;
             recommendationText += `Haben Sie weitere Fragen? Ich helfe gerne weiter! 😊`;
 
             const recommendationMessage: Message = {
@@ -394,7 +394,7 @@ export default function ChatWidget() {
             setMessages(prev => [...prev, {
                 id: generateMessageId(),
                 role: "assistant",
-                content: "Entschuldigung, es gab einen Fehler. Bitte versuchen Sie es später erneut oder rufen Sie uns direkt an: +43 660 57 21 403",
+                content: "Entschuldigung, es gab einen Fehler. Bitte versuchen Sie es später erneut oder rufen Sie uns direkt an: +43 664 91 88 632",
                 timestamp: new Date()
             }]);
         } finally {
@@ -412,7 +412,7 @@ export default function ChatWidget() {
             const bookingMessage: Message = {
                 id: generateMessageId(),
                 role: "assistant",
-                content: "**Termin online buchen** 📅\n\nSie können ganz einfach Ihren Wunschtermin online buchen:\n\n👉 **Online-Buchung:** https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone\n\n📞 **Oder anrufen:** +43 660 57 21 403\n\n**Verfügbare Behandlungen:**\n• Laser-Haarentfernung (Probebehandlung kostenlos)\n• HydraFacial® Premium-Behandlung\n• Signature Facials mit Circadia Professional\n\nWählen Sie einfach Ihre gewünschte Behandlung und Ihren Termin aus!",
+                content: "**Termin online buchen** 📅\n\nSie können ganz einfach Ihren Wunschtermin online buchen:\n\n👉 **Online-Buchung:** https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone\n\n📞 **Oder anrufen:** +43 664 91 88 632\n\n**Verfügbare Behandlungen:**\n• Laser-Haarentfernung (Probebehandlung kostenlos)\n• HydraFacial® Premium-Behandlung\n• Signature Facials mit Circadia Professional\n\nWählen Sie einfach Ihre gewünschte Behandlung und Ihren Termin aus!",
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, bookingMessage]);

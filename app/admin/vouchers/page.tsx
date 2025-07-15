@@ -76,13 +76,13 @@ export default function VouchersPage() {
         voucherValidityMonths: 12,
         sendVoucherAsPDF: false,
         // Default address values
-        businessName: 'Skinlux Bischofshofen',
-        streetAddress: 'Salzburger Straße 45',
-        postalCode: '5500',
-        city: 'Bischofshofen',
+        businessName: 'Skinlux Pottendorf',
+        streetAddress: 'Dr. Heinz-Fischer-Straße 3/2',
+        postalCode: '2486',
+        city: 'Pottendorf',
         country: 'Österreich',
-        phone: '+43 660 3001449',
-        email: 'hello@skinlux.at',
+        phone: '+43 664 91 88 632',
+        email: 'hey@skinlux.at',
         website: 'www.skinlux.at'
     });
     const [savingBankDetails, setSavingBankDetails] = useState(false);

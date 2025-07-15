@@ -397,21 +397,21 @@ export class EmailService {
     // Default bank details (fallback)
     private static getDefaultBankDetails(): BankDetails {
         return {
-            bankName: 'Sparkasse Pongau',
-            accountHolder: 'Skinlux Bischofshofen',
+            bankName: 'Sparkasse Pottendorf',
+            accountHolder: 'Skinlux Pottendorf',
             iban: 'AT00 0000 0000 0000 0000',
             bic: 'SPALAT2G',
             reference: 'Gutschein-Bestellung',
             voucherValidityMonths: 12,
             sendVoucherAsPDF: false,
             // Default address values
-            businessName: 'Skinlux Bischofshofen',
-            streetAddress: 'Bahnhofstrasse 17',
-            postalCode: '5500',
-            city: 'Bischofshofen',
+            businessName: 'Skinlux Pottendorf',
+            streetAddress: 'Dr. Heinz-Fischer-Straße 3/2',
+            postalCode: '2486',
+            city: 'Pottendorf',
             country: 'Österreich',
-            phone: '0660 57 21 403',
-            email: 'hello@skinlux.at',
+            phone: '0664 91 88 632',
+            email: 'hey@skinlux.at',
             website: 'skinlux.at'
         };
     }
@@ -537,10 +537,10 @@ export class EmailService {
                 </div>
                 
                 <div class="footer">
-                    <p><strong>Skinlux Bischofshofen</strong><br>
-                    Bahnhofstrasse 17, 5500 Bischofshofen<br>
-                    Tel: 0660 57 21 403<br>
-                    E-Mail: hello@skinlux.at</p>
+                    <p><strong>Skinlux Pottendorf</strong><br>
+                    Dr. Heinz-Fischer-Straße 3/2, 2486 Pottendorf<br>
+                    Tel: 0664 91 88 632<br>
+                    E-Mail: hey@skinlux.at</p>
                     
                     <p style="margin-top: 20px; font-size: 12px;">
                     Diese E-Mail wurde automatisch generiert. Bitte antworten Sie nicht direkt auf diese Nachricht.

@@ -9,10 +9,10 @@ export const LISA_KNOWLEDGE = {
     studio: {
         name: "SkinLux",
         slogan: "Medical Beauty Studio",
-        location: "Bischofshofen, Pongau, Salzburg",
-        address: "Bahnhofstraße 17, 5500 Bischofshofen",
-        phone: "+43 660 57 21 403",
-        email: "info@skinlux.at",
+        location: "Pottendorf, Niederösterreich",
+        address: "Dr. Heinz-Fischer-Straße 3/2, 2486 Pottendorf",
+        phone: "+43 664 91 88 632",
+        email: "hey@skinlux.at",
         website: "www.skinlux.at",
         founded: "2020",
         team: [
@@ -301,7 +301,7 @@ export const LISA_KNOWLEDGE = {
                     { value: "hair_removal", label: "Unerwünschte Körperbehaarung", keywords: ["haare", "haarentfernung", "laser"] },
                     { value: "general", label: "Allgemeine Hautpflege & Prävention", keywords: ["pflege", "prävention", "gesund"] }
                 ]
-            },  
+            },
             {
                 id: "skin_type",
                 question: "Wie würden Sie Ihren Hauttyp beschreiben?",

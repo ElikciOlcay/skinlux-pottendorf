@@ -165,22 +165,22 @@ export const LISA_KNOWLEDGE = {
             description: "Exklusive Gesichtsbehandlungen mit Circadia Professional",
             types: [
                 {
-                    name: "Anti-Aging Facial",
-                    duration: "75 Min",
-                    price: "129€",
-                    benefits: ["Faltenreduktion", "Straffung", "Regeneration"]
+                    name: "Circadia Customized Facial",
+                    duration: "1 Std. 30 Min.",
+                    price: "150€",
+                    benefits: ["Individueller Mixology Prozess", "Porentiefreinigung", "Hautverjüngung"]
                 },
                 {
-                    name: "Hydrating Facial",
-                    duration: "60 Min",
-                    price: "99€",
-                    benefits: ["Intensive Feuchtigkeit", "Beruhigung", "Glow-Effekt"]
+                    name: "Firming Peptide Mask Treatment",
+                    duration: "1 Std. 30 Min.",
+                    price: "175€",
+                    benefits: ["Anti-Aging-Peptide", "Zellerneuerung", "Straffere Haut"]
                 },
                 {
-                    name: "Purifying Facial",
-                    duration: "60 Min",
-                    price: "99€",
-                    benefits: ["Tiefenreinigung", "Porenverfeinerung", "Klärung"]
+                    name: "Oxygen RX Facial mit Cocoa-Enzyme",
+                    duration: "1 Std. 30 Min.",
+                    price: "175€",
+                    benefits: ["Spezialbehandlung für Akne", "Rötungsreduktion", "Anti-Aging-Booster"]
                 }
             ]
         }
@@ -431,12 +431,12 @@ export const LISA_KNOWLEDGE = {
                 priority: 4,
                 treatments: [
                     {
-                        name: "Anti-Aging Facial",
-                        subtitle: "Intensive Faltenreduktion",
-                        description: "75 Minuten pure Anti-Aging Pflege mit Circadia Professional. Für straffere und jünger wirkende Haut.",
-                        benefits: ["Faltenreduktion", "Straffung", "Regeneration"],
-                        price: "129€",
-                        duration: "75 Min",
+                        name: "Firming Peptide Mask Treatment",
+                        subtitle: "Intensive Anti-Aging Behandlung",
+                        description: "90 Minuten mit Anti-Aging-Peptiden und Stammzellen für straffere, jünger wirkende Haut.",
+                        benefits: ["Anti-Aging-Peptide", "Zellerneuerung", "Straffere Haut"],
+                        price: "175€",
+                        duration: "1 Std. 30 Min.",
                         bookingAction: "facial"
                     },
                     {

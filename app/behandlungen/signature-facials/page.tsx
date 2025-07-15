@@ -34,8 +34,8 @@ export default function PremiumFacials() {
             icon: Clock,
             title: "Premium Zeit",
             description: "90 Minuten pure Entspannung und intensive Hautrevitalisierung",
-            stat: "90",
-            statLabel: "Minuten"
+            stat: "1:30",
+            statLabel: "Stunden"
         },
         {
             icon: Shield,
@@ -128,8 +128,8 @@ export default function PremiumFacials() {
                             </h1>
 
                             <p className="text-xl text-gray-600 font-light mb-8 leading-relaxed">
-                                Erleben Sie unsere exklusiven 90-Minuten Premium Treatments.
-                                Jede Behandlung ist ein maßgeschneidertes Erlebnis für Ihre Haut.
+                                Erleben Sie unsere exklusiven Premium Treatments.
+                                Jede Behandlung ist ein maßgeschneidertes 90-Minuten Erlebnis für Ihre Haut.
                             </p>
 
                             <div className="grid grid-cols-3 gap-4 mb-10">
@@ -212,7 +212,7 @@ export default function PremiumFacials() {
                 <div className="container">
                     <div className="grid md:grid-cols-4 gap-8">
                         {[
-                            { number: "4", label: "Premium Behandlungen", icon: Heart },
+                            { number: "3", label: "Premium Behandlungen", icon: Heart },
                             { number: "90", label: "Minuten Luxus", icon: Clock },
                             { number: "5★", label: "Premium Service", icon: Award },
                             { number: "100%", label: "Individuell", icon: Star }
@@ -365,36 +365,31 @@ export default function PremiumFacials() {
                         </h2>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="p-8 border border-secondary bg-secondary/5"
+                            className="p-6 border border-gray-200 bg-white"
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
                                     <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
-                                        Oxygen RX Facial
+                                        Circadia Customized Facial
                                     </h3>
                                     <p className="text-gray-600 font-light">
-                                        90 Minuten mit Enzym-Peeling und Oxygen RX System
+                                        Individueller Mixology Prozess für Ihre Hautbedürfnisse
                                     </p>
                                 </div>
                                 <div className="text-right">
                                     <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 200
+                                        € 150
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
-                                        90 Min.
+                                        1:30 Std.
                                     </div>
                                 </div>
-                            </div>
-                            <div className="bg-secondary/10 p-3 border border-secondary/20">
-                                <p className="text-sm font-light text-gray-700">
-                                    <strong>Premium:</strong> Mit Oxygen RX System und manueller Ausreinigung
-                                </p>
                             </div>
                         </motion.div>
 
@@ -403,15 +398,15 @@ export default function PremiumFacials() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.1 }}
-                            className="p-8 border border-gray-200 bg-white"
+                            className="p-6 border border-secondary bg-secondary/5"
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
                                     <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
-                                        Firming Peptide Mask
+                                        Firming Peptide Mask Treatment
                                     </h3>
                                     <p className="text-gray-600 font-light">
-                                        90 Minuten Anti-Aging Treatment mit Peptide-Maske
+                                        Anti-Aging-Peptide und Stammzellen für straffere Haut
                                     </p>
                                 </div>
                                 <div className="text-right">
@@ -419,7 +414,39 @@ export default function PremiumFacials() {
                                         € 175
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
-                                        90 Min.
+                                        1:30 Std.
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-secondary/10 p-3 border border-secondary/20">
+                                <p className="text-sm font-light text-gray-700">
+                                    <strong>Beliebt:</strong> Mit Anti-Aging-Peptiden und Zellerneuerung
+                                </p>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="p-6 border border-gray-200 bg-white"
+                        >
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        Oxygen RX Facial mit Cocoa-Enzyme
+                                    </h3>
+                                    <p className="text-gray-600 font-light">
+                                        Spezialbehandlung für Akne und Rosacea
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                        € 175
+                                    </div>
+                                    <div className="text-sm text-gray-500 font-light">
+                                        1:30 Std.
                                     </div>
                                 </div>
                             </div>

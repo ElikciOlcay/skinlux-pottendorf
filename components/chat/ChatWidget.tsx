@@ -312,7 +312,7 @@ export default function ChatWidget() {
             });
 
             recommendationText += `\n🎯 **Nächste Schritte:**\n`;
-            recommendationText += `• Online-Termin buchen: https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone\n`;
+            recommendationText += `• Online-Termin buchen: https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D\n`;
             recommendationText += `• Anrufen: +43 664 91 88 632\n\n`;
             recommendationText += `Haben Sie weitere Fragen? Ich helfe gerne weiter! 😊`;
 
@@ -412,7 +412,7 @@ export default function ChatWidget() {
             const bookingMessage: Message = {
                 id: generateMessageId(),
                 role: "assistant",
-                content: "**Termin online buchen** 📅\n\nSie können ganz einfach Ihren Wunschtermin online buchen:\n\n👉 **Online-Buchung:** https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone\n\n📞 **Oder anrufen:** +43 664 91 88 632\n\n**Verfügbare Behandlungen:**\n• Laser-Haarentfernung (Probebehandlung kostenlos)\n• HydraFacial® Premium-Behandlung\n• Signature Facials mit Circadia Professional\n\nWählen Sie einfach Ihre gewünschte Behandlung und Ihren Termin aus!",
+                content: "**Termin online buchen** 📅\n\nSie können ganz einfach Ihren Wunschtermin online buchen:\n\n👉 **Online-Buchung:** https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D\n\n📞 **Oder anrufen:** +43 664 91 88 632\n\n**Verfügbare Behandlungen:**\n• Laser-Haarentfernung (Probebehandlung kostenlos)\n• HydraFacial® Premium-Behandlung\n• Signature Facials mit Circadia Professional\n\nWählen Sie einfach Ihre gewünschte Behandlung und Ihren Termin aus!",
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, bookingMessage]);

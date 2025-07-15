@@ -170,7 +170,7 @@ export default function LaserHaarentfernung() {
 
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <a
-                                    href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn-primary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
@@ -239,7 +239,7 @@ export default function LaserHaarentfernung() {
 
                             <div className="flex flex-col gap-4">
                                 <a
-                                    href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn-primary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto"
@@ -425,7 +425,7 @@ export default function LaserHaarentfernung() {
                         className="text-center mt-16"
                     >
                         <a
-                            href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                            href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-primary inline-flex items-center justify-center"
@@ -709,7 +709,7 @@ export default function LaserHaarentfernung() {
                                     className="space-y-4"
                                 >
                                     <a
-                                        href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                        href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center justify-center px-12 py-4 bg-white text-black text-lg font-light hover:bg-gray-100 transition-colors"

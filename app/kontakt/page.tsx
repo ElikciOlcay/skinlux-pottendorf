@@ -60,7 +60,7 @@ export default function Kontakt() {
                                     24/7 verfügbar - Buchen Sie Ihren Wunschtermin direkt online
                                 </p>
                                 <a
-                                    href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 text-sm font-light text-black hover:text-gray-600 transition-colors group"
@@ -239,7 +239,7 @@ export default function Kontakt() {
                             Kontaktieren Sie uns - wir sind gerne für Sie da.
                         </p>
                         <a
-                            href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                            href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-black text-white font-light tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gray-800"

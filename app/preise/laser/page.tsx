@@ -261,7 +261,7 @@ function LaserPreiseContent() {
                         className="text-center mt-12"
                     >
                         <a
-                            href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                            href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-primary inline-flex items-center justify-center"

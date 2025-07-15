@@ -505,7 +505,7 @@ export default function LaserHaarentfernung() {
                                 </div>
                                 <div className="text-right">
                                     <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 95
+                                        € 90
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
                                         45 Min.

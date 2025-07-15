@@ -99,30 +99,23 @@ export const LISA_KNOWLEDGE = {
                 }
             },
             herrenPreise: {
-                gesicht: {
-                    hals: { dauer: "15 Min", preis: "45€" },
-                    bartkontur: { dauer: "30 Min", preis: "50€" },
-                    nacken: { dauer: "20 Min", preis: "50€" }
-                },
-                arme: {
-                    achseln: { dauer: "20 Min", preis: "55€" },
-                    oberarme: { dauer: "30 Min", preis: "50€" },
-                    unterarme: { dauer: "30 Min", preis: "65€" },
-                    arme_komplett: { dauer: "1 Std", preis: "95€" }
-                },
-                koerper: {
-                    bauch: { dauer: "30 Min", preis: "65€" },
-                    brust: { dauer: "30 Min", preis: "80€" },
-                    schultern: { dauer: "30 Min", preis: "50€" },
-                    ruecken_komplett: { dauer: "45 Min", preis: "95€" },
-                    po_gesamt: { dauer: "30 Min", preis: "85€" }
-                },
-                beine: {
-                    oberschenkel: { dauer: "1 Std", preis: "120€" },
-                    unterschenkel: { dauer: "1 Std", preis: "120€" },
-                    beine_komplett: { dauer: "1 Std 15 Min", preis: "230€" },
-                    fuesse: { dauer: "20 Min", preis: "40€" }
-                }
+                hals: { dauer: "-", preis: "40€" },
+                achseln: { dauer: "-", preis: "55€" },
+                unterarme: { dauer: "-", preis: "60€" },
+                oberarme: { dauer: "-", preis: "60€" },
+                arme_komplett: { dauer: "-", preis: "90€" },
+                brust: { dauer: "-", preis: "80€" },
+                bauch: { dauer: "-", preis: "60€" },
+                schultern: { dauer: "-", preis: "50€" },
+                ruecken: { dauer: "-", preis: "90€" },
+                unterschenkel: { dauer: "-", preis: "120€" },
+                oberschenkel: { dauer: "-", preis: "120€" },
+                beine_komplett: { dauer: "-", preis: "180€" },
+                bartkontur: { dauer: "-", preis: "40€" },
+                nacken: { dauer: "-", preis: "40€" },
+                po: { dauer: "-", preis: "65€" },
+                fuesse: { dauer: "-", preis: "40€" },
+                gesicht_komplett: { dauer: "-", preis: "100€" }
             }
         },
 

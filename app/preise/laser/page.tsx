@@ -226,7 +226,7 @@ function LaserPreiseContent() {
                                             Paket Medium
                                         </h4>
                                         <p className="text-3xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
-                                            € 270
+                                            € 250
                                         </p>
                                         <ul className="text-sm font-light text-gray-600 space-y-2 text-left">
                                             <li>✓ Achseln</li>
@@ -241,7 +241,7 @@ function LaserPreiseContent() {
                                             Paket Large
                                         </h4>
                                         <p className="text-3xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
-                                            € 390
+                                            € 350
                                         </p>
                                         <ul className="text-sm font-light text-gray-600 space-y-2 text-left">
                                             <li>✓ Achseln</li>

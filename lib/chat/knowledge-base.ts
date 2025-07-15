@@ -88,13 +88,13 @@ export const LISA_KNOWLEDGE = {
                 },
                 medium: {
                     name: "Paket Medium",
-                    preis: "270€",
+                    preis: "250€",
                     inhalt: ["Achseln", "Beine komplett", "Intim + Bikini inkl. Pofalte"],
                     beliebt: true
                 },
                 large: {
                     name: "Paket Large",
-                    preis: "390€",
+                    preis: "350€",
                     inhalt: ["Achseln", "Beine komplett", "Gesicht komplett", "Unterarme", "Intim + Bikini inkl. Pofalte"]
                 }
             },

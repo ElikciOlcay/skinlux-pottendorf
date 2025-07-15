@@ -71,26 +71,14 @@ export async function GET() {
             });
         }
 
-        // Get first available studio (or you could get by subdomain later)
-        const { data: studio } = await supabaseAdmin
-            .from('studios')
-            .select('id')
-            .limit(1)
-            .single();
-
-        if (!studio) {
-            console.warn('No studio found, using default bank details');
-            return NextResponse.json({
-                success: true,
-                bankDetails: DEFAULT_BANK_DETAILS
-            });
-        }
+        // HARDCODED Studio-ID für Pottendorf
+        const studioId = '1947a6d5-3ab3-4423-8cdb-3d33b9823bdf';
 
         // Try to get bank details from database
         const { data: bankDetailsData, error } = await supabaseAdmin
             .from('bank_details')
             .select('*')
-            .eq('studio_id', studio.id)
+            .eq('studio_id', studioId)
             .single();
 
         if (error || !bankDetailsData) {
@@ -157,23 +145,12 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Get first available studio (or you could get by subdomain later)
-        const { data: studio } = await supabaseAdmin
-            .from('studios')
-            .select('id')
-            .limit(1)
-            .single();
-
-        if (!studio) {
-            return NextResponse.json(
-                { error: 'Kein Studio gefunden' },
-                { status: 500 }
-            );
-        }
+        // HARDCODED Studio-ID für Pottendorf
+        const studioId = '1947a6d5-3ab3-4423-8cdb-3d33b9823bdf';
 
         // Convert API format to database format
         const dbBankDetails = {
-            studio_id: studio.id,
+            studio_id: studioId,
             bank_name: bankDetails.bankName,
             account_holder: bankDetails.accountHolder,
             iban: bankDetails.iban,
@@ -196,16 +173,14 @@ export async function POST(request: NextRequest) {
         const { error: updateError } = await supabaseAdmin
             .from('bank_details')
             .update(dbBankDetails)
-            .eq('studio_id', studio.id);
+            .eq('studio_id', studioId);
 
-        // If update fails (no existing record), insert new one
+        // If no row was updated, insert new
         if (updateError) {
             const { error: insertError } = await supabaseAdmin
                 .from('bank_details')
-                .insert(dbBankDetails);
-
+                .insert([dbBankDetails]);
             if (insertError) {
-                console.error('Error inserting bank details:', insertError);
                 return NextResponse.json(
                     { error: 'Fehler beim Speichern der Bankdaten' },
                     { status: 500 }
@@ -213,13 +188,7 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        console.log('✅ Bank details saved to database:', bankDetails);
-
-        return NextResponse.json({
-            success: true,
-            message: 'Bankdaten erfolgreich gespeichert'
-        });
-
+        return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Error saving bank details:', error);
         return NextResponse.json(

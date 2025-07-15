@@ -318,7 +318,7 @@ export default function UeberUns() {
                                             "Modernste Laser-Technologie",
                                             "Persönliche Betreuung",
                                             "Transparente Preise",
-                                            "Zentrale Lage in Bischofshofen"
+                                            "Zentrale Lage in Pottendorf"
                                         ].map((item, index) => (
                                             <div key={index} className="flex items-center gap-3">
                                                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-secondary)' }} />

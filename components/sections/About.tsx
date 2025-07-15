@@ -36,7 +36,7 @@ export default function About() {
                             <p>
                                 Skinlux steht seit über 5 Jahren für professionelle
                                 Laser-Haarentfernung und innovative Kosmetikbehandlungen
-                                in Bischofshofen.
+                                in Pottendorf.
                             </p>
 
                             <p>

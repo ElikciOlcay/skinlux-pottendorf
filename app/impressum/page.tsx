@@ -85,8 +85,8 @@ export default function ImpressumPage() {
                                             <div className="flex items-start gap-3 md:gap-4">
                                                 <MapPin className="w-4 h-4 md:w-5 md:h-5 mt-1" style={{ color: 'var(--color-secondary)' }} />
                                                 <div className="font-light text-gray-600 text-sm md:text-base">
-                                                    <p className="font-medium text-black mb-1">Skinlux</p>
-                                                    <p>Gökce Elikci</p>
+                                                    <p className="font-medium text-black mb-1">Skinlux Pottendorf</p>
+                                                    <p>Ebru Bicer</p>
                                                     <p>Dr. Heinz-Fischer-Straße 3/2</p>
                                                     <p>2486 Pottendorf</p>
                                                     <p>Österreich</p>
@@ -114,10 +114,11 @@ export default function ImpressumPage() {
                                             Unternehmensdaten
                                         </h3>
                                         <div className="space-y-2 md:space-y-3 font-light text-gray-600 text-sm md:text-base">
-                                            <p><strong className="text-black">Unternehmensgegenstand:</strong> Kosmetik (Laserhaarentfernung)</p>
-                                            <p><strong className="text-black">UID-Nr:</strong> ATU 67694907</p>
-                                            <p><strong className="text-black">Mitglied bei:</strong> WKO, Landesinnung, etc.</p>
-                                            <p><strong className="text-black">Berufsbezeichnung:</strong> Spezialist für dauerhafte Haarentfernung</p>
+                                            <p><strong className="text-black">Unternehmensgegenstand:</strong> Kosmetik</p>
+                                            <p><strong className="text-black">UID-Nr:</strong> ATU 77883328</p>
+                                            <p><strong className="text-black">Mitglied bei:</strong> WKO, Landesinnung</p>
+                                            <p><strong className="text-black">Berufsrecht:</strong> Gewerbeordnung: <a href="https://www.ris.bka.gv.at" target="_blank" rel="noopener noreferrer" className="text-black hover:opacity-70 transition-opacity underline">www.ris.bka.gv.at</a></p>
+                                            <p><strong className="text-black">Aufsichtsbehörde/Gewerbebehörde:</strong> Bezirkshauptmannschaft Baden</p>
                                             <p><strong className="text-black">Verleihungsstaat:</strong> Österreich</p>
                                         </div>
                                     </div>

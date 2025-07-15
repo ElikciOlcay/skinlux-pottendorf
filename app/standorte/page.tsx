@@ -37,12 +37,12 @@ const studios = [
         features: ["Hauptstandort", "Zentrale Lage", "Modernes Equipment"]
     },
     {
-        id: "bischofshofen",
-        name: "Studio Bischofshofen",
+        id: "pottendorf",
+        name: "Studio Pottendorf",
         address: {
-            street: "Bahnhofstraße 17",
-            zip: "5500",
-            city: "Bischofshofen"
+            street: "Dr. Heinz-Fischer-Straße 3/2",
+            zip: "2486",
+            city: "Pottendorf"
         },
         contact: {
             phone: "0660 / 57 21 403",

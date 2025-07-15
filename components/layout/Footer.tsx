@@ -111,7 +111,7 @@ const Footer = () => {
                                 rel="noopener noreferrer"
                                 className="text-xs font-light text-gray-600 hover:text-black transition-colors"
                             >
-                                180+ Google Bewertungen
+                                150+ Google Bewertungen
                             </a>
                         </div>
                     </div>

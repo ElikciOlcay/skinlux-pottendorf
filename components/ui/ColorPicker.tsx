@@ -5,14 +5,14 @@ import { Palette, X, RotateCcw } from "lucide-react";
 
 const ColorPicker = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [currentColor, setCurrentColor] = useState("#F0A3BC");
+    const [currentColor, setCurrentColor] = useState("#a6715e");
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [position, setPosition] = useState({ x: 20, y: 20 });
 
     // Preset colors for quick selection
     const presetColors = [
-        "#F0A3BC", // Original Pink
+        "#a6715e", // Original Brown
         "#E91E63", // Material Pink
         "#FF6B9D", // Hot Pink
         "#FFB6C1", // Light Pink
@@ -37,7 +37,7 @@ const ColorPicker = () => {
 
     // Reset to original color
     const resetColor = () => {
-        setCurrentColor("#F0A3BC");
+        setCurrentColor("#a6715e");
     };
 
     // Handle dragging

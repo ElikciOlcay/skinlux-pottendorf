@@ -52,34 +52,33 @@ export const LISA_KNOWLEDGE = {
             sessions: "6-8 Behandlungen im Abstand von 4-6 Wochen",
             damenPreise: {
                 gesicht: {
-                    wangen: { dauer: "15 Min", preis: "35€" },
-                    kinn: { dauer: "15 Min", preis: "35€" },
-                    oberlippe: { dauer: "15 Min", preis: "35€" },
-                    hals: { dauer: "15 Min", preis: "45€" },
-                    gesicht_komplett: { dauer: "30 Min", preis: "99€" }
+                    oberlippe: { dauer: "-", preis: "30€" },
+                    kinn: { dauer: "-", preis: "30€" },
+                    wangen: { dauer: "-", preis: "30€" },
+                    stirn: { dauer: "-", preis: "30€" },
+                    gesicht_komplett: { dauer: "-", preis: "85€" }
                 },
-                arme: {
-                    achseln: { dauer: "30 Min", preis: "55€" },
-                    oberarme: { dauer: "30 Min", preis: "45€" },
-                    unterarme: { dauer: "30 Min", preis: "55€" },
-                    arme_komplett: { dauer: "1 Std", preis: "80€" }
-                },
-                intimbereich: {
-                    bikini_zone: { dauer: "20 Min", preis: "60€" },
-                    intim_komplett: { dauer: "30 Min", preis: "80€" },
-                    intim_bikini_pofalte: { dauer: "30 Min", preis: "100€" },
-                    po: { dauer: "30 Min", preis: "60€" },
-                    pofalte: { dauer: "15 Min", preis: "35€" }
-                },
-                beine: {
-                    oberschenkel: { dauer: "30 Min", preis: "95€" },
-                    unterschenkel: { dauer: "1 Std", preis: "95€" },
-                    beine_komplett: { dauer: "1 Std", preis: "180€" }
-                },
-                koerper: {
-                    bauch: { dauer: "30 Min", preis: "65€" },
-                    ruecken: { dauer: "35 Min", preis: "95€" }
-                }
+                hals: { dauer: "-", preis: "30€" },
+                achseln: { dauer: "-", preis: "50€" },
+                unterarme: { dauer: "-", preis: "55€" },
+                oberarme: { dauer: "-", preis: "55€" },
+                arme_komplett: { dauer: "-", preis: "80€" },
+                bauch: { dauer: "-", preis: "55€" },
+                ruecken: { dauer: "-", preis: "85€" },
+                bikinizone: { dauer: "-", preis: "55€" },
+                intim_komplett: { dauer: "-", preis: "80€" },
+                intim_komplett_bikini_pofalte: { dauer: "-", preis: "95€" },
+                pofalte: { dauer: "-", preis: "35€" },
+                po: { dauer: "-", preis: "60€" },
+                unterschenkel: { dauer: "-", preis: "95€" },
+                oberschenkel: { dauer: "-", preis: "95€" },
+                beine_komplett: { dauer: "-", preis: "150€" },
+                haende: { dauer: "-", preis: "30€" },
+                dekollete: { dauer: "-", preis: "35€" },
+                fuesse: { dauer: "-", preis: "30€" },
+                bauchstreifen: { dauer: "-", preis: "30€" },
+                pobacken: { dauer: "-", preis: "45€" },
+                nacken: { dauer: "-", preis: "30€" },
             },
             pakete: {
                 small: {

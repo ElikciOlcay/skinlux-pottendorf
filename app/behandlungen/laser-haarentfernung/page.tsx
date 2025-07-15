@@ -473,7 +473,7 @@ export default function LaserHaarentfernung() {
                                 </div>
                                 <div className="text-right">
                                     <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 180
+                                        € 150
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
                                         1 Std.
@@ -532,7 +532,7 @@ export default function LaserHaarentfernung() {
                                 </div>
                                 <div className="text-right">
                                     <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 60
+                                        € 55
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
                                         20 Min.
@@ -559,7 +559,7 @@ export default function LaserHaarentfernung() {
                                 </div>
                                 <div className="text-right">
                                     <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 55
+                                        € 50
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
                                         30 Min.

@@ -97,11 +97,13 @@ export class EmailService {
                 return { success: false, error: 'Email service not configured' };
             }
 
-            const emailContent = this.generatePaymentConfirmationHTML(data);
+            // Load bank details to get studio-specific contact information
+            const bankDetails = await this.getBankDetails();
+            const emailContent = this.generatePaymentConfirmationHTML(data, bankDetails);
 
             // Use verified email for development, production domain for production
             const fromEmail = process.env.NODE_ENV === 'production'
-                ? 'Skinlux Bischofshofen <noreply@skinlux.at>'
+                ? `Skinlux <${bankDetails.email}>`
                 : 'Skinlux <onboarding@resend.dev>'; // Resend verified domain for development
 
             const resend = getResendClient();
@@ -667,7 +669,7 @@ export class EmailService {
     }
 
     // Generate payment confirmation email HTML
-    private static generatePaymentConfirmationHTML(data: VoucherEmailData): string {
+    private static generatePaymentConfirmationHTML(data: VoucherEmailData, bankDetails: BankDetails): string {
         return `
         <!DOCTYPE html>
         <html>
@@ -778,11 +780,11 @@ export class EmailService {
                 </div>
                 
                 <div class="footer">
-                    <p><strong>Skinlux Bischofshofen</strong><br>
-                    Bahnhofstrasse 17, 5500 Bischofshofen<br>
-                    Tel: 0660 57 21 403<br>
-                    E-Mail: hello@skinlux.at<br>
-                    Web: <a href="https://skinlux.at" style="color: #059669;">skinlux.at</a></p>
+                    <p><strong>${bankDetails.businessName}</strong><br>
+                    ${bankDetails.streetAddress}, ${bankDetails.postalCode} ${bankDetails.city}<br>
+                    Tel: ${bankDetails.phone}<br>
+                    E-Mail: ${bankDetails.email}<br>
+                    Web: <a href="https://${bankDetails.website}" style="color: #059669;">${bankDetails.website}</a></p>
                     
                     <p style="margin-top: 20px; font-size: 12px;">
                     Diese E-Mail wurde automatisch generiert. Bei Fragen antworten Sie einfach auf diese E-Mail.

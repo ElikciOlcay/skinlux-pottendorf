@@ -371,26 +371,34 @@ export default function PremiumFacials() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="p-6 border border-gray-200 bg-white"
+                            className="p-6 border border-gray-200 bg-white hover:border-secondary/30 transition-colors"
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
                                     <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
                                         Circadia Customized Facial
                                     </h3>
+                                    <p className="text-sm text-gray-600 font-light mb-2">
+                                        1 Std. 30 Min.
+                                    </p>
                                     <p className="text-gray-600 font-light">
-                                        Individueller Mixology Prozess für Ihre Hautbedürfnisse
+                                        Hier stimmen wir das vorbereitende Peeling sowie die Auswahl der Wirkstoffe individuell auf deine Haut ab. Ein individueller Mixology Prozess für deine Hautbedürfnisse.
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                    <div className="text-3xl font-light" style={{ color: 'var(--color-secondary)' }}>
                                         € 150
-                                    </div>
-                                    <div className="text-sm text-gray-500 font-light">
-                                        1:30 Std.
                                     </div>
                                 </div>
                             </div>
+                            <a
+                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full btn-secondary text-center py-3"
+                            >
+                                Jetzt buchen
+                            </a>
                         </motion.div>
 
                         <motion.div
@@ -398,31 +406,39 @@ export default function PremiumFacials() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.1 }}
-                            className="p-6 border border-secondary bg-secondary/5"
+                            className="p-6 border border-secondary bg-secondary/5 relative"
                         >
+                            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                                <span className="bg-secondary text-white px-3 py-1 text-xs font-light tracking-wider uppercase rounded">
+                                    Beliebt
+                                </span>
+                            </div>
                             <div className="flex items-start justify-between mb-6">
                                 <div>
                                     <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
                                         Firming Peptide Mask Treatment
                                     </h3>
+                                    <p className="text-sm text-gray-600 font-light mb-2">
+                                        1 Std. 30 Min.
+                                    </p>
                                     <p className="text-gray-600 font-light">
-                                        Anti-Aging-Peptide und Stammzellen für straffere Haut
+                                        erneuert und revitalisiert die Haut mit Anti-Aging-Peptiden, Stammzellen und einer straffenden Maske für sichtbar festere und jugendlichere Haut.
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                    <div className="text-3xl font-light" style={{ color: 'var(--color-secondary)' }}>
                                         € 175
-                                    </div>
-                                    <div className="text-sm text-gray-500 font-light">
-                                        1:30 Std.
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-secondary/10 p-3 border border-secondary/20">
-                                <p className="text-sm font-light text-gray-700">
-                                    <strong>Beliebt:</strong> Mit Anti-Aging-Peptiden und Zellerneuerung
-                                </p>
-                            </div>
+                            <a
+                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full btn-primary text-center py-3"
+                            >
+                                Jetzt buchen
+                            </a>
                         </motion.div>
 
                         <motion.div
@@ -430,80 +446,34 @@ export default function PremiumFacials() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.2 }}
-                            className="p-6 border border-gray-200 bg-white"
+                            className="p-6 border border-gray-200 bg-white hover:border-secondary/30 transition-colors"
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
                                     <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
                                         Oxygen RX Facial mit Cocoa-Enzyme
                                     </h3>
+                                    <p className="text-sm text-gray-600 font-light mb-2">
+                                        1 Std. 30 Min.
+                                    </p>
                                     <p className="text-gray-600 font-light">
-                                        Spezialbehandlung für Akne und Rosacea
+                                        Spezialbehandlung für Akne, Rosacea. Reduziert Rötungen, beruhigt die Haut und fördert die Heilung – für einen ausgeglichenen, klaren Teint.
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                    <div className="text-3xl font-light" style={{ color: 'var(--color-secondary)' }}>
                                         € 175
                                     </div>
-                                    <div className="text-sm text-gray-500 font-light">
-                                        1:30 Std.
-                                    </div>
                                 </div>
                             </div>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="p-8 border border-gray-200 bg-white"
-                        >
-                            <div className="flex items-start justify-between mb-6">
-                                <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
-                                        Circadia Customised
-                                    </h3>
-                                    <p className="text-gray-600 font-light">
-                                        90 Minuten individuell angepasste Behandlung
-                                    </p>
-                                </div>
-                                <div className="text-right">
-                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 150
-                                    </div>
-                                    <div className="text-sm text-gray-500 font-light">
-                                        90 Min.
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
-                            className="p-8 border border-gray-200 bg-white"
-                        >
-                            <div className="flex items-start justify-between mb-6">
-                                <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
-                                        Circadia Welcome
-                                    </h3>
-                                    <p className="text-gray-600 font-light">
-                                        90 Minuten Einstieg in die Circadia-Welt
-                                    </p>
-                                </div>
-                                <div className="text-right">
-                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 130
-                                    </div>
-                                    <div className="text-sm text-gray-500 font-light">
-                                        90 Min.
-                                    </div>
-                                </div>
-                            </div>
+                            <a
+                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full btn-secondary text-center py-3"
+                            >
+                                Jetzt buchen
+                            </a>
                         </motion.div>
                     </div>
 

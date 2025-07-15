@@ -496,7 +496,7 @@ export default function HydraFacial() {
                                         HydraFacial® Signature
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
-                                        30 Minuten • Basis-Behandlung
+                                        1 Stunde • Basis-Behandlung
                                     </p>
                                 </div>
                                 <div className="text-right">
@@ -504,7 +504,7 @@ export default function HydraFacial() {
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">
-                                Sanfte, aber effektive Behandlung zur porentiefen Reinigung, Entfernung abgestorbener Hautzellen und Versorgung mit Feuchtigkeit.
+                                Sanfte, aber effektive Behandlung zur porentiefen Reinigung, Entfernung abgestorbener Hautzellen und Versorgung mit Feuchtigkeit. Für ein frisches, klares Hautbild und sofort sichtbaren Glow.
                             </p>
                             <ul className="space-y-2 mb-8">
                                 <li className="flex items-center gap-2 text-gray-600 font-light">
@@ -544,7 +544,7 @@ export default function HydraFacial() {
                                         HydraFacial® Signature + LED
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
-                                        50 Minuten • Mit LED-Therapie
+                                        1 Std. 15 Min. • Mit LED-Therapie
                                     </p>
                                 </div>
                                 <div className="text-right">
@@ -552,7 +552,7 @@ export default function HydraFacial() {
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">
-                                Die klassische HydraFacial-Tiefenreinigung kombiniert mit beruhigendem Blaulicht – ideal bei unreiner, gestresster Haut.
+                                Die klassische HydraFacial-Tiefenreinigung kombiniert mit beruhigendem Blaulicht – ideal bei unreiner, gestresster oder entzündlicher Haut. Reinigt porentieft, spendet Feuchtigkeit und wirkt antibakteriell – für ein sichtbar reines, geklärtes Hautbild.
                             </p>
                             <ul className="space-y-2 mb-8">
                                 <li className="flex items-center gap-2 text-gray-600 font-light">
@@ -597,7 +597,7 @@ export default function HydraFacial() {
                                         HydraFacial® Deluxe
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
-                                        50 Minuten • Premium Experience
+                                        1 Std. 15 Min. • Premium Experience
                                     </p>
                                 </div>
                                 <div className="text-right">
@@ -605,7 +605,7 @@ export default function HydraFacial() {
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">
-                                Diese erweiterte HydraFacial-Behandlung kombiniert intensive Reinigung mit einer auf Ihre Hautbedürfnisse abgestimmten Wirkstoff-Infusion.
+                                Diese erweiterte HydraFacial-Behandlung kombiniert intensive Reinigung, Peeling, Tiefenausreinigung und Hydration mit einer auf deine Hautbedürfnisse abgestimmten Wirkstoff-Infusion sowie LED-Lichttherapie. Ideal bei Unreinheiten, Linien, Pigmentflecken oder fahl wirkender Haut – für einen sichtbar gesunden Glow.
                             </p>
                             <ul className="space-y-2 mb-8">
                                 <li className="flex items-center gap-2 text-gray-600 font-light">
@@ -645,7 +645,7 @@ export default function HydraFacial() {
                                         HydraFacial® Platinium
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
-                                        1 Stunde • Luxus-Experience
+                                        2 Stunden • Luxus-Experience
                                     </p>
                                 </div>
                                 <div className="text-right">
@@ -653,7 +653,7 @@ export default function HydraFacial() {
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">
-                                Die exklusivste HydraFacial-Variante beginnt mit einer entspannenden Lymphdrainage zur Entgiftung und Förderung der Durchblutung.
+                                Die exklusivste HydraFacial-Variante beginnt mit einer entspannenden Lymphdrainage zur Entgiftung und Förderung der Durchblutung. Danach folgen gründliche Reinigung, Peeling, Tiefenausreinigung, Hydration, eine individuell auf deine Haut abgestimmte Wirkstoff-Infusion und abschließend eine LED-Lichttherapie. Für alle, die das Maximum an Hautpflege, Regeneration und Glow möchten.
                             </p>
                             <ul className="space-y-2 mb-8">
                                 <li className="flex items-center gap-2 text-gray-600 font-light">
@@ -678,6 +678,139 @@ export default function HydraFacial() {
                                 Platinium buchen
                             </a>
                         </motion.div>
+                    </div>
+
+                    {/* Zusätzliche HydraFacial-Behandlungen */}
+                    <div className="mt-16">
+                        <div className="text-center mb-12">
+                            <h3 className="text-2xl md:text-3xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                                Weitere <span style={{ color: '#00A9D9' }}>HydraFacial®</span> Behandlungen
+                            </h3>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
+                            {/* Po-Behandlung */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                                className="p-6 border border-gray-200 bg-white hover:border-blue-300 transition-colors"
+                            >
+                                <div className="flex items-start justify-between mb-4">
+                                    <div>
+                                        <h4 className="text-lg font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                            HydraFacial® Po-Behandlung
+                                        </h4>
+                                        <p className="text-sm text-gray-600 font-light">1 Stunde</p>
+                                    </div>
+                                    <div className="text-2xl font-light" style={{ color: '#00A9D9' }}>€ 189</div>
+                                </div>
+                                <p className="text-gray-600 font-light text-sm">
+                                    Tiefenreinigende Pflege für glatte, straffe Haut am Po – exklusiv für Frauen. Ideal bei Unreinheiten, vergrößerten Poren oder unebener Haut. Mit sanftem Peeling, porentiefe Ausreinigung und Feuchtigkeitsversorgung – für ein sichtbar verfeinertes Hautbild und strahlend gepflegte Haut.
+                                </p>
+                                <a
+                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-full btn-secondary text-center py-2 text-sm mt-4"
+                                >
+                                    Po-Behandlung buchen
+                                </a>
+                            </motion.div>
+
+                            {/* Rücken-Behandlung */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                                className="p-6 border border-gray-200 bg-white hover:border-blue-300 transition-colors"
+                            >
+                                <div className="flex items-start justify-between mb-4">
+                                    <div>
+                                        <h4 className="text-lg font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                            HydraFacial® Rücken
+                                        </h4>
+                                        <p className="text-sm text-gray-600 font-light">1 Stunde</p>
+                                    </div>
+                                    <div className="text-2xl font-light" style={{ color: '#00A9D9' }}>€ 189</div>
+                                </div>
+                                <p className="text-gray-600 font-light text-sm">
+                                    Intensive Tiefenreinigung für den Rücken – ideal bei Unreinheiten, verstopften Poren oder trockener Haut. Mit sanftem Peeling, Ausreinigung und Feuchtigkeits-Boost für glatte, geklärte und gepflegte Haut.
+                                </p>
+                                <a
+                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-full btn-secondary text-center py-2 text-sm mt-4"
+                                >
+                                    Rücken-Behandlung buchen
+                                </a>
+                            </motion.div>
+                        </div>
+
+                        {/* Add-ons */}
+                        <div className="bg-gray-100 p-8 rounded-lg">
+                            <div className="text-center mb-8">
+                                <h4 className="text-xl font-light mb-3" style={{ color: 'var(--color-primary)' }}>
+                                    HydraFacial® <span style={{ color: '#00A9D9' }}>Add-ons</span>
+                                </h4>
+                                <p className="text-gray-600 font-light">
+                                    Erweitern Sie Ihre HydraFacial-Behandlung mit gezielten Add-ons
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                {/* Hals & Dekolleté */}
+                                <div className="bg-white p-4 rounded border border-gray-200 text-center">
+                                    <h5 className="font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        Hals & Dekolleté Pflege
+                                    </h5>
+                                    <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
+                                    <div className="text-lg font-light mb-2" style={{ color: '#00A9D9' }}>€ 59</div>
+                                    <p className="text-xs text-gray-600 font-light">
+                                        Sanfte, tiefenreinigende HydraFacial-Behandlung für Hals und Dekolleté. Mit dreistufiger Technologie: Reinigung, porentiefe Ausreinigung und intensive Feuchtigkeitsversorgung.
+                                    </p>
+                                </div>
+
+                                {/* Handpflege */}
+                                <div className="bg-white p-4 rounded border border-gray-200 text-center">
+                                    <h5 className="font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        Handpflege
+                                    </h5>
+                                    <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
+                                    <div className="text-lg font-light mb-2" style={{ color: '#00A9D9' }}>€ 59</div>
+                                    <p className="text-xs text-gray-600 font-light">
+                                        Verwöhnende HydraFacial-Behandlung für die Hände – glättet feine Linien, spendet intensiv Feuchtigkeit und lässt die Haut sichtbar frischer und jünger wirken.
+                                    </p>
+                                </div>
+
+                                {/* Lippenboost */}
+                                <div className="bg-white p-4 rounded border border-gray-200 text-center">
+                                    <h5 className="font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        Lippenboost
+                                    </h5>
+                                    <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
+                                    <div className="text-lg font-light mb-2" style={{ color: '#00A9D9' }}>€ 59</div>
+                                    <p className="text-xs text-gray-600 font-light">
+                                        Sanftes Peeling, Feuchtigkeitsversorgung und nährende Wirkstoffe für geschmeidige, glatte und pralle Lippen. Der perfekte Abschluss deiner HydraFacial-Behandlung.
+                                    </p>
+                                </div>
+
+                                {/* Augenpflege */}
+                                <div className="bg-white p-4 rounded border border-gray-200 text-center">
+                                    <h5 className="font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        Augenpflege
+                                    </h5>
+                                    <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
+                                    <div className="text-lg font-light mb-2" style={{ color: '#00A9D9' }}>€ 59</div>
+                                    <p className="text-xs text-gray-600 font-light">
+                                        Gezielte Behandlung der Augenpartie zur Reduktion von Schwellungen, Trockenheitsfältchen und Müdigkeitsanzeichen. Ideal als Ergänzung zur HydraFacial-Behandlung.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

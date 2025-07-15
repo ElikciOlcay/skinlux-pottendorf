@@ -29,13 +29,13 @@ const FALLBACK_RESPONSES = {
         "Guten Tag! Ich bin Lisa von SkinLux. Womit kann ich Ihnen heute behilflich sein?"
     ],
     behandlung: [
-        "Bei SkinLux bieten wir verschiedene Behandlungen an:\n\n• Laser-Haarentfernung Damen & Herren (ab 35€)\n• HydraFacial® (ab 169€)\n• Premium Facials (ab 99€)\n\nKostenlose Erstberatung und Probebehandlung! Rufen Sie uns an: +43 660 57 21 403",
+        "Bei SkinLux bieten wir verschiedene Behandlungen an:\n\n• Laser-Haarentfernung Damen & Herren (ab 35€)\n• HydraFacial® (ab 169€)\n• Premium Facials (ab 150€)\n\nKostenlose Erstberatung und Probebehandlung! Rufen Sie uns an: +43 660 57 21 403",
         "Unsere beliebtesten Behandlungen sind:\n\n• Dauerhafte Laser-Haarentfernung für Damen & Herren\n• HydraFacial® für sofort strahlende Haut\n• Premium Facials mit Circadia Professional\n\nSparen Sie mit unseren Paketen! Kostenlose Beratung möglich."
     ],
     preis: [
         "Laser-Haarentfernung Damen:\n\n• Achseln: 55€\n• Bikini Zone: 60€\n• Beine komplett: 180€\n• Gesicht komplett: 99€\n\nPakete: Small 200€ | Medium 270€ | Large 390€\n\nKostenlose Erstberatung!",
         "Laser-Haarentfernung Herren:\n\n• Bartkontur: 50€\n• Brust: 80€\n• Rücken: 95€\n• Beine komplett: 230€\n\nKostenlose Erstberatung! Rufen Sie uns an: +43 660 57 21 403",
-        "HydraFacial® Preise:\n\n• Signature (30 Min): 169€\n• Signature + LED (50 Min): 189€\n• Deluxe (50 Min): 259€\n• Platinum (60 Min): 289€\n\nKostenlose Beratung möglich!"
+        "HydraFacial® Preise:\n\n• Signature (1 Std.): 169€\n• Signature + LED (1 Std. 15 Min.): 189€\n• Deluxe (1 Std. 15 Min.): 259€\n• Platinum (2 Std.): 289€\n• Po-Behandlung (1 Std.): 189€\n• Rücken (1 Std.): 189€\n• Add-ons je 59€ (5 Min.)\n\nKostenlose Beratung möglich!"
     ],
     termin: [
         "Terminvereinbarung ist ganz einfach:\n\n📱 Online: Über unsere Website\n📞 Telefonisch: +43 664 91 88 632\n\nÖffnungszeiten:\nDi-Fr: 09:00 - 18:00\nSa: 09:00 - 14:00",

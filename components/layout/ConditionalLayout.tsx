@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import OfferPopup from "@/components/ui/OfferPopup";
 import CookieBanner from "@/components/ui/CookieBanner";
 import ChatWidget from "@/components/chat/ChatWidget";
+import ColorPicker from "@/components/ui/ColorPicker";
 
 interface ConditionalLayoutProps {
     children: React.ReactNode;
@@ -35,6 +36,7 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
             <OfferPopup />
             <CookieBanner />
             <ChatWidget />
+            <ColorPicker />
         </>
     );
 } 

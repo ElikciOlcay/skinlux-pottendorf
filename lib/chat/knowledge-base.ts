@@ -125,31 +125,70 @@ export const LISA_KNOWLEDGE = {
             types: [
                 {
                     name: "HydraFacial® Signature",
-                    duration: "30 Minuten",
+                    duration: "1 Stunde",
                     price: "169€",
-                    description: "Basis-Behandlung - Sanfte, aber effektive Behandlung zur porentiefen Reinigung, Entfernung abgestorbener Hautzellen und Versorgung mit Feuchtigkeit.",
+                    description: "Basis-Behandlung - Sanfte, aber effektive Behandlung zur porentiefen Reinigung, Entfernung abgestorbener Hautzellen und Versorgung mit Feuchtigkeit. Für ein frisches, klares Hautbild und sofort sichtbaren Glow.",
                     steps: ["Cleanse + Peel", "Extract + Hydrate", "Fuse + Protect"]
                 },
                 {
                     name: "HydraFacial® Signature + LED",
-                    duration: "50 Minuten",
+                    duration: "1 Std. 15 Min.",
                     price: "189€",
-                    description: "Mit LED-Therapie - Die klassische HydraFacial-Tiefenreinigung kombiniert mit beruhigendem Blaulicht – ideal bei unreiner, gestresster Haut.",
+                    description: "Mit LED-Therapie - Die klassische HydraFacial-Tiefenreinigung kombiniert mit beruhigendem Blaulicht – ideal bei unreiner, gestresster oder entzündlicher Haut. Reinigt porentieft, spendet Feuchtigkeit und wirkt antibakteriell – für ein sichtbar reines, geklärtes Hautbild.",
                     includes: ["Alles aus Signature", "LED-Lichttherapie", "Antibakteriell"]
                 },
                 {
                     name: "HydraFacial® Deluxe",
-                    duration: "50 Minuten",
+                    duration: "1 Std. 15 Min.",
                     price: "259€",
-                    description: "Premium Experience - Diese erweiterte HydraFacial-Behandlung kombiniert intensive Reinigung mit einer auf Ihre Hautbedürfnisse abgestimmten Wirkstoff-Infusion.",
+                    description: "Premium Experience - Diese erweiterte HydraFacial-Behandlung kombiniert intensive Reinigung, Peeling, Tiefenausreinigung und Hydration mit einer auf deine Hautbedürfnisse abgestimmten Wirkstoff-Infusion sowie LED-Lichttherapie. Ideal bei Unreinheiten, Linien, Pigmentflecken oder fahl wirkender Haut – für einen sichtbar gesunden Glow.",
                     includes: ["Alles aus Signature", "Individuelle Wirkstoff-Infusion", "LED-Lichttherapie"],
                     popular: true
                 },
                 {
                     name: "HydraFacial® Platinum",
-                    duration: "60 Minuten",
+                    duration: "2 Stunden",
                     price: "289€",
-                    description: "Luxus-Experience - Das ultimative HydraFacial-Erlebnis für maximale Ergebnisse."
+                    description: "Luxus-Experience - Die exklusivste HydraFacial-Variante beginnt mit einer entspannenden Lymphdrainage zur Entgiftung und Förderung der Durchblutung. Danach folgen gründliche Reinigung, Peeling, Tiefenausreinigung, Hydration, eine individuell auf deine Haut abgestimmte Wirkstoff-Infusion und abschließend eine LED-Lichttherapie. Für alle, die das Maximum an Hautpflege, Regeneration und Glow möchten.",
+                    includes: ["Entspannende Lymphdrainage", "Alles aus Deluxe", "Maximale Regeneration"]
+                },
+                {
+                    name: "HydraFacial® Po-Behandlung",
+                    duration: "1 Stunde",
+                    price: "189€",
+                    description: "Tiefenreinigende Pflege für glatte, straffe Haut am Po – exklusiv für Frauen. Ideal bei Unreinheiten, vergrößerten Poren oder unebener Haut. Mit sanftem Peeling, porentiefe Ausreinigung und Feuchtigkeitsversorgung – für ein sichtbar verfeinertes Hautbild und strahlend gepflegte Haut."
+                },
+                {
+                    name: "HydraFacial® Rücken",
+                    duration: "1 Stunde",
+                    price: "189€",
+                    description: "Intensive Tiefenreinigung für den Rücken – ideal bei Unreinheiten, verstopften Poren oder trockener Haut. Mit sanftem Peeling, Ausreinigung und Feuchtigkeits-Boost für glatte, geklärte und gepflegte Haut."
+                }
+            ],
+            addOns: [
+                {
+                    name: "Hals & Dekolleté Pflege",
+                    duration: "5 Minuten",
+                    price: "59€",
+                    description: "Sanfte, tiefenreinigende HydraFacial-Behandlung für Hals und Dekolleté. Mit dreistufiger Technologie: Reinigung, porentiefe Ausreinigung und intensive Feuchtigkeitsversorgung."
+                },
+                {
+                    name: "Handpflege",
+                    duration: "5 Minuten",
+                    price: "59€",
+                    description: "Verwöhnende HydraFacial-Behandlung für die Hände – glättet feine Linien, spendet intensiv Feuchtigkeit und lässt die Haut sichtbar frischer und jünger wirken."
+                },
+                {
+                    name: "Lippenboost",
+                    duration: "5 Minuten",
+                    price: "59€",
+                    description: "Sanftes Peeling, Feuchtigkeitsversorgung und nährende Wirkstoffe für geschmeidige, glatte und pralle Lippen. Der perfekte Abschluss deiner HydraFacial-Behandlung."
+                },
+                {
+                    name: "Augenpflege",
+                    duration: "5 Minuten",
+                    price: "59€",
+                    description: "Gezielte Behandlung der Augenpartie zur Reduktion von Schwellungen, Trockenheitsfältchen und Müdigkeitsanzeichen. Ideal als Ergänzung zur HydraFacial-Behandlung."
                 }
             ],
             benefits: [
@@ -604,7 +643,9 @@ LASER-PREISE HERREN (Einzelbehandlung):
 - INTIMBEREICH HERREN: KEINE PREISE VERFÜGBAR - Individuelle Beratung erforderlich!
 
 HYDRAFACIAL-PREISE:
-- Signature (30 Min) 169€, Signature+LED (50 Min) 189€, Deluxe (50 Min) 259€, Platinum (60 Min) 289€
+- Signature (1 Std.) 169€, Signature+LED (1 Std. 15 Min.) 189€, Deluxe (1 Std. 15 Min.) 259€, Platinum (2 Std.) 289€
+- Po-Behandlung (1 Std.) 189€, Rücken (1 Std.) 189€
+- Add-ons: Hals & Dekolleté, Handpflege, Lippenboost, Augenpflege je 59€ (5 Min.)
 
 
 WICHTIG: Bei JEDER Preisanfrage für nicht gelistete Zonen: "Für diese spezielle Zone kontaktieren Sie uns bitte für ein individuelles Angebot."

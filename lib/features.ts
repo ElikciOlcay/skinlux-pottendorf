@@ -2,8 +2,8 @@
 // Hier können Features ein- und ausgeschaltet werden
 
 export const FEATURES = {
-    // Hautanalyse - ausgeschaltet bis Gerät verfügbar ist
-    HAUTANALYSE_ENABLED: false,
+    // Hautanalyse - jetzt aktiviert
+    HAUTANALYSE_ENABLED: true,
 
     // Microneedling - ausgeschaltet bis verfügbar
     MICRONEEDLING_ENABLED: false,

@@ -22,21 +22,21 @@ export interface BankDetails {
 
 // Default bank details (fallback)
 const DEFAULT_BANK_DETAILS: BankDetails = {
-    bankName: 'Sparkasse Pongau',
-    accountHolder: 'Skinlux Bischofshofen',
+    bankName: 'Sparkasse Baden',
+    accountHolder: 'Skinlux Pottendorf',
     iban: 'AT00 0000 0000 0000 0000',
     bic: 'SPALAT2G',
     reference: 'Gutschein-Bestellung',
     voucherValidityMonths: 12,
     sendVoucherAsPDF: false, // Standard: HTML-E-Mail
     // Default address values
-    businessName: 'Skinlux Bischofshofen',
-    streetAddress: 'Salzburger Straße 45',
-    postalCode: '5500',
-    city: 'Bischofshofen',
+    businessName: 'Skinlux Pottendorf',
+    streetAddress: 'Dr. Heinz-Fischer-Straße 3/2',
+    postalCode: '2486',
+    city: 'Pottendorf',
     country: 'Österreich',
-    phone: '+43 123 456 789',
-    email: 'hello@skinlux.at',
+    phone: '+43 664 91 88 632',
+    email: 'hey@skinlux.at',
     website: 'skinlux.at'
 };
 

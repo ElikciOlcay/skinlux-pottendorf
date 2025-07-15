@@ -38,12 +38,12 @@ const FALLBACK_RESPONSES = {
         "HydraFacial® Preise:\n\n• Signature (30 Min): 169€\n• Signature + LED (50 Min): 189€\n• Deluxe (50 Min): 259€\n• Platinum (60 Min): 289€\n\nKostenlose Beratung möglich!"
     ],
     termin: [
-        "Terminvereinbarung ist ganz einfach:\n\n📱 Online: Über unsere Website\n📞 Telefonisch: +43 660 57 21 403\n\nÖffnungszeiten:\nDi-Fr: 09:00 - 18:00\nSa: 09:00 - 14:00",
+        "Terminvereinbarung ist ganz einfach:\n\n📱 Online: Über unsere Website\n📞 Telefonisch: +43 664 91 88 632\n\nÖffnungszeiten:\nDi-Fr: 09:00 - 18:00\nSa: 09:00 - 14:00",
         "Sie können jederzeit einen Termin vereinbaren:\n\n• Online-Buchung rund um die Uhr\n• Telefonisch während der Geschäftszeiten\n• Kostenlose Erstberatung möglich\n\nWir freuen uns auf Sie!"
     ],
     default: [
-        "Vielen Dank für Ihre Nachricht! Für detaillierte Informationen kontaktieren Sie uns gerne:\n\n📞 +43 660 57 21 403\n📧 info@skinlux.at\n📍 Franz-Mohshammer-Platz 2/1, Bischofshofen",
-        "Ich helfe Ihnen gerne weiter! Bei spezifischen Fragen erreichen Sie uns:\n\n• Telefon: +43 660 57 21 403\n• Online-Terminbuchung auf unserer Website\n• Persönliche Beratung im Studio"
+        "Vielen Dank für Ihre Nachricht! Für detaillierte Informationen kontaktieren Sie uns gerne:\n\n📞 +43 664 91 88 632\n📧 hey@skinlux.at\n📍 Dr. Heinz-Fischer-Straße 3/2, Pottendorf",
+        "Ich helfe Ihnen gerne weiter! Bei spezifischen Fragen erreichen Sie uns:\n\n• Telefon: +43 664 91 88 632\n• Online-Terminbuchung auf unserer Website\n• Persönliche Beratung im Studio"
     ]
 };
 

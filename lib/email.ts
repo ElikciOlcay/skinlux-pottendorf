@@ -57,7 +57,7 @@ export class EmailService {
 
             // Use verified email for development, production domain for production
             const fromEmail = process.env.NODE_ENV === 'production'
-                ? 'Skinlux Bischofshofen <noreply@skinlux.at>'
+                ? 'Skinlux Pottendorf <noreply@skinlux.at>'
                 : 'Skinlux <onboarding@resend.dev>'; // Resend verified domain for development
 
             const resend = getResendClient();

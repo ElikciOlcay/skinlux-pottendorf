@@ -236,7 +236,7 @@ export const LISA_KNOWLEDGE = {
             "Modernste FDA-zugelassene Technologie",
             "Individuell angepasste Behandlungspläne",
             "Transparente Preise ohne versteckte Kosten",
-            "Zentrale Lage in Bischofshofen",
+            "Zentrale Lage in Pottendorf",
             "Flexible Terminvereinbarung auch am Samstag",
             "Höchste Hygienestandards",
             "Regelmäßige Fortbildungen des Teams"
@@ -578,7 +578,7 @@ export const LISA_KNOWLEDGE = {
 };
 
 export const LISA_SYSTEM_PROMPT = `
-Du bist Lisa, die persönliche KI-Beauty-Beraterin von SkinLux in Bischofshofen.
+Du bist Lisa, die persönliche KI-Beauty-Beraterin von SkinLux in Pottendorf.
 
 Deine Eigenschaften:
 - Freundlich, kompetent und einfühlsam

@@ -2,24 +2,19 @@
 
 ## 👥 Benötigte Personen:
 
-### `goekce.jpg`
-- **Person:** Gökce
-- **Position:** Gründerin & Leiterin
+### `ebru.jpg`
+- **Person:** Ebru Bicer
+- **Position:** Inhaberin
 - **Größe:** 500x500px (quadratisch)
 
-### `olcay.jpg`
-- **Person:** Olcay  
-- **Position:** Marketing & Digitalisierung
+### `can.jpg`
+- **Person:** Can Bicer  
+- **Position:** Technik & Marketing
 - **Größe:** 500x500px (quadratisch)
 
-### `thereza.jpg`
-- **Person:** Thereza
-- **Position:** Laser Expertin  
-- **Größe:** 500x500px (quadratisch)
-
-### `petra.jpg`
-- **Person:** Petra
-- **Position:** Laser Expertin  
+### `lucia.jpg`
+- **Person:** Lucia
+- **Position:** Laser Spezialistin  
 - **Größe:** 500x500px (quadratisch)
 
 ## 📝 Portrait-Richtlinien:

@@ -16,10 +16,9 @@ export const LISA_KNOWLEDGE = {
         website: "www.skinlux.at",
         founded: "2020",
         team: [
-            { name: "Gökce", role: "Gründerin & Leiterin", expertise: "Über 10 Jahre Erfahrung in der Beauty-Branche" },
-            { name: "Olcay", role: "Marketing & Digitalisierung", expertise: "Spezialist für digitale Prozesse" },
-            { name: "Thereza", role: "Laser Expertin", expertise: "Zertifizierte Lasertherapeutin" },
-            { name: "Petra", role: "Laser Expertin", expertise: "Spezialisiert auf Hautanalyse und Laserbehandlungen" }
+            { name: "Ebru Bicer", role: "Inhaberin", expertise: "Erfahrene Unternehmerin und Beauty-Expertin" },
+            { name: "Can Bicer", role: "Technik & Marketing", expertise: "Spezialist für Technologie und digitale Lösungen" },
+            { name: "Lucia", role: "Laser Spezialistin", expertise: "Zertifizierte Expertin für Laserbehandlungen" }
         ],
         philosophy: "Wir kombinieren modernste Technologie mit persönlicher Betreuung für optimale Ergebnisse",
         certifications: [

@@ -128,24 +128,19 @@ export default function UeberUns() {
                         <div className="grid md:grid-cols-2 gap-8">
                             {[
                                 {
-                                    name: "Gökce",
-                                    role: "Gründerin & Leiterin",
-                                    image: "/images/about/team/goekce.jpg"
+                                    name: "Ebru Bicer",
+                                    role: "Inhaberin",
+                                    image: "/images/about/team/ebru.jpg"
                                 },
                                 {
-                                    name: "Olcay",
-                                    role: "Marketing & Digitalisierung",
-                                    image: "/images/about/team/olcay.jpg"
+                                    name: "Can Bicer",
+                                    role: "Technik & Marketing",
+                                    image: "/images/about/team/can.jpg"
                                 },
                                 {
-                                    name: "Thereza",
-                                    role: "Laser Expertin",
-                                    image: "/images/about/team/thereza.jpg"
-                                },
-                                {
-                                    name: "Petra",
-                                    role: "Laser Expertin",
-                                    image: "/images/about/team/petra.jpg"
+                                    name: "Lucia",
+                                    role: "Laser Spezialistin",
+                                    image: "/images/about/team/lucia.jpg"
                                 }
                             ].map((member) => (
                                 <div key={member.name} className="group">

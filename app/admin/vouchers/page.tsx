@@ -830,7 +830,7 @@ export default function VouchersPage() {
                                             ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400'
                                             : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
                                             } border`}
-                                        placeholder="z.B. hello@skinlux.at"
+                                        placeholder="z.B. hey@skinlux.at"
                                     />
                                 </div>
 

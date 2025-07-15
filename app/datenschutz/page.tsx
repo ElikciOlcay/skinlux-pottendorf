@@ -104,7 +104,7 @@ export default function DatenschutzPage() {
                     <p>
                         Wenn Sie glauben, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt
                         oder Ihre datenschutzrechtlichen Ansprüche sonst in einer Weise verletzt worden sind,
-                        können Sie sich bei uns (hello@skinlux.at) oder der Datenschutzbehörde beschweren.
+                        können Sie sich bei uns (hey@skinlux.at) oder der Datenschutzbehörde beschweren.
                     </p>
                 </>
             )
@@ -215,13 +215,13 @@ export default function DatenschutzPage() {
                                         <div className="space-y-2 font-light text-gray-600">
                                             <p className="font-medium text-black">Skinlux</p>
                                             <p>Gökce Elikci</p>
-                                            <p>Bahnhofstraße 17</p>
-                                            <p>5500 Bischofshofen, Österreich</p>
+                                            <p>Dr. Heinz-Fischer-Straße 3/2</p>
+                                            <p>2486 Pottendorf, Österreich</p>
                                             <p className="pt-2">
-                                                <strong className="text-black">E-Mail:</strong> hello@skinlux.at
+                                                <strong className="text-black">E-Mail:</strong> hey@skinlux.at
                                             </p>
                                             <p>
-                                                <strong className="text-black">Tel.:</strong> 069917058498
+                                                <strong className="text-black">Tel.:</strong> 0664 91 88 632
                                             </p>
                                         </div>
                                     </div>

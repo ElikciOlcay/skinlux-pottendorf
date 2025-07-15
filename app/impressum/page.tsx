@@ -87,23 +87,23 @@ export default function ImpressumPage() {
                                                 <div className="font-light text-gray-600 text-sm md:text-base">
                                                     <p className="font-medium text-black mb-1">Skinlux</p>
                                                     <p>Gökce Elikci</p>
-                                                    <p>Bahnhofstraße 17</p>
-                                                    <p>5500 Bischofshofen</p>
+                                                    <p>Dr. Heinz-Fischer-Straße 3/2</p>
+                                                    <p>2486 Pottendorf</p>
                                                     <p>Österreich</p>
                                                 </div>
                                             </div>
 
                                             <div className="flex items-center gap-3 md:gap-4">
                                                 <Phone className="w-4 h-4 md:w-5 md:h-5" style={{ color: 'var(--color-secondary)' }} />
-                                                <a href="tel:069917058498" className="font-light text-gray-600 hover:text-black transition-colors text-sm md:text-base">
-                                                    069917058498
+                                                <a href="tel:+436649188632" className="font-light text-gray-600 hover:text-black transition-colors text-sm md:text-base">
+                                                    +43 664 91 88 632
                                                 </a>
                                             </div>
 
                                             <div className="flex items-center gap-3 md:gap-4">
                                                 <Mail className="w-4 h-4 md:w-5 md:h-5" style={{ color: 'var(--color-secondary)' }} />
-                                                <a href="mailto:hello@skinlux.at" className="font-light text-gray-600 hover:text-black transition-colors text-sm md:text-base">
-                                                    hello@skinlux.at
+                                                <a href="mailto:hey@skinlux.at" className="font-light text-gray-600 hover:text-black transition-colors text-sm md:text-base">
+                                                    hey@skinlux.at
                                                 </a>
                                             </div>
                                         </div>

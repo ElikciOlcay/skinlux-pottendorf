@@ -97,7 +97,7 @@ export default function AdminLogin() {
                                 style={{ fontFamily: 'var(--font-inter)' }}
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
-                                placeholder="admin@skinlux.at"
+                                placeholder="hey@skinlux.at"
                                 required
                                 disabled={loading}
                             />

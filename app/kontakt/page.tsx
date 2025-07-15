@@ -33,7 +33,7 @@ export default function Kontakt() {
                             <span>+43 664 91 88 632</span>
                             <span className="text-gray-300">|</span>
                             <Mail className="w-4 h-4" />
-                            <span>info@skinlux.at</span>
+                            <span>hey@skinlux.at</span>
                         </div>
                     </div>
                 </div>

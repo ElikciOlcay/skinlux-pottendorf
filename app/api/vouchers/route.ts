@@ -34,6 +34,36 @@ export async function GET(request: NextRequest) {
             );
         }
 
+        // Studio-ID ermitteln basierend auf Host/Subdomain
+        const host = request.headers.get('host') || '';
+        let subdomain = host.split('.')[0];
+
+        // Fallback für localhost/Development
+        if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+            // Für Pottendorf-Instance verwende "pottendorf" als Subdomain
+            subdomain = 'pottendorf';
+            console.log('🏢 Using development fallback subdomain:', subdomain);
+        }
+
+        console.log('🏢 Detecting studio from host:', host, 'subdomain:', subdomain);
+
+        // Studio-ID aus Datenbank holen
+        const { data: studio, error: studioError } = await supabaseAdmin
+            .from('studios')
+            .select('id, name')
+            .eq('subdomain', subdomain)
+            .single();
+
+        if (studioError || !studio) {
+            console.error('❌ Studio nicht gefunden für Subdomain:', subdomain, 'Error:', studioError?.message);
+            return NextResponse.json(
+                { error: `Studio nicht gefunden für Subdomain: ${subdomain}` },
+                { status: 404 }
+            );
+        }
+
+        console.log('🏢 Found studio:', studio.name, 'ID:', studio.id);
+
         // Hole URL parameters für Trash-Filter
         const url = new URL(request.url);
         const includeDeleted = url.searchParams.get('include_deleted') === 'true';
@@ -42,6 +72,7 @@ export async function GET(request: NextRequest) {
         let query = supabaseAdmin
             .from('vouchers')
             .select('*')
+            .eq('studio_id', studio.id)  // Nur Vouchers für dieses Studio
             .order('created_at', { ascending: false });
 
         // Filter nach Löschstatus
@@ -61,10 +92,11 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        console.log(`Successfully fetched ${data?.length || 0} vouchers`);
+        console.log(`Successfully fetched ${data?.length || 0} vouchers for studio ${studio.name}`);
 
         return NextResponse.json({
             vouchers: data || [],
+            studio: studio,
             success: true
         });
 
@@ -366,13 +398,35 @@ export async function DELETE(request: NextRequest) {
             );
         }
 
+        // Studio-ID ermitteln für Sicherheitsprüfung
+        const host = request.headers.get('host') || '';
+        let subdomain = host.split('.')[0];
+
+        if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+            subdomain = 'pottendorf';
+        }
+
+        const { data: studio } = await supabaseAdmin
+            .from('studios')
+            .select('id')
+            .eq('subdomain', subdomain)
+            .single();
+
+        if (!studio) {
+            return NextResponse.json(
+                { error: 'Studio nicht gefunden' },
+                { status: 404 }
+            );
+        }
+
         if (permanent) {
-            // Endgültiges Löschen
+            // Endgültiges Löschen - nur für Vouchers des eigenen Studios
             console.log('💀 Permanently deleting voucher:', voucherId);
             const { error } = await supabaseAdmin
                 .from('vouchers')
                 .delete()
-                .eq('id', voucherId);
+                .eq('id', voucherId)
+                .eq('studio_id', studio.id);  // Sicherheit: nur eigene Studio-Vouchers
 
             if (error) {
                 console.error('❌ Database error:', error);
@@ -385,7 +439,7 @@ export async function DELETE(request: NextRequest) {
             console.log('✅ Voucher permanently deleted');
             return NextResponse.json({ success: true, message: 'Gutschein endgültig gelöscht' });
         } else {
-            // Soft Delete
+            // Soft Delete - nur für Vouchers des eigenen Studios
             console.log('🗑️ Soft deleting voucher:', voucherId);
             const { data, error } = await supabaseAdmin
                 .from('vouchers')
@@ -394,6 +448,7 @@ export async function DELETE(request: NextRequest) {
                     deleted_by: adminName || 'Admin'
                 })
                 .eq('id', voucherId)
+                .eq('studio_id', studio.id)  // Sicherheit: nur eigene Studio-Vouchers
                 .select()
                 .single();
 
@@ -448,6 +503,27 @@ export async function PUT(request: NextRequest) {
             );
         }
 
+        // Studio-ID ermitteln für Sicherheitsprüfung
+        const host = request.headers.get('host') || '';
+        let subdomain = host.split('.')[0];
+
+        if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+            subdomain = 'pottendorf';
+        }
+
+        const { data: studio } = await supabaseAdmin
+            .from('studios')
+            .select('id')
+            .eq('subdomain', subdomain)
+            .single();
+
+        if (!studio) {
+            return NextResponse.json(
+                { error: 'Studio nicht gefunden' },
+                { status: 404 }
+            );
+        }
+
         const { data, error } = await supabaseAdmin
             .from('vouchers')
             .update({
@@ -455,6 +531,7 @@ export async function PUT(request: NextRequest) {
                 deleted_by: null
             })
             .eq('id', voucherId)
+            .eq('studio_id', studio.id)  // Sicherheit: nur eigene Studio-Vouchers
             .select()
             .single();
 
@@ -514,12 +591,36 @@ export async function PATCH(request: NextRequest) {
 
         console.log('✅ Supabase admin client created, attempting update...');
 
+        // Studio-ID ermitteln für Sicherheitsprüfung
+        const host = request.headers.get('host') || '';
+        let subdomain = host.split('.')[0];
+
+        if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+            subdomain = 'pottendorf';
+        }
+
+        const { data: studio } = await supabaseAdmin
+            .from('studios')
+            .select('id')
+            .eq('subdomain', subdomain)
+            .single();
+
+        if (!studio) {
+            return NextResponse.json(
+                { error: 'Studio nicht gefunden' },
+                { status: 404 }
+            );
+        }
+
+        console.log('🏢 Updating voucher for studio:', studio.id);
+
         const { data, error } = await supabaseAdmin
             .from('vouchers')
             .update({
                 payment_status: status === 'paid' ? 'paid' : status
             })
             .eq('id', voucherId)
+            .eq('studio_id', studio.id)  // Sicherheit: nur eigene Studio-Vouchers
             .select()
             .single();
 

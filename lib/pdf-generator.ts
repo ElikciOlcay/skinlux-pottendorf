@@ -204,9 +204,9 @@ export class PDFGenerator {
         doc.setTextColor(...lightGray);
 
         const contactInfo = [
-            'Skinlux Bischofshofen',
-            'Bahnhofstrasse 17, 5500 Bischofshofen',
-            'Tel: 0660 57 21 403 • hello@skinlux.at'
+            bankDetails.businessName,
+            `${bankDetails.streetAddress}, ${bankDetails.postalCode} ${bankDetails.city}`,
+            `Tel: ${bankDetails.phone} • ${bankDetails.email}`
         ];
 
         contactInfo.forEach((line, index) => {

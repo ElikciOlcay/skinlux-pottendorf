@@ -141,6 +141,9 @@ export class EmailService {
                 return { success: false, error: 'Email service not configured' };
             }
 
+            // Load bank details for studio-specific contact information
+            const bankDetails = await this.getBankDetailsPublic();
+
             // Determine recipient
             const recipient = data.recipientName && data.recipientName !== data.senderName
                 ? data.recipientName
@@ -152,7 +155,7 @@ export class EmailService {
                 : data.senderEmail;         // Production: echte E-Mail
 
             const fromEmail = process.env.NODE_ENV === 'production'
-                ? 'Skinlux <hello@skinlux.at>'
+                ? `Skinlux <${bankDetails.email}>`
                 : 'Skinlux <onboarding@resend.dev>';
 
             console.log(`📧 Sending voucher ${sendAsPDF ? 'PDF' : 'HTML'} email to: ${toEmail} (Recipient: ${recipient})`);
@@ -181,7 +184,7 @@ export class EmailService {
                         from: fromEmail,
                         to: [toEmail],
                         subject: `🎁 Ihr Skinlux PDF-Gutschein ist da! Code: ${data.voucherCode}`,
-                        html: this.generatePDFEmailHTML(data),
+                        html: this.generatePDFEmailHTML(data, bankDetails),
                         attachments: [
                             {
                                 filename: `Skinlux-Gutschein-${data.voucherCode}.pdf`,
@@ -202,7 +205,7 @@ export class EmailService {
                     from: fromEmail,
                     to: [toEmail],
                     subject: `🎁 Ihr Skinlux Gutschein ist da! Code: ${data.voucherCode}`,
-                    html: this.generateVoucherEmailHTML(data)
+                    html: this.generateVoucherEmailHTML(data, bankDetails)
                 });
                 console.log('✅ HTML email sent successfully');
             }
@@ -792,7 +795,7 @@ export class EmailService {
     }
 
     // Generate voucher email HTML (the actual digital voucher)
-    private static generateVoucherEmailHTML(data: VoucherEmailData): string {
+    private static generateVoucherEmailHTML(data: VoucherEmailData, bankDetails: BankDetails): string {
         const recipientName = data.recipientName || data.senderName;
         const isGift = data.recipientName && data.recipientName !== data.senderName;
 
@@ -1118,9 +1121,9 @@ export class EmailService {
                         <div style="margin-top: 30px; padding: 25px; background: #f9fafb; border-radius: 15px;">
                             <h4 style="color: #374151; margin-bottom: 15px;">📞 Oder rufen Sie uns an:</h4>
                             <p style="margin: 0; color: #6b7280;">
-                                <strong>Telefon:</strong> 0660 57 21 403<br>
-                                <strong>E-Mail:</strong> hello@skinlux.at<br>
-                                <strong>Adresse:</strong> Bahnhofstrasse 17, 5500 Bischofshofen
+                                <strong>Telefon:</strong> ${bankDetails.phone}<br>
+                                <strong>E-Mail:</strong> ${bankDetails.email}<br>
+                                <strong>Adresse:</strong> ${bankDetails.streetAddress}, ${bankDetails.postalCode} ${bankDetails.city}
                             </p>
                         </div>
                     </div>
@@ -1128,9 +1131,9 @@ export class EmailService {
                 
                 <div class="footer">
                     <div class="footer-logo">SKINLUX</div>
-                    <p><strong>Bahnhofstrasse 17, 5500 Bischofshofen</strong><br>
-                    Tel: 0660 57 21 403 | E-Mail: hello@skinlux.at<br>
-                    Web: <a href="https://skinlux.at" style="color: #059669;">skinlux.at</a></p>
+                    <p><strong>${bankDetails.streetAddress}, ${bankDetails.postalCode} ${bankDetails.city}</strong><br>
+                    Tel: ${bankDetails.phone} | E-Mail: ${bankDetails.email}<br>
+                    Web: <a href="https://${bankDetails.website}" style="color: #059669;">${bankDetails.website}</a></p>
                     
                     <div style="margin: 25px 0; padding: 20px; background: #f3f4f6; border-radius: 10px;">
                         <h4 style="color: #374151; margin-bottom: 10px;">🔒 Wichtige Hinweise:</h4>
@@ -1154,7 +1157,7 @@ export class EmailService {
     }
 
     // Generate simple email HTML for PDF attachment
-    private static generatePDFEmailHTML(data: VoucherEmailData): string {
+    private static generatePDFEmailHTML(data: VoucherEmailData, bankDetails: BankDetails): string {
         const recipientName = data.recipientName || data.senderName;
         const isGift = data.recipientName && data.recipientName !== data.senderName;
 
@@ -1238,11 +1241,11 @@ export class EmailService {
                 </div>
                 
                 <div class="footer">
-                    <p><strong>Skinlux Bischofshofen</strong><br>
-                    Bahnhofstrasse 17, 5500 Bischofshofen<br>
-                    Tel: 0660 57 21 403<br>
-                    E-Mail: hello@skinlux.at<br>
-                    Web: <a href="https://skinlux.at" style="color: #059669;">skinlux.at</a></p>
+                    <p><strong>${bankDetails.businessName}</strong><br>
+                    ${bankDetails.streetAddress}, ${bankDetails.postalCode} ${bankDetails.city}<br>
+                    Tel: ${bankDetails.phone}<br>
+                    E-Mail: ${bankDetails.email}<br>
+                    Web: <a href="https://${bankDetails.website}" style="color: #059669;">${bankDetails.website}</a></p>
                     
                     <p style="margin-top: 20px; font-size: 12px;">
                     Diese E-Mail wurde automatisch generiert. Bei Fragen antworten Sie einfach auf diese E-Mail.

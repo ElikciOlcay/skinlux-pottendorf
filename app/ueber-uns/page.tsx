@@ -26,7 +26,7 @@ export default function UeberUns() {
                         </h1>
 
                         <p className="text-xl md:text-2xl text-gray-600 mb-8 font-light leading-relaxed max-w-3xl mx-auto">
-                            Ihr vertrauensvoller Partner für professionelle Beauty-Behandlungen im Pongau
+                            Ihr vertrauensvoller Partner für professionelle Beauty-Behandlungen in Pottendorf
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500 font-light">
@@ -72,7 +72,7 @@ export default function UeberUns() {
                                 </p>
 
                                 <p className="text-lg text-gray-600 font-light mb-6 leading-relaxed">
-                                    Als Medical Beauty Studio im Herzen des Pongaus kombinieren wir
+                                    Als Medical Beauty Studio in Pottendorf kombinieren wir
                                     modernste Technologie mit persönlicher Betreuung, um Ihnen
                                     die bestmöglichen Ergebnisse zu garantieren.
                                 </p>

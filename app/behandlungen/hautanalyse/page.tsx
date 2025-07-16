@@ -199,7 +199,7 @@ export default function Hautanalyse() {
                                 <div
                                     className="absolute inset-0"
                                     style={{
-                                        backgroundImage: "url('/images/treatments/hautanalyse.jpg')",
+                                        backgroundImage: "url('/images/hautanalyse/hautanalyse.jpg')",
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                         backgroundColor: '#f5f5f5'

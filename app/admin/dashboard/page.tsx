@@ -15,7 +15,8 @@ import {
     Activity,
     Zap,
     Sun,
-    Moon
+    Moon,
+    Image
 } from "lucide-react";
 import { AdminAuth, type AdminAccess } from "@/lib/supabase-auth";
 import { Inter } from "next/font/google";
@@ -86,6 +87,16 @@ export default function AdminDashboard() {
             color: "purple",
             gradient: "from-purple-500 to-violet-600",
             bgPattern: "bg-gradient-to-br from-purple-500/20 to-violet-600/20"
+        },
+        {
+            id: "media",
+            title: "Bildverwaltung",
+            description: "Fotos für alle Studios verwalten",
+            url: "/admin/media",
+            icon: <Image className="w-9 h-9" />,
+            color: "orange",
+            gradient: "from-orange-500 to-amber-600",
+            bgPattern: "bg-gradient-to-br from-orange-500/20 to-amber-600/20"
         }
     ];
 

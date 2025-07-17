@@ -49,7 +49,7 @@ export const LISA_KNOWLEDGE = {
                 "FDA-zugelassen",
                 "Kostenlose Erstberatung und Probebehandlung"
             ],
-            sessions: "6-8 Behandlungen im Abstand von 4-6 Wochen",
+            sessions: "Behandlungen im Abstand von 4-6 Wochen",
             damenPreise: {
                 gesicht: {
                     oberlippe: { dauer: "-", preis: "30€" },
@@ -232,7 +232,7 @@ export const LISA_KNOWLEDGE = {
         },
         {
             question: "Wie viele Behandlungen brauche ich?",
-            answer: "Für dauerhafte Ergebnisse sind normalerweise 6-8 Behandlungen im Abstand von 4-6 Wochen nötig. Die genaue Anzahl hängt von Hauttyp, Haarfarbe und behandelter Zone ab."
+            answer: "Die Anzahl der benötigten Behandlungen hängt von Hauttyp, Haarfarbe und behandelter Zone ab. Behandlungen finden im Abstand von 4-6 Wochen statt. Bei der kostenlosen Beratung erhalten Sie eine individuelle Einschätzung!"
         },
         {
             question: "Kann ich eine kostenlose Probebehandlung machen?",

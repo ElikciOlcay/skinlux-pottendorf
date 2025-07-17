@@ -51,7 +51,7 @@ const faq = [
     },
     {
         question: "Wie viele Behandlungen brauche ich?",
-        answer: "In der Regel 6-8 Sitzungen für optimale Ergebnisse, abhängig von Hauttyp, Haarfarbe und Körperregion. Wir erstellen einen individuellen Plan."
+        answer: "Die Anzahl der Sitzungen ist individuell und abhängig von Hauttyp, Haarfarbe und Körperregion. Wir erstellen einen maßgeschneiderten Plan für Sie."
     },
     {
         question: "Für welche Hauttypen ist es geeignet?",

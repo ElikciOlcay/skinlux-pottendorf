@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Zap, Check, Clock, Shield, Heart, Star, TrendingUp, Users, Award } from "lucide-react";
+import { ArrowLeft, Zap, Check, Shield, Heart, Star, TrendingUp, Users, Award } from "lucide-react";
 import { useRef } from "react";
 import { FEATURES } from "@/lib/features";
 
@@ -30,13 +30,7 @@ export default function LaserHaarentfernung() {
             stat: "100%",
             statLabel: "Sicherheit"
         },
-        {
-            icon: Clock,
-            title: "Zeitsparend",
-            description: "Schnelle Behandlung mit langanhaltenden Ergebnissen",
-            stat: "6-8",
-            statLabel: "Sitzungen"
-        },
+
         {
             icon: Heart,
             title: "Für alle Hauttypen",
@@ -285,7 +279,6 @@ export default function LaserHaarentfernung() {
                         {[
                             { number: "2000+", label: "Zufriedene Kunden", icon: Users },
                             { number: "99%", label: "Erfolgsquote", icon: TrendingUp },
-                            { number: "6-8", label: "Behandlungen", icon: Zap },
                             { number: "5★", label: "Bewertungen", icon: Star }
                         ].map((stat, index) => (
                             <motion.div
@@ -628,7 +621,7 @@ export default function LaserHaarentfernung() {
                         {[
                             {
                                 frage: "Wie viele Behandlungen sind notwendig?",
-                                antwort: "In der Regel sind 6-8 Behandlungen im Abstand von 4-6 Wochen notwendig, um optimale Ergebnisse zu erzielen."
+                                antwort: "Die Anzahl der Behandlungen ist individuell und hängt von Hauttyp, Haarfarbe und behandelter Zone ab. Behandlungen finden im Abstand von 4-6 Wochen statt."
                             },
                             {
                                 frage: "Ist die Behandlung schmerzhaft?",

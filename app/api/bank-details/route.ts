@@ -59,7 +59,7 @@ function createSupabaseAdmin() {
 }
 
 // GET - Retrieve bank details from database
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
         const supabaseAdmin = createSupabaseAdmin();
 
@@ -71,14 +71,35 @@ export async function GET() {
             });
         }
 
-        // HARDCODED Studio-ID für Pottendorf
-        const studioId = '1947a6d5-3ab3-4423-8cdb-3d33b9823bdf';
+        // Studio-ID ermitteln basierend auf Host/Subdomain
+        const host = request.headers.get('host') || '';
+        let subdomain = host.split('.')[0];
+
+        // Fallback für localhost/Development
+        if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+            subdomain = 'pottendorf';
+        }
+
+        // Studio-ID aus Datenbank holen
+        const { data: studio, error: studioError } = await supabaseAdmin
+            .from('studios')
+            .select('id')
+            .eq('subdomain', subdomain)
+            .single();
+
+        if (studioError || !studio) {
+            console.warn('Studio nicht gefunden für Subdomain:', subdomain, 'Error:', studioError?.message);
+            return NextResponse.json({
+                success: true,
+                bankDetails: DEFAULT_BANK_DETAILS
+            });
+        }
 
         // Try to get bank details from database
         const { data: bankDetailsData, error } = await supabaseAdmin
             .from('bank_details')
             .select('*')
-            .eq('studio_id', studioId)
+            .eq('studio_id', studio.id)
             .single();
 
         if (error || !bankDetailsData) {
@@ -90,7 +111,7 @@ export async function GET() {
         }
 
         // Convert database format to API format
-        const bankDetails: BankDetails = {
+        const apiFormat: BankDetails = {
             bankName: bankDetailsData.bank_name,
             accountHolder: bankDetailsData.account_holder,
             iban: bankDetailsData.iban,
@@ -99,27 +120,28 @@ export async function GET() {
             voucherValidityMonths: bankDetailsData.voucher_validity_months,
             sendVoucherAsPDF: bankDetailsData.send_voucher_as_pdf,
             // Address fields
-            businessName: bankDetailsData.business_name || 'Skinlux Pottendorf',
-            streetAddress: bankDetailsData.street_address || 'Dr. Heinz-Fischer-Straße 3/2',
-            postalCode: bankDetailsData.postal_code || '2486',
-            city: bankDetailsData.city || 'Pottendorf',
-            country: bankDetailsData.country || 'Österreich',
-            phone: bankDetailsData.phone || '+43 664 91 88 632',
-            email: bankDetailsData.email || 'hey@skinlux.at',
-            website: bankDetailsData.website || 'skinlux.at'
+            businessName: bankDetailsData.business_name,
+            streetAddress: bankDetailsData.street_address,
+            postalCode: bankDetailsData.postal_code,
+            city: bankDetailsData.city,
+            country: bankDetailsData.country,
+            phone: bankDetailsData.phone,
+            email: bankDetailsData.email,
+            website: bankDetailsData.website
         };
 
+        console.log('Bank details retrieved from database for studio:', studio.id);
         return NextResponse.json({
             success: true,
-            bankDetails: bankDetails
+            bankDetails: apiFormat
         });
 
     } catch (error) {
-        console.error('Error getting bank details:', error);
-        return NextResponse.json(
-            { error: 'Fehler beim Laden der Bankdaten' },
-            { status: 500 }
-        );
+        console.error('Failed to get bank details:', error);
+        return NextResponse.json({
+            success: true,
+            bankDetails: DEFAULT_BANK_DETAILS
+        });
     }
 }
 
@@ -145,12 +167,33 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // HARDCODED Studio-ID für Pottendorf
-        const studioId = '1947a6d5-3ab3-4423-8cdb-3d33b9823bdf';
+        // Studio-ID ermitteln basierend auf Host/Subdomain
+        const host = request.headers.get('host') || '';
+        let subdomain = host.split('.')[0];
+
+        // Fallback für localhost/Development
+        if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+            subdomain = 'pottendorf';
+        }
+
+        // Studio-ID aus Datenbank holen
+        const { data: studio, error: studioError } = await supabaseAdmin
+            .from('studios')
+            .select('id')
+            .eq('subdomain', subdomain)
+            .single();
+
+        if (studioError || !studio) {
+            console.error('Studio nicht gefunden für Subdomain:', subdomain, 'Error:', studioError?.message);
+            return NextResponse.json(
+                { error: `Studio nicht gefunden für Subdomain: ${subdomain}` },
+                { status: 404 }
+            );
+        }
 
         // Convert API format to database format
         const dbBankDetails = {
-            studio_id: studioId,
+            studio_id: studio.id,
             bank_name: bankDetails.bankName,
             account_holder: bankDetails.accountHolder,
             iban: bankDetails.iban,
@@ -173,26 +216,39 @@ export async function POST(request: NextRequest) {
         const { error: updateError } = await supabaseAdmin
             .from('bank_details')
             .update(dbBankDetails)
-            .eq('studio_id', studioId);
+            .eq('studio_id', studio.id);
 
-        // If no row was updated, insert new
-        if (updateError) {
+        if (updateError && updateError.code === 'PGRST116') {
+            // No existing record, create new one
             const { error: insertError } = await supabaseAdmin
                 .from('bank_details')
-                .insert([dbBankDetails]);
+                .insert(dbBankDetails);
+
             if (insertError) {
+                console.error('Database insert error:', insertError);
                 return NextResponse.json(
                     { error: 'Fehler beim Speichern der Bankdaten' },
                     { status: 500 }
                 );
             }
+        } else if (updateError) {
+            console.error('Database update error:', updateError);
+            return NextResponse.json(
+                { error: 'Fehler beim Aktualisieren der Bankdaten' },
+                { status: 500 }
+            );
         }
 
-        return NextResponse.json({ success: true });
+        console.log('Bank details saved successfully for studio:', studio.id);
+        return NextResponse.json({
+            success: true,
+            message: 'Bankdaten erfolgreich gespeichert'
+        });
+
     } catch (error) {
-        console.error('Error saving bank details:', error);
+        console.error('Failed to save bank details:', error);
         return NextResponse.json(
-            { error: 'Fehler beim Speichern der Bankdaten' },
+            { error: 'Server-Fehler beim Speichern der Bankdaten' },
             { status: 500 }
         );
     }

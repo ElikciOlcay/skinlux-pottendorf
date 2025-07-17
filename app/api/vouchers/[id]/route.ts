@@ -43,7 +43,31 @@ export async function GET(
             );
         }
 
-        // Gutschein mit Einlösungshistorie laden
+        // Studio-ID ermitteln basierend auf Host/Subdomain für Sicherheit
+        const host = request.headers.get('host') || '';
+        let subdomain = host.split('.')[0];
+
+        // Fallback für localhost/Development
+        if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+            subdomain = 'pottendorf';
+        }
+
+        // Studio-ID aus Datenbank holen
+        const { data: studio, error: studioError } = await supabaseAdmin
+            .from('studios')
+            .select('id')
+            .eq('subdomain', subdomain)
+            .single();
+
+        if (studioError || !studio) {
+            console.error('Studio nicht gefunden für Subdomain:', subdomain, 'Error:', studioError?.message);
+            return NextResponse.json(
+                { error: `Studio nicht gefunden für Subdomain: ${subdomain}` },
+                { status: 404 }
+            );
+        }
+
+        // Gutschein mit Einlösungshistorie laden - MIT Studio-Isolierung
         const { data: voucher, error: voucherError } = await supabaseAdmin
             .from('vouchers')
             .select(`
@@ -51,12 +75,13 @@ export async function GET(
                 redemptions:voucher_redemptions(*)
             `)
             .eq('id', voucherId)
+            .eq('studio_id', studio.id)  // 🔒 SICHERHEIT: Nur Vouchers des eigenen Studios
             .single();
 
         if (voucherError) {
             console.error('Database error:', voucherError);
             return NextResponse.json(
-                { error: 'Gutschein nicht gefunden' },
+                { error: 'Gutschein nicht gefunden oder nicht zugänglich' },
                 { status: 404 }
             );
         }
@@ -114,13 +139,13 @@ export async function PATCH(
         // Je nach Action verschiedene Operationen
         switch (action) {
             case 'update_details':
-                return await updateVoucherDetails(supabaseAdmin, voucherId, body.data);
+                return await updateVoucherDetails(supabaseAdmin, voucherId, body.data, request);
 
             case 'update_status':
-                return await updateVoucherStatus(supabaseAdmin, voucherId, body.status);
+                return await updateVoucherStatus(supabaseAdmin, voucherId, body.status, request);
 
             case 'redeem':
-                return await redeemVoucher(supabaseAdmin, voucherId, body.amount, body.description);
+                return await redeemVoucher(supabaseAdmin, voucherId, body.amount, body.description, request);
 
             default:
                 return NextResponse.json(
@@ -138,74 +163,136 @@ export async function PATCH(
     }
 }
 
+// Helper functions für verschiedene Update-Operationen
+
 // Gutschein-Details aktualisieren
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function updateVoucherDetails(supabaseAdmin: any, voucherId: string, data: any) {
-    const { error } = await supabaseAdmin
+async function updateVoucherDetails(supabaseAdmin: any, voucherId: string, updateData: any, request: NextRequest) {
+    // Studio-ID ermitteln für Sicherheitsprüfung
+    const host = request.headers.get('host') || '';
+    let subdomain = host.split('.')[0];
+
+    // Fallback für localhost/Development
+    if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+        subdomain = 'pottendorf';
+    }
+
+    // Studio-ID aus Datenbank holen
+    const { data: studio, error: studioError } = await supabaseAdmin
+        .from('studios')
+        .select('id')
+        .eq('subdomain', subdomain)
+        .single();
+
+    if (studioError || !studio) {
+        console.error('Studio nicht gefunden für Subdomain:', subdomain, 'Error:', studioError?.message);
+        return NextResponse.json(
+            { error: `Studio nicht gefunden für Subdomain: ${subdomain}` },
+            { status: 404 }
+        );
+    }
+
+    const { data, error } = await supabaseAdmin
         .from('vouchers')
-        .update({
-            sender_name: data.sender_name,
-            sender_email: data.sender_email,
-            sender_phone: data.sender_phone,
-            recipient_name: data.recipient_name,
-            recipient_address: data.recipient_address,
-            recipient_postal_code: data.recipient_postal_code,
-            recipient_city: data.recipient_city,
-            message: data.message,
-            amount: data.amount
-        })
-        .eq('id', voucherId);
+        .update(updateData)
+        .eq('id', voucherId)
+        .eq('studio_id', studio.id)  // 🔒 SICHERHEIT: Nur eigene Studio-Vouchers
+        .select()
+        .single();
 
     if (error) {
         console.error('Update error:', error);
         return NextResponse.json(
-            { error: 'Fehler beim Aktualisieren der Details' },
+            { error: 'Fehler beim Aktualisieren des Gutscheins' },
             { status: 500 }
         );
     }
 
     return NextResponse.json({
         success: true,
-        message: 'Details erfolgreich aktualisiert'
+        message: 'Gutschein erfolgreich aktualisiert',
+        voucher: data
     });
 }
 
 // Gutschein-Status aktualisieren
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function updateVoucherStatus(supabaseAdmin: any, voucherId: string, newStatus: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const updateData: any = {};
+async function updateVoucherStatus(supabaseAdmin: any, voucherId: string, status: string, request: NextRequest) {
+    // Studio-ID ermitteln für Sicherheitsprüfung
+    const host = request.headers.get('host') || '';
+    let subdomain = host.split('.')[0];
 
-    if (newStatus === 'paid') {
-        updateData.payment_status = 'paid';
-        updateData.status = 'active'; // Automatisch aktivieren wenn bezahlt
-    } else {
-        updateData.status = newStatus;
+    // Fallback für localhost/Development
+    if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+        subdomain = 'pottendorf';
     }
 
-    const { error } = await supabaseAdmin
+    // Studio-ID aus Datenbank holen
+    const { data: studio, error: studioError } = await supabaseAdmin
+        .from('studios')
+        .select('id')
+        .eq('subdomain', subdomain)
+        .single();
+
+    if (studioError || !studio) {
+        console.error('Studio nicht gefunden für Subdomain:', subdomain, 'Error:', studioError?.message);
+        return NextResponse.json(
+            { error: `Studio nicht gefunden für Subdomain: ${subdomain}` },
+            { status: 404 }
+        );
+    }
+
+    const { data, error } = await supabaseAdmin
         .from('vouchers')
-        .update(updateData)
-        .eq('id', voucherId);
+        .update({ status })
+        .eq('id', voucherId)
+        .eq('studio_id', studio.id)  // 🔒 SICHERHEIT: Nur eigene Studio-Vouchers
+        .select()
+        .single();
 
     if (error) {
         console.error('Status update error:', error);
         return NextResponse.json(
-            { error: 'Fehler beim Status-Update' },
+            { error: 'Fehler beim Aktualisieren des Status' },
             { status: 500 }
         );
     }
 
     return NextResponse.json({
         success: true,
-        message: 'Status erfolgreich aktualisiert'
+        message: 'Status erfolgreich aktualisiert',
+        voucher: data
     });
 }
 
 // Gutschein einlösen
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function redeemVoucher(supabaseAdmin: any, voucherId: string, amount: number, description: string) {
-    // Zuerst aktuellen Gutschein laden
+async function redeemVoucher(supabaseAdmin: any, voucherId: string, amount: number, description: string, request: NextRequest) {
+    // Studio-ID ermitteln für Sicherheitsprüfung
+    const host = request.headers.get('host') || '';
+    let subdomain = host.split('.')[0];
+
+    // Fallback für localhost/Development
+    if (!subdomain || subdomain === 'localhost' || subdomain.includes('3000') || subdomain.includes('3001')) {
+        subdomain = 'pottendorf';
+    }
+
+    // Studio-ID aus Datenbank holen
+    const { data: studio, error: studioError } = await supabaseAdmin
+        .from('studios')
+        .select('id')
+        .eq('subdomain', subdomain)
+        .single();
+
+    if (studioError || !studio) {
+        console.error('Studio nicht gefunden für Subdomain:', subdomain, 'Error:', studioError?.message);
+        return NextResponse.json(
+            { error: `Studio nicht gefunden für Subdomain: ${subdomain}` },
+            { status: 404 }
+        );
+    }
+
+    // Zuerst aktuellen Gutschein laden - MIT Studio-Isolierung
     const { data: voucher, error: voucherError } = await supabaseAdmin
         .from('vouchers')
         .select(`
@@ -213,11 +300,12 @@ async function redeemVoucher(supabaseAdmin: any, voucherId: string, amount: numb
             redemptions:voucher_redemptions(amount)
         `)
         .eq('id', voucherId)
+        .eq('studio_id', studio.id)  // 🔒 SICHERHEIT: Nur Vouchers des eigenen Studios
         .single();
 
     if (voucherError) {
         return NextResponse.json(
-            { error: 'Gutschein nicht gefunden' },
+            { error: 'Gutschein nicht gefunden oder nicht zugänglich' },
             { status: 404 }
         );
     }
@@ -260,7 +348,7 @@ async function redeemVoucher(supabaseAdmin: any, voucherId: string, amount: numb
         );
     }
 
-    // Gutschein-Status aktualisieren falls komplett eingelöst
+    // Gutschein-Status aktualisieren falls komplett eingelöst - MIT Studio-Isolierung
     const newRemainingAmount = remainingAmount - amount;
     if (newRemainingAmount <= 0) {
         await supabaseAdmin
@@ -269,7 +357,8 @@ async function redeemVoucher(supabaseAdmin: any, voucherId: string, amount: numb
                 status: 'redeemed',
                 is_used: true
             })
-            .eq('id', voucherId);
+            .eq('id', voucherId)
+            .eq('studio_id', studio.id);  // 🔒 SICHERHEIT: Nur eigene Studio-Vouchers
     }
 
     return NextResponse.json({

@@ -175,7 +175,7 @@ export default function LaserHaarentfernung() {
                                     href="/preise/laser"
                                     className="btn-secondary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
                                 >
-                                    Preise ansehen
+                                    Alle Preise ansehen
                                 </Link>
                             </div>
                         </motion.div>
@@ -244,7 +244,7 @@ export default function LaserHaarentfernung() {
                                     href="/preise/laser"
                                     className="btn-secondary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto"
                                 >
-                                    Preise ansehen
+                                    Alle Preise ansehen
                                 </Link>
                             </div>
                         </motion.div>
@@ -590,14 +590,25 @@ export default function LaserHaarentfernung() {
                                 </p>
                             </div>
                         </div>
-                        <div className="text-center mt-6">
-                            <Link
-                                href="/preise/laser"
-                                className="btn-secondary inline-flex items-center justify-center"
-                            >
-                                Alle Preise ansehen
-                            </Link>
-                        </div>
+                    </motion.div>
+
+                    {/* Prominent Price CTA */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.5 }}
+                        className="text-center mt-8"
+                    >
+                        <Link
+                            href="/preise/laser"
+                            className="btn-primary inline-flex items-center justify-center text-lg px-8 py-4"
+                        >
+                            Komplette Preisliste ansehen
+                        </Link>
+                        <p className="text-sm font-light text-gray-500 mt-2">
+                            Alle Körperzonen und Paketpreise im Überblick
+                        </p>
                     </motion.div>
                 </div>
             </section>

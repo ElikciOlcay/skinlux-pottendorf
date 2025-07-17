@@ -103,7 +103,7 @@ export class EmailService {
 
             // Use verified email for development, production domain for production
             const fromEmail = process.env.NODE_ENV === 'production'
-                ? `Skinlux <${bankDetails.email}>`
+                ? `${bankDetails.businessName} <${bankDetails.email}>`
                 : 'Skinlux <onboarding@resend.dev>'; // Resend verified domain for development
 
             const resend = getResendClient();
@@ -157,7 +157,7 @@ export class EmailService {
                 : data.senderEmail;         // Production: echte E-Mail
 
             const fromEmail = process.env.NODE_ENV === 'production'
-                ? `Skinlux <${bankDetails.email}>`
+                ? `${bankDetails.businessName} <${bankDetails.email}>`
                 : 'Skinlux <onboarding@resend.dev>';
 
             console.log(`📧 Sending voucher ${sendAsPDF ? 'PDF' : 'HTML'} email to: ${toEmail} (Recipient: ${recipient})`);

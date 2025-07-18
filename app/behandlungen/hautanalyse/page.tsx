@@ -413,7 +413,8 @@ export default function Hautanalyse() {
                         </h2>
                     </motion.div>
 
-                    <div className="max-w-2xl mx-auto">
+                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        {/* Standard Option */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -423,7 +424,7 @@ export default function Hautanalyse() {
                         >
                             <div className="text-center">
                                 <h3 className="text-2xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
-                                    Professionelle Hautanalyse
+                                    Standard Hautanalyse
                                 </h3>
                                 <div className="text-5xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
                                     €49
@@ -432,7 +433,7 @@ export default function Hautanalyse() {
                                     Komplette Analyse mit Beratung
                                 </p>
 
-                                <div className="space-y-3 mb-8 text-left max-w-md mx-auto">
+                                <div className="space-y-3 mb-8 text-left">
                                     {[
                                         "HD-Hautaufnahmen",
                                         "7 Analyseparameter",
@@ -452,26 +453,70 @@ export default function Hautanalyse() {
                                     href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="btn-primary inline-flex items-center justify-center w-full"
+                                    className="btn-secondary inline-flex items-center justify-center w-full"
                                 >
                                     Hautanalyse buchen
                                 </a>
                             </div>
                         </motion.div>
-                    </div>
 
-                    {/* Info Text */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                        className="text-center mt-12"
-                    >
-                        <p className="text-gray-600 font-light max-w-2xl mx-auto">
-                            <strong>Kostenlose Hautanalyse</strong> bei Buchung einer anschließenden Behandlung oder Produkten im Wert von mindestens €150.
-                        </p>
-                    </motion.div>
+                        {/* Kostenlose Option */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            className="bg-white p-8 border-2 border-secondary relative"
+                        >
+                            {/* Popular Badge */}
+                            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                                <div
+                                    className="px-6 py-2 text-white text-xs font-light tracking-wider uppercase"
+                                    style={{ backgroundColor: 'var(--color-secondary)' }}
+                                >
+                                    Beliebt
+                                </div>
+                            </div>
+
+                            <div className="text-center pt-4">
+                                <h3 className="text-2xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                    Kostenlose Hautanalyse
+                                </h3>
+                                <div className="text-5xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
+                                    €0
+                                </div>
+                                <p className="text-gray-600 font-light mb-6">
+                                    Bei Buchung ab €150 Behandlung/Produkte
+                                </p>
+
+                                <div className="space-y-3 mb-8 text-left">
+                                    {[
+                                        "HD-Hautaufnahmen",
+                                        "7 Analyseparameter",
+                                        "Digitaler Hautreport",
+                                        "Persönliche Beratung",
+                                        "Behandlungsempfehlungen",
+                                        "Pflegeplan",
+                                        "Rabatt wird an der Kasse abgezogen"
+                                    ].map((feature, index) => (
+                                        <div key={index} className="flex items-center gap-3">
+                                            <CheckCircle className="w-4 h-4" style={{ color: 'var(--color-secondary)' }} />
+                                            <span className="text-sm font-light text-gray-700">{feature}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <a
+                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-primary inline-flex items-center justify-center w-full"
+                                >
+                                    Termin buchen & sparen
+                                </a>
+                            </div>
+                        </motion.div>
+                    </div>
                 </div>
             </section>
 

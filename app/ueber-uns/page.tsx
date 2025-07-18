@@ -136,11 +136,6 @@ export default function UeberUns() {
                                     name: "Can Bicer",
                                     role: "Technik & Marketing",
                                     image: "/images/about/team/can.jpg"
-                                },
-                                {
-                                    name: "Lucia",
-                                    role: "Laser Spezialistin",
-                                    image: "/images/about/team/lucia.jpg"
                                 }
                             ].map((member) => (
                                 <div key={member.name} className="group">

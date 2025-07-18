@@ -17,8 +17,7 @@ export const LISA_KNOWLEDGE = {
         founded: "2020",
         team: [
             { name: "Ebru Bicer", role: "Inhaberin", expertise: "Erfahrene Unternehmerin und Beauty-Expertin" },
-            { name: "Can Bicer", role: "Technik & Marketing", expertise: "Spezialist für Technologie und digitale Lösungen" },
-            { name: "Lucia", role: "Laser Spezialistin", expertise: "Zertifizierte Expertin für Laserbehandlungen" }
+            { name: "Can Bicer", role: "Technik & Marketing", expertise: "Spezialist für Technologie und digitale Lösungen" }
         ],
         philosophy: "Wir kombinieren modernste Technologie mit persönlicher Betreuung für optimale Ergebnisse",
         certifications: [

@@ -12,10 +12,7 @@
 - **Position:** Technik & Marketing
 - **Größe:** 500x500px (quadratisch)
 
-### `lucia.jpg`
-- **Person:** Lucia
-- **Position:** Laser Spezialistin  
-- **Größe:** 500x500px (quadratisch)
+
 
 ## 📝 Portrait-Richtlinien:
 
@@ -29,7 +26,7 @@
 - **Kleidung:** Business-Casual oder professionell
 - **Ausdruck:** Freundlich und vertrauenswürdig
 - **Pose:** Professionell aber nicht steif
-- **Einheitlichkeit:** Ähnlicher Stil für alle drei Portraits
+- **Einheitlichkeit:** Ähnlicher Stil für beide Portraits
 
 ## 🔄 Hover-Effekt:
 Die Bilder haben einen sanften Zoom-Effekt beim Hover (105% Skalierung) 

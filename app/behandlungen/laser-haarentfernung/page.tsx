@@ -465,8 +465,9 @@ export default function LaserHaarentfernung() {
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 150
+                                    <div className="text-2xl font-light flex items-baseline justify-end" style={{ color: 'var(--color-secondary)' }}>
+                                        <span className="text-lg mr-1">€</span>
+                                        <span>150</span>
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
                                         1 Std.
@@ -497,8 +498,9 @@ export default function LaserHaarentfernung() {
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 90
+                                    <div className="text-2xl font-light flex items-baseline justify-end" style={{ color: 'var(--color-secondary)' }}>
+                                        <span className="text-lg mr-1">€</span>
+                                        <span>90</span>
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
                                         45 Min.
@@ -524,8 +526,9 @@ export default function LaserHaarentfernung() {
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 55
+                                    <div className="text-2xl font-light flex items-baseline justify-end" style={{ color: 'var(--color-secondary)' }}>
+                                        <span className="text-lg mr-1">€</span>
+                                        <span>55</span>
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
                                         20 Min.
@@ -551,8 +554,9 @@ export default function LaserHaarentfernung() {
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-2xl font-light" style={{ color: 'var(--color-secondary)' }}>
-                                        € 50
+                                    <div className="text-2xl font-light flex items-baseline justify-end" style={{ color: 'var(--color-secondary)' }}>
+                                        <span className="text-lg mr-1">€</span>
+                                        <span>50</span>
                                     </div>
                                     <div className="text-sm text-gray-500 font-light">
                                         30 Min.

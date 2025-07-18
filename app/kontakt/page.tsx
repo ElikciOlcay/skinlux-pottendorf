@@ -144,7 +144,7 @@ export default function Kontakt() {
                                     {/* Map */}
                                     <div className="relative h-64 bg-gray-100 overflow-hidden rounded-lg">
                                         <iframe
-                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2711.8851234567!2d13.219876515678!3d47.416573679123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDI1JzAwLjAiTiAxM8KwMTMnMTIuMCJF!5e0!3m2!1sde!2sat!4v1234567890"
+                                            src="https://maps.google.com/maps?q=Dr.%20Heinz-Fischer-Straße%203/2,%202486%20Pottendorf,%20Austria&output=embed"
                                             width="100%"
                                             height="100%"
                                             style={{ border: 0 }}

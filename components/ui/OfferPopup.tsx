@@ -103,7 +103,7 @@ export default function OfferPopup() {
                                             rel="noopener noreferrer"
                                             className="text-xs font-light text-gray-600 hover:text-secondary transition-colors"
                                         >
-                                            180+ Google Bewertungen
+                                            150 Bewertungen
                                         </a>
                                     </div>
 

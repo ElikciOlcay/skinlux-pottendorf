@@ -63,7 +63,7 @@ export default function Treatments() {
                         Behandlungen
                     </span>
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
-                        Unsere <span style={{ color: 'var(--color-secondary)' }}>Expertise</span>
+                        Unsere <span style={{ color: 'var(--color-primary)' }}>Expertise</span>
                     </h2>
                     <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light">
                         Modernste Technologien für Ihre Schönheit

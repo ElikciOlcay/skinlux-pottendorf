@@ -457,7 +457,7 @@ export default function PremiumFacials() {
                                         1 Std. 30 Min.
                                     </p>
                                     <p className="text-gray-600 font-light">
-                                        Spezialbehandlung für Akne, Rosacea. Reduziert Rötungen, beruhigt die Haut und fördert die Heilung – für einen ausgeglichenen, klaren Teint.
+                                        Spezialbehandlung für Akne, Rosacea. Beruhigt entzündliche Haut und entfernt Akne Bakterien. Reduziert Rötungen, beruhigt die Haut und fördert die Heilung – für einen ausgeglichenen, klaren Teint.
                                     </p>
                                 </div>
                                 <div className="text-right">

@@ -110,7 +110,7 @@ export default function OfferPopup() {
                                     <div className="flex items-center justify-center gap-2 text-gray-500 mb-8">
                                         <Clock className="w-4 h-4" strokeWidth={1.5} />
                                         <p className="text-xs font-light tracking-widest uppercase">
-                                            Gültig bis 31. Juli 2025
+                                            Gültig bis 30. September 2025
                                         </p>
                                     </div>
 

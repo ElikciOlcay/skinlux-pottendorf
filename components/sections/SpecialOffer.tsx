@@ -74,7 +74,7 @@ export default function SpecialOffer() {
                     {/* Description */}
                     <p className="text-base md:text-lg font-light text-gray-400 mb-8 max-w-2xl mx-auto">
                         Erleben Sie die Revolution der Hautpflege.
-                        Gültig für alle HydraFacial® Behandlungen bis 31. Juli 2025.
+                        Gültig für alle HydraFacial® Behandlungen bis 30. September 2025.
                     </p>
 
                     {/* CTA Button */}
@@ -108,7 +108,7 @@ export default function SpecialOffer() {
                     {/* Footer Note */}
                     <div className="mt-8 pt-6 border-t border-gray-800">
                         <p className="text-xs font-light text-gray-500">
-                            * Einführungsangebot gültig bis 31. Juli 2025
+                            * Einführungsangebot gültig bis 30. September 2025
                         </p>
                     </div>
                 </div>

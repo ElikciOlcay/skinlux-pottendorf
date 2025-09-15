@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Droplets, Clock } from "lucide-react";
+import { X, Clock, Gift } from "lucide-react";
 
 export default function OfferPopup() {
     const [isOpen, setIsOpen] = useState(false);
@@ -59,30 +59,66 @@ export default function OfferPopup() {
 
                                 {/* Content */}
                                 <div className="text-center">
-                                    <div className="flex items-center justify-center gap-2 mb-6">
-                                        <Droplets
-                                            className="w-8 h-8"
-                                            style={{ color: 'var(--color-secondary)' }}
-                                            strokeWidth={1.5}
-                                        />
+                                    <div className="flex items-center justify-center gap-3 mb-6">
+                                        <div className="text-3xl">🎃</div>
                                         <h3 className="text-2xl font-light" style={{ color: 'var(--color-primary)' }}>
-                                            HydraFacial® Special
+                                            Pumpkin Enzyme Facial
                                         </h3>
                                     </div>
 
-                                    <div className="mb-6">
-                                        <p className="text-5xl md:text-6xl font-light mb-2" style={{ color: 'var(--color-secondary)' }}>
-                                            10%
+                                    <div className="mb-4">
+                                        <p className="text-sm font-medium text-orange-600 mb-2 tracking-wider uppercase">
+                                            Limited Fall Edition
                                         </p>
-                                        <p className="text-xl font-light text-gray-700">
-                                            Rabatt auf alle Behandlungen
+                                        <p className="text-gray-700 font-light mb-4">
+                                            Unsere neue Signature-Herbstbehandlung vereint<br />
+                                            Detox, Glow & Spa-Feeling
                                         </p>
                                     </div>
 
-                                    <p className="text-gray-600 font-light mb-6 max-w-sm mx-auto">
-                                        Entdecken Sie die revolutionäre HydraFacial® Behandlung und profitieren Sie
-                                        von 10% Rabatt auf alle HydraFacial® Behandlungen.
+                                    {/* Treatment Features */}
+                                    <div className="mb-6 text-left max-w-xs mx-auto">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-lg">🍫</span>
+                                            <p className="text-sm text-gray-700">Cocoa Enzyme Peeling</p>
+                                        </div>
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-lg">🎃</span>
+                                            <p className="text-sm text-gray-700">Spiced Pumpkin Maske mit Bakuchiol</p>
+                                        </div>
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <span className="text-lg">🌿</span>
+                                            <p className="text-sm text-gray-700">Antioxidantien + natürliche Enzyme</p>
+                                        </div>
+                                    </div>
+
+                                    <p className="text-gray-600 font-light mb-4 text-sm">
+                                        Für ein verfeinertes Hautbild & regenerierte Hautbarriere,<br />
+                                        perfekt nach dem Sommer!
                                     </p>
+
+                                    {/* Special Gift */}
+                                    <div className="bg-gradient-to-r from-orange-50 to-amber-50 p-4 rounded-lg mb-6">
+                                        <div className="flex items-center justify-center gap-2 mb-2">
+                                            <Gift className="w-5 h-5 text-orange-600" />
+                                            <p className="text-sm font-medium text-orange-800">Special für dich</p>
+                                        </div>
+                                        <p className="text-xs text-orange-700">
+                                            Nach jeder Behandlung erhältst du eine<br />
+                                            <strong>Pumpkin Spice Lippenpflege von Circadia</strong><br />
+                                            kostenlos dazu.
+                                        </p>
+                                    </div>
+
+                                    {/* Price */}
+                                    <div className="mb-4">
+                                        <p className="text-4xl font-light mb-1" style={{ color: 'var(--color-secondary)' }}>
+                                            120€
+                                        </p>
+                                        <p className="text-sm font-light text-gray-600">
+                                            inkl. kostenloser Lippenpflege
+                                        </p>
+                                    </div>
 
                                     {/* Google Reviews Trust Signal */}
                                     <div className="flex items-center justify-center gap-2 mb-4">
@@ -110,7 +146,7 @@ export default function OfferPopup() {
                                     <div className="flex items-center justify-center gap-2 text-gray-500 mb-8">
                                         <Clock className="w-4 h-4" strokeWidth={1.5} />
                                         <p className="text-xs font-light tracking-widest uppercase">
-                                            Gültig bis 30. September 2025
+                                            Aktionszeitraum: 15.09. bis 15.11.
                                         </p>
                                     </div>
 

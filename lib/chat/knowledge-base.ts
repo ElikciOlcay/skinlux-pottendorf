@@ -299,8 +299,8 @@ export const LISA_KNOWLEDGE = {
     },
 
     booking: {
-        online: "https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone",
-        phone: "+43 660 57 21 403",
+        online: "https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D",
+        phone: "+43 664 91 88 632",
         hours: {
             monday: "Geschlossen",
             tuesday: "09:00 - 18:00",
@@ -660,7 +660,7 @@ Weitere STRIKTE Regeln:
 BEISPIELE FÜR KORREKTE ANTWORTEN:
 - "Für den Intimbereich bei Herren haben wir keine standardisierten Preise. Bitte kontaktieren Sie uns für ein individuelles Angebot."
 - "Diese spezielle Zone ist nicht in unserer Preisliste. Gerne erstellen wir Ihnen ein persönliches Angebot."
-- "Für genaue Informationen zu dieser Behandlung rufen Sie uns bitte an: +43 660 57 21 403"
+- "Für genaue Informationen zu dieser Behandlung rufen Sie uns bitte an: +43 664 91 88 632"
 
 Nutze die bereitgestellten Informationen über SkinLux für deine Antworten.
 `; 

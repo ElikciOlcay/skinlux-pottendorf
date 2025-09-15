@@ -29,12 +29,12 @@ const FALLBACK_RESPONSES = {
         "Guten Tag! Ich bin Lisa von SkinLux. Womit kann ich Ihnen heute behilflich sein?"
     ],
     behandlung: [
-        "Bei SkinLux bieten wir verschiedene Behandlungen an:\n\n• Laser-Haarentfernung Damen & Herren (ab 35€)\n• HydraFacial® (ab 169€)\n• Premium Facials (ab 150€)\n\nKostenlose Erstberatung und Probebehandlung! Rufen Sie uns an: +43 660 57 21 403",
+        "Bei SkinLux bieten wir verschiedene Behandlungen an:\n\n• Laser-Haarentfernung Damen & Herren (ab 35€)\n• HydraFacial® (ab 169€)\n• Premium Facials (ab 150€)\n\nKostenlose Erstberatung und Probebehandlung! Rufen Sie uns an: +43 664 91 88 632",
         "Unsere beliebtesten Behandlungen sind:\n\n• Dauerhafte Laser-Haarentfernung für Damen & Herren\n• HydraFacial® für sofort strahlende Haut\n• Premium Facials mit Circadia Professional\n\nSparen Sie mit unseren Paketen! Kostenlose Beratung möglich."
     ],
     preis: [
         "Laser-Haarentfernung Damen:\n\n• Achseln: 55€\n• Bikini Zone: 60€\n• Beine komplett: 180€\n• Gesicht komplett: 99€\n\nPakete: Small 200€ | Medium 270€ | Large 390€\n\nKostenlose Erstberatung!",
-        "Laser-Haarentfernung Herren:\n\n• Bartkontur: 50€\n• Brust: 80€\n• Rücken: 95€\n• Beine komplett: 230€\n\nKostenlose Erstberatung! Rufen Sie uns an: +43 660 57 21 403",
+        "Laser-Haarentfernung Herren:\n\n• Bartkontur: 50€\n• Brust: 80€\n• Rücken: 95€\n• Beine komplett: 230€\n\nKostenlose Erstberatung! Rufen Sie uns an: +43 664 91 88 632",
         "HydraFacial® Preise:\n\n• Signature (1 Std.): 169€\n• Signature + LED (1 Std. 15 Min.): 189€\n• Deluxe (1 Std. 15 Min.): 259€\n• Platinum (2 Std.): 289€\n• Po-Behandlung (1 Std.): 189€\n• Rücken (1 Std.): 189€\n• Add-ons je 59€ (5 Min.)\n\nKostenlose Beratung möglich!"
     ],
     termin: [
@@ -162,7 +162,7 @@ export async function POST(request: NextRequest) {
         console.error("Chat API error:", error);
 
         return NextResponse.json({
-            message: "Entschuldigung, es gab einen technischen Fehler. Bitte kontaktieren Sie uns direkt unter +43 660 57 21 403."
+            message: "Entschuldigung, es gab einen technischen Fehler. Bitte kontaktieren Sie uns direkt unter +43 664 91 88 632."
         });
     }
 } 

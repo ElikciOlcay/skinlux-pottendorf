@@ -538,7 +538,7 @@ export class EmailService {
                     
                     <p>Bei Fragen stehen wir Ihnen gerne zur Verfügung!</p>
                     
-                    <a href="https://connect.shore.com/bookings/skinlux" class="button">Termin buchen</a>
+                    <a href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D" class="button">Termin buchen</a>
                 </div>
                 
                 <div class="footer">
@@ -756,7 +756,7 @@ export class EmailService {
                     </div>
                     
                     <div style="text-align: center; margin: 40px 0;">
-                        <a href="https://connect.shore.com/bookings/skinlux" class="button">
+                        <a href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D" class="button">
                             🗓️ Jetzt Termin buchen
                         </a>
                     </div>
@@ -1116,7 +1116,7 @@ export class EmailService {
                     <!-- Call-to-Action -->
                     <div class="cta-section">
                         <h3 style="color: #1f2937; margin-bottom: 20px;">Bereit für Ihre Schönheitsbehandlung?</h3>
-                        <a href="https://connect.shore.com/bookings/skinlux" class="cta-button">
+                        <a href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D" class="cta-button">
                             🗓️ Jetzt Termin buchen
                         </a>
                         
@@ -1228,7 +1228,7 @@ export class EmailService {
                     </div>
                     
                     <div style="text-align: center;">
-                        <a href="https://connect.shore.com/bookings/skinlux" class="button">
+                        <a href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D" class="button">
                             🗓️ Jetzt Termin buchen
                         </a>
                     </div>

@@ -1,47 +1,62 @@
 "use client";
 
-import { Sparkles } from "lucide-react";
+import { Leaf, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function SpecialOffer() {
     return (
-        <section className="relative overflow-hidden bg-black">
-            {/* Modern Gradient Background */}
-            <div className="absolute inset-0">
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        background: 'radial-gradient(circle at 20% 50%, rgba(0, 169, 217, 0.15) 0%, transparent 50%)',
-                    }}
-                />
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        background: 'radial-gradient(circle at 80% 50%, rgba(0, 169, 217, 0.1) 0%, transparent 50%)',
-                    }}
-                />
+        <section className="relative overflow-hidden">
+            {/* Background - exakt wie Hero der Herbstaktion */}
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50" />
+
+            {/* Simplified Floating Elements */}
+            <div className="absolute inset-0 overflow-hidden">
+                {[...Array(3)].map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className="absolute"
+                        animate={{
+                            y: [-15, 15, -15],
+                            rotate: [0, 180],
+                        }}
+                        transition={{
+                            duration: 6 + i * 1.5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: i * 2
+                        }}
+                        style={{
+                            left: `${20 + i * 30}%`,
+                            top: `${25 + (i % 2) * 40}%`,
+                        }}
+                    >
+                        <div className="text-3xl md:text-4xl opacity-15">
+                            {['🍂', '🎃', '🍁'][i]}
+                        </div>
+                    </motion.div>
+                ))}
             </div>
 
             {/* Content */}
-            <div className="container relative z-10 py-20">
-                <div className="max-w-4xl mx-auto text-center">
+            <div className="container relative z-30 py-16">
+                <div className="max-w-3xl mx-auto text-center">
                     {/* Badge */}
                     <div className="inline-flex items-center gap-2 mb-6">
-                        <Sparkles className="w-4 h-4" style={{ color: '#00A9D9' }} />
-                        <span className="text-xs font-light tracking-[0.3em] uppercase text-gray-400">
-                            Limited Edition
+                        <Leaf className="w-4 h-4 text-orange-600" />
+                        <span className="text-xs font-light tracking-[0.3em] uppercase text-orange-600">
+                            Herbst Special 2025
                         </span>
                     </div>
 
                     {/* Main Title */}
-                    <h2 className="text-4xl md:text-6xl font-light text-white mb-4">
-                        <span className="block">HydraFacial®</span>
-                        <span className="block mt-2" style={{ color: '#00A9D9' }}>
-                            Special
+                    <h2 className="text-4xl md:text-6xl font-light text-gray-900 mb-4">
+                        <span className="block">Herbst</span>
+                        <span className="block mt-2 text-orange-500">
+                            Aktion
                         </span>
                     </h2>
 
-                    {/* Discount */}
+                    {/* Discount Display */}
                     <div className="flex items-baseline justify-center gap-3 mb-6">
                         <motion.div
                             initial={{ opacity: 0, x: -40 }}
@@ -52,67 +67,53 @@ export default function SpecialOffer() {
                             <div className="relative">
                                 {/* Background Text */}
                                 <div
-                                    className="absolute -top-20 -left-10 text-[120px] md:text-[160px] font-bold opacity-5 text-white select-none"
+                                    className="absolute -top-20 -left-10 text-[120px] md:text-[160px] font-bold opacity-5 text-gray-900 select-none"
                                     aria-hidden="true"
                                 >
-                                    10%
+                                    -70€
                                 </div>
 
                                 {/* Main Content */}
                                 <div className="relative">
-                                    <span className="text-5xl md:text-7xl font-light" style={{ color: '#00A9D9' }}>
-                                        10%
+                                    <span className="text-4xl md:text-6xl font-light text-orange-500">
+                                        bis -70€
                                     </span>
                                 </div>
                             </div>
                         </motion.div>
-                        <span className="text-xl font-light text-gray-400">
-                            Rabatt
+                        <span className="text-xl font-light text-orange-600">
+                            sparen
                         </span>
                     </div>
 
-                    {/* Description */}
-                    <p className="text-base md:text-lg font-light text-gray-400 mb-8 max-w-2xl mx-auto">
-                        Erleben Sie die Revolution der Hautpflege.
-                        Gültig für alle HydraFacial® Behandlungen bis 30. September 2025.
+                    {/* Simple Description */}
+                    <p className="text-lg font-light text-gray-600 mb-8">
+                        Exklusive Herbst-Angebote – bis zu 70€ sparen
                     </p>
 
                     {/* CTA Button */}
-                    <a
-                        href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center px-8 py-3 text-white font-light tracking-widest uppercase text-sm transition-colors"
-                        style={{ backgroundColor: '#00A9D9' }}
-                    >
-                        Jetzt buchen
-                    </a>
-
-                    {/* Features */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-                        {[
-                            { icon: "✨", label: "Sofort-Effekt" },
-                            { icon: "💧", label: "Tiefenreinigung" },
-                            { icon: "🌟", label: "Sanfte Behandlung" },
-                            { icon: "⚡", label: "Keine Ausfallzeit" }
-                        ].map((feature) => (
-                            <div key={feature.label} className="flex flex-col items-center gap-2">
-                                <span className="text-xl">{feature.icon}</span>
-                                <span className="text-xs font-light text-gray-400 text-center">
-                                    {feature.label}
-                                </span>
-                            </div>
-                        ))}
+                    <div className="mb-6 relative z-20">
+                        <a
+                            href="/herbstaktion"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                window.location.href = '/herbstaktion';
+                            }}
+                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-medium text-sm transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl rounded-full cursor-pointer relative z-20 select-none"
+                            role="button"
+                            tabIndex={0}
+                        >
+                            Alle Angebote entdecken
+                            <ArrowRight className="w-4 h-4" />
+                        </a>
                     </div>
 
-                    {/* Footer Note */}
-                    <div className="mt-8 pt-6 border-t border-gray-800">
-                        <p className="text-xs font-light text-gray-500">
-                            * Einführungsangebot gültig bis 30. September 2025
-                        </p>
-                    </div>
+                    {/* Simple Footer Note */}
+                    <p className="text-sm text-orange-600">
+                        Gültig bis 15.10.2025
+                    </p>
                 </div>
             </div>
         </section>
     );
-} 
+}

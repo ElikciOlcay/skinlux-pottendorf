@@ -411,7 +411,7 @@ export class EmailService {
             sendVoucherAsPDF: false,
             // Default address values
             businessName: 'Skinlux Pottendorf',
-            streetAddress: 'Dr. Heinz-Fischer-Straße 3/2',
+            streetAddress: 'Marktplatz 14',
             postalCode: '2486',
             city: 'Pottendorf',
             country: 'Österreich',
@@ -543,7 +543,7 @@ export class EmailService {
                 
                 <div class="footer">
                     <p><strong>Skinlux Pottendorf</strong><br>
-                    Dr. Heinz-Fischer-Straße 3/2, 2486 Pottendorf<br>
+                    Marktplatz 14, 2486 Pottendorf<br>
                     Tel: 0664 91 88 632<br>
                     E-Mail: hey@skinlux.at</p>
                     

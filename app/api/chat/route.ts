@@ -42,7 +42,7 @@ const FALLBACK_RESPONSES = {
         "Sie können jederzeit einen Termin vereinbaren:\n\n• Online-Buchung rund um die Uhr\n• Telefonisch während der Geschäftszeiten\n• Kostenlose Erstberatung möglich\n\nWir freuen uns auf Sie!"
     ],
     default: [
-        "Vielen Dank für Ihre Nachricht! Für detaillierte Informationen kontaktieren Sie uns gerne:\n\n📞 +43 664 91 88 632\n📧 hey@skinlux.at\n📍 Dr. Heinz-Fischer-Straße 3/2, Pottendorf",
+        "Vielen Dank für Ihre Nachricht! Für detaillierte Informationen kontaktieren Sie uns gerne:\n\n📞 +43 664 91 88 632\n📧 hey@skinlux.at\n📍 Marktplatz 14, Pottendorf",
         "Ich helfe Ihnen gerne weiter! Bei spezifischen Fragen erreichen Sie uns:\n\n• Telefon: +43 664 91 88 632\n• Online-Terminbuchung auf unserer Website\n• Persönliche Beratung im Studio"
     ]
 };

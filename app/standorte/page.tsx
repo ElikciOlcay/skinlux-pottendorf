@@ -21,7 +21,7 @@ const studios = [
         id: "pottendorf",
         name: "Studio Pottendorf",
         address: {
-            street: "Dr. Heinz-Fischer-Straße 3/2",
+            street: "Marktplatz 14",
             zip: "2486",
             city: "Pottendorf"
         },
@@ -40,7 +40,7 @@ const studios = [
         id: "pottendorf",
         name: "Studio Pottendorf",
         address: {
-            street: "Dr. Heinz-Fischer-Straße 3/2",
+            street: "Marktplatz 14",
             zip: "2486",
             city: "Pottendorf"
         },

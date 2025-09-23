@@ -24,7 +24,7 @@ const Footer = () => {
                             <div className="flex items-start justify-center md:justify-start gap-3 text-gray-600">
                                 <MapPin className="w-4 h-4 mt-0.5" strokeWidth={1} />
                                 <div className="font-light">
-                                    <p>Dr. Heinz-Fischer-Straße 3/2</p>
+                                    <p>Marktplatz 14</p>
                                     <p>2486 Pottendorf</p>
                                 </div>
                             </div>

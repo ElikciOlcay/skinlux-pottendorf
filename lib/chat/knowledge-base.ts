@@ -10,7 +10,7 @@ export const LISA_KNOWLEDGE = {
         name: "SkinLux",
         slogan: "Medical Beauty Studio",
         location: "Pottendorf, Niederösterreich",
-        address: "Dr. Heinz-Fischer-Straße 3/2, 2486 Pottendorf",
+        address: "Marktplatz 14, 2486 Pottendorf",
         phone: "+43 664 91 88 632",
         email: "hey@skinlux.at",
         website: "www.skinlux.at",

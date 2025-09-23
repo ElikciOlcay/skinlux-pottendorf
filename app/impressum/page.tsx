@@ -87,7 +87,7 @@ export default function ImpressumPage() {
                                                 <div className="font-light text-gray-600 text-sm md:text-base">
                                                     <p className="font-medium text-black mb-1">Skinlux Pottendorf</p>
                                                     <p>Ebru Bicer</p>
-                                                    <p>Dr. Heinz-Fischer-Straße 3/2</p>
+                                                    <p>Marktplatz 14</p>
                                                     <p>2486 Pottendorf</p>
                                                     <p>Österreich</p>
                                                 </div>

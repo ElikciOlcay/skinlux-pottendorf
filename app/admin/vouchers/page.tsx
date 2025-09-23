@@ -77,7 +77,7 @@ export default function VouchersPage() {
         sendVoucherAsPDF: false,
         // Default address values
         businessName: 'Skinlux Pottendorf',
-        streetAddress: 'Dr. Heinz-Fischer-Straße 3/2',
+        streetAddress: 'Marktplatz 14',
         postalCode: '2486',
         city: 'Pottendorf',
         country: 'Österreich',

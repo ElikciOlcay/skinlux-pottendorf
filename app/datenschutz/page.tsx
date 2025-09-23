@@ -215,7 +215,7 @@ export default function DatenschutzPage() {
                                         <div className="space-y-2 font-light text-gray-600">
                                             <p className="font-medium text-black">Skinlux</p>
                                             <p>Gökce Elikci</p>
-                                            <p>Dr. Heinz-Fischer-Straße 3/2</p>
+                                            <p>Marktplatz 14</p>
                                             <p>2486 Pottendorf, Österreich</p>
                                             <p className="pt-2">
                                                 <strong className="text-black">E-Mail:</strong> hey@skinlux.at

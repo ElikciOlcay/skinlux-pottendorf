@@ -134,7 +134,7 @@ export default function Kontakt() {
                                                 Skinlux Medical Beauty
                                             </p>
                                             <p className="text-gray-600 font-light">
-                                                Dr. Heinz-Fischer-Straße 3/2<br />
+                                                Marktplatz 14<br />
                                                 2486 Pottendorf<br />
                                                 Österreich
                                             </p>

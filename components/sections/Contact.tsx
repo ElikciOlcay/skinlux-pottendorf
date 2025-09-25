@@ -128,7 +128,7 @@ const Contact = () => {
                             {/* Map Placeholder */}
                             <div className="relative h-48 bg-gray-100 overflow-hidden">
                                 <iframe
-                                    src="https://maps.google.com/maps?q=Dr.%20Heinz-Fischer-Straße%203/2,%202486%20Pottendorf,%20Austria&output=embed"
+                                    src="https://maps.google.com/maps?q=Marktplatz%2014,%202486%20Pottendorf,%20Austria&output=embed"
                                     width="100%"
                                     height="100%"
                                     style={{ border: 0 }}

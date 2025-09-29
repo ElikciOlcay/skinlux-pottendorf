@@ -40,28 +40,29 @@ export default function OfferPopup() {
                     />
 
                     {/* Popup Container */}
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             transition={{ duration: 0.3 }}
-                            className="w-full max-w-lg"
+                            className="w-full max-w-lg max-h-[90vh] overflow-y-auto"
                         >
-                            <div className="bg-white p-8 md:p-12 relative">
-                                {/* Close Button */}
+                            <div className="bg-white p-6 sm:p-8 md:p-12 relative">
+                                {/* Close Button - Größer für Mobile */}
                                 <button
                                     onClick={handleClose}
-                                    className="absolute top-6 right-6 text-gray-400 hover:text-black transition-colors"
+                                    className="absolute top-3 right-3 sm:top-6 sm:right-6 text-gray-400 hover:text-black transition-colors p-2 sm:p-1 rounded-full hover:bg-gray-100"
+                                    aria-label="Schließen"
                                 >
-                                    <X className="w-6 h-6" strokeWidth={1.5} />
+                                    <X className="w-7 h-7 sm:w-6 sm:h-6" strokeWidth={1.5} />
                                 </button>
 
                                 {/* Content */}
-                                <div className="text-center">
-                                    <div className="flex items-center justify-center gap-3 mb-6">
-                                        <div className="text-3xl">🎃</div>
-                                        <h3 className="text-2xl font-light" style={{ color: 'var(--color-primary)' }}>
+                                <div className="text-center pt-4 sm:pt-0">
+                                    <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                                        <div className="text-2xl sm:text-3xl">🎃</div>
+                                        <h3 className="text-xl sm:text-2xl font-light" style={{ color: 'var(--color-primary)' }}>
                                             Pumpkin Enzyme Facial
                                         </h3>
                                     </div>
@@ -77,7 +78,7 @@ export default function OfferPopup() {
                                     </div>
 
                                     {/* Treatment Features */}
-                                    <div className="mb-6 text-left max-w-xs mx-auto">
+                                    <div className="mb-4 sm:mb-6 text-left max-w-xs mx-auto">
                                         <div className="flex items-center gap-2 mb-2">
                                             <span className="text-lg">🍫</span>
                                             <p className="text-sm text-gray-700">Cocoa Enzyme Peeling</p>
@@ -86,7 +87,7 @@ export default function OfferPopup() {
                                             <span className="text-lg">🎃</span>
                                             <p className="text-sm text-gray-700">Spiced Pumpkin Maske mit Bakuchiol</p>
                                         </div>
-                                        <div className="flex items-center gap-2 mb-4">
+                                        <div className="flex items-center gap-2 mb-3 sm:mb-4">
                                             <span className="text-lg">🌿</span>
                                             <p className="text-sm text-gray-700">Antioxidantien + natürliche Enzyme</p>
                                         </div>
@@ -98,7 +99,7 @@ export default function OfferPopup() {
                                     </p>
 
                                     {/* Special Gift */}
-                                    <div className="bg-gradient-to-r from-orange-50 to-amber-50 p-4 rounded-lg mb-6">
+                                    <div className="bg-gradient-to-r from-orange-50 to-amber-50 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6">
                                         <div className="flex items-center justify-center gap-2 mb-2">
                                             <Gift className="w-5 h-5 text-orange-600" />
                                             <p className="text-sm font-medium text-orange-800">Special für dich</p>
@@ -112,7 +113,7 @@ export default function OfferPopup() {
 
                                     {/* Price */}
                                     <div className="mb-4">
-                                        <p className="text-4xl font-light mb-1" style={{ color: 'var(--color-secondary)' }}>
+                                        <p className="text-3xl sm:text-4xl font-light mb-1" style={{ color: 'var(--color-secondary)' }}>
                                             120€
                                         </p>
                                         <p className="text-sm font-light text-gray-600">
@@ -143,26 +144,26 @@ export default function OfferPopup() {
                                         </a>
                                     </div>
 
-                                    <div className="flex items-center justify-center gap-2 text-gray-500 mb-8">
+                                    <div className="flex items-center justify-center gap-2 text-gray-500 mb-6 sm:mb-8">
                                         <Clock className="w-4 h-4" strokeWidth={1.5} />
                                         <p className="text-xs font-light tracking-widest uppercase">
                                             Aktionszeitraum: 15.09. bis 15.11.
                                         </p>
                                     </div>
 
-                                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                    <div className="flex flex-col gap-3 justify-center">
                                         <a
                                             href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             onClick={handleClose}
-                                            className="btn-primary inline-flex items-center justify-center"
+                                            className="btn-primary inline-flex items-center justify-center py-4 px-6 text-base font-medium min-h-[48px] touch-manipulation"
                                         >
                                             Jetzt Termin buchen
                                         </a>
                                         <button
                                             onClick={handleClose}
-                                            className="btn-secondary inline-flex items-center justify-center"
+                                            className="btn-secondary inline-flex items-center justify-center py-3 px-6 text-base min-h-[48px] touch-manipulation"
                                         >
                                             Später
                                         </button>

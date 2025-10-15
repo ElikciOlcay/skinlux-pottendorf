@@ -40,7 +40,6 @@ const navigation = [
             }] : [])
         ]
     },
-    { name: "🍂 Herbstaktion", href: "/herbstaktion", isSpecial: true },
     { name: "Über uns", href: "/ueber-uns" },
     { name: "Gutscheine", href: "/gutscheine" },
     { name: "Kontakt", href: "/kontakt" },

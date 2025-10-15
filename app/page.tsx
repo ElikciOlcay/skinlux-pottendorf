@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic';
 import Hero from "@/components/sections/Hero";
-import SpecialOffer from "@/components/sections/SpecialOffer";
 
 // Lazy load components for better performance
 const Treatments = dynamic(() => import("@/components/sections/Treatments"), {
@@ -27,7 +26,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <SpecialOffer />
       <Treatments />
       <About />
       <Consultation />

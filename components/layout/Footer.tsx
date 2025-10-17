@@ -81,6 +81,12 @@ const Footer = () => {
                             >
                                 Gutscheine
                             </Link>
+                            <Link
+                                href="/stornobedingungen"
+                                className="block font-light text-gray-600 hover:text-black transition-colors"
+                            >
+                                Stornobedingungen
+                            </Link>
                             <a
                                 href="https://www.instagram.com/skinlux_pottendorf/"
                                 target="_blank"

@@ -601,7 +601,7 @@ export default function HydraFacial() {
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 259</div>
+                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 199</div>
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">
@@ -649,7 +649,7 @@ export default function HydraFacial() {
                                     </p>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 289</div>
+                                    <div className="text-3xl font-light" style={{ color: '#00A9D9' }}>€ 249</div>
                                 </div>
                             </div>
                             <p className="text-gray-600 font-light mb-6 leading-relaxed">
@@ -704,7 +704,7 @@ export default function HydraFacial() {
                                         </h4>
                                         <p className="text-sm text-gray-600 font-light">1 Stunde</p>
                                     </div>
-                                    <div className="text-2xl font-light" style={{ color: '#00A9D9' }}>€ 189</div>
+                                    <div className="text-2xl font-light" style={{ color: '#00A9D9' }}>€ 169</div>
                                 </div>
                                 <p className="text-gray-600 font-light text-sm">
                                     Tiefenreinigende Pflege für glatte, straffe Haut am Po – exklusiv für Frauen. Ideal bei Unreinheiten, vergrößerten Poren oder unebener Haut. Mit sanftem Peeling, porentiefe Ausreinigung und Feuchtigkeitsversorgung – für ein sichtbar verfeinertes Hautbild und strahlend gepflegte Haut.
@@ -792,7 +792,7 @@ export default function HydraFacial() {
                                         Lippenboost
                                     </h5>
                                     <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
-                                    <div className="text-lg font-light mb-2" style={{ color: '#00A9D9' }}>€ 59</div>
+                                    <div className="text-lg font-light mb-2" style={{ color: '#00A9D9' }}>€ 49</div>
                                     <p className="text-xs text-gray-600 font-light">
                                         Sanftes Peeling, Feuchtigkeitsversorgung und nährende Wirkstoffe für geschmeidige, glatte und pralle Lippen. Der perfekte Abschluss deiner HydraFacial-Behandlung.
                                     </p>
@@ -804,7 +804,7 @@ export default function HydraFacial() {
                                         Augenpflege
                                     </h5>
                                     <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
-                                    <div className="text-lg font-light mb-2" style={{ color: '#00A9D9' }}>€ 59</div>
+                                    <div className="text-lg font-light mb-2" style={{ color: '#00A9D9' }}>€ 49</div>
                                     <p className="text-xs text-gray-600 font-light">
                                         Gezielte Behandlung der Augenpartie zur Reduktion von Schwellungen, Trockenheitsfältchen und Müdigkeitsanzeichen. Ideal als Ergänzung zur HydraFacial-Behandlung.
                                     </p>

@@ -35,7 +35,7 @@ const FALLBACK_RESPONSES = {
     preis: [
         "Laser-Haarentfernung Damen:\n\n• Achseln: 55€\n• Bikini Zone: 60€\n• Beine komplett: 180€\n• Gesicht komplett: 99€\n\nPakete: Small 200€ | Medium 270€ | Large 390€\n\nKostenlose Erstberatung!",
         "Laser-Haarentfernung Herren:\n\n• Bartkontur: 50€\n• Brust: 80€\n• Rücken: 95€\n• Beine komplett: 230€\n\nKostenlose Erstberatung! Rufen Sie uns an: +43 664 91 88 632",
-        "HydraFacial® Preise:\n\n• Signature (1 Std.): 169€\n• Signature + LED (1 Std. 15 Min.): 189€\n• Deluxe (1 Std. 15 Min.): 259€\n• Platinum (2 Std.): 289€\n• Po-Behandlung (1 Std.): 189€\n• Rücken (1 Std.): 189€\n• Add-ons je 59€ (5 Min.)\n\nKostenlose Beratung möglich!"
+        "HydraFacial® Preise:\n\n• Signature (1 Std.): 169€\n• Signature + LED (1 Std. 15 Min.): 189€\n• Deluxe (1 Std. 15 Min.): 199€\n• Platinum (2 Std.): 249€\n• Po-Behandlung (1 Std.): 169€\n• Rücken (1 Std.): 189€\n• Add-ons: Hals & Dekolleté 59€, Hand 59€, Eye 49€, Lipp 49€\n\nKostenlose Beratung möglich!"
     ],
     termin: [
         "Terminvereinbarung ist ganz einfach:\n\n📱 Online: Über unsere Website\n📞 Telefonisch: +43 664 91 88 632\n\nÖffnungszeiten:\nDi-Fr: 09:00 - 18:00\nSa: 09:00 - 14:00",

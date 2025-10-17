@@ -139,7 +139,7 @@ export const LISA_KNOWLEDGE = {
                 {
                     name: "HydraFacial® Deluxe",
                     duration: "1 Std. 15 Min.",
-                    price: "259€",
+                    price: "199€",
                     description: "Premium Experience - Diese erweiterte HydraFacial-Behandlung kombiniert intensive Reinigung, Peeling, Tiefenausreinigung und Hydration mit einer auf deine Hautbedürfnisse abgestimmten Wirkstoff-Infusion sowie LED-Lichttherapie. Ideal bei Unreinheiten, Linien, Pigmentflecken oder fahl wirkender Haut – für einen sichtbar gesunden Glow.",
                     includes: ["Alles aus Signature", "Individuelle Wirkstoff-Infusion", "LED-Lichttherapie"],
                     popular: true
@@ -147,14 +147,14 @@ export const LISA_KNOWLEDGE = {
                 {
                     name: "HydraFacial® Platinum",
                     duration: "2 Stunden",
-                    price: "289€",
+                    price: "249€",
                     description: "Luxus-Experience - Die exklusivste HydraFacial-Variante beginnt mit einer entspannenden Lymphdrainage zur Entgiftung und Förderung der Durchblutung. Danach folgen gründliche Reinigung, Peeling, Tiefenausreinigung, Hydration, eine individuell auf deine Haut abgestimmte Wirkstoff-Infusion und abschließend eine LED-Lichttherapie. Für alle, die das Maximum an Hautpflege, Regeneration und Glow möchten.",
                     includes: ["Entspannende Lymphdrainage", "Alles aus Deluxe", "Maximale Regeneration"]
                 },
                 {
                     name: "HydraFacial® Po-Behandlung",
                     duration: "1 Stunde",
-                    price: "189€",
+                    price: "169€",
                     description: "Tiefenreinigende Pflege für glatte, straffe Haut am Po – exklusiv für Frauen. Ideal bei Unreinheiten, vergrößerten Poren oder unebener Haut. Mit sanftem Peeling, porentiefe Ausreinigung und Feuchtigkeitsversorgung – für ein sichtbar verfeinertes Hautbild und strahlend gepflegte Haut."
                 },
                 {
@@ -642,9 +642,9 @@ LASER-PREISE HERREN (Einzelbehandlung):
 - INTIMBEREICH HERREN: KEINE PREISE VERFÜGBAR - Individuelle Beratung erforderlich!
 
 HYDRAFACIAL-PREISE:
-- Signature (1 Std.) 169€, Signature+LED (1 Std. 15 Min.) 189€, Deluxe (1 Std. 15 Min.) 259€, Platinum (2 Std.) 289€
-- Po-Behandlung (1 Std.) 189€, Rücken (1 Std.) 189€
-- Add-ons: Hals & Dekolleté, Handpflege, Lippenboost, Augenpflege je 59€ (5 Min.)
+- Signature (1 Std.) 169€, Signature+LED (1 Std. 15 Min.) 189€, Deluxe (1 Std. 15 Min.) 199€, Platinum (2 Std.) 249€
+- Po-Behandlung (1 Std.) 169€, Rücken (1 Std.) 189€
+- Add-ons: Hals & Dekolleté 59€, Hand 59€, Eye 49€, Lipp 49€
 
 
 WICHTIG: Bei JEDER Preisanfrage für nicht gelistete Zonen: "Für diese spezielle Zone kontaktieren Sie uns bitte für ein individuelles Angebot."

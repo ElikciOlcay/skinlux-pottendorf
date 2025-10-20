@@ -39,8 +39,9 @@ const Footer = () => {
                         <div className="flex items-start justify-center gap-3 text-gray-600">
                             <Clock className="w-4 h-4 mt-0.5" strokeWidth={1} />
                             <div className="font-light">
-                                <p>Montag - Freitag: 9:00 - 21:30</p>
-                                <p>Samstag - Sonntag: Geschlossen</p>
+                                <p>Montag - Freitag: 09:00 - 21:30</p>
+                                <p>Samstag: 07:00 - 12:00</p>
+                                <p>Sonntag: Geschlossen</p>
                             </div>
                         </div>
                     </div>

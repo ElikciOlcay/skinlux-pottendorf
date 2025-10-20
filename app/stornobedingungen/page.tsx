@@ -133,10 +133,11 @@ export default function StornobedingungPage() {
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-gray-900 mb-2">Öffnungszeiten</h4>
-                                    <p className="text-gray-600 font-light">
-                                        Montag - Freitag: 9:00 - 21:30<br />
-                                        Samstag - Sonntag: Geschlossen
-                                    </p>
+                  <p className="text-gray-600 font-light">
+                    Montag - Freitag: 09:00 - 21:30<br />
+                    Samstag: 07:00 - 12:00<br />
+                    Sonntag: Geschlossen
+                  </p>
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-gray-900 mb-2">Adresse</h4>

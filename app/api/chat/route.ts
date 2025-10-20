@@ -38,7 +38,7 @@ const FALLBACK_RESPONSES = {
         "HydraFacial® Preise:\n\n• Signature (1 Std.): 169€\n• Signature + LED (1 Std. 15 Min.): 189€\n• Deluxe (1 Std. 15 Min.): 199€\n• Platinum (2 Std.): 249€\n• Po-Behandlung (1 Std.): 169€\n• Rücken (1 Std.): 189€\n• Add-ons: Hals & Dekolleté 59€, Hand 59€, Eye 49€, Lipp 49€\n\nKostenlose Beratung möglich!"
     ],
     termin: [
-        "Terminvereinbarung ist ganz einfach:\n\n📱 Online: Über unsere Website\n📞 Telefonisch: +43 664 91 88 632\n\nÖffnungszeiten:\nDi-Fr: 09:00 - 18:00\nSa: 09:00 - 14:00",
+        "Terminvereinbarung ist ganz einfach:\n\n📱 Online: Über unsere Website\n📞 Telefonisch: +43 664 91 88 632\n\nÖffnungszeiten:\nMo-Fr: 09:00 - 21:30\nSa: 07:00 - 12:00\nSo: Geschlossen",
         "Sie können jederzeit einen Termin vereinbaren:\n\n• Online-Buchung rund um die Uhr\n• Telefonisch während der Geschäftszeiten\n• Kostenlose Erstberatung möglich\n\nWir freuen uns auf Sie!"
     ],
     default: [

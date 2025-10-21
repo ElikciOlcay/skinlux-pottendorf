@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "../components/layout/ConditionalLayout";
 
@@ -28,6 +29,20 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased`}
       >
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-N76BWEKEH9"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-N76BWEKEH9');
+          `}
+        </Script>
+
         <ConditionalLayout>
           {children}
         </ConditionalLayout>

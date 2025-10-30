@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
       results,
       knowledge: SKINLUX_KNOWLEDGE,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
       results,
       knowledge: SKINLUX_KNOWLEDGE,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }

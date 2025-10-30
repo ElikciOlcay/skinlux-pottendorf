@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";
 import { motion } from "framer-motion";
 import {
     MapPin,
@@ -25,6 +26,11 @@ const studios = [
             zip: "2486",
             city: "Pottendorf"
         },
+        coordinates: {
+            lat: 47.8667,
+            lng: 16.2833
+        },
+        region: "Baden, Niederösterreich",
         contact: {
             phone: "0664 / 91 88 632",
             email: "hey@skinlux.at"
@@ -106,6 +112,13 @@ export default function StandortePage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+            <Head>
+                <title>Unsere Studios - Skinlux</title>
+                <meta name="description" content="Besuchen Sie eines unserer exklusiven Skinlux-Studios und erleben Sie professionelle Laser-Haarentfernung in minimalistischer, entspannter Atmosphäre." />
+                <meta name="keywords" content="Skinlux, Studio, Laser-Haarentfernung, Pottendorf, Saalfelden, Mattsee" />
+                <meta name="author" content="Skinlux" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            </Head>
             {/* Hero Section */}
             <section className="relative py-16 md:py-24 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-100/50 to-pink-50/30" />

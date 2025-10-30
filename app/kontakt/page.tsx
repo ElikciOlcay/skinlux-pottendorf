@@ -8,7 +8,7 @@ export default function Kontakt() {
     useEffect(() => {
         // Update page title and meta tags for local SEO
         document.title = "Kontakt - Skinlux Pottendorf | Laser Haarentfernung in Baden, NÖ";
-        
+
         const metaDescription = document.querySelector('meta[name="description"]');
         if (metaDescription) {
             metaDescription.setAttribute('content', 'Kontaktieren Sie Skinlux Pottendorf für Laser Haarentfernung und Kosmetikbehandlungen in Baden, Niederösterreich. Telefon, E-Mail, WhatsApp oder online buchen.');

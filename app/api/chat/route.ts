@@ -1,168 +1,158 @@
-import { NextRequest, NextResponse } from "next/server";
-import { LISA_SYSTEM_PROMPT, LISA_KNOWLEDGE } from "@/lib/chat/knowledge-base";
+import { NextRequest, NextResponse } from 'next/server';
 
-// Enhanced system prompt for better AI responses
-const ENHANCED_SYSTEM_PROMPT = `
-${LISA_SYSTEM_PROMPT}
-
-WICHTIGE DETAILS ÜBER SKINLUX:
-${JSON.stringify(LISA_KNOWLEDGE, null, 2)}
-
-ANTWORT-RICHTLINIEN:
-- Verwende Emojis sparsam aber passend (z.B. 💆‍♀️ für Behandlungen, ✨ für Ergebnisse)
-- Strukturiere längere Antworten mit Aufzählungspunkten
-- Stelle Rückfragen, um die beste Behandlung zu empfehlen
-- Erwähne immer die kostenlose Erstberatung bei Unsicherheit
-- Betone die Expertise des Teams
-- Verwende einen warmen, einladenden Ton
-
-BEISPIEL-ANTWORTEN:
-- "Das freut mich, dass Sie sich für unsere Behandlungen interessieren! ✨"
-- "Gerne erkläre ich Ihnen..."
-- "Für Ihre individuellen Bedürfnisse empfehle ich..."
-`;
-
-// Simple fallback responses when no API key is available
-const FALLBACK_RESPONSES = {
-    greeting: [
-        "Hallo! Willkommen bei SkinLux. Ich bin Lisa, Ihre Beauty-Beraterin. Wie kann ich Ihnen helfen?",
-        "Guten Tag! Ich bin Lisa von SkinLux. Womit kann ich Ihnen heute behilflich sein?"
-    ],
-    behandlung: [
-        "Bei SkinLux bieten wir verschiedene Behandlungen an:\n\n• Laser-Haarentfernung Damen & Herren (ab 35€)\n• HydraFacial® (ab 169€)\n• Premium Facials (ab 150€)\n\nKostenlose Erstberatung und Probebehandlung! Rufen Sie uns an: +43 664 91 88 632",
-        "Unsere beliebtesten Behandlungen sind:\n\n• Dauerhafte Laser-Haarentfernung für Damen & Herren\n• HydraFacial® für sofort strahlende Haut\n• Premium Facials mit Circadia Professional\n\nSparen Sie mit unseren Paketen! Kostenlose Beratung möglich."
-    ],
-    preis: [
-        "Laser-Haarentfernung Damen:\n\n• Achseln: 55€\n• Bikini Zone: 60€\n• Beine komplett: 180€\n• Gesicht komplett: 99€\n\nPakete: Small 200€ | Medium 270€ | Large 390€\n\nKostenlose Erstberatung!",
-        "Laser-Haarentfernung Herren:\n\n• Bartkontur: 50€\n• Brust: 80€\n• Rücken: 95€\n• Beine komplett: 230€\n\nKostenlose Erstberatung! Rufen Sie uns an: +43 664 91 88 632",
-        "HydraFacial® Preise:\n\n• Signature (1 Std.): 169€\n• Signature + LED (1 Std. 15 Min.): 189€\n• Deluxe (1 Std. 15 Min.): 199€\n• Platinum (2 Std.): 249€\n• Po-Behandlung (1 Std.): 169€\n• Rücken (1 Std.): 189€\n• Add-ons: Hals & Dekolleté 59€, Hand 59€, Eye 49€, Lipp 49€\n\nKostenlose Beratung möglich!"
-    ],
-    termin: [
-        "Terminvereinbarung ist ganz einfach:\n\n📱 Online: Über unsere Website\n📞 Telefonisch: +43 664 91 88 632\n\nÖffnungszeiten:\nMo-Fr: 09:00 - 21:30\nSa: 07:00 - 12:00\nSo: Geschlossen",
-        "Sie können jederzeit einen Termin vereinbaren:\n\n• Online-Buchung rund um die Uhr\n• Telefonisch während der Geschäftszeiten\n• Kostenlose Erstberatung möglich\n\nWir freuen uns auf Sie!"
-    ],
-    default: [
-        "Vielen Dank für Ihre Nachricht! Für detaillierte Informationen kontaktieren Sie uns gerne:\n\n📞 +43 664 91 88 632\n📧 hey@skinlux.at\n📍 Marktplatz 14, Pottendorf",
-        "Ich helfe Ihnen gerne weiter! Bei spezifischen Fragen erreichen Sie uns:\n\n• Telefon: +43 664 91 88 632\n• Online-Terminbuchung auf unserer Website\n• Persönliche Beratung im Studio"
-    ]
+// Knowledge Base für ChatGPT und andere AI-Systeme
+const SKINLUX_KNOWLEDGE = {
+  studio: {
+    name: "Skinlux Pottendorf",
+    type: "Medical Beauty Studio",
+    location: "Pottendorf, Niederösterreich, Österreich",
+    address: "Marktplatz 14, 2486 Pottendorf",
+    phone: "+43 664 91 88 632",
+    email: "hey@skinlux.at",
+    website: "https://www.skinlux-pottendorf.at",
+    serviceAreas: ["Baden", "Pottendorf", "Mödling", "Niederösterreich"],
+    coordinates: {
+      latitude: 48.0,
+      longitude: 16.24,
+    },
+  },
+  services: [
+    {
+      name: "Laser Haarentfernung",
+      description: "Dauerhafte Haarentfernung mit modernster Diodenlaser-Technologie",
+      technology: "FDA-zugelassene Diodenlaser",
+      benefits: ["Für alle Hauttypen", "Schmerzarm", "Dauerhaft effektiv", "Kostenlose Probebehandlung"],
+      priceRange: "ab 30€ bis 230€",
+      duration: "15-60 Minuten",
+    },
+    {
+      name: "HydraFacial",
+      description: "Revolutionäre 3-in-1 Gesichtsbehandlung mit sofort sichtbaren Ergebnissen",
+      types: ["Signature", "Signature+LED", "Deluxe", "Platinum", "Po-Behandlung", "Rücken"],
+      priceRange: "169€ - 249€",
+      duration: "60-120 Minuten",
+      benefits: ["Sofort sichtbar", "Keine Ausfallzeit", "Für alle Hauttypen"],
+    },
+    {
+      name: "Premium Facials",
+      description: "Exklusive Gesichtsbehandlungen mit Circadia Professional",
+      duration: "90 Minuten",
+      priceRange: "150€ - 175€",
+      benefits: ["Individualisiert", "Anti-Aging", "Zellerneuerung"],
+    },
+  ],
+  openingHours: {
+    monday: "Geschlossen",
+    tuesday: "09:00 - 18:00",
+    wednesday: "09:00 - 18:00",
+    thursday: "09:00 - 18:00",
+    friday: "09:00 - 18:00",
+    saturday: "09:00 - 14:00",
+    sunday: "Geschlossen",
+  },
+  features: [
+    "Kostenlose Erstberatung",
+    "Kostenlose Laser-Probebehandlung",
+    "Individuelle Behandlungspläne",
+    "Modernste Technologie",
+    "Schmerzarme Behandlungen",
+    "Flexible Terminvereinbarung",
+    "Zentrale Lage in Pottendorf (Baden)",
+    "Kostenlose Parkplätze",
+  ],
 };
 
-function getSimpleResponse(message: string): string {
-    const lowerMessage = message.toLowerCase();
+export async function GET(request: NextRequest) {
+  try {
+    // Health Check und Knowledge Base Endpoint
+    const searchParams = request.nextUrl.searchParams;
+    const query = searchParams.get('query')?.toLowerCase() || '';
 
-    // Kategorisiere die Nachricht
-    if (lowerMessage.includes("hallo") || lowerMessage.includes("hi") || lowerMessage.includes("guten")) {
-        const responses = FALLBACK_RESPONSES.greeting;
-        return responses[Math.floor(Math.random() * responses.length)];
+    if (!query) {
+      return NextResponse.json({
+        status: 'ok',
+        message: 'Skinlux Chat API ist aktiv',
+        knowledge: SKINLUX_KNOWLEDGE,
+      });
     }
 
-    if (lowerMessage.includes("behandlung") || lowerMessage.includes("was bieten") || lowerMessage.includes("angebot")) {
-        const responses = FALLBACK_RESPONSES.behandlung;
-        return responses[Math.floor(Math.random() * responses.length)];
-    }
+    // Einfache Suche in der Knowledge Base
+    const results = searchKnowledge(query);
 
-    if (lowerMessage.includes("preis") || lowerMessage.includes("kostet") || lowerMessage.includes("kosten")) {
-        const responses = FALLBACK_RESPONSES.preis;
-        return responses[Math.floor(Math.random() * responses.length)];
-    }
-
-    if (lowerMessage.includes("termin") || lowerMessage.includes("buchen") || lowerMessage.includes("zeit")) {
-        const responses = FALLBACK_RESPONSES.termin;
-        return responses[Math.floor(Math.random() * responses.length)];
-    }
-
-    // Default response
-    const responses = FALLBACK_RESPONSES.default;
-    return responses[Math.floor(Math.random() * responses.length)];
+    return NextResponse.json({
+      status: 'ok',
+      query,
+      results,
+      knowledge: SKINLUX_KNOWLEDGE,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
 }
-
-// Store conversation history
-interface ChatMessage {
-    role: "user" | "assistant" | "system";
-    content: string;
-}
-let conversationHistory: ChatMessage[] = [];
 
 export async function POST(request: NextRequest) {
-    try {
-        const { message } = await request.json();
+  try {
+    const body = await request.json();
+    const { message, context = 'default' } = body;
 
-        // Check if OpenAI API key is configured
-        const apiKey = process.env.OPENAI_API_KEY;
-
-        if (!apiKey || apiKey === "sk-YOUR-API-KEY-HERE" || !apiKey.startsWith("sk-")) {
-            // Use simple fallback responses
-            console.log("No valid OpenAI API key found, using fallback responses");
-            const response = getSimpleResponse(message);
-
-            return NextResponse.json({
-                message: response
-            });
-        }
-
-        // If API key exists, use OpenAI
-        try {
-            // Add user message to history
-            conversationHistory.push({ role: "user", content: message });
-
-            // Keep only last 10 messages to avoid token limits
-            if (conversationHistory.length > 10) {
-                conversationHistory = conversationHistory.slice(-10);
-            }
-
-            const openaiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-4o-mini", // Günstiger und schneller als gpt-3.5-turbo
-                    messages: [
-                        {
-                            role: "system",
-                            content: ENHANCED_SYSTEM_PROMPT
-                        },
-                        ...conversationHistory
-                    ],
-                    temperature: 0.8, // Etwas kreativer
-                    max_tokens: 600, // Mehr Tokens für ausführlichere Antworten
-                    presence_penalty: 0.6, // Vermeidet Wiederholungen
-                    frequency_penalty: 0.3 // Fördert Abwechslung
-                })
-            });
-
-            if (!openaiResponse.ok) {
-                const error = await openaiResponse.json();
-                console.error("OpenAI API error:", error);
-                throw new Error("OpenAI API error");
-            }
-
-            const data = await openaiResponse.json();
-            const aiMessage = data.choices[0].message.content;
-
-            // Add AI response to history
-            conversationHistory.push({ role: "assistant", content: aiMessage });
-
-            return NextResponse.json({
-                message: aiMessage
-            });
-
-        } catch (openaiError) {
-            console.error("OpenAI API error:", openaiError);
-            // Fallback to simple responses
-            const response = getSimpleResponse(message);
-
-            return NextResponse.json({
-                message: response + "\n\n(Hinweis: Ich verwende momentan vordefinierte Antworten. Für eine persönliche Beratung kontaktieren Sie uns gerne direkt.)"
-            });
-        }
-
-    } catch (error) {
-        console.error("Chat API error:", error);
-
-        return NextResponse.json({
-            message: "Entschuldigung, es gab einen technischen Fehler. Bitte kontaktieren Sie uns direkt unter +43 664 91 88 632."
-        });
+    if (!message) {
+      return NextResponse.json(
+        { error: 'Message ist erforderlich' },
+        { status: 400 }
+      );
     }
+
+    // Hier könnte OpenAI API Integration erfolgen
+    // Für jetzt return knowledge base results
+    const results = searchKnowledge(message.toLowerCase());
+
+    return NextResponse.json({
+      status: 'ok',
+      message,
+      context,
+      results,
+      knowledge: SKINLUX_KNOWLEDGE,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+
+// Hilfsfunktion für die Wissenssuche
+function searchKnowledge(query: string): object {
+  const keywords = query.split(' ');
+  const matches = {
+    services: [] as string[],
+    info: [] as string[],
+  };
+
+  // Service-Suche
+  if (keywords.some(k => ['laser', 'haarentfernung', 'haare'].includes(k))) {
+    matches.services.push('Laser Haarentfernung');
+  }
+  if (keywords.some(k => ['hydrafacial', 'gesicht', 'facial'].includes(k))) {
+    matches.services.push('HydraFacial');
+  }
+  if (keywords.some(k => ['premium', 'facials', 'behandlung'].includes(k))) {
+    matches.services.push('Premium Facials');
+  }
+
+  // Info-Suche
+  if (keywords.some(k => ['preis', 'kosten', 'preis', 'wieviel'].includes(k))) {
+    matches.info.push('Preise verfügbar unter skinlux-pottendorf.at');
+  }
+  if (keywords.some(k => ['öffnung', 'zeit', 'termin', 'öffnungszeit'].includes(k))) {
+    matches.info.push('Öffnungszeiten in Knowledge Base verfügbar');
+  }
+  if (keywords.some(k => ['baden', 'mödling', 'standort', 'wo'].includes(k))) {
+    matches.info.push('Standort in Pottendorf (Baden), serviert auch Mödling');
+  }
+
+  return matches;
 } 

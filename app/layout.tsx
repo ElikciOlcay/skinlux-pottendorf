@@ -7,12 +7,12 @@ import ConditionalLayout from "../components/layout/ConditionalLayout";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Skinlux Pottendorf - Laser Haarentfernung & Premium Kosmetik | Baden, NÖ",
-  description: "Skinlux Pottendorf: Professionelle Laser-Haarentfernung, HydraFacial®, und Premium Kosmetikbehandlungen in Baden, Niederösterreich. Moderne Diodenlaser-Technologie für dauerhafte Haarfreiheit.",
-  keywords: "Laser Haarentfernung Pottendorf, Laser Haarentfernung Baden, Kosmetik Niederösterreich, HydraFacial Pottendorf, Laser Behandlung Baden, dauerhafte Haarentfernung, Beauty Studio Pottendorf, Skinlux",
+  title: "Skinlux Pottendorf - Laser Haarentfernung & Premium Kosmetik | Baden, M\u00f6dling",
+  description: "Skinlux Pottendorf: Professionelle Laser-Haarentfernung, HydraFacial®, und Premium Kosmetikbehandlungen in Baden-Pottendorf, N\u00d6. Modern Diodenlaser-Technologie. Auch f\u00fcr M\u00f6dling. Termin buchen!",
+  keywords: "Laser Haarentfernung Pottendorf, Laser Haarentfernung Baden, Laser M\u00f6dling, Kosmetik Niederösterreich, HydraFacial Pottendorf, Laser Behandlung Baden, dauerhafte Haarentfernung, Beauty Studio Pottendorf, Skinlux",
   openGraph: {
-    title: "Skinlux Pottendorf - Laser Haarentfernung & Kosmetik in Baden",
-    description: "Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen in Pottendorf, Baden. Erleben Sie moderne Beauty-Treatments.",
+    title: "Skinlux Pottendorf - Laser Haarentfernung & Kosmetik in Baden, M\u00f6dling",
+    description: "Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen in Pottendorf, Baden. Auch Kunden aus M\u00f6dling. Erleben Sie moderne Beauty-Treatments.",
     images: ["/og-image.jpg"],
     locale: "de_AT",
     type: "website",
@@ -50,7 +50,7 @@ export default function RootLayout({
             "@id": "https://skinlux-pottendorf.at",
             "name": "Skinlux Pottendorf",
             "image": "/images/logo/skinlux-logo.png",
-            "description": "Professionelle Laser-Haarentfernung und Premium Kosmetikbehandlungen in Pottendorf, Baden, Niederösterreich",
+            "description": "Professionelle Laser-Haarentfernung und Premium Kosmetikbehandlungen in Pottendorf, Baden, Niederösterreich. Spezialist für dauerhafte Haarentfernung, HydraFacial und Premium Facials.",
             "url": "https://skinlux-pottendorf.at",
             "telephone": "+43 664 91 88 632",
             "email": "hey@skinlux.at",
@@ -70,6 +70,10 @@ export default function RootLayout({
               {
                 "@type": "City",
                 "name": "Pottendorf"
+              },
+              {
+                "@type": "City",
+                "name": "Mödling"
               },
               {
                 "@type": "AdministrativeArea",
@@ -99,17 +103,80 @@ export default function RootLayout({
               {
                 "@type": "Service",
                 "name": "Laser Haarentfernung",
-                "description": "Dauerhafte Haarentfernung mit moderner Diodenlaser-Technologie"
+                "description": "Dauerhafte Haarentfernung mit modernster Diodenlaser-Technologie für alle Hauttypen",
+                "areaServed": ["Baden", "Pottendorf", "Mödling", "Niederösterreich"],
+                "priceRange": "ab 30€"
               },
               {
                 "@type": "Service",
                 "name": "HydraFacial",
-                "description": "Revolutionäre 3-in-1 Gesichtsbehandlung"
+                "description": "Revolutionäre 3-in-1 Gesichtsbehandlung mit sofort sichtbaren Ergebnissen",
+                "areaServed": ["Baden", "Pottendorf", "Mödling"],
+                "priceRange": "169€ - 249€"
               },
               {
                 "@type": "Service",
                 "name": "Premium Facials",
-                "description": "Luxuriöse Gesichtspflege Behandlungen"
+                "description": "Luxuriöse Gesichtspflege Behandlungen mit professionellen Produkten",
+                "areaServed": ["Baden", "Pottendorf", "Mödling"],
+                "priceRange": "150€ - 175€"
+              }
+            ],
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "5",
+              "ratingCount": "2000",
+              "bestRating": "5",
+              "worstRating": "1"
+            }
+          })}
+        </Script>
+
+        {/* FAQ Schema */}
+        <Script id="faq-schema" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Ist die Laser-Haarentfernung schmerzhaft?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Die moderne Diodenlaser-Technologie ist sehr schmerzarm. Die meisten Kunden beschreiben es als leichtes Kribbeln oder Wärmegefühl. Die integrierte Kühlung macht die Behandlung sehr angenehm."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wie viele Behandlungen sind notwendig?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Die Anzahl der Behandlungen ist individuell und hängt von Hauttyp, Haarfarbe und behandelter Zone ab. Behandlungen finden im Abstand von 4-6 Wochen statt. Bei der kostenlosen Beratung erhalten Sie eine individuelle Einschätzung."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Kann ich eine kostenlose Probebehandlung machen?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ja! Wir bieten eine kostenlose Laser-Probebehandlung an. So können Sie die Technologie unverbindlich testen."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Für welche Hauttypen ist die Behandlung geeignet?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Unsere moderne Diodenlaser-Technologie ist für alle Hauttypen geeignet. In der kostenlosen Erstberatung analysieren wir Ihren Hauttyp genau."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wie lange hält das Ergebnis?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nach Abschluss der Behandlungsserie ist das Ergebnis dauerhaft. Vereinzelt können nach Jahren einzelne Härchen nachwachsen, diese können mit Auffrischungsbehandlungen entfernt werden."
+                }
               }
             ]
           })}

@@ -7,14 +7,20 @@ export const LISA_KNOWLEDGE = {
     },
 
     studio: {
-        name: "SkinLux",
+        name: "SkinLux Pottendorf",
         slogan: "Medical Beauty Studio",
         location: "Pottendorf, Niederösterreich",
         address: "Marktplatz 14, 2486 Pottendorf",
         phone: "+43 664 91 88 632",
         email: "hey@skinlux.at",
-        website: "www.skinlux.at",
+        website: "www.skinlux-pottendorf.at",
         founded: "2020",
+        serviceAreas: {
+            primary: "Pottendorf / Baden",
+            secondary: "Mödling",
+            region: "Niederösterreich",
+            description: "Wir servieren Baden, Pottendorf und auch Kunden aus dem Bezirk Mödling"
+        },
         team: [
             { name: "Ebru Bicer", role: "Inhaberin", expertise: "Erfahrene Unternehmerin und Beauty-Expertin" },
             { name: "Can Bicer", role: "Technik & Marketing", expertise: "Spezialist für Technologie und digitale Lösungen" }

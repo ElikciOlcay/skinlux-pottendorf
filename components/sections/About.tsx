@@ -26,7 +26,7 @@ export default function About() {
                             Über uns
                         </span>
 
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6 md:mb-8" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6 md:mb-8 text-black">
                             Ihr Partner für
                             <br />
                             <span style={{ color: 'var(--color-secondary)' }}>dauerhafte Schönheit</span>

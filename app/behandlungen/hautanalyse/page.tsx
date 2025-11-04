@@ -129,7 +129,7 @@ export default function Hautanalyse() {
                                 </span>
                             </div>
 
-                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight" style={{ color: 'var(--color-primary)' }}>
+                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight" text-black>
                                 Haut<br />
                                 <span style={{ color: 'var(--color-secondary)' }}>Analyse</span>
                             </h1>
@@ -255,7 +255,7 @@ export default function Hautanalyse() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Warum Hautanalyse
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Ihre <span style={{ color: 'var(--color-secondary)' }}>Vorteile</span>
                         </h2>
                     </motion.div>
@@ -282,7 +282,7 @@ export default function Hautanalyse() {
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex items-start justify-between mb-3">
-                                        <h3 className="text-xl font-light" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-xl font-light" text-black>
                                             {vorteil.title}
                                         </h3>
                                         <div className="text-right">
@@ -317,7 +317,7 @@ export default function Hautanalyse() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Was wir analysieren
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Analyse<span style={{ color: 'var(--color-secondary)' }}>parameter</span>
                         </h2>
                     </motion.div>
@@ -332,7 +332,7 @@ export default function Hautanalyse() {
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
                                 className="bg-white p-6 border border-gray-100 hover:border-secondary/30 transition-colors group"
                             >
-                                <h3 className="text-lg font-light mb-3" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-lg font-light mb-3" text-black>
                                     {parameter.name}
                                 </h3>
                                 <p className="text-gray-600 font-light text-sm">
@@ -357,7 +357,7 @@ export default function Hautanalyse() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             So läuft es ab
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Der <span style={{ color: 'var(--color-secondary)' }}>Ablauf</span>
                         </h2>
                     </motion.div>
@@ -382,7 +382,7 @@ export default function Hautanalyse() {
                                     {schritt.step}
                                 </div>
                                 <div className="flex-1 pt-2">
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         {schritt.title}
                                     </h3>
                                     <p className="text-gray-600 font-light">
@@ -408,7 +408,7 @@ export default function Hautanalyse() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Investition
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Hautanalyse <span style={{ color: 'var(--color-secondary)' }}>Preise</span>
                         </h2>
                     </motion.div>
@@ -423,7 +423,7 @@ export default function Hautanalyse() {
                             className="bg-white p-8 border border-gray-200 hover:border-secondary/30 transition-colors"
                         >
                             <div className="text-center">
-                                <h3 className="text-2xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-2xl font-light mb-4" text-black>
                                     Standard Hautanalyse
                                 </h3>
                                 <div className="text-5xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
@@ -479,7 +479,7 @@ export default function Hautanalyse() {
                             </div>
 
                             <div className="text-center pt-4">
-                                <h3 className="text-2xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-2xl font-light mb-4" text-black>
                                     Kostenlose Hautanalyse
                                 </h3>
                                 <div className="text-5xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>

@@ -124,7 +124,7 @@ export default function Microneedling() {
                                 </span>
                             </div>
 
-                            <h1 className="text-5xl md:text-6xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                            <h1 className="text-5xl md:text-6xl font-light mb-6" text-black>
                                 Micro<span style={{ color: 'var(--color-secondary)' }}>needling</span>
                             </h1>
 
@@ -139,7 +139,7 @@ export default function Microneedling() {
                                     <div className="text-sm font-light text-gray-600">60 Minuten</div>
                                 </div>
                                 <div>
-                                    <div className="text-2xl font-light mb-1" style={{ color: 'var(--color-primary)' }}>3er Paket</div>
+                                    <div className="text-2xl font-light mb-1" text-black>3er Paket</div>
                                     <div className="text-sm font-light text-gray-600">€ 510 (10% sparen)</div>
                                 </div>
                             </div>
@@ -240,7 +240,7 @@ export default function Microneedling() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Warum Microneedling
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Ihre <span style={{ color: 'var(--color-secondary)' }}>Vorteile</span>
                         </h2>
                     </motion.div>
@@ -267,7 +267,7 @@ export default function Microneedling() {
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex items-start justify-between mb-3">
-                                        <h3 className="text-xl font-light" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-xl font-light" text-black>
                                             {vorteil.title}
                                         </h3>
                                         <div className="text-right">
@@ -302,7 +302,7 @@ export default function Microneedling() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             So läuft es ab
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Der <span style={{ color: 'var(--color-secondary)' }}>Behandlungsablauf</span>
                         </h2>
                     </motion.div>
@@ -327,7 +327,7 @@ export default function Microneedling() {
                                     {schritt.step}
                                 </div>
                                 <div className="flex-1 pt-2">
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         {schritt.title}
                                     </h3>
                                     <p className="text-gray-600 font-light">
@@ -353,7 +353,7 @@ export default function Microneedling() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Investition
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Microneedling <span style={{ color: 'var(--color-secondary)' }}>Preise</span>
                         </h2>
                     </motion.div>
@@ -368,7 +368,7 @@ export default function Microneedling() {
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         Einzelbehandlung
                                     </h3>
                                     <p className="text-gray-600 font-light">
@@ -395,7 +395,7 @@ export default function Microneedling() {
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         3er Paket
                                     </h3>
                                     <p className="text-gray-600 font-light">
@@ -426,7 +426,7 @@ export default function Microneedling() {
                         transition={{ duration: 0.6, delay: 0.3 }}
                         className="max-w-4xl mx-auto mt-12 p-8 bg-gray-50 border border-gray-200"
                     >
-                        <h3 className="text-lg font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                        <h3 className="text-lg font-light mb-4" text-black>
                             Zusatzleistungen
                         </h3>
                         <div className="grid md:grid-cols-2 gap-6">
@@ -464,7 +464,7 @@ export default function Microneedling() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Häufige Fragen
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Alles über <span style={{ color: 'var(--color-secondary)' }}>Microneedling</span>
                         </h2>
                     </motion.div>
@@ -479,7 +479,7 @@ export default function Microneedling() {
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
                                 className="bg-white p-8 border border-gray-200"
                             >
-                                <h3 className="text-lg font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-lg font-light mb-4" text-black>
                                     {item.frage}
                                 </h3>
                                 <p className="text-gray-600 font-light leading-relaxed">

@@ -157,7 +157,7 @@ export default function HydraFacial() {
                                 </span>
                             </div>
 
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 md:mb-12 leading-tight" style={{ color: 'var(--color-primary)' }}>
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light mb-8 md:mb-12 leading-tight" text-black>
                                 <span style={{ color: '#00A9D9' }}>HydraFacial®</span>
                             </h1>
 
@@ -191,7 +191,7 @@ export default function HydraFacial() {
                                 <div className="flex items-center gap-3">
                                     <span className="text-2xl">✨</span>
                                     <div>
-                                        <h3 className="text-base font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-base font-light mb-1" text-black>
                                             Willkommen-Special
                                         </h3>
                                         <p className="text-sm text-gray-600 font-light">
@@ -254,7 +254,7 @@ export default function HydraFacial() {
                                 </span>
                             </div>
 
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 md:mb-6" text-black>
                                 <span style={{ color: '#00A9D9' }}>HydraFacial®</span>
                             </h1>
 
@@ -268,7 +268,7 @@ export default function HydraFacial() {
                                 <div className="flex items-center gap-3">
                                     <span className="text-2xl">✨</span>
                                     <div>
-                                        <h3 className="text-base font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-base font-light mb-1" text-black>
                                             Willkommen-Special
                                         </h3>
                                         <p className="text-sm text-gray-600 font-light">
@@ -349,7 +349,7 @@ export default function HydraFacial() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Warum HydraFacial®
                         </span>
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-6" text-black>
                             Ihre <span style={{ color: '#00A9D9' }}>Vorteile</span>
                         </h2>
                     </div>
@@ -372,7 +372,7 @@ export default function HydraFacial() {
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex items-start justify-between mb-3">
-                                        <h3 className="text-lg md:text-xl font-light" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-lg md:text-xl font-light" text-black>
                                             {vorteil.title}
                                         </h3>
                                         <div className="text-right">
@@ -407,7 +407,7 @@ export default function HydraFacial() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             So läuft es ab
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Der <span style={{ color: '#00A9D9' }}>Behandlungsablauf</span>
                         </h2>
                     </motion.div>
@@ -432,7 +432,7 @@ export default function HydraFacial() {
                                     {schritt.step}
                                 </div>
                                 <div className="flex-1 pt-2">
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         {schritt.title}
                                     </h3>
                                     <p className="text-gray-600 font-light">
@@ -476,7 +476,7 @@ export default function HydraFacial() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Investition
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             HydraFacial® <span style={{ color: '#00A9D9' }}>Pakete</span>
                         </h2>
                     </motion.div>
@@ -492,7 +492,7 @@ export default function HydraFacial() {
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         HydraFacial® Signature
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
@@ -540,7 +540,7 @@ export default function HydraFacial() {
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         HydraFacial® Signature + LED
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
@@ -593,7 +593,7 @@ export default function HydraFacial() {
                             </div>
                             <div className="flex items-start justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         HydraFacial® Deluxe
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
@@ -641,7 +641,7 @@ export default function HydraFacial() {
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         HydraFacial® Platinium
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light">
@@ -683,7 +683,7 @@ export default function HydraFacial() {
                     {/* Zusätzliche HydraFacial-Behandlungen */}
                     <div className="mt-16">
                         <div className="text-center mb-12">
-                            <h3 className="text-2xl md:text-3xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                            <h3 className="text-2xl md:text-3xl font-light mb-6" text-black>
                                 Weitere <span style={{ color: '#00A9D9' }}>HydraFacial®</span> Behandlungen
                             </h3>
                         </div>
@@ -699,7 +699,7 @@ export default function HydraFacial() {
                             >
                                 <div className="flex items-start justify-between mb-4">
                                     <div>
-                                        <h4 className="text-lg font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                        <h4 className="text-lg font-light mb-1" text-black>
                                             HydraFacial® Po-Behandlung
                                         </h4>
                                         <p className="text-sm text-gray-600 font-light">1 Stunde</p>
@@ -729,7 +729,7 @@ export default function HydraFacial() {
                             >
                                 <div className="flex items-start justify-between mb-4">
                                     <div>
-                                        <h4 className="text-lg font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                        <h4 className="text-lg font-light mb-1" text-black>
                                             HydraFacial® Rücken
                                         </h4>
                                         <p className="text-sm text-gray-600 font-light">1 Stunde</p>
@@ -753,7 +753,7 @@ export default function HydraFacial() {
                         {/* Add-ons */}
                         <div className="bg-gray-100 p-8 rounded-lg">
                             <div className="text-center mb-8">
-                                <h4 className="text-xl font-light mb-3" style={{ color: 'var(--color-primary)' }}>
+                                <h4 className="text-xl font-light mb-3" text-black>
                                     HydraFacial® <span style={{ color: '#00A9D9' }}>Add-ons</span>
                                 </h4>
                                 <p className="text-gray-600 font-light">
@@ -764,7 +764,7 @@ export default function HydraFacial() {
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                                 {/* Hals & Dekolleté */}
                                 <div className="bg-white p-4 rounded border border-gray-200 text-center">
-                                    <h5 className="font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h5 className="font-light mb-2" text-black>
                                         Hals & Dekolleté Pflege
                                     </h5>
                                     <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
@@ -776,7 +776,7 @@ export default function HydraFacial() {
 
                                 {/* Handpflege */}
                                 <div className="bg-white p-4 rounded border border-gray-200 text-center">
-                                    <h5 className="font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h5 className="font-light mb-2" text-black>
                                         Handpflege
                                     </h5>
                                     <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
@@ -788,7 +788,7 @@ export default function HydraFacial() {
 
                                 {/* Lippenboost */}
                                 <div className="bg-white p-4 rounded border border-gray-200 text-center">
-                                    <h5 className="font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h5 className="font-light mb-2" text-black>
                                         Lippenboost
                                     </h5>
                                     <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
@@ -800,7 +800,7 @@ export default function HydraFacial() {
 
                                 {/* Augenpflege */}
                                 <div className="bg-white p-4 rounded border border-gray-200 text-center">
-                                    <h5 className="font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h5 className="font-light mb-2" text-black>
                                         Augenpflege
                                     </h5>
                                     <p className="text-xs text-gray-600 font-light mb-2">5 Minuten</p>
@@ -828,7 +828,7 @@ export default function HydraFacial() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Individualisierung
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             HydraFacial® <span style={{ color: '#00A9D9' }}>Booster</span>
                         </h2>
                         <p className="text-lg text-gray-600 font-light max-w-3xl mx-auto">
@@ -851,7 +851,7 @@ export default function HydraFacial() {
                                 >
                                     <Sparkles className="w-8 h-8" style={{ color: '#00A9D9' }} />
                                 </div>
-                                <h3 className="text-2xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-2xl font-light mb-4" text-black>
                                     Was sind HydraFacial® Booster?
                                 </h3>
                             </div>
@@ -951,7 +951,7 @@ export default function HydraFacial() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Häufige Fragen
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             FAQ zu <span style={{ color: '#00A9D9' }}>HydraFacial®</span>
                         </h2>
                     </motion.div>
@@ -966,7 +966,7 @@ export default function HydraFacial() {
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
                                 className="p-6 border border-gray-100 hover:border-blue-300 transition-colors"
                             >
-                                <h3 className="text-lg font-light mb-3" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-lg font-light mb-3" text-black>
                                     {item.frage}
                                 </h3>
                                 <p className="text-gray-600 font-light leading-relaxed">

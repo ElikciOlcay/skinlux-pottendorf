@@ -217,7 +217,7 @@ export default function Gutscheine() {
                             <Check className="w-10 h-10 text-green-600" />
                         </div>
 
-                        <h1 className="text-3xl md:text-4xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                        <h1 className="text-3xl md:text-4xl font-light mb-4 text-black">
                             Bestellung <span style={{ color: 'var(--color-secondary)' }}>erfolgreich</span>
                         </h1>
 
@@ -226,7 +226,7 @@ export default function Gutscheine() {
                         </p>
 
                         <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                            <h2 className="text-lg font-medium mb-4" style={{ color: 'var(--color-primary)' }}>
+                            <h2 className="text-lg font-medium mb-4 text-black">
                                 Ihre Bestelldetails
                             </h2>
                             <div className="space-y-3 text-left">
@@ -262,7 +262,7 @@ export default function Gutscheine() {
                         </div>
 
                         <div className="bg-blue-50 rounded-xl p-6 mb-8">
-                            <h3 className="text-lg font-medium mb-3" style={{ color: 'var(--color-primary)' }}>
+                            <h3 className="text-lg font-medium mb-3 text-black">
                                 Nächste Schritte
                             </h3>
                             <div className="text-left space-y-2 text-gray-700">
@@ -318,7 +318,7 @@ export default function Gutscheine() {
                         </div>
 
                         <h1 className="text-4xl md:text-6xl font-light mb-4">
-                            <span className="block" style={{ color: 'var(--color-primary)' }}>
+                            <span className="block text-black">
                                 Schönheit
                             </span>
                             <span className="block mt-1" style={{ color: 'var(--color-secondary)' }}>
@@ -343,7 +343,7 @@ export default function Gutscheine() {
                         {/* Schritt 1: Betrag wählen */}
                         {currentStep === 1 && (
                             <div className="text-center">
-                                <h2 className="text-2xl md:text-3xl font-light mb-8" style={{ color: 'var(--color-primary)' }}>
+                                <h2 className="text-2xl md:text-3xl font-light mb-8 text-black">
                                     Wählen Sie einen <span style={{ color: 'var(--color-secondary)' }}>Betrag</span>
                                 </h2>
 
@@ -396,7 +396,7 @@ export default function Gutscheine() {
                         {/* Schritt 2: Liefermethode */}
                         {currentStep === 2 && (
                             <div>
-                                <h2 className="text-2xl md:text-3xl font-light text-center mb-8" style={{ color: 'var(--color-primary)' }}>
+                                <h2 className="text-2xl md:text-3xl font-light text-center mb-8 text-black">
                                     Wie möchten Sie den <span style={{ color: 'var(--color-secondary)' }}>Gutschein erhalten?</span>
                                 </h2>
 
@@ -467,7 +467,7 @@ export default function Gutscheine() {
                         {/* Schritt 3: Kontaktdaten */}
                         {currentStep === 3 && (
                             <div>
-                                <h2 className="text-2xl md:text-3xl font-light text-center mb-8" style={{ color: 'var(--color-primary)' }}>
+                                <h2 className="text-2xl md:text-3xl font-light text-center mb-8 text-black">
                                     Ihre <span style={{ color: 'var(--color-secondary)' }}>Kontaktdaten</span>
                                 </h2>
 
@@ -544,7 +544,7 @@ export default function Gutscheine() {
                         {/* Schritt 4: Lieferadresse (nur bei Post) */}
                         {currentStep === 4 && deliveryMethod === 'post' && (
                             <div>
-                                <h2 className="text-2xl md:text-3xl font-light text-center mb-8" style={{ color: 'var(--color-primary)' }}>
+                                <h2 className="text-2xl md:text-3xl font-light text-center mb-8 text-black">
                                     <span style={{ color: 'var(--color-secondary)' }}>Lieferadresse</span>
                                 </h2>
 
@@ -597,7 +597,7 @@ export default function Gutscheine() {
                         {/* Schritt 5: Bestätigung */}
                         {currentStep === 5 && (
                             <div>
-                                <h2 className="text-2xl md:text-3xl font-light text-center mb-8" style={{ color: 'var(--color-primary)' }}>
+                                <h2 className="text-2xl md:text-3xl font-light text-center mb-8 text-black">
                                     <span style={{ color: 'var(--color-secondary)' }}>Bestätigung</span>
                                 </h2>
 

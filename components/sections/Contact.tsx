@@ -18,7 +18,7 @@ const Contact = () => {
                     <span className="text-sm font-light tracking-widest uppercase text-gray-500 mb-4 block">
                         Kontakt
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                    <h2 className="text-4xl md:text-5xl font-light mb-6 text-black">
                         Jetzt <span style={{ color: 'var(--color-secondary)' }}>Termin</span> vereinbaren
                     </h2>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
@@ -40,7 +40,7 @@ const Contact = () => {
                             <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-xl" style={{ backgroundColor: 'rgba(167, 139, 250, 0.1)' }}>
                                 <Calendar className="w-8 h-8" style={{ color: 'var(--color-secondary)' }} />
                             </div>
-                            <h3 className="text-2xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                            <h3 className="text-2xl font-light mb-4 text-black">
                                 Online Buchung
                             </h3>
                             <p className="text-gray-600 font-light mb-8">
@@ -76,7 +76,7 @@ const Contact = () => {
                             <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center bg-green-50">
                                 <MessageCircle className="w-8 h-8 text-green-600" />
                             </div>
-                            <h3 className="text-2xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                            <h3 className="text-2xl font-light mb-4 text-black">
                                 WhatsApp Buchung
                             </h3>
                             <p className="text-gray-600 font-light mb-8">
@@ -114,7 +114,7 @@ const Contact = () => {
                                     <MapPin className="w-6 h-6" style={{ color: 'var(--color-primary)' }} />
                                 </div>
                                 <div>
-                                    <h4 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h4 className="text-xl font-light mb-2 text-black">
                                         Standort
                                     </h4>
                                     <p className="text-gray-600 font-light">
@@ -152,7 +152,7 @@ const Contact = () => {
                                     <Clock className="w-6 h-6" style={{ color: 'var(--color-primary)' }} />
                                 </div>
                                 <div className="flex-1">
-                                    <h4 className="text-xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                    <h4 className="text-xl font-light mb-4 text-black">
                                         Öffnungszeiten
                                     </h4>
 

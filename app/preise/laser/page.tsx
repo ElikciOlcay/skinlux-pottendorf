@@ -94,7 +94,7 @@ function LaserPreiseContent() {
                         </span>
                     </div>
 
-                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6" text-black>
                         Laser <span style={{ color: 'var(--color-secondary)' }}>Haarentfernung</span>
                     </h1>
 
@@ -179,7 +179,7 @@ function LaserPreiseContent() {
 
                         {/* Info Box */}
                         <div className="mt-8 md:mt-12 p-4 md:p-6 bg-white border border-gray-200">
-                            <h3 className="text-base md:text-lg font-light mb-3 md:mb-4" style={{ color: 'var(--color-primary)' }}>
+                            <h3 className="text-base md:text-lg font-light mb-3 md:mb-4" text-black>
                                 Wichtige Informationen
                             </h3>
                             <ul className="space-y-1 md:space-y-2 text-xs md:text-sm font-light text-gray-600">
@@ -198,14 +198,14 @@ function LaserPreiseContent() {
                                 transition={{ duration: 0.6, delay: 0.3 }}
                                 className="mt-12"
                             >
-                                <h3 className="text-2xl font-light mb-8 text-center" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-2xl font-light mb-8 text-center" text-black>
                                     Unsere <span style={{ color: 'var(--color-secondary)' }}>Vorteilspakete</span>
                                 </h3>
 
                                 <div className="grid md:grid-cols-3 gap-6">
                                     {/* Small Paket */}
                                     <div className="bg-white border border-gray-200 p-6 text-center hover:border-secondary transition-colors">
-                                        <h4 className="text-lg font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        <h4 className="text-lg font-light mb-2" text-black>
                                             Paket Small
                                         </h4>
                                         <p className="text-3xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
@@ -223,7 +223,7 @@ function LaserPreiseContent() {
                                         <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-secondary text-white px-4 py-1 text-xs font-light tracking-widest uppercase">
                                             Beliebt
                                         </div>
-                                        <h4 className="text-lg font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        <h4 className="text-lg font-light mb-2" text-black>
                                             Paket Medium
                                         </h4>
                                         <p className="text-3xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
@@ -238,7 +238,7 @@ function LaserPreiseContent() {
 
                                     {/* Large Paket */}
                                     <div className="bg-white border border-gray-200 p-6 text-center hover:border-secondary transition-colors">
-                                        <h4 className="text-lg font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        <h4 className="text-lg font-light mb-2" text-black>
                                             Paket Large
                                         </h4>
                                         <p className="text-3xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>

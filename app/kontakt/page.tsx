@@ -29,10 +29,8 @@ export default function Kontakt() {
                     </Link>
 
                     <div className="max-w-4xl mx-auto text-center">
-                        <h1 className="text-5xl md:text-7xl font-light mb-6">
-                            <span className="block" style={{ color: 'var(--color-primary)' }}>
-                                Kontakt
-                            </span>
+                        <h1 className="text-5xl md:text-7xl font-light mb-6 text-black">
+                            Kontakt
                         </h1>
 
                         <p className="text-xl md:text-2xl text-gray-600 mb-4 font-light leading-relaxed max-w-3xl mx-auto">
@@ -54,7 +52,7 @@ export default function Kontakt() {
             <section className="py-20">
                 <div className="container">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-light text-center mb-16" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl font-light text-center mb-16 text-black">
                             Wählen Sie Ihre bevorzugte <span style={{ color: 'var(--color-secondary)' }}>Kontaktmethode</span>
                         </h2>
 
@@ -64,7 +62,7 @@ export default function Kontakt() {
                                 <div className="w-14 h-14 mb-6 rounded-full flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-50">
                                     <Calendar className="w-7 h-7" style={{ color: 'var(--color-secondary)' }} />
                                 </div>
-                                <h3 className="text-xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-xl font-light mb-4 text-black">
                                     Online Termin
                                 </h3>
                                 <p className="text-gray-600 font-light mb-6 text-sm">
@@ -86,7 +84,7 @@ export default function Kontakt() {
                                 <div className="w-14 h-14 mb-6 rounded-full flex items-center justify-center bg-green-50">
                                     <MessageCircle className="w-7 h-7 text-green-600" />
                                 </div>
-                                <h3 className="text-xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-xl font-light mb-4 text-black">
                                     WhatsApp
                                 </h3>
                                 <p className="text-gray-600 font-light mb-6 text-sm">
@@ -108,7 +106,7 @@ export default function Kontakt() {
                                 <div className="w-14 h-14 mb-6 rounded-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
                                     <Phone className="w-7 h-7" style={{ color: 'var(--color-primary)' }} />
                                 </div>
-                                <h3 className="text-xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-xl font-light mb-4 text-black">
                                     Anruf
                                 </h3>
                                 <p className="text-gray-600 font-light mb-6 text-sm">
@@ -134,14 +132,14 @@ export default function Kontakt() {
                         <div className="grid md:grid-cols-2 gap-12">
                             {/* Location */}
                             <div>
-                                <h3 className="text-2xl font-light mb-8" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-2xl font-light mb-8 text-black">
                                     Besuchen Sie uns
                                 </h3>
                                 <div className="bg-white p-8 h-full">
                                     <div className="flex items-start gap-4 mb-6">
                                         <MapPin className="w-6 h-6 mt-1" style={{ color: 'var(--color-secondary)' }} />
                                         <div>
-                                            <p className="text-lg font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                            <p className="text-lg font-light mb-2 text-black">
                                                 Skinlux Medical Beauty
                                             </p>
                                             <p className="text-gray-600 font-light">
@@ -173,7 +171,7 @@ export default function Kontakt() {
 
                             {/* Opening Hours */}
                             <div>
-                                <h3 className="text-2xl font-light mb-8" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-2xl font-light mb-8 text-black">
                                     Öffnungszeiten
                                 </h3>
                                 <div className="bg-white p-8 h-full">
@@ -224,7 +222,7 @@ export default function Kontakt() {
                                         <div className="flex items-start gap-3">
                                             <Clock className="w-5 h-5 mt-0.5" style={{ color: 'var(--color-secondary)' }} />
                                             <div>
-                                                <p className="text-sm font-light mb-1" style={{ color: 'var(--color-primary)' }}>
+                                                <p className="text-sm font-light mb-1 text-black">
                                                     Flexible Termine
                                                 </p>
                                                 <p className="text-sm text-gray-600 font-light">
@@ -244,7 +242,7 @@ export default function Kontakt() {
             <section className="py-20">
                 <div className="container">
                     <div className="max-w-3xl mx-auto text-center">
-                        <h2 className="text-3xl md:text-4xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl font-light mb-6 text-black">
                             Wir freuen uns auf <span style={{ color: 'var(--color-secondary)' }}>Sie</span>
                         </h2>
                         <p className="text-xl text-gray-600 font-light mb-10">

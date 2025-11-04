@@ -19,10 +19,8 @@ export default function UeberUns() {
                     </Link>
 
                     <div className="max-w-4xl mx-auto text-center">
-                        <h1 className="text-5xl md:text-7xl font-light mb-6">
-                            <span className="block" style={{ color: 'var(--color-primary)' }}>
-                                Über uns
-                            </span>
+                        <h1 className="text-5xl md:text-7xl font-light mb-6 text-black">
+                            Über uns
                         </h1>
 
                         <p className="text-xl md:text-2xl text-gray-600 mb-8 font-light leading-relaxed max-w-3xl mx-auto">
@@ -62,7 +60,7 @@ export default function UeberUns() {
                                     </span>
                                 </div>
 
-                                <h2 className="text-3xl md:text-4xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                                <h2 className="text-3xl md:text-4xl font-light mb-6 text-black">
                                     Willkommen bei <span style={{ color: 'var(--color-secondary)' }}>Skinlux</span>
                                 </h2>
 
@@ -117,7 +115,7 @@ export default function UeberUns() {
                 <div className="container">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                            <h2 className="text-3xl md:text-4xl font-light mb-6 text-black">
                                 Unser <span style={{ color: 'var(--color-secondary)' }}>Team</span>
                             </h2>
                             <p className="text-xl text-gray-600 font-light">
@@ -148,7 +146,7 @@ export default function UeberUns() {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                     </div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2 text-black">
                                         {member.name}
                                     </h3>
                                     <p className="text-gray-600 font-light">
@@ -176,7 +174,7 @@ export default function UeberUns() {
                 <div className="container relative z-10">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                            <h2 className="text-3xl md:text-4xl font-light mb-6 text-black">
                                 Unsere <span style={{ color: 'var(--color-secondary)' }}>Werte</span>
                             </h2>
                             <p className="text-xl text-gray-600 font-light">
@@ -210,7 +208,7 @@ export default function UeberUns() {
                                             strokeWidth={1.5}
                                         />
                                     </div>
-                                    <h3 className="text-xl font-light mb-3" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-3 text-black">
                                         {value.title}
                                     </h3>
                                     <p className="text-gray-600 font-light">
@@ -228,7 +226,7 @@ export default function UeberUns() {
                 <div className="container">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                            <h2 className="text-3xl md:text-4xl font-light mb-6 text-black">
                                 Einblicke in unser <span style={{ color: 'var(--color-secondary)' }}>Studio</span>
                             </h2>
                             <p className="text-xl text-gray-600 font-light">
@@ -340,7 +338,7 @@ export default function UeberUns() {
             <section className="py-20 bg-gradient-to-br from-white to-gray-50">
                 <div className="container">
                     <div className="max-w-3xl mx-auto text-center">
-                        <h2 className="text-3xl md:text-4xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl font-light mb-6 text-black">
                             Bereit für Ihre <span style={{ color: 'var(--color-secondary)' }}>Verwandlung</span>?
                         </h2>
                         <p className="text-xl text-gray-600 font-light mb-10">

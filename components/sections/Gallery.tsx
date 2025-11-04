@@ -45,7 +45,7 @@ export default function Gallery() {
                         Einblicke
                     </span>
 
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6 text-black">
                         Unser <span style={{ color: 'var(--color-secondary)' }}>Studio</span>
                     </h2>
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto font-light px-4">

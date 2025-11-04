@@ -89,7 +89,7 @@ export default function Beratung() {
                                 </div>
 
                                 <h1 className="text-4xl md:text-6xl font-light mb-6">
-                                    <span className="block" style={{ color: 'var(--color-primary)' }}>
+                                    <span className="block" text-black>
                                         Laser-Haarentfernung
                                     </span>
                                     <span className="block mt-2" style={{ color: 'var(--color-secondary)' }}>
@@ -165,7 +165,7 @@ export default function Beratung() {
             <section className="py-20 bg-gray-50">
                 <div className="container">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl font-light mb-4" text-black>
                             Warum <span style={{ color: 'var(--color-secondary)' }}>Skinlux</span>?
                         </h2>
                         <p className="text-xl text-gray-600 font-light">
@@ -183,7 +183,7 @@ export default function Beratung() {
                                         strokeWidth={1.5}
                                     />
                                 </div>
-                                <h3 className="text-xl font-light mb-3" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-xl font-light mb-3" text-black>
                                     {benefit.title}
                                 </h3>
                                 <p className="text-gray-600 font-light">
@@ -199,7 +199,7 @@ export default function Beratung() {
             <section className="py-20">
                 <div className="container">
                     <div className="max-w-4xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-light text-center mb-16" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl font-light text-center mb-16" text-black>
                             So läuft Ihre <span style={{ color: 'var(--color-secondary)' }}>Probebehandlung</span> ab
                         </h2>
 
@@ -215,7 +215,7 @@ export default function Beratung() {
                                         </div>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-light mb-3" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-xl font-light mb-3" text-black>
                                             {step.title}
                                         </h3>
                                         <p className="text-gray-600 font-light">
@@ -233,14 +233,14 @@ export default function Beratung() {
             <section className="py-20 bg-gray-50">
                 <div className="container">
                     <div className="max-w-3xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-light text-center mb-12" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl font-light text-center mb-12" text-black>
                             Häufige <span style={{ color: 'var(--color-secondary)' }}>Fragen</span>
                         </h2>
 
                         <div className="space-y-8">
                             {faq.map((item, index) => (
                                 <div key={index} className="bg-white p-6 rounded-lg shadow-sm">
-                                    <h3 className="text-lg font-light mb-3" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-lg font-light mb-3" text-black>
                                         {item.question}
                                     </h3>
                                     <p className="text-gray-600 font-light leading-relaxed">
@@ -257,7 +257,7 @@ export default function Beratung() {
             <section className="py-20">
                 <div className="container">
                     <div className="max-w-3xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-light text-center mb-12" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl font-light text-center mb-12" text-black>
                             Was ist <span style={{ color: 'var(--color-secondary)' }}>inbegriffen</span>
                         </h2>
 
@@ -318,7 +318,7 @@ export default function Beratung() {
             <section className="py-20">
                 <div className="container">
                     <div className="max-w-3xl mx-auto text-center">
-                        <h2 className="text-3xl md:text-4xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-3xl md:text-4xl font-light mb-6" text-black>
                             Bereit für <span style={{ color: 'var(--color-secondary)' }}>dauerhafte Haarfreiheit</span>?
                         </h2>
                         <p className="text-xl text-gray-600 font-light mb-10">

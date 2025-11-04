@@ -179,7 +179,7 @@ export default function DatenschutzPage() {
                             </span>
                         </div>
 
-                        <h1 className="section-title" style={{ color: 'var(--color-primary)' }}>
+                        <h1 className="section-title text-black">
                             Datenschutzerklärung
                         </h1>
 
@@ -207,7 +207,7 @@ export default function DatenschutzPage() {
                                 className="card"
                             >
                                 <div className="text-center">
-                                    <h2 className="text-2xl font-light mb-8" style={{ color: 'var(--color-primary)' }}>
+                                    <h2 className="text-2xl font-light mb-8 text-black">
                                         Verantwortliche Stelle
                                     </h2>
 
@@ -243,7 +243,7 @@ export default function DatenschutzPage() {
                                             <section.icon className="w-6 h-6" style={{ color: 'var(--color-primary)' }} />
                                         </div>
                                         <div className="flex-1">
-                                            <h2 className="text-2xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                                            <h2 className="text-2xl font-light mb-6 text-black">
                                                 {section.title}
                                             </h2>
                                             <div className="font-light text-gray-600 leading-relaxed">
@@ -263,7 +263,7 @@ export default function DatenschutzPage() {
                                 className="card"
                             >
                                 <div className="text-center">
-                                    <h2 className="text-2xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                                    <h2 className="text-2xl font-light mb-6 text-black">
                                         Änderungen
                                     </h2>
                                     <p className="font-light text-gray-600 leading-relaxed max-w-2xl mx-auto mb-4">

@@ -49,7 +49,7 @@ export default function ImpressumPage() {
                             </span>
                         </div>
 
-                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6 text-black">
                             Impressum
                         </h1>
 
@@ -77,7 +77,7 @@ export default function ImpressumPage() {
                             >
                                 <div className="grid md:grid-cols-2 gap-8 md:gap-12">
                                     <div>
-                                        <h2 className="text-xl md:text-2xl font-light mb-6 md:mb-8" style={{ color: 'var(--color-primary)' }}>
+                                        <h2 className="text-xl md:text-2xl font-light mb-6 md:mb-8 text-black">
                                             Kontaktdaten
                                         </h2>
 
@@ -110,7 +110,7 @@ export default function ImpressumPage() {
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg md:text-xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-lg md:text-xl font-light mb-4 md:mb-6 text-black">
                                             Unternehmensdaten
                                         </h3>
                                         <div className="space-y-2 md:space-y-3 font-light text-gray-600 text-sm md:text-base">
@@ -184,7 +184,7 @@ export default function ImpressumPage() {
                                             <section.icon className="w-6 h-6" style={{ color: 'var(--color-primary)' }} />
                                         </div>
                                         <div className="flex-1">
-                                            <h2 className="text-2xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                                            <h2 className="text-2xl font-light mb-6 text-black">
                                                 {section.title}
                                             </h2>
                                             <div className="font-light text-gray-600 leading-relaxed">
@@ -204,7 +204,7 @@ export default function ImpressumPage() {
                                 className="card"
                             >
                                 <div className="text-center">
-                                    <h2 className="text-2xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                                    <h2 className="text-2xl font-light mb-6 text-black">
                                         Urheberrecht
                                     </h2>
                                     <p className="font-light text-gray-600 leading-relaxed max-w-2xl mx-auto">

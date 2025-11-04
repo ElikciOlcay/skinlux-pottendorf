@@ -9,7 +9,7 @@ export default function Consultation() {
             <div className="container">
                 <div className="max-w-3xl mx-auto text-center">
                     {/* Section Header */}
-                    <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                    <h2 className="text-4xl md:text-5xl font-light mb-6 text-black">
                         Kostenlose <span style={{ color: 'var(--color-secondary)' }}>Beratung</span>
                     </h2>
                     <p className="text-xl text-gray-600 mb-12 font-light">

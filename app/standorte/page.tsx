@@ -135,7 +135,7 @@ export default function StandortePage() {
                                 NEU: 4. Studio in Mattsee eröffnet!
                             </span>
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h1 className="text-4xl md:text-6xl font-light mb-6 text-black">
                             Unsere <span style={{ color: 'var(--color-secondary)' }}>Standorte</span>
                         </h1>
                         <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed max-w-3xl mx-auto">
@@ -201,7 +201,7 @@ export default function StandortePage() {
                                     {/* Header */}
                                     <div className="flex items-start justify-between mb-4">
                                         <div>
-                                            <h2 className="text-2xl md:text-3xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                            <h2 className="text-2xl md:text-3xl font-light mb-2 text-black">
                                                 {studio.name}
                                             </h2>
                                             <div className="flex items-center gap-2 text-gray-600">
@@ -306,7 +306,7 @@ export default function StandortePage() {
                         <div className="bg-white rounded-2xl p-8 md:p-12 max-w-2xl mx-auto shadow-lg border border-gray-200">
                             <div className="mb-6">
                                 <Award className="w-12 h-12 mx-auto mb-4 text-secondary" />
-                                <h3 className="text-2xl md:text-3xl font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                                <h3 className="text-2xl md:text-3xl font-light mb-4 text-black">
                                     Ihr perfekter Standort
                                 </h3>
                                 <p className="text-gray-600 font-light leading-relaxed">

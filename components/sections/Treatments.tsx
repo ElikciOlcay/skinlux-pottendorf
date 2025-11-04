@@ -62,8 +62,8 @@ export default function Treatments() {
                     <span className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 mb-4 block">
                         Behandlungen
                     </span>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6" style={{ color: 'var(--color-primary)' }}>
-                        Unsere <span style={{ color: 'var(--color-primary)' }}>Expertise</span>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6 text-black">
+                        Unsere <span className="text-black">Expertise</span>
                     </h2>
                     <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light">
                         Modernste Technologien für Ihre Schönheit
@@ -91,7 +91,7 @@ export default function Treatments() {
                                     {/* Content */}
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <h3 className="text-lg md:text-xl font-light" style={{ color: 'var(--color-primary)' }}>
+                                            <h3 className="text-lg md:text-xl font-light text-black">
                                                 {treatment.title}
                                             </h3>
                                             {treatment.isNew && (

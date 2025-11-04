@@ -122,7 +122,7 @@ export default function PremiumFacials() {
                                 </span>
                             </div>
 
-                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight" style={{ color: 'var(--color-primary)' }}>
+                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight" text-black>
                                 Premium<br />
                                 <span style={{ color: 'var(--color-secondary)' }}>Facials</span>
                             </h1>
@@ -247,7 +247,7 @@ export default function PremiumFacials() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Warum Premium
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Der <span style={{ color: 'var(--color-secondary)' }}>Unterschied</span>
                         </h2>
                     </motion.div>
@@ -274,7 +274,7 @@ export default function PremiumFacials() {
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex items-start justify-between mb-3">
-                                        <h3 className="text-xl font-light" style={{ color: 'var(--color-primary)' }}>
+                                        <h3 className="text-xl font-light" text-black>
                                             {vorteil.title}
                                         </h3>
                                         <div className="text-right">
@@ -309,7 +309,7 @@ export default function PremiumFacials() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             So läuft es ab
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Der <span style={{ color: 'var(--color-secondary)' }}>Behandlungsablauf</span>
                         </h2>
                     </motion.div>
@@ -334,7 +334,7 @@ export default function PremiumFacials() {
                                     {schritt.step}
                                 </div>
                                 <div className="flex-1 pt-2">
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         {schritt.title}
                                     </h3>
                                     <p className="text-gray-600 font-light">
@@ -360,7 +360,7 @@ export default function PremiumFacials() {
                         <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
                             Investition
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ color: 'var(--color-primary)' }}>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6" text-black>
                             Premium <span style={{ color: 'var(--color-secondary)' }}>Preise</span>
                         </h2>
                     </motion.div>
@@ -375,7 +375,7 @@ export default function PremiumFacials() {
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         Circadia Customized Facial
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light mb-2">
@@ -415,7 +415,7 @@ export default function PremiumFacials() {
                             </div>
                             <div className="flex items-start justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         Firming Peptide Mask Treatment
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light mb-2">
@@ -450,7 +450,7 @@ export default function PremiumFacials() {
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div>
-                                    <h3 className="text-xl font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                    <h3 className="text-xl font-light mb-2" text-black>
                                         Oxygen RX Facial mit Cocoa-Enzyme
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light mb-2">
@@ -484,7 +484,7 @@ export default function PremiumFacials() {
                         transition={{ duration: 0.6, delay: 0.4 }}
                         className="max-w-4xl mx-auto mt-12 p-8 bg-gray-50 border border-gray-200"
                     >
-                        <h3 className="text-lg font-light mb-4" style={{ color: 'var(--color-primary)' }}>
+                        <h3 className="text-lg font-light mb-4" text-black>
                             Paket-Angebote
                         </h3>
                         <div className="grid md:grid-cols-2 gap-6">

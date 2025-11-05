@@ -22,11 +22,16 @@ const Contact = dynamic(() => import("@/components/sections/Contact"), {
   loading: () => <div className="py-20 bg-gray-100" />
 });
 
+const SpecialOffers = dynamic(() => import("@/components/sections/SpecialOffers"), {
+  loading: () => <div className="py-20 bg-gray-50" />
+});
+
 export default function Home() {
   return (
     <>
       <Hero />
       <Treatments />
+      <SpecialOffers />
       <About />
       <Consultation />
       <Gallery />

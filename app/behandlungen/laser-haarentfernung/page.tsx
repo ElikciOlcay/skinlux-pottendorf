@@ -397,6 +397,106 @@ export default function LaserHaarentfernung() {
                     </div>
                 </section>
 
+                {/* Special Offer Section */}
+                <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50">
+                    <div className="container mx-auto px-4">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="max-w-5xl mx-auto"
+                        >
+                            <div className="relative bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 group overflow-hidden border border-gray-100">
+                                {/* Decorative Background Pattern */}
+                                <div className="absolute inset-0 opacity-5">
+                                    <div className="absolute inset-0" style={{
+                                        backgroundImage: `radial-gradient(circle at 20% 50%, var(--color-secondary) 0%, transparent 50%),
+                                                         radial-gradient(circle at 80% 80%, var(--color-secondary) 0%, transparent 50%)`
+                                    }} />
+                                </div>
+
+                                {/* Badge */}
+                                <div className="absolute top-6 right-6 z-10">
+                                    <span
+                                        className="text-xs font-light tracking-widest uppercase px-4 py-2 text-white rounded-full shadow-lg"
+                                        style={{ backgroundColor: 'var(--color-secondary)' }}
+                                    >
+                                        NEU
+                                    </span>
+                                </div>
+
+                                <a
+                                    href="https://connect.shore.com/bookings/skinlux/services?locale=de&origin=standalone"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block p-8 md:p-12 relative z-10"
+                                >
+                                    <div className="grid md:grid-cols-2 gap-8 items-center">
+                                        {/* Left Side - Content */}
+                                        <div>
+                                            <div className="flex items-center gap-4 mb-6">
+                                                <div
+                                                    className="w-20 h-20 flex-shrink-0 flex items-center justify-center rounded-2xl shadow-lg"
+                                                    style={{ backgroundColor: 'var(--color-secondary)' }}
+                                                >
+                                                    <Zap
+                                                        className="w-10 h-10 text-white"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-2xl md:text-3xl font-light mb-2 text-black">
+                                                        Laser Haarentfernung
+                                                    </h3>
+                                                    <p className="text-sm font-light text-gray-500 uppercase tracking-wider">
+                                                        Spezial Angebot
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <p className="text-gray-600 font-light mb-8 leading-relaxed text-lg">
+                                                50% Rabatt auf die ersten 2 Laser-Haarentfernung Behandlungen. Dauerhafte Haarfreiheit zum halben Preis. Buche einfach deinen Termin, der Rabatt wird an der Kasse abgezogen.
+                                            </p>
+
+                                            <div className="flex items-center gap-2 text-sm font-light text-gray-600 mb-8 pb-8 border-b border-gray-200">
+                                                <span>Auf die ersten 2 Behandlungen</span>
+                                            </div>
+
+                                            <div className="flex items-center gap-3 text-base md:text-lg font-light tracking-widest uppercase py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-lg group-hover:scale-105" style={{ color: 'white', backgroundColor: 'var(--color-secondary)' }}>
+                                                <span>Jetzt buchen</span>
+                                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                            </div>
+                                        </div>
+
+                                        {/* Right Side - Price Highlight */}
+                                        <div className="flex flex-col items-center justify-center">
+                                            <div className="text-center p-8 rounded-2xl" style={{ backgroundColor: 'rgba(184, 176, 169, 0.1)' }}>
+                                                <div className="text-6xl md:text-7xl font-light mb-2" style={{ color: 'var(--color-secondary)' }}>
+                                                    50%
+                                                </div>
+                                                <div className="text-xl md:text-2xl font-light text-gray-700 mb-4">
+                                                    Rabatt
+                                                </div>
+                                                <div className="text-sm font-light text-gray-500 uppercase tracking-wider">
+                                                    Auf die ersten 2 Behandlungen
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                {/* Hover Effect Border */}
+                                <div
+                                    className="absolute bottom-0 left-0 right-0 h-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    style={{
+                                        background: `linear-gradient(90deg, var(--color-secondary) 0%, transparent 100%)`
+                                    }}
+                                />
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
+
                 {/* Pricing CTA */}
                 <section className="py-16 md:py-20 bg-gray-50">
                     <div className="container">

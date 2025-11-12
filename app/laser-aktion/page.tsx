@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Script from "next/script";
 import { useEffect } from "react";
-import { Zap, Shield, Clock, Heart, CheckCircle, ArrowRight, Sparkles, Award } from "lucide-react";
+import { Zap, Shield, Clock, Heart, CheckCircle, ArrowRight, Sparkles, Award, Star, Quote } from "lucide-react";
 
 const benefits = [
     {
@@ -367,6 +367,135 @@ export default function LaserAktion() {
                                     </motion.div>
                                 ))}
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Google Reviews Section */}
+                <section className="py-20 bg-gray-50">
+                    <div className="container">
+                        <div className="text-center mb-16">
+                            <div className="inline-flex items-center gap-2 mb-4">
+                                <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                                <span className="text-sm font-light tracking-widest uppercase text-gray-500">
+                                    Google Bewertungen
+                                </span>
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-light mb-3 text-black">
+                                Das sagen unsere <span className="text-black">Kunden</span>
+                            </h2>
+                            <div className="flex items-center justify-center gap-2 mb-2">
+                                {[...Array(5)].map((_, i) => (
+                                    <Star key={i} className="w-6 h-6 text-yellow-500 fill-yellow-500" />
+                                ))}
+                            </div>
+                            <p className="text-lg font-light text-gray-600">
+                                5.0 Sterne auf Google
+                            </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                            {/* Review 1 - Mayar Kazzaz */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                                className="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition-all relative"
+                            >
+                                <div className="absolute top-4 right-4">
+                                    <span className="text-xs font-light tracking-widest uppercase px-2 py-1 bg-secondary text-white rounded">
+                                        NEU
+                                    </span>
+                                </div>
+                                <Quote className="w-8 h-8 text-secondary/20 mb-4" />
+                                <div className="flex items-center gap-1 mb-4">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                                    ))}
+                                </div>
+                                <p className="text-gray-700 font-light mb-6 leading-relaxed">
+                                    &ldquo;Ich hatte bereits drei Termine und bin sehr zufrieden! Schon nach dem ersten Termin konnte ich erste Ergebnisse sehen. Das Team ist super freundlich und das Studio sehr sauber und angenehm.&rdquo;
+                                </p>
+                                <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+                                    <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                                        <span className="text-sm font-light text-secondary">MK</span>
+                                    </div>
+                                    <div>
+                                        <p className="font-light text-sm text-gray-900">Mayar Kazzaz</p>
+                                        <p className="text-xs font-light text-gray-500">vor 1 Tag</p>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Review 2 - Sarah Kollwentz */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                className="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition-all"
+                            >
+                                <Quote className="w-8 h-8 text-secondary/20 mb-4" />
+                                <div className="flex items-center gap-1 mb-4">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                                    ))}
+                                </div>
+                                <p className="text-gray-700 font-light mb-6 leading-relaxed">
+                                    &ldquo;Ich bin wirklich begeistert! Schon nach der ersten Behandlung habe ich einen deutlichen Unterschied gemerkt. Das Team ist super freundlich und sorgt dafür, dass man sich sofort wohlfühlt.&rdquo;
+                                </p>
+                                <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+                                    <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                                        <span className="text-sm font-light text-secondary">SK</span>
+                                    </div>
+                                    <div>
+                                        <p className="font-light text-sm text-gray-900">Sarah Kollwentz</p>
+                                        <p className="text-xs font-light text-gray-500">vor einem Monat</p>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Review 3 - Silvana Wo */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.3 }}
+                                className="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition-all"
+                            >
+                                <Quote className="w-8 h-8 text-secondary/20 mb-4" />
+                                <div className="flex items-center gap-1 mb-4">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                                    ))}
+                                </div>
+                                <p className="text-gray-700 font-light mb-6 leading-relaxed">
+                                    &ldquo;Tolle und informative Beratung, einfühlsame Behandlung und ein sehr sauberes Studio. Bereits nach der ersten Sitzung sehe ich schon super Ergebnisse.&rdquo;
+                                </p>
+                                <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+                                    <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                                        <span className="text-sm font-light text-secondary">SW</span>
+                                    </div>
+                                    <div>
+                                        <p className="font-light text-sm text-gray-900">Silvana Wo</p>
+                                        <p className="text-xs font-light text-gray-500">vor 4 Monaten</p>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        {/* Google Reviews Link */}
+                        <div className="text-center mt-12">
+                            <a 
+                                href="https://www.google.com/search?hl=de&q=skinlux+pottendorf+rezensionen" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 text-base font-light text-gray-600 hover:text-secondary transition-colors"
+                            >
+                                Alle Bewertungen auf Google ansehen
+                                <ArrowRight className="w-4 h-4" />
+                            </a>
                         </div>
                     </div>
                 </section>

@@ -3,8 +3,6 @@
 import { usePathname } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import OfferPopup from "@/components/ui/OfferPopup";
-import CookieBanner from "@/components/ui/CookieBanner";
 import ChatWidget from "@/components/chat/ChatWidget";
 
 interface ConditionalLayoutProps {
@@ -24,7 +22,7 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
         );
     }
 
-    // Normale Website: Mit Header, Footer, Popups
+    // Normale Website: Mit Header, Footer
     return (
         <>
             <Header />
@@ -32,8 +30,6 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
                 {children}
             </main>
             <Footer />
-            <OfferPopup />
-            <CookieBanner />
             <ChatWidget />
         </>
     );

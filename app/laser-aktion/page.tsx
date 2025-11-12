@@ -39,10 +39,10 @@ const features = [
 ];
 
 const popularAreas = [
-    { name: "Achseln", duration: "10 Min.", price: "ab 30€" },
-    { name: "Bikinizone", duration: "15 Min.", price: "ab 40€" },
-    { name: "Beine komplett", duration: "45 Min.", price: "ab 120€" },
-    { name: "Rücken", duration: "30 Min.", price: "ab 80€" }
+    { name: "Achseln", duration: "20 Min.", price: "€ 50" },
+    { name: "Bikinizone", duration: "20 Min.", price: "€ 55" },
+    { name: "Beine komplett", duration: "1,5 Std.", price: "€ 150" },
+    { name: "Rücken", duration: "45 Min.", price: "€ 85" }
 ];
 
 const faq = [

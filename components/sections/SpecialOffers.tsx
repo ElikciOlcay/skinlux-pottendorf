@@ -68,9 +68,9 @@ export default function SpecialOffers() {
                                 </div>
 
                                 {/* Badge */}
-                                <div className="absolute top-6 right-6 z-10">
+                                <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10">
                                     <span 
-                                        className="text-xs font-light tracking-widest uppercase px-4 py-2 text-white rounded-full shadow-lg"
+                                        className="text-[0.625rem] md:text-xs font-light tracking-widest uppercase px-3 py-1.5 md:px-4 md:py-2 text-white rounded-full shadow-lg"
                                         style={{ backgroundColor: offer.color }}
                                     >
                                         {offer.badge}

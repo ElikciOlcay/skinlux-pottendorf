@@ -64,7 +64,7 @@ const faq = [
     },
     {
         frage: "Wie lange ist die Aktion gültig?",
-        antwort: "Die Aktion ist bis Ende Dezember 2024 gültig. Sichere dir jetzt deinen Termin und spare 50% bei deinen ersten beiden Behandlungen!"
+        antwort: "Die Aktion ist bis Ende Dezember 2025 gültig. Sichere dir jetzt deinen Termin und spare 50% bei deinen ersten beiden Behandlungen!"
     }
 ];
 
@@ -93,7 +93,7 @@ const offerSchema = {
         }
     },
     "validFrom": "2024-11-01",
-    "validThrough": "2024-12-31",
+    "validThrough": "2025-12-31",
     "availability": "https://schema.org/InStock"
 };
 

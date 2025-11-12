@@ -12,7 +12,7 @@ const offers = [
         price: "50%",
         originalPrice: null,
         discount: "Rabatt",
-        limit: "Gültig bis Ende Dezember 2025",
+        limit: "Gültig bis 31. Dezember 2025",
         icon: Zap,
         href: '/laser-aktion',
         color: 'var(--color-secondary)',

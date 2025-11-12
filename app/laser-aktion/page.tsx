@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import Script from "next/script";
 import { useEffect } from "react";
 import { Zap, Shield, Clock, Heart, CheckCircle, ArrowRight, Sparkles, Award, Star, Quote } from "lucide-react";
@@ -38,13 +37,6 @@ const features = [
     "Kostenlose Probebehandlung möglich"
 ];
 
-const popularAreas = [
-    { name: "Achseln", duration: "20 Min.", price: "€ 50" },
-    { name: "Bikinizone", duration: "20 Min.", price: "€ 55" },
-    { name: "Beine komplett", duration: "1,5 Std.", price: "€ 150" },
-    { name: "Rücken", duration: "45 Min.", price: "€ 85" }
-];
-
 const faq = [
     {
         frage: "Wie funktioniert die Aktion?",
@@ -64,7 +56,7 @@ const faq = [
     },
     {
         frage: "Wie lange ist die Aktion gültig?",
-        antwort: "Die Aktion ist bis Ende Dezember 2025 gültig. Sichere dir jetzt deinen Termin und spare 50% bei deinen ersten beiden Behandlungen!"
+        antwort: "Die Aktion ist bis 31. Dezember 2025 gültig. Sichere dir jetzt deinen Termin und spare 50% bei deinen ersten beiden Behandlungen!"
     }
 ];
 
@@ -113,7 +105,7 @@ const faqSchema = {
 export default function LaserAktion() {
     useEffect(() => {
         document.title = "50% Rabatt Laser-Haarentfernung Pottendorf | Limitierte Aktion | Skinlux";
-        
+
         let metaDescription = document.querySelector('meta[name="description"]');
         if (!metaDescription) {
             metaDescription = document.createElement('meta');
@@ -291,56 +283,6 @@ export default function LaserAktion() {
                     </div>
                 </section>
 
-                {/* Popular Areas */}
-                <section className="py-20 bg-gray-50">
-                    <div className="container">
-                        <div className="text-center mb-16">
-                            <h2 className="text-4xl md:text-5xl font-light mb-6 text-black">
-                                Beliebte <span className="text-black">Behandlungszonen</span>
-                            </h2>
-                            <p className="text-xl text-gray-600 font-light">
-                                Mit 50% Rabatt auf deine ersten 2 Behandlungen
-                            </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-                            {popularAreas.map((area, index) => (
-                                <motion.div
-                                    key={area.name}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                                    className="bg-white p-6 hover:shadow-lg transition-shadow"
-                                >
-                                    <h3 className="text-xl font-light mb-4 text-black">{area.name}</h3>
-                                    <div className="space-y-2 mb-4">
-                                        <div className="flex items-center gap-2 text-gray-600">
-                                            <Clock className="w-4 h-4" />
-                                            <span className="text-sm font-light">{area.duration}</span>
-                                        </div>
-                                        <div className="text-2xl font-light text-secondary">{area.price}</div>
-                                    </div>
-                                    <div className="pt-4 border-t border-gray-100">
-                                        <div className="text-sm font-light text-gray-500">
-                                            Jetzt mit <span className="text-secondary font-normal">50% Rabatt</span>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        <div className="text-center mt-12">
-                            <Link
-                                href="/preise/laser"
-                                className="inline-flex items-center gap-2 text-secondary hover:text-secondary-dark transition-colors"
-                            >
-                                Alle Preise ansehen
-                                <ArrowRight className="w-4 h-4" />
-                            </Link>
-                        </div>
-                    </div>
-                </section>
 
                 {/* Features */}
                 <section className="py-20 bg-black text-white">
@@ -487,9 +429,9 @@ export default function LaserAktion() {
 
                         {/* Google Reviews Link */}
                         <div className="text-center mt-12">
-                            <a 
-                                href="https://www.google.com/search?hl=de&q=skinlux+pottendorf+rezensionen" 
-                                target="_blank" 
+                            <a
+                                href="https://www.google.com/search?hl=de&q=skinlux+pottendorf+rezensionen"
+                                target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 text-base font-light text-gray-600 hover:text-secondary transition-colors"
                             >

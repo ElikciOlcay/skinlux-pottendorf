@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Script from "next/script";
 import { useEffect } from "react";
 import { Zap, Shield, Clock, Heart, CheckCircle, ArrowRight, Sparkles, Award, Star, Quote } from "lucide-react";
+import { trackLaserAktionView } from "@/lib/meta-tracking";
 
 const benefits = [
     {
@@ -105,6 +106,9 @@ const faqSchema = {
 export default function LaserAktion() {
     useEffect(() => {
         document.title = "50% Rabatt Laser-Haarentfernung Pottendorf | Limitierte Aktion | Skinlux";
+        
+        // Track Laser-Aktion Page View
+        trackLaserAktionView();
 
         let metaDescription = document.querySelector('meta[name="description"]');
         if (!metaDescription) {

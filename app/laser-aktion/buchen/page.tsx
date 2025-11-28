@@ -94,6 +94,8 @@ export default function LaserAktionBuchenPage() {
     );
   }
 
+  const selectedCount = selectedZones.length + selectedPackages.length;
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -537,6 +539,46 @@ export default function LaserAktionBuchenPage() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+        {step === 1 && selectedCount > 0 && (
+          <div
+            className="fixed inset-x-0 bottom-0 z-50 bg-white border-t border-gray-200 shadow-lg"
+            style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+          >
+            <div className="container py-3 md:py-4 flex items-center justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2 overflow-x-auto">
+                  {selectedPackages.map((p) => (
+                    <span
+                      key={`pkg-${p}`}
+                      className="px-2 py-1 text-xs bg-gray-100 border border-gray-200 text-gray-700 whitespace-nowrap"
+                    >
+                      {p}
+                    </span>
+                  ))}
+                  {selectedZones.map((z) => (
+                    <span
+                      key={`zone-${z}`}
+                      className="px-2 py-1 text-xs bg-gray-100 border border-gray-200 text-gray-700 whitespace-nowrap"
+                    >
+                      {z}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-1 text-xs text-gray-600">
+                  <span className="line-through mr-2">{euro(totalOriginal)}</span>
+                  <span style={{ color: "var(--color-secondary)" }}>{euro(totalDiscounted)}</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setStep(2)}
+                className="px-5 py-3 bg-black text-white text-sm uppercase tracking-widest whitespace-nowrap hover:bg-gray-800 transition"
+              >
+                Weiter zum Formular
+              </button>
             </div>
           </div>
         )}

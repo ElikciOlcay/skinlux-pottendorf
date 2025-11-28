@@ -11,7 +11,7 @@ type RequestBody = {
   zone?: string;
   packages?: string[];
   preferredDate: string; // yyyy-mm-dd
-  preferredTime: string; // HH:mm
+  preferredTime?: string; // HH:mm (optional)
   message?: string;
 };
 
@@ -157,7 +157,7 @@ function buildEmailHTML(kind: "user" | "admin", data: RequestBody) {
       ` : ``}
 
       <div class="section">
-        <div class="row"><div class="label">Wunschtermin</div><div class="val">${htmlEscape(`${data.preferredDate} ${data.preferredTime}`)}</div></div>
+        <div class="row"><div class="label">Wunschtermin</div><div class="val">${htmlEscape(`${data.preferredDate}${data.preferredTime ? " " + data.preferredTime : ""}`)}</div></div>
       </div>
 
       ${data.message
@@ -212,7 +212,6 @@ export async function POST(request: Request) {
       !body.phone ||
       (zones.length === 0 && packages.length === 0) ||
       !body.preferredDate ||
-      !body.preferredTime ||
       (body.gender !== "damen" && body.gender !== "herren")
     ) {
       return NextResponse.json({ error: "Ungültige Eingaben" }, { status: 400 });
@@ -244,7 +243,7 @@ export async function POST(request: Request) {
       zones,
       packages,
       preferredDate: body.preferredDate,
-      preferredTime: body.preferredTime,
+      preferredTime: body.preferredTime || "",
       message: body.message || "",
       originalPriceEuro: `€${totalOriginal}`,
       discountedPriceEuro: `€${totalDiscounted}`,

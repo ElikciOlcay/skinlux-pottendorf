@@ -20,7 +20,7 @@ type BookingFormState = {
   phone: string;
   gender: GenderType;
   preferredDate: string; // yyyy-mm-dd
-  preferredTime: string; // HH:mm
+  preferredTime: string; // HH:mm (optional)
   message?: string;
   consent: boolean;
 };
@@ -120,8 +120,7 @@ export default function LaserAktionBuchenPage() {
       !form.email ||
       !form.phone ||
       (selectedZones.length === 0 && selectedPackages.length === 0) ||
-      !form.preferredDate ||
-      !form.preferredTime
+      !form.preferredDate
     ) {
       setError("Bitte alle Pflichtfelder ausfüllen.");
       return;
@@ -498,10 +497,9 @@ export default function LaserAktionBuchenPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs md:text-sm uppercase tracking-widest text-gray-600 mb-2">Uhrzeit</label>
+                    <label className="block text-xs md:text-sm uppercase tracking-widest text-gray-600 mb-2">Uhrzeit (optional)</label>
                     <input
                       type="time"
-                      required
                       value={form.preferredTime}
                       onChange={(e) => update("preferredTime", e.target.value)}
                       className="w-full border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-secondary"

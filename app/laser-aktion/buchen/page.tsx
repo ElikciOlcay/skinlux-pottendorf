@@ -271,7 +271,7 @@ export default function LaserAktionBuchenPage() {
                             onClick={() => togglePackage(pkg.name)}
                             role="checkbox"
                             aria-checked={active}
-                            className={`group w-full grid grid-cols-3 gap-2 md:gap-4 py-4 md:py-5 text-left bg-white transition cursor-pointer border rounded-lg hover:shadow-sm ${active ? "border-secondary" : "border-gray-200 hover:border-secondary/30"}`}
+                            className={`group w-full grid grid-cols-3 gap-2 md:gap-4 px-4 md:px-6 py-4 md:py-5 text-left bg-white transition cursor-pointer border rounded-lg hover:shadow-sm ${active ? "border-secondary" : "border-gray-200 hover:border-secondary/30"}`}
                           >
                             <div className="font-light text-gray-800 text-base md:text-lg flex items-center gap-3">
                               {active ? (
@@ -357,7 +357,7 @@ export default function LaserAktionBuchenPage() {
                       onClick={() => toggleZone(item.zone)}
                       role="checkbox"
                       aria-checked={active}
-                      className={`group w-full grid grid-cols-3 gap-2 md:gap-4 py-4 md:py-5 text-left bg-white transition cursor-pointer border rounded-lg hover:shadow-sm ${active ? "border-secondary" : "border-gray-200 hover:border-secondary/30"}`}
+                      className={`group w-full grid grid-cols-3 gap-2 md:gap-4 px-4 md:px-6 py-4 md:py-5 text-left bg-white transition cursor-pointer border rounded-lg hover:shadow-sm ${active ? "border-secondary" : "border-gray-200 hover:border-secondary/30"}`}
                     >
                       <div className="font-light text-gray-800 text-base md:text-lg flex items-center gap-3">
                         {active ? (

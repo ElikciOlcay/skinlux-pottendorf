@@ -71,12 +71,25 @@ export function discounted(price: number, discountPercent: number): number {
 export type LaserPackageItem = {
   name: string;
   priceEuro: number;
+  details?: string[];
 };
 
 export const damenPackages: LaserPackageItem[] = [
-  { name: "Paket Small", priceEuro: 200 },
-  { name: "Paket Medium", priceEuro: 250 },
-  { name: "Paket Large", priceEuro: 350 },
+  {
+    name: "Paket Small",
+    priceEuro: 200,
+    details: ["Achseln", "Unterschenkel", "Intim + Bikini inkl. Pofalte"],
+  },
+  {
+    name: "Paket Medium",
+    priceEuro: 250,
+    details: ["Achseln", "Beine komplett", "Intim + Bikini inkl. Pofalte"],
+  },
+  {
+    name: "Paket Large",
+    priceEuro: 350,
+    details: ["Achseln", "Beine komplett", "Gesicht komplett", "Unterarme", "Intim + Bikini inkl. Pofalte"],
+  },
 ];
 
 export function getPackagesByGender(gender: GenderType): LaserPackageItem[] {

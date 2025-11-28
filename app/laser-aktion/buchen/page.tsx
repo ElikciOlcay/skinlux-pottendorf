@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle, Calendar, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle, Calendar, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
 import {
   GenderType,
   getPricesByGender,
@@ -35,6 +35,7 @@ export default function LaserAktionBuchenPage() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [openPackageDetails, setOpenPackageDetails] = useState<string[]>([]);
 
   const prices = useMemo(() => getPricesByGender(gender), [gender]);
   const priceMap = useMemo<Record<string, LaserPriceItem>>(() => {
@@ -91,6 +92,11 @@ export default function LaserAktionBuchenPage() {
   function togglePackage(pkg: string) {
     setSelectedPackages((prev) =>
       prev.includes(pkg) ? prev.filter((z) => z !== pkg) : [...prev, pkg]
+    );
+  }
+  function togglePackageDetails(pkg: string) {
+    setOpenPackageDetails((prev) =>
+      prev.includes(pkg) ? prev.filter((n) => n !== pkg) : [...prev, pkg]
     );
   }
 
@@ -254,36 +260,74 @@ export default function LaserAktionBuchenPage() {
                     {packages.map((pkg, index) => {
                       const sale = discounted(pkg.priceEuro, DISCOUNT_PERCENT);
                       const active = selectedPackages.includes(pkg.name);
+                      const open = openPackageDetails.includes(pkg.name);
                       return (
-                        <motion.button
-                          key={pkg.name}
-                          initial={{ opacity: 0, x: -12 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.35, delay: index * 0.03 }}
-                          type="button"
-                          onClick={() => togglePackage(pkg.name)}
-                          role="checkbox"
-                          aria-checked={active}
-                          className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition cursor-pointer border ${active ? "bg-white border-secondary" : "border-transparent hover:border-secondary/30"}`}
-                        >
-                          <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
-                            {active ? (
-                              <CheckCircle className="w-4 h-4 text-secondary" />
-                            ) : (
-                              <span className="w-4 h-4 rounded-full border border-gray-300" />
-                            )}
-                            {pkg.name}
-                          </div>
-                          <div className="font-light text-center text-gray-500 line-through text-xs md:text-sm">
-                            {euro(pkg.priceEuro)}
-                          </div>
-                          <div
-                            className="font-light text-right text-sm md:text-base"
-                            style={{ color: "var(--color-secondary)" }}
+                        <div key={pkg.name} className="py-2">
+                          <motion.button
+                            initial={{ opacity: 0, x: -12 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.35, delay: index * 0.03 }}
+                            type="button"
+                            onClick={() => togglePackage(pkg.name)}
+                            role="checkbox"
+                            aria-checked={active}
+                            className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition cursor-pointer border ${active ? "bg-white border-secondary" : "border-transparent hover:border-secondary/30"}`}
                           >
-                            {euro(sale)}
-                          </div>
-                        </motion.button>
+                            <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
+                              {active ? (
+                                <CheckCircle className="w-4 h-4 text-secondary" />
+                              ) : (
+                                <span className="w-4 h-4 rounded-full border border-gray-300" />
+                              )}
+                              {pkg.name}
+                            </div>
+                            <div className="font-light text-center text-gray-500 line-through text-xs md:text-sm">
+                              {euro(pkg.priceEuro)}
+                            </div>
+                            <div
+                              className="font-light text-right text-sm md:text-base flex items-center gap-2 justify-end"
+                              style={{ color: "var(--color-secondary)" }}
+                            >
+                              {euro(sale)}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  togglePackageDetails(pkg.name);
+                                }}
+                                className="ml-3 inline-flex items-center gap-1 text-xs text-gray-600 underline hover:text-black"
+                                aria-expanded={open}
+                                aria-controls={`pkg-details-${index}`}
+                              >
+                                {open ? (
+                                  <>
+                                    Details verbergen <ChevronUp className="w-3 h-3" />
+                                  </>
+                                ) : (
+                                  <>
+                                    Details anzeigen <ChevronDown className="w-3 h-3" />
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </motion.button>
+                          {open && pkg.details && pkg.details.length > 0 && (
+                            <motion.div
+                              id={`pkg-details-${index}`}
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="bg-white border border-gray-200 p-3 mt-2"
+                            >
+                              <ul className="text-xs text-gray-600 list-disc pl-5 space-y-1">
+                                {pkg.details.map((d) => (
+                                  <li key={d}>{d}</li>
+                                ))}
+                              </ul>
+                            </motion.div>
+                          )}
+                        </div>
                       );
                     })}
                   </div>

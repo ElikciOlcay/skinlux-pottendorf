@@ -7,7 +7,8 @@ type RequestBody = {
   email: string;
   phone: string;
   gender: GenderType;
-  zone: string;
+  zones?: string[];
+  zone?: string;
   preferredDate: string; // yyyy-mm-dd
   preferredTime: string; // HH:mm
   message?: string;
@@ -34,9 +35,16 @@ function htmlEscape(input: string) {
 
 function buildEmailHTML(kind: "user" | "admin", data: RequestBody) {
   const prices = getPricesByGender(data.gender);
-  const item = prices.find((p) => p.zone === data.zone);
-  const original = item?.priceEuro ?? 0;
-  const sale = discounted(original, 50);
+  const selectedZones = Array.isArray(data.zones) && data.zones.length > 0
+    ? data.zones
+    : (data.zone ? [data.zone] : []);
+  const rows = selectedZones.map((z) => {
+    const orig = prices.find((p) => p.zone === z)?.priceEuro ?? 0;
+    const disc = discounted(orig, 50);
+    return { zone: z, original: orig, discounted: disc };
+  });
+  const totalOriginal = rows.reduce((s, r) => s + r.original, 0);
+  const totalDiscounted = rows.reduce((s, r) => s + r.discounted, 0);
 
   const title =
     kind === "user"
@@ -67,6 +75,9 @@ function buildEmailHTML(kind: "user" | "admin", data: RequestBody) {
     .price { color: #16a34a; font-weight: 700; }
     .strike { text-decoration: line-through; color: #9ca3af; margin-right: 8px; }
     .footer { background: #f9fafb; padding: 16px; text-align: center; color: #6b7280; font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 8px 0; border-bottom: 1px solid #f3f4f6; }
+    th { color: #6b7280; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -83,20 +94,45 @@ function buildEmailHTML(kind: "user" | "admin", data: RequestBody) {
         <div class="row"><div class="label">E-Mail</div><div class="val">${htmlEscape(data.email)}</div></div>
         <div class="row"><div class="label">Telefon</div><div class="val">${htmlEscape(data.phone)}</div></div>
         <div class="row"><div class="label">Geschlecht</div><div class="val">${data.gender === "damen" ? "Damen" : "Herren"}</div></div>
-        <div class="row"><div class="label">Zone</div><div class="val">${htmlEscape(data.zone)}</div></div>
-        <div class="row"><div class="label">Preis</div><div class="val"><span class="strike">€${original}</span> <span class="price">€${sale}</span></div></div>
-        <div class="row"><div class="label">Wunschtermin</div><div class="val">${htmlEscape(
-          `${data.preferredDate} ${data.preferredTime}`
-        )}</div></div>
       </div>
 
-      ${
+      <div class="section">
+        <div style="margin-bottom:8px; font-weight:600; color:#374151;">Ausgewählte Zonen</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:60%">Zone</th>
+              <th style="width:20%">Regulär</th>
+              <th style="width:20%">Jetzt</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map((r) => `
+              <tr>
+                <td>${htmlEscape(r.zone)}</td>
+                <td><span class="strike">€${r.original}</span></td>
+                <td><span class="price">€${r.discounted}</span></td>
+              </tr>
+            `).join("")}
+            <tr>
+              <td style="font-weight:600">Summe</td>
+              <td><span class="strike">€${totalOriginal}</span></td>
+              <td><span class="price">€${totalDiscounted}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="row"><div class="label">Wunschtermin</div><div class="val">${htmlEscape(`${data.preferredDate} ${data.preferredTime}`)}</div></div>
+      </div>
+
+      ${data.message
+      ? `<div class="section"><div class="label" style="margin-bottom:6px;">Nachricht</div><div class="val" style="white-space:pre-wrap;">${htmlEscape(
         data.message
-          ? `<div class="section"><div class="label" style="margin-bottom:6px;">Nachricht</div><div class="val" style="white-space:pre-wrap;">${htmlEscape(
-              data.message
-            )}</div></div>`
-          : ""
-      }
+      )}</div></div>`
+      : ""
+    }
 
       <p class="muted">Diese Anfrage bezieht sich auf die aktuelle 50%-Aktion (gilt für die ersten zwei Behandlungen).</p>
     </div>
@@ -135,11 +171,12 @@ async function trySendViaLoops(recipientEmail: string, templateIdEnv: string, da
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as RequestBody;
+    const zones = Array.isArray(body.zones) && body.zones.length > 0 ? body.zones : (body.zone ? [body.zone] : []);
     if (
       !body.name ||
       !body.email ||
       !body.phone ||
-      !body.zone ||
+      zones.length === 0 ||
       !body.preferredDate ||
       !body.preferredTime ||
       (body.gender !== "damen" && body.gender !== "herren")
@@ -150,20 +187,26 @@ export async function POST(request: Request) {
     const studioEmail = process.env.STUDIO_EMAIL || "hey@skinlux.at";
 
     // Build payload for Loops templates
-    const priceItem = getPricesByGender(body.gender).find((p) => p.zone === body.zone);
-    const original = priceItem?.priceEuro ?? 0;
-    const sale = discounted(original, 50);
+    const allPrices = getPricesByGender(body.gender);
+    const rows = zones.map((z) => {
+      const orig = allPrices.find((p) => p.zone === z)?.priceEuro ?? 0;
+      const disc = discounted(orig, 50);
+      return { zone: z, original: orig, discounted: disc };
+    });
+    const totalOriginal = rows.reduce((s, r) => s + r.original, 0);
+    const totalDiscounted = rows.reduce((s, r) => s + r.discounted, 0);
     const emailData = {
       name: body.name,
       email: body.email,
       phone: body.phone,
       gender: body.gender,
-      zone: body.zone,
+      zone: zones.join(", "),
+      zones,
       preferredDate: body.preferredDate,
       preferredTime: body.preferredTime,
       message: body.message || "",
-      originalPriceEuro: `€${original}`,
-      discountedPriceEuro: `€${sale}`,
+      originalPriceEuro: `€${totalOriginal}`,
+      discountedPriceEuro: `€${totalDiscounted}`,
     };
 
     // Try Loops for USER
@@ -190,8 +233,8 @@ export async function POST(request: Request) {
         );
       }
       const resend = new Resend(resendKey);
-      const userHTML = buildEmailHTML("user", body);
-      const adminHTML = buildEmailHTML("admin", body);
+      const userHTML = buildEmailHTML("user", { ...body, zones });
+      const adminHTML = buildEmailHTML("admin", { ...body, zones });
       // Send user
       if (!userSentViaLoops) {
         await resend.emails.send({

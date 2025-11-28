@@ -7,6 +7,7 @@ export type LaserPriceItem = {
 export type GenderType = "damen" | "herren";
 
 export const damenPrices: LaserPriceItem[] = [
+  { zone: "Kostenloses Erstgespräch mit Probebehandlung", priceEuro: 0 },
   { zone: "Oberlippe", priceEuro: 30 },
   { zone: "Kinn", priceEuro: 30 },
   { zone: "Wangen", priceEuro: 30 },
@@ -36,6 +37,7 @@ export const damenPrices: LaserPriceItem[] = [
 ];
 
 export const herrenPrices: LaserPriceItem[] = [
+  { zone: "Kostenloses Erstgespräch mit Probebehandlung", priceEuro: 0 },
   { zone: "Hals", priceEuro: 40 },
   { zone: "Achseln", priceEuro: 55 },
   { zone: "Unterarme", priceEuro: 60 },

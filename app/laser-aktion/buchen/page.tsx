@@ -182,14 +182,14 @@ export default function LaserAktionBuchenPage() {
         >
           <div className="inline-flex items-center gap-2 mb-4">
             <Sparkles className="w-4 h-4" style={{ color: "var(--color-secondary)" }} />
-            <span className="text-xs md:text-sm font-light tracking-[0.3em] uppercase text-gray-500">
+            <span className="text-sm md:text-base font-light tracking-[0.3em] uppercase text-gray-500">
               50% Rabatt – Erste 2 Behandlungen
             </span>
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-light mb-3 md:mb-4" style={{ color: "#000" }}>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-3 md:mb-5" style={{ color: "#000" }}>
             Termin buchen
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 font-light max-w-2xl mx-auto px-4">
+          <p className="text-xl md:text-2xl text-gray-600 font-light max-w-3xl mx-auto px-4">
             Wähle deinen Bereich und buche deinen Wunschtermin. Die Preise unten sind bereits um {DISCOUNT_PERCENT}% reduziert.
           </p>
         </motion.div>
@@ -200,7 +200,7 @@ export default function LaserAktionBuchenPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="flex justify-center mb-8 md:mb-10"
+            className="flex justify-center mb-8 md:mb-12"
           >
             <div className="inline-flex border border-gray-200">
               <button
@@ -211,7 +211,7 @@ export default function LaserAktionBuchenPage() {
                   update("gender", "damen");
                   setStep(1);
                 }}
-                className={`px-6 md:px-8 py-2 md:py-3 text-xs md:text-sm font-light tracking-widest uppercase transition-all duration-300 ${gender === "damen" ? "bg-black text-white" : "bg-white text-gray-600 hover:bg-gray-50"
+                className={`px-7 md:px-9 py-3 md:py-4 text-xs md:text-sm font-light tracking-widest uppercase transition-all duration-300 ${gender === "damen" ? "bg-black text-white" : "bg-white text-gray-600 hover:bg-gray-50"
                   }`}
               >
                 Damen
@@ -224,7 +224,7 @@ export default function LaserAktionBuchenPage() {
                   update("gender", "herren");
                   setStep(1);
                 }}
-                className={`px-6 md:px-8 py-2 md:py-3 text-xs md:text-sm font-light tracking-widest uppercase transition-all duration-300 ${gender === "herren" ? "bg-black text-white" : "bg-white text-gray-600 hover:bg-gray-50"
+                className={`px-7 md:px-9 py-3 md:py-4 text-xs md:text-sm font-light tracking-widest uppercase transition-all duration-300 ${gender === "herren" ? "bg-black text-white" : "bg-white text-gray-600 hover:bg-gray-50"
                   }`}
               >
                 Herren
@@ -234,25 +234,25 @@ export default function LaserAktionBuchenPage() {
         )}
 
         {step === 1 && (
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-gray-50 p-4 md:p-8 lg:p-10"
+              className="bg-gray-50 p-4 md:p-8 lg:p-10 rounded-none"
             >
-              <div className="mb-4 p-3 bg-white border border-gray-200 text-sm text-gray-700">
-                <span className="font-medium">Hinweis:</span> Klicke auf eine Zeile, um die Leistung auszuwählen.
-                Du kannst mehrere Pakete und/oder Zonen wählen.
+              <div className="mb-6 p-4 bg-white border border-gray-200 text-base md:text-lg text-gray-700 rounded-md">
+                <span className="font-medium">Hinweis:</span> Klicke auf eine Zeile, um die Leistung auszuwählen. Du kannst
+                mehrere Pakete und/oder Zonen wählen.
               </div>
               {gender === "damen" && (
-                <div className="mb-8">
+                <div className="mb-10">
                   <div className="grid grid-cols-3 gap-2 md:gap-4 pb-4 md:pb-6 border-b border-gray-200">
-                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500">Pakete</div>
-                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-center">
+                    <div className="text-sm md:text-base font-light tracking-widest uppercase text-gray-500">Pakete</div>
+                    <div className="text-sm md:text-base font-light tracking-widest uppercase text-gray-500 text-center">
                       Regulär
                     </div>
-                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-right">
+                    <div className="text-sm md:text-base font-light tracking-widest uppercase text-gray-500 text-right">
                       Jetzt
                     </div>
                   </div>
@@ -271,21 +271,21 @@ export default function LaserAktionBuchenPage() {
                             onClick={() => togglePackage(pkg.name)}
                             role="checkbox"
                             aria-checked={active}
-                            className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition cursor-pointer border ${active ? "bg-white border-secondary" : "border-transparent hover:border-secondary/30"}`}
+                            className={`group w-full grid grid-cols-3 gap-2 md:gap-4 py-4 md:py-5 text-left bg-white transition cursor-pointer border rounded-lg hover:shadow-sm ${active ? "border-secondary" : "border-gray-200 hover:border-secondary/30"}`}
                           >
-                            <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
+                            <div className="font-light text-gray-800 text-base md:text-lg flex items-center gap-3">
                               {active ? (
-                                <CheckCircle className="w-4 h-4 text-secondary" />
+                                <CheckCircle className="w-5 h-5 text-secondary" />
                               ) : (
-                                <span className="w-4 h-4 rounded-full border border-gray-300" />
+                                <span className="w-5 h-5 rounded-full border border-gray-300" />
                               )}
                               {pkg.name}
                             </div>
-                            <div className="font-light text-center text-gray-500 line-through text-xs md:text-sm">
+                            <div className="font-light text-center text-gray-500 line-through text-sm md:text-base">
                               {euro(pkg.priceEuro)}
                             </div>
                             <div
-                              className="font-light text-right text-sm md:text-base flex items-center gap-2 justify-end"
+                              className="font-light text-right text-base md:text-lg flex items-center gap-3 justify-end"
                               style={{ color: "var(--color-secondary)" }}
                             >
                               {euro(sale)}
@@ -295,17 +295,17 @@ export default function LaserAktionBuchenPage() {
                                   e.stopPropagation();
                                   togglePackageDetails(pkg.name);
                                 }}
-                                className="ml-3 inline-flex items-center gap-1 text-xs text-gray-600 underline hover:text-black"
+                                className="ml-3 inline-flex items-center gap-1 text-xs md:text-sm text-gray-600 underline hover:text-black"
                                 aria-expanded={open}
                                 aria-controls={`pkg-details-${index}`}
                               >
                                 {open ? (
                                   <>
-                                    Details verbergen <ChevronUp className="w-3 h-3" />
+                                    Details verbergen <ChevronUp className="w-4 h-4" />
                                   </>
                                 ) : (
                                   <>
-                                    Details anzeigen <ChevronDown className="w-3 h-3" />
+                                    Details anzeigen <ChevronDown className="w-4 h-4" />
                                   </>
                                 )}
                               </button>
@@ -318,9 +318,9 @@ export default function LaserAktionBuchenPage() {
                               animate={{ opacity: 1, height: "auto" }}
                               exit={{ opacity: 0, height: 0 }}
                               transition={{ duration: 0.25 }}
-                              className="bg-white border border-gray-200 p-3 mt-2"
+                              className="bg-white border border-gray-200 p-4 md:p-5 mt-3 rounded-lg"
                             >
-                              <ul className="text-xs text-gray-600 list-disc pl-5 space-y-1">
+                              <ul className="text-sm md:text-base text-gray-700 list-disc pl-5 space-y-1">
                                 {pkg.details.map((d) => (
                                   <li key={d}>{d}</li>
                                 ))}
@@ -334,11 +334,11 @@ export default function LaserAktionBuchenPage() {
                 </div>
               )}
               <div className="grid grid-cols-3 gap-2 md:gap-4 pb-4 md:pb-6 border-b border-gray-200">
-                <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500">Zone</div>
-                <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-center">
+                <div className="text-sm md:text-base font-light tracking-widest uppercase text-gray-500">Zonen</div>
+                <div className="text-sm md:text-base font-light tracking-widest uppercase text-gray-500 text-center">
                   Regulär
                 </div>
-                <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-right">
+                <div className="text-sm md:text-base font-light tracking-widest uppercase text-gray-500 text-right">
                   Jetzt
                 </div>
               </div>
@@ -357,21 +357,21 @@ export default function LaserAktionBuchenPage() {
                       onClick={() => toggleZone(item.zone)}
                       role="checkbox"
                       aria-checked={active}
-                      className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition cursor-pointer border ${active ? "bg-white border-secondary" : "border-transparent hover:border-secondary/30"}`}
+                      className={`group w-full grid grid-cols-3 gap-2 md:gap-4 py-4 md:py-5 text-left bg-white transition cursor-pointer border rounded-lg hover:shadow-sm ${active ? "border-secondary" : "border-gray-200 hover:border-secondary/30"}`}
                     >
-                      <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
+                      <div className="font-light text-gray-800 text-base md:text-lg flex items-center gap-3">
                         {active ? (
-                          <CheckCircle className="w-4 h-4 text-secondary" />
+                          <CheckCircle className="w-5 h-5 text-secondary" />
                         ) : (
-                          <span className="w-4 h-4 rounded-full border border-gray-300" />
+                          <span className="w-5 h-5 rounded-full border border-gray-300" />
                         )}
                         {item.zone}
                       </div>
-                      <div className="font-light text-center text-gray-500 line-through text-xs md:text-sm">
+                      <div className="font-light text-center text-gray-500 line-through text-sm md:text-base">
                         {euro(item.priceEuro)}
                       </div>
                       <div
-                        className="font-light text-right text-sm md:text-base"
+                        className="font-light text-right text-base md:text-lg"
                         style={{ color: "var(--color-secondary)" }}
                       >
                         {euro(sale)}
@@ -384,14 +384,14 @@ export default function LaserAktionBuchenPage() {
               {/* Pakete sind nun oben platziert */}
 
               <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
-                <div className="text-sm text-gray-700 font-light">
+                <div className="text-base md:text-lg text-gray-700 font-light">
                   Ausgewählt: {selectedZones.length + selectedPackages.length} –{" "}
                   <span className="line-through mr-1">{euro(totalOriginal)}</span>
                   <span style={{ color: "var(--color-secondary)" }}>{euro(totalDiscounted)}</span>
                 </div>
                 <div className="flex gap-3">
                   <button
-                    className="px-6 py-3 border border-gray-300 text-sm uppercase tracking-widest"
+                    className="px-6 py-3 border border-gray-300 text-sm md:text-base uppercase tracking-widest"
                     onClick={() => {
                       setSelectedZones([]);
                       setSelectedPackages([]);
@@ -401,7 +401,7 @@ export default function LaserAktionBuchenPage() {
                     Auswahl löschen
                   </button>
                   <button
-                    className="px-6 py-3 bg-black text-white text-sm uppercase tracking-widest disabled:opacity-50"
+                    className="px-6 md:px-8 py-3 md:py-4 bg-black text-white text-sm md:text-base uppercase tracking-widest disabled:opacity-50 hover:bg-gray-800 transition"
                     onClick={() => setStep(2)}
                     disabled={selectedZones.length === 0 && selectedPackages.length === 0}
                     type="button"
@@ -419,91 +419,99 @@ export default function LaserAktionBuchenPage() {
         )}
 
         {step === 2 && (
-          <div className="grid lg:grid-cols-3 gap-10">
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-10">
             <div className="lg:col-span-2">
               <motion.form
                 onSubmit={onSubmit}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.15 }}
-                className="bg-white border border-gray-200 p-4 md:p-8 lg:p-10"
+                className="bg-white border border-gray-200 p-6 md:p-8 lg:p-10 rounded-xl shadow-sm"
               >
                 <div className="flex items-center gap-2 mb-6">
-                  <Calendar className="w-5 h-5 text-secondary" />
-                  <h2 className="text-xl font-light" style={{ color: "#000" }}>
+                  <Calendar className="w-6 h-6 text-secondary" />
+                  <h2 className="text-2xl md:text-3xl font-light" style={{ color: "#000" }}>
                     Wunschtermin anfragen
                   </h2>
                 </div>
 
                 {success && (
-                  <div className="mb-4 p-3 text-sm bg-green-50 text-green-700 border border-green-200">{success}</div>
+                  <div className="mb-4 p-4 text-base bg-green-50 text-green-700 border border-green-200 rounded-md">
+                    {success}
+                  </div>
                 )}
                 {error && (
-                  <div className="mb-4 p-3 text-sm bg-red-50 text-red-700 border border-red-200">{error}</div>
+                  <div className="mb-4 p-4 text-base bg-red-50 text-red-700 border border-red-200 rounded-md">
+                    {error}
+                  </div>
                 )}
 
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs uppercase tracking-widest text-gray-500 mb-1">Name</label>
+                    <label className="block text-xs md:text-sm uppercase tracking-widest text-gray-600 mb-2">Name</label>
                     <input
                       type="text"
                       required
                       value={form.name}
                       onChange={(e) => update("name", e.target.value)}
-                      className="w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-secondary"
+                      placeholder="Vor- und Nachname"
+                      className="w-full border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-secondary"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-widest text-gray-500 mb-1">E-Mail</label>
+                    <label className="block text-xs md:text-sm uppercase tracking-widest text-gray-600 mb-2">E-Mail</label>
                     <input
                       type="email"
                       required
                       value={form.email}
                       onChange={(e) => update("email", e.target.value)}
-                      className="w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-secondary"
+                      placeholder="name@beispiel.at"
+                      className="w-full border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-secondary"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-widest text-gray-500 mb-1">Telefon</label>
+                    <label className="block text-xs md:text-sm uppercase tracking-widest text-gray-600 mb-2">Telefon</label>
                     <input
                       type="tel"
                       required
                       value={form.phone}
                       onChange={(e) => update("phone", e.target.value)}
-                      className="w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-secondary"
+                      placeholder="+43 …"
+                      className="w-full border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-secondary"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-widest text-gray-500 mb-1">Datum</label>
+                    <label className="block text-xs md:text-sm uppercase tracking-widest text-gray-600 mb-2">Datum</label>
                     <input
                       type="date"
                       required
                       value={form.preferredDate}
                       onChange={(e) => update("preferredDate", e.target.value)}
-                      className="w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-secondary"
+                      className="w-full border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-secondary"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-widest text-gray-500 mb-1">Uhrzeit</label>
+                    <label className="block text-xs md:text-sm uppercase tracking-widest text-gray-600 mb-2">Uhrzeit</label>
                     <input
                       type="time"
                       required
                       value={form.preferredTime}
                       onChange={(e) => update("preferredTime", e.target.value)}
-                      className="w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-secondary"
+                      className="w-full border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-secondary"
                     />
                   </div>
                 </div>
 
                 <div className="mt-4">
-                  <label className="block text-xs uppercase tracking-widest text-gray-500 mb-1">
+                  <label className="block text-xs md:text-sm uppercase tracking-widest text-gray-600 mb-2">
                     Nachricht (optional)
                   </label>
                   <textarea
                     rows={4}
                     value={form.message}
                     onChange={(e) => update("message", e.target.value)}
-                    className="w-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-secondary"
+                    placeholder="Gibt es etwas, das wir wissen sollten?"
+                    className="w-full border border-gray-200 px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-secondary"
                   />
                 </div>
 
@@ -513,9 +521,9 @@ export default function LaserAktionBuchenPage() {
                     type="checkbox"
                     checked={form.consent}
                     onChange={(e) => update("consent", e.target.checked)}
-                    className="mt-1"
+                    className="mt-1 accent-black"
                   />
-                  <label htmlFor="consent" className="text-xs text-gray-600">
+                  <label htmlFor="consent" className="text-xs md:text-sm text-gray-600">
                     Ich stimme der{" "}
                     <Link href="/stornobedingungen" className="underline">
                       Datenschutzerklärung und Stornobedingungen
@@ -528,14 +536,14 @@ export default function LaserAktionBuchenPage() {
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="px-6 py-3 border border-gray-300 text-sm uppercase tracking-widest"
+                    className="px-6 md:px-8 py-3 md:py-4 border border-gray-300 text-sm md:text-base uppercase tracking-widest"
                   >
                     Zurück
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-6 py-3 bg-black text-white text-sm uppercase tracking-widest disabled:opacity-60"
+                    className="px-6 md:px-8 py-3 md:py-4 bg-black text-white text-sm md:text-base uppercase tracking-widest disabled:opacity-60 hover:bg-gray-800 transition"
                   >
                     {submitting ? "Wird gesendet…" : "Buchung anfragen"}
                   </button>
@@ -543,8 +551,8 @@ export default function LaserAktionBuchenPage() {
               </motion.form>
             </div>
             <div>
-              <div className="bg-gray-50 p-4 md:p-6 lg:p-8">
-                <h3 className="text-base font-light mb-4" style={{ color: "#000" }}>
+              <div className="bg-gray-50 p-5 md:p-6 lg:p-8 rounded-xl border border-gray-200">
+                <h3 className="text-lg md:text-xl font-light mb-4" style={{ color: "#000" }}>
                   Deine Auswahl
                 </h3>
                 <div className="divide-y divide-gray-200">
@@ -553,8 +561,8 @@ export default function LaserAktionBuchenPage() {
                     const sale = discounted(orig, DISCOUNT_PERCENT);
                     return (
                       <div key={z} className="py-3 flex items-center justify-between">
-                        <div className="text-sm text-gray-800">{z}</div>
-                        <div className="text-sm">
+                        <div className="text-base md:text-lg text-gray-800">{z}</div>
+                        <div className="text-base md:text-lg">
                           <span className="line-through text-gray-400 mr-2">{euro(orig)}</span>
                           <span style={{ color: "var(--color-secondary)" }}>{euro(sale)}</span>
                         </div>
@@ -566,8 +574,8 @@ export default function LaserAktionBuchenPage() {
                     const sale = discounted(orig, DISCOUNT_PERCENT);
                     return (
                       <div key={p} className="py-3 flex items-center justify-between">
-                        <div className="text-sm text-gray-800">{p}</div>
-                        <div className="text-sm">
+                        <div className="text-base md:text-lg text-gray-800">{p}</div>
+                        <div className="text-base md:text-lg">
                           <span className="line-through text-gray-400 mr-2">{euro(orig)}</span>
                           <span style={{ color: "var(--color-secondary)" }}>{euro(sale)}</span>
                         </div>
@@ -576,9 +584,9 @@ export default function LaserAktionBuchenPage() {
                   })}
                 </div>
                 <div className="mt-4 flex items-center justify-between text-sm">
-                  <span className="text-gray-700">Summe</span>
-                  <div>
-                    <span className="line-through text-gray-400 mr-2">{euro(totalOriginal)}</span>
+                  <span className="text-gray-700 text-base md:text-lg">Summe</span>
+                  <div className="text-base md:text-lg">
+                    <span className="line-through text-gray-400 mr-3">{euro(totalOriginal)}</span>
                     <span className="font-medium" style={{ color: "var(--color-secondary)" }}>
                       {euro(totalDiscounted)}
                     </span>
@@ -599,7 +607,7 @@ export default function LaserAktionBuchenPage() {
                   {selectedPackages.map((p) => (
                     <span
                       key={`pkg-${p}`}
-                      className="px-2 py-1 text-xs bg-gray-100 border border-gray-200 text-gray-700 whitespace-nowrap"
+                      className="px-2.5 py-1.5 text-xs md:text-sm bg-gray-100 border border-gray-200 text-gray-700 whitespace-nowrap rounded"
                     >
                       {p}
                     </span>
@@ -607,13 +615,13 @@ export default function LaserAktionBuchenPage() {
                   {selectedZones.map((z) => (
                     <span
                       key={`zone-${z}`}
-                      className="px-2 py-1 text-xs bg-gray-100 border border-gray-200 text-gray-700 whitespace-nowrap"
+                      className="px-2.5 py-1.5 text-xs md:text-sm bg-gray-100 border border-gray-200 text-gray-700 whitespace-nowrap rounded"
                     >
                       {z}
                     </span>
                   ))}
                 </div>
-                <div className="mt-1 text-xs text-gray-600">
+                <div className="mt-1 text-sm md:text-base text-gray-700">
                   <span className="line-through mr-2">{euro(totalOriginal)}</span>
                   <span style={{ color: "var(--color-secondary)" }}>{euro(totalDiscounted)}</span>
                 </div>
@@ -621,7 +629,7 @@ export default function LaserAktionBuchenPage() {
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="px-5 py-3 bg-black text-white text-sm uppercase tracking-widest whitespace-nowrap hover:bg-gray-800 transition"
+                className="px-6 md:px-8 py-3 md:py-4 bg-black text-white text-sm md:text-base uppercase tracking-widest whitespace-nowrap hover:bg-gray-800 transition rounded-md"
               >
                 Weiter zum Formular
               </button>

@@ -66,3 +66,19 @@ export function euro(n: number): string {
 export function discounted(price: number, discountPercent: number): number {
   return Math.round(price * (1 - discountPercent / 100));
 }
+
+// Packages (derzeit nur Damen laut Preisliste)
+export type LaserPackageItem = {
+  name: string;
+  priceEuro: number;
+};
+
+export const damenPackages: LaserPackageItem[] = [
+  { name: "Paket Small", priceEuro: 200 },
+  { name: "Paket Medium", priceEuro: 250 },
+  { name: "Paket Large", priceEuro: 350 },
+];
+
+export function getPackagesByGender(gender: GenderType): LaserPackageItem[] {
+  return gender === "damen" ? damenPackages : [];
+}

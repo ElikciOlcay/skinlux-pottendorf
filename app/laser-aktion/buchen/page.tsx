@@ -10,6 +10,8 @@ import {
   discounted,
   euro,
   LaserPriceItem,
+  LaserPackageItem,
+  getPackagesByGender,
 } from "@/lib/laser-prices";
 
 type BookingFormState = {
@@ -28,6 +30,7 @@ const DISCOUNT_PERCENT = 50;
 export default function LaserAktionBuchenPage() {
   const [gender, setGender] = useState<GenderType>("damen");
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
+  const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
   const [step, setStep] = useState<1 | 2>(1);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -39,6 +42,13 @@ export default function LaserAktionBuchenPage() {
     prices.forEach((p) => (map[p.zone] = p));
     return map;
   }, [prices]);
+
+  const packages = useMemo(() => getPackagesByGender(gender), [gender]);
+  const packagePriceMap = useMemo<Record<string, LaserPackageItem>>(() => {
+    const map: Record<string, LaserPackageItem> = {};
+    packages.forEach((p) => (map[p.name] = p));
+    return map;
+  }, [packages]);
 
   const [form, setForm] = useState<BookingFormState>({
     name: "",
@@ -56,19 +66,31 @@ export default function LaserAktionBuchenPage() {
   }
 
   const totalOriginal = useMemo(() => {
-    return selectedZones.reduce((sum, z) => sum + (priceMap[z]?.priceEuro || 0), 0);
-  }, [selectedZones, priceMap]);
+    const zonesSum = selectedZones.reduce((sum, z) => sum + (priceMap[z]?.priceEuro || 0), 0);
+    const packagesSum = selectedPackages.reduce((sum, p) => sum + (packagePriceMap[p]?.priceEuro || 0), 0);
+    return zonesSum + packagesSum;
+  }, [selectedZones, selectedPackages, priceMap, packagePriceMap]);
 
   const totalDiscounted = useMemo(() => {
-    return selectedZones.reduce(
+    const zonesSum = selectedZones.reduce(
       (sum, z) => sum + discounted(priceMap[z]?.priceEuro || 0, DISCOUNT_PERCENT),
       0
     );
-  }, [selectedZones, priceMap]);
+    const packagesSum = selectedPackages.reduce(
+      (sum, p) => sum + discounted(packagePriceMap[p]?.priceEuro || 0, DISCOUNT_PERCENT),
+      0
+    );
+    return zonesSum + packagesSum;
+  }, [selectedZones, selectedPackages, priceMap, packagePriceMap]);
 
   function toggleZone(zone: string) {
     setSelectedZones((prev) =>
       prev.includes(zone) ? prev.filter((z) => z !== zone) : [...prev, zone]
+    );
+  }
+  function togglePackage(pkg: string) {
+    setSelectedPackages((prev) =>
+      prev.includes(pkg) ? prev.filter((z) => z !== pkg) : [...prev, pkg]
     );
   }
 
@@ -81,7 +103,7 @@ export default function LaserAktionBuchenPage() {
       !form.name ||
       !form.email ||
       !form.phone ||
-      selectedZones.length === 0 ||
+      (selectedZones.length === 0 && selectedPackages.length === 0) ||
       !form.preferredDate ||
       !form.preferredTime
     ) {
@@ -102,8 +124,9 @@ export default function LaserAktionBuchenPage() {
           ...form,
           gender,
           zones: selectedZones,
+          packages: selectedPackages,
           // Für Loops Templates (Abwärtskompatibilität)
-          zone: selectedZones.join(", "),
+          zone: [...selectedZones, ...selectedPackages].join(", "),
         }),
       });
       if (!res.ok) {
@@ -123,6 +146,7 @@ export default function LaserAktionBuchenPage() {
         consent: false,
       }));
       setSelectedZones([]);
+      setSelectedPackages([]);
       setStep(1);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unbekannter Fehler");
@@ -174,6 +198,7 @@ export default function LaserAktionBuchenPage() {
               onClick={() => {
                 setGender("damen");
                 setSelectedZones([]);
+                setSelectedPackages([]);
                 update("gender", "damen");
                 setStep(1);
               }}
@@ -186,6 +211,7 @@ export default function LaserAktionBuchenPage() {
               onClick={() => {
                 setGender("herren");
                 setSelectedZones([]);
+                setSelectedPackages([]);
                 update("gender", "herren");
                 setStep(1);
               }}
@@ -227,9 +253,8 @@ export default function LaserAktionBuchenPage() {
                       transition={{ duration: 0.35, delay: index * 0.03 }}
                       type="button"
                       onClick={() => toggleZone(item.zone)}
-                      className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition ${
-                        active ? "bg-white" : ""
-                      }`}
+                      className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition ${active ? "bg-white" : ""
+                        }`}
                     >
                       <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
                         {active ? (
@@ -253,16 +278,70 @@ export default function LaserAktionBuchenPage() {
                 })}
               </div>
 
+              {gender === "damen" && (
+                <div className="mt-8">
+                  <div className="grid grid-cols-3 gap-2 md:gap-4 pb-4 md:pb-6 border-b border-gray-200">
+                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500">Pakete</div>
+                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-center">
+                      Regulär
+                    </div>
+                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-right">
+                      Jetzt
+                    </div>
+                  </div>
+                  <div className="divide-y divide-gray-100">
+                    {packages.map((pkg, index) => {
+                      const sale = discounted(pkg.priceEuro, DISCOUNT_PERCENT);
+                      const active = selectedPackages.includes(pkg.name);
+                      return (
+                        <motion.button
+                          key={pkg.name}
+                          initial={{ opacity: 0, x: -12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.35, delay: index * 0.03 }}
+                          type="button"
+                          onClick={() => togglePackage(pkg.name)}
+                          className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition ${
+                            active ? "bg-white" : ""
+                          }`}
+                        >
+                          <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
+                            {active ? (
+                              <CheckCircle className="w-4 h-4 text-secondary" />
+                            ) : (
+                              <span className="w-4 h-4" />
+                            )}
+                            {pkg.name}
+                          </div>
+                          <div className="font-light text-center text-gray-500 line-through text-xs md:text-sm">
+                            {euro(pkg.priceEuro)}
+                          </div>
+                          <div
+                            className="font-light text-right text-sm md:text-base"
+                            style={{ color: "var(--color-secondary)" }}
+                          >
+                            {euro(sale)}
+                          </div>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
                 <div className="text-sm text-gray-700 font-light">
-                  Ausgewählt: {selectedZones.length} –{" "}
+                  Ausgewählt: {selectedZones.length + selectedPackages.length} –{" "}
                   <span className="line-through mr-1">{euro(totalOriginal)}</span>
                   <span style={{ color: "var(--color-secondary)" }}>{euro(totalDiscounted)}</span>
                 </div>
                 <div className="flex gap-3">
                   <button
                     className="px-6 py-3 border border-gray-300 text-sm uppercase tracking-widest"
-                    onClick={() => setSelectedZones([])}
+                    onClick={() => {
+                      setSelectedZones([]);
+                      setSelectedPackages([]);
+                    }}
                     type="button"
                   >
                     Auswahl löschen
@@ -421,6 +500,19 @@ export default function LaserAktionBuchenPage() {
                     return (
                       <div key={z} className="py-3 flex items-center justify-between">
                         <div className="text-sm text-gray-800">{z}</div>
+                        <div className="text-sm">
+                          <span className="line-through text-gray-400 mr-2">{euro(orig)}</span>
+                          <span style={{ color: "var(--color-secondary)" }}>{euro(sale)}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {selectedPackages.map((p) => {
+                    const orig = packagePriceMap[p]?.priceEuro || 0;
+                    const sale = discounted(orig, DISCOUNT_PERCENT);
+                    return (
+                      <div key={p} className="py-3 flex items-center justify-between">
+                        <div className="text-sm text-gray-800">{p}</div>
                         <div className="text-sm">
                           <span className="line-through text-gray-400 mr-2">{euro(orig)}</span>
                           <span style={{ color: "var(--color-secondary)" }}>{euro(sale)}</span>

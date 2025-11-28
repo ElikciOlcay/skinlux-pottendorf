@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { GenderType, getPricesByGender, discounted } from "@/lib/laser-prices";
+import { GenderType, getPricesByGender, discounted, getPackagesByGender } from "@/lib/laser-prices";
 
 type RequestBody = {
   name: string;
@@ -9,6 +9,7 @@ type RequestBody = {
   gender: GenderType;
   zones?: string[];
   zone?: string;
+  packages?: string[];
   preferredDate: string; // yyyy-mm-dd
   preferredTime: string; // HH:mm
   message?: string;
@@ -38,13 +39,21 @@ function buildEmailHTML(kind: "user" | "admin", data: RequestBody) {
   const selectedZones = Array.isArray(data.zones) && data.zones.length > 0
     ? data.zones
     : (data.zone ? [data.zone] : []);
+  const selectedPackages = Array.isArray(data.packages) ? data.packages : [];
+  const packages = getPackagesByGender(data.gender);
   const rows = selectedZones.map((z) => {
     const orig = prices.find((p) => p.zone === z)?.priceEuro ?? 0;
     const disc = discounted(orig, 50);
     return { zone: z, original: orig, discounted: disc };
   });
-  const totalOriginal = rows.reduce((s, r) => s + r.original, 0);
-  const totalDiscounted = rows.reduce((s, r) => s + r.discounted, 0);
+  const rowsPackages = selectedPackages.map((p) => {
+    const orig = packages.find((x) => x.name === p)?.priceEuro ?? 0;
+    const disc = discounted(orig, 50);
+    return { name: p, original: orig, discounted: disc };
+  });
+
+  const totalOriginal = rows.reduce((s, r) => s + r.original, 0) + rowsPackages.reduce((s, r) => s + r.original, 0);
+  const totalDiscounted = rows.reduce((s, r) => s + r.discounted, 0) + rowsPackages.reduce((s, r) => s + r.discounted, 0);
 
   const title =
     kind === "user"
@@ -123,6 +132,30 @@ function buildEmailHTML(kind: "user" | "admin", data: RequestBody) {
         </table>
       </div>
 
+      ${rowsPackages.length > 0 ? `
+      <div class="section">
+        <div style="margin-bottom:8px; font-weight:600; color:#374151;">Ausgewählte Pakete</div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:60%">Paket</th>
+              <th style="width:20%">Regulär</th>
+              <th style="width:20%">Jetzt</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsPackages.map((r) => `
+              <tr>
+                <td>${htmlEscape(r.name)}</td>
+                <td><span class="strike">€${r.original}</span></td>
+                <td><span class="price">€${r.discounted}</span></td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+      ` : ``}
+
       <div class="section">
         <div class="row"><div class="label">Wunschtermin</div><div class="val">${htmlEscape(`${data.preferredDate} ${data.preferredTime}`)}</div></div>
       </div>
@@ -172,11 +205,12 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as RequestBody;
     const zones = Array.isArray(body.zones) && body.zones.length > 0 ? body.zones : (body.zone ? [body.zone] : []);
+    const packages = Array.isArray(body.packages) ? body.packages : [];
     if (
       !body.name ||
       !body.email ||
       !body.phone ||
-      zones.length === 0 ||
+      (zones.length === 0 && packages.length === 0) ||
       !body.preferredDate ||
       !body.preferredTime ||
       (body.gender !== "damen" && body.gender !== "herren")
@@ -188,20 +222,27 @@ export async function POST(request: Request) {
 
     // Build payload for Loops templates
     const allPrices = getPricesByGender(body.gender);
+    const allPackages = getPackagesByGender(body.gender);
     const rows = zones.map((z) => {
       const orig = allPrices.find((p) => p.zone === z)?.priceEuro ?? 0;
       const disc = discounted(orig, 50);
       return { zone: z, original: orig, discounted: disc };
     });
-    const totalOriginal = rows.reduce((s, r) => s + r.original, 0);
-    const totalDiscounted = rows.reduce((s, r) => s + r.discounted, 0);
+    const rowsPackages = packages.map((p) => {
+      const orig = allPackages.find((x) => x.name === p)?.priceEuro ?? 0;
+      const disc = discounted(orig, 50);
+      return { name: p, original: orig, discounted: disc };
+    });
+    const totalOriginal = rows.reduce((s, r) => s + r.original, 0) + rowsPackages.reduce((s, r) => s + r.original, 0);
+    const totalDiscounted = rows.reduce((s, r) => s + r.discounted, 0) + rowsPackages.reduce((s, r) => s + r.discounted, 0);
     const emailData = {
       name: body.name,
       email: body.email,
       phone: body.phone,
       gender: body.gender,
-      zone: zones.join(", "),
+      zone: [...zones, ...packages].join(", "),
       zones,
+      packages,
       preferredDate: body.preferredDate,
       preferredTime: body.preferredTime,
       message: body.message || "",
@@ -233,8 +274,8 @@ export async function POST(request: Request) {
         );
       }
       const resend = new Resend(resendKey);
-      const userHTML = buildEmailHTML("user", { ...body, zones });
-      const adminHTML = buildEmailHTML("admin", { ...body, zones });
+      const userHTML = buildEmailHTML("user", { ...body, zones, packages });
+      const adminHTML = buildEmailHTML("admin", { ...body, zones, packages });
       // Send user
       if (!userSentViaLoops) {
         await resend.emails.send({

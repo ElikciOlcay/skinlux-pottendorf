@@ -231,6 +231,55 @@ export default function LaserAktionBuchenPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="bg-gray-50 p-4 md:p-8 lg:p-10"
             >
+              {gender === "damen" && (
+                <div className="mb-8">
+                  <div className="grid grid-cols-3 gap-2 md:gap-4 pb-4 md:pb-6 border-b border-gray-200">
+                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500">Pakete</div>
+                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-center">
+                      Regulär
+                    </div>
+                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-right">
+                      Jetzt
+                    </div>
+                  </div>
+                  <div className="divide-y divide-gray-100">
+                    {packages.map((pkg, index) => {
+                      const sale = discounted(pkg.priceEuro, DISCOUNT_PERCENT);
+                      const active = selectedPackages.includes(pkg.name);
+                      return (
+                        <motion.button
+                          key={pkg.name}
+                          initial={{ opacity: 0, x: -12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.35, delay: index * 0.03 }}
+                          type="button"
+                          onClick={() => togglePackage(pkg.name)}
+                          className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition ${active ? "bg-white" : ""
+                            }`}
+                        >
+                          <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
+                            {active ? (
+                              <CheckCircle className="w-4 h-4 text-secondary" />
+                            ) : (
+                              <span className="w-4 h-4" />
+                            )}
+                            {pkg.name}
+                          </div>
+                          <div className="font-light text-center text-gray-500 line-through text-xs md:text-sm">
+                            {euro(pkg.priceEuro)}
+                          </div>
+                          <div
+                            className="font-light text-right text-sm md:text-base"
+                            style={{ color: "var(--color-secondary)" }}
+                          >
+                            {euro(sale)}
+                          </div>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               <div className="grid grid-cols-3 gap-2 md:gap-4 pb-4 md:pb-6 border-b border-gray-200">
                 <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500">Zone</div>
                 <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-center">
@@ -278,56 +327,7 @@ export default function LaserAktionBuchenPage() {
                 })}
               </div>
 
-              {gender === "damen" && (
-                <div className="mt-8">
-                  <div className="grid grid-cols-3 gap-2 md:gap-4 pb-4 md:pb-6 border-b border-gray-200">
-                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500">Pakete</div>
-                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-center">
-                      Regulär
-                    </div>
-                    <div className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 text-right">
-                      Jetzt
-                    </div>
-                  </div>
-                  <div className="divide-y divide-gray-100">
-                    {packages.map((pkg, index) => {
-                      const sale = discounted(pkg.priceEuro, DISCOUNT_PERCENT);
-                      const active = selectedPackages.includes(pkg.name);
-                      return (
-                        <motion.button
-                          key={pkg.name}
-                          initial={{ opacity: 0, x: -12 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.35, delay: index * 0.03 }}
-                          type="button"
-                          onClick={() => togglePackage(pkg.name)}
-                          className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition ${
-                            active ? "bg-white" : ""
-                          }`}
-                        >
-                          <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
-                            {active ? (
-                              <CheckCircle className="w-4 h-4 text-secondary" />
-                            ) : (
-                              <span className="w-4 h-4" />
-                            )}
-                            {pkg.name}
-                          </div>
-                          <div className="font-light text-center text-gray-500 line-through text-xs md:text-sm">
-                            {euro(pkg.priceEuro)}
-                          </div>
-                          <div
-                            className="font-light text-right text-sm md:text-base"
-                            style={{ color: "var(--color-secondary)" }}
-                          >
-                            {euro(sale)}
-                          </div>
-                        </motion.button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+              {/* Pakete sind nun oben platziert */}
 
               <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
                 <div className="text-sm text-gray-700 font-light">

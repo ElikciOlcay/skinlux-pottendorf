@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle, Calendar, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
@@ -36,6 +36,7 @@ export default function LaserAktionBuchenPage() {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [openPackageDetails, setOpenPackageDetails] = useState<string[]>([]);
+  const formStartRef = useRef<HTMLDivElement | null>(null);
 
   const prices = useMemo(() => getPricesByGender(gender), [gender]);
   const priceMap = useMemo<Record<string, LaserPriceItem>>(() => {
@@ -101,6 +102,13 @@ export default function LaserAktionBuchenPage() {
   }
 
   const selectedCount = selectedZones.length + selectedPackages.length;
+
+  useEffect(() => {
+    if (step === 2) {
+      // sanft zum Beginn des Formulars scrollen
+      formStartRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [step]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -418,7 +426,7 @@ export default function LaserAktionBuchenPage() {
         )}
 
         {step === 2 && (
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-10">
+          <div ref={formStartRef} className="grid lg:grid-cols-3 gap-8 lg:gap-10">
             <div className="lg:col-span-2">
               <motion.form
                 onSubmit={onSubmit}

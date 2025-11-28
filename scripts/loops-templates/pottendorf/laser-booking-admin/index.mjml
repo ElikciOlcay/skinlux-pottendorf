@@ -22,23 +22,23 @@
           <mj-section background-color="#f9fafb" padding="16px" border="1px solid #e5e7eb">
             <mj-column>
               <mj-table font-size="14px" color="#111827">
-                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0;width:40%">Name</td><td style="padding:6px 0">{{name}}</td></tr>
-                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">E-Mail</td><td style="padding:6px 0">{{email}}</td></tr>
-                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Telefon</td><td style="padding:6px 0">{{phone}}</td></tr>
-                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Geschlecht</td><td style="padding:6px 0">{{gender}}</td></tr>
-                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Zone</td><td style="padding:6px 0">{{zone}}</td></tr>
-                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Preis</td><td style="padding:6px 0"><span style="text-decoration:line-through;color:#9ca3af;margin-right:8px">{{originalPriceEuro}}</span><span style="color:#16a34a;font-weight:700">{{discountedPriceEuro}}</span></td></tr>
-                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Wunschtermin</td><td style="padding:6px 0">{{preferredDate}} {{preferredTime}}</td></tr>
+                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0;width:40%">Name</td><td style="padding:6px 0">{{data.name}}</td></tr>
+                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">E-Mail</td><td style="padding:6px 0">{{data.email}}</td></tr>
+                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Telefon</td><td style="padding:6px 0">{{data.phone}}</td></tr>
+                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Geschlecht</td><td style="padding:6px 0">{{data.gender}}</td></tr>
+                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Zone</td><td style="padding:6px 0">{{data.zone}}</td></tr>
+                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Preis</td><td style="padding:6px 0"><span style="text-decoration:line-through;color:#9ca3af;margin-right:8px">{{data.originalPriceEuro}}</span><span style="color:#16a34a;font-weight:700">{{data.discountedPriceEuro}}</span></td></tr>
+                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Wunschtermin</td><td style="padding:6px 0">{{data.preferredDate}} {{data.preferredTime}}</td></tr>
               </mj-table>
             </mj-column>
           </mj-section>
         </mj-wrapper>
 
-        <mj-raw>{{#if message}}</mj-raw>
+        <mj-raw>{{#if data.message}}</mj-raw>
         <mj-section background-color="#ffffff" padding="16px">
           <mj-column>
             <mj-text color="#6b7280" font-weight="600" padding-bottom="6px">Nachricht</mj-text>
-            <mj-text white-space="pre-wrap">{{message}}</mj-text>
+            <mj-text white-space="pre-wrap">{{data.message}}</mj-text>
           </mj-column>
         </mj-section>
         <mj-raw>{{/if}}</mj-raw>

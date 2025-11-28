@@ -106,7 +106,7 @@ const faqSchema = {
 export default function LaserAktion() {
     useEffect(() => {
         document.title = "50% Rabatt Laser-Haarentfernung Pottendorf | Limitierte Aktion | Skinlux";
-        
+
         // Track Laser-Aktion Page View
         trackLaserAktionView();
 
@@ -213,6 +213,13 @@ export default function LaserAktion() {
                                 transition={{ duration: 0.8, delay: 0.8 }}
                                 className="flex flex-col sm:flex-row gap-6 justify-center items-center"
                             >
+                                <a
+                                    href="/laser-aktion/buchen"
+                                    className="group inline-flex items-center gap-3 px-12 py-6 bg-black text-white text-lg font-light tracking-widest uppercase transition-all duration-300 hover:bg-gray-800 hover:shadow-2xl hover:scale-105"
+                                >
+                                    Mit 50% buchen
+                                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                                </a>
                                 <a
                                     href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
                                     target="_blank"

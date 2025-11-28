@@ -263,11 +263,10 @@ export default function LaserAktionBuchenPage() {
                       const open = openPackageDetails.includes(pkg.name);
                       return (
                         <div key={pkg.name} className="py-2">
-                          <motion.button
+                          <motion.div
                             initial={{ opacity: 0, x: -12 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.35, delay: index * 0.03 }}
-                            type="button"
                             onClick={() => togglePackage(pkg.name)}
                             role="checkbox"
                             aria-checked={active}
@@ -310,7 +309,7 @@ export default function LaserAktionBuchenPage() {
                                 )}
                               </button>
                             </div>
-                          </motion.button>
+                          </motion.div>
                           {open && pkg.details && pkg.details.length > 0 && (
                             <motion.div
                               id={`pkg-details-${index}`}

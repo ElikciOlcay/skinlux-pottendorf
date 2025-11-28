@@ -26,7 +26,7 @@
                 <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Telefon</td><td style="padding:6px 0">{DATA_VARIABLE:phone}</td></tr>
                 <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Geschlecht</td><td style="padding:6px 0">{DATA_VARIABLE:gender}</td></tr>
                 <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Auswahl</td><td style="padding:6px 0">{DATA_VARIABLE:zone}</td></tr>
-                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Preis</td><td style="padding:6px 0"><span style="text-decoration:line-through;color:#9ca3af;margin-right:8px">{DATA_VARIABLE:originalPriceEuro}</span><span style="color:#16a34a;font-weight:700">{DATA_VARIABLE:discountedPriceEuro}</span></td></tr>
+                <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Preis</td><td style="padding:6px 0"><span style="text-decoration:line-through;color:#9ca3af;margin-right:8px">{DATA_VARIABLE:originalPriceEuro}</span> <span style="color:#16a34a;font-weight:700">{DATA_VARIABLE:discountedPriceEuro}</span></td></tr>
                 <tr><td style="color:#6b7280;font-weight:600;padding:6px 0">Wunschtermin</td><td style="padding:6px 0">{DATA_VARIABLE:preferredDate} {DATA_VARIABLE:preferredTime}</td></tr>
               </mj-table>
             </mj-column>

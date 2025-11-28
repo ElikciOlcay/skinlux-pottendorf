@@ -41,7 +41,7 @@ const features = [
 const faq = [
     {
         frage: "Wie funktioniert die Aktion?",
-        antwort: "Buche einfach deinen Termin online oder telefonisch. Der 50% Rabatt wird automatisch an der Kasse abgezogen - keine Gutscheincodes nötig!"
+        antwort: "Buche einfach deinen Termin online. Der 50% Rabatt wird automatisch an der Kasse abgezogen - keine Gutscheincodes nötig!"
     },
     {
         frage: "Für welche Bereiche gilt die Aktion?",
@@ -211,7 +211,7 @@ export default function LaserAktion() {
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.8 }}
-                                className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+                                className="flex justify-center items-center"
                             >
                                 <a
                                     href="/laser-aktion/buchen"
@@ -219,21 +219,6 @@ export default function LaserAktion() {
                                 >
                                     Mit 50% buchen
                                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                                </a>
-                                <a
-                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group inline-flex items-center gap-3 px-12 py-6 bg-black text-white text-lg font-light tracking-widest uppercase transition-all duration-300 hover:bg-gray-800 hover:shadow-2xl hover:scale-105"
-                                >
-                                    Jetzt Termin buchen
-                                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                                </a>
-                                <a
-                                    href="tel:06649188632"
-                                    className="inline-flex items-center gap-3 px-12 py-6 border-2 border-black text-black text-lg font-light tracking-widest uppercase transition-all duration-300 hover:bg-black hover:text-white"
-                                >
-                                    0664 / 91 88 632
                                 </a>
                             </motion.div>
 
@@ -499,17 +484,12 @@ export default function LaserAktion() {
                                 Der Rabatt wird automatisch an der Kasse abgezogen.
                             </p>
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                href="/laser-aktion/buchen"
                                 className="group inline-flex items-center gap-3 px-12 py-6 bg-black text-white text-lg font-light tracking-widest uppercase transition-all duration-300 hover:bg-gray-800 hover:shadow-2xl hover:scale-105"
                             >
-                                Jetzt 50% sichern
+                                Mit 50% buchen
                                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                             </a>
-                            <p className="mt-8 text-sm text-gray-500">
-                                Oder ruf uns an: <a href="tel:06649188632" className="text-secondary hover:underline">0664 / 91 88 632</a>
-                            </p>
                         </motion.div>
                     </div>
                 </section>

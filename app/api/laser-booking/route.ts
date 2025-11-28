@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 import { GenderType, getPricesByGender, discounted, getPackagesByGender } from "@/lib/laser-prices";
 
 type RequestBody = {
@@ -15,174 +14,14 @@ type RequestBody = {
   message?: string;
 };
 
-function htmlEscape(input: string) {
-  return input.replace(/[&<>"']/g, (m) => {
-    switch (m) {
-      case "&":
-        return "&amp;";
-      case "<":
-        return "&lt;";
-      case ">":
-        return "&gt;";
-      case '"':
-        return "&quot;";
-      case "'":
-        return "&#039;";
-      default:
-        return m;
-    }
-  });
-}
-
-function buildEmailHTML(kind: "user" | "admin", data: RequestBody) {
-  const prices = getPricesByGender(data.gender);
-  const selectedZones = Array.isArray(data.zones) && data.zones.length > 0
-    ? data.zones
-    : (data.zone ? [data.zone] : []);
-  const selectedPackages = Array.isArray(data.packages) ? data.packages : [];
-  const packages = getPackagesByGender(data.gender);
-  const rows = selectedZones.map((z) => {
-    const orig = prices.find((p) => p.zone === z)?.priceEuro ?? 0;
-    const disc = discounted(orig, 50);
-    return { zone: z, original: orig, discounted: disc };
-  });
-  const rowsPackages = selectedPackages.map((p) => {
-    const orig = packages.find((x) => x.name === p)?.priceEuro ?? 0;
-    const disc = discounted(orig, 50);
-    return { name: p, original: orig, discounted: disc };
-  });
-
-  const totalOriginal = rows.reduce((s, r) => s + r.original, 0) + rowsPackages.reduce((s, r) => s + r.original, 0);
-  const totalDiscounted = rows.reduce((s, r) => s + r.discounted, 0) + rowsPackages.reduce((s, r) => s + r.discounted, 0);
-
-  const title =
-    kind === "user"
-      ? "Deine Termin-Anfrage ist eingegangen"
-      : "Neue Termin-Anfrage (Laser-Aktion)";
-
-  const intro =
-    kind === "user"
-      ? `Hallo ${htmlEscape(data.name)},<br/>vielen Dank für deine Anfrage. Wir melden uns zur Bestätigung deines Termins.`
-      : "Es ist eine neue Termin-Anfrage eingegangen.";
-
-  return `<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>${title}</title>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f9fafb; margin: 0; padding: 0; }
-    .container { max-width: 640px; margin: 0 auto; background: #fff; }
-    .header { background: #111827; color: #fff; padding: 24px; text-align: center; }
-    .content { padding: 24px; }
-    .section { background: #f9fafb; border: 1px solid #e5e7eb; margin: 16px 0; padding: 16px; }
-    .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f3f4f6; }
-    .label { color: #6b7280; font-weight: 600; }
-    .val { color: #111827; }
-    .muted { color: #6b7280; font-size: 12px; margin-top: 12px; }
-    .price { color: #16a34a; font-weight: 700; }
-    .strike { text-decoration: line-through; color: #9ca3af; margin-right: 8px; }
-    .footer { background: #f9fafb; padding: 16px; text-align: center; color: #6b7280; font-size: 12px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { text-align: left; padding: 8px 0; border-bottom: 1px solid #f3f4f6; }
-    th { color: #6b7280; font-weight: 600; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <div style="font-size:20px; letter-spacing: 2px;">SKINLUX POTTENDORF</div>
-    </div>
-    <div class="content">
-      <h1 style="margin:0 0 12px 0; font-weight:500; color:#111827;">${title}</h1>
-      <p style="margin:0 0 16px 0; color:#374151;">${intro}</p>
-
-      <div class="section">
-        <div class="row"><div class="label">Name</div><div class="val">${htmlEscape(data.name)}</div></div>
-        <div class="row"><div class="label">E-Mail</div><div class="val">${htmlEscape(data.email)}</div></div>
-        <div class="row"><div class="label">Telefon</div><div class="val">${htmlEscape(data.phone)}</div></div>
-        <div class="row"><div class="label">Geschlecht</div><div class="val">${data.gender === "damen" ? "Damen" : "Herren"}</div></div>
-      </div>
-
-      <div class="section">
-        <div style="margin-bottom:8px; font-weight:600; color:#374151;">Ausgewählte Zonen</div>
-        <table>
-          <thead>
-            <tr>
-              <th style="width:60%">Zone</th>
-              <th style="width:20%">Regulär</th>
-              <th style="width:20%">Jetzt</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows.map((r) => `
-              <tr>
-                <td>${htmlEscape(r.zone)}</td>
-                <td><span class="strike">€${r.original}</span></td>
-                <td><span class="price">€${r.discounted}</span></td>
-              </tr>
-            `).join("")}
-            <tr>
-              <td style="font-weight:600">Summe</td>
-              <td><span class="strike">€${totalOriginal}</span></td>
-              <td><span class="price">€${totalDiscounted}</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      ${rowsPackages.length > 0 ? `
-      <div class="section">
-        <div style="margin-bottom:8px; font-weight:600; color:#374151;">Ausgewählte Pakete</div>
-        <table>
-          <thead>
-            <tr>
-              <th style="width:60%">Paket</th>
-              <th style="width:20%">Regulär</th>
-              <th style="width:20%">Jetzt</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rowsPackages.map((r) => `
-              <tr>
-                <td>${htmlEscape(r.name)}</td>
-                <td><span class="strike">€${r.original}</span></td>
-                <td><span class="price">€${r.discounted}</span></td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>
-      ` : ``}
-
-      <div class="section">
-        <div class="row"><div class="label">Wunschtermin</div><div class="val">${htmlEscape(`${data.preferredDate}${data.preferredTime ? " " + data.preferredTime : ""}`)}</div></div>
-      </div>
-
-      ${data.message
-      ? `<div class="section"><div class="label" style="margin-bottom:6px;">Nachricht</div><div class="val" style="white-space:pre-wrap;">${htmlEscape(
-        data.message
-      )}</div></div>`
-      : ""
-    }
-
-      <p class="muted">Diese Anfrage bezieht sich auf die aktuelle 50%-Aktion (gilt für die ersten zwei Behandlungen).</p>
-    </div>
-    <div class="footer">
-      Skinlux Pottendorf • Marktplatz 14, 2486 Pottendorf • hey@skinlux.at • 0664 91 88 632
-    </div>
-  </div>
-</body>
-</html>`;
-}
 
 async function trySendViaLoops(recipientEmail: string, templateIdEnv: string, data: Record<string, unknown>) {
   const apiKey = process.env.LOOPS_API_KEY;
   const templateId = process.env[templateIdEnv];
-  if (!apiKey || !templateId) return false;
+  if (!apiKey || !templateId) {
+    return { success: false, error: `Missing: ${!apiKey ? 'LOOPS_API_KEY' : templateIdEnv}` };
+  }
   try {
-    // Loops transactional API (template upload via Loops UI).
     const res = await fetch("https://app.loops.so/api/v1/transactional", {
       method: "POST",
       headers: {
@@ -192,12 +31,16 @@ async function trySendViaLoops(recipientEmail: string, templateIdEnv: string, da
       body: JSON.stringify({
         email: recipientEmail,
         transactionalId: templateId,
-        data,
+        dataVariables: data,
       }),
     });
-    return res.ok;
-  } catch {
-    return false;
+    const result = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return { success: false, error: result.message || `HTTP ${res.status}` };
+    }
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err instanceof Error ? err.message : "Unknown error" };
   }
 }
 
@@ -234,14 +77,21 @@ export async function POST(request: Request) {
     });
     const totalOriginal = rows.reduce((s, r) => s + r.original, 0) + rowsPackages.reduce((s, r) => s + r.original, 0);
     const totalDiscounted = rows.reduce((s, r) => s + r.discounted, 0) + rowsPackages.reduce((s, r) => s + r.discounted, 0);
-    const emailData = {
+
+    // Remove duplicates and format zone selection
+    const uniqueZones = [...new Set(zones)];
+    const uniquePackages = [...new Set(packages)];
+    const allSelections = [...uniqueZones, ...uniquePackages];
+
+    // Loops only accepts primitive values (strings, numbers, booleans) in dataVariables
+    const emailData: Record<string, string | number> = {
       name: body.name,
       email: body.email,
       phone: body.phone,
-      gender: body.gender,
-      zone: [...zones, ...packages].join(", "),
-      zones,
-      packages,
+      gender: body.gender === "damen" ? "Damen" : "Herren",
+      zone: allSelections.join(", "),
+      zones: uniqueZones.join(", ") || "-",
+      packages: uniquePackages.join(", ") || "-",
       preferredDate: body.preferredDate,
       preferredTime: body.preferredTime || "",
       message: body.message || "",
@@ -249,56 +99,32 @@ export async function POST(request: Request) {
       discountedPriceEuro: `€${totalDiscounted}`,
     };
 
-    // Try Loops for USER
-    const userSentViaLoops = await trySendViaLoops(
+    // Send via Loops for USER
+    const userResult = await trySendViaLoops(
       body.email,
       "LOOPS_BOOKING_USER_TEMPLATE_ID",
       emailData
     );
 
-    // Try Loops for ADMIN
-    const adminSentViaLoops = await trySendViaLoops(
+    if (!userResult.success) {
+      return NextResponse.json(
+        { error: `E-Mail-Versand fehlgeschlagen (User): ${userResult.error}` },
+        { status: 500 }
+      );
+    }
+
+    // Send via Loops for ADMIN
+    const adminResult = await trySendViaLoops(
       studioEmail,
       "LOOPS_BOOKING_ADMIN_TEMPLATE_ID",
       emailData
     );
 
-    // Fallback to Resend if Loops not configured
-    if (!userSentViaLoops || !adminSentViaLoops) {
-      const resendKey = process.env.RESEND_API_KEY;
-      if (!resendKey) {
-        return NextResponse.json(
-          { error: "E-Mail-Service nicht konfiguriert" },
-          { status: 500 }
-        );
-      }
-      const resend = new Resend(resendKey);
-      const userHTML = buildEmailHTML("user", { ...body, zones, packages });
-      const adminHTML = buildEmailHTML("admin", { ...body, zones, packages });
-      // Send user
-      if (!userSentViaLoops) {
-        await resend.emails.send({
-          from:
-            process.env.NODE_ENV === "production"
-              ? "Skinlux Pottendorf <noreply@skinlux.at>"
-              : "Skinlux <onboarding@resend.dev>",
-          to: [body.email],
-          subject: "Deine Termin-Anfrage ist eingegangen",
-          html: userHTML,
-        });
-      }
-      // Send admin
-      if (!adminSentViaLoops) {
-        await resend.emails.send({
-          from:
-            process.env.NODE_ENV === "production"
-              ? "Skinlux System <noreply@skinlux.at>"
-              : "Skinlux System <onboarding@resend.dev>",
-          to: [studioEmail],
-          subject: "Neue Termin-Anfrage (Laser-Aktion)",
-          html: adminHTML,
-        });
-      }
+    if (!adminResult.success) {
+      return NextResponse.json(
+        { error: `E-Mail-Versand fehlgeschlagen (Admin): ${adminResult.error}` },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ ok: true });

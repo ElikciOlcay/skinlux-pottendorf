@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, CheckCircle, Calendar, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
 import {
   GenderType,
@@ -28,6 +29,7 @@ type BookingFormState = {
 const DISCOUNT_PERCENT = 50;
 
 export default function LaserAktionBuchenPage() {
+  const router = useRouter();
   const [gender, setGender] = useState<GenderType>("damen");
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
@@ -148,21 +150,8 @@ export default function LaserAktionBuchenPage() {
         const data = await res.json().catch(() => ({}));
         throw new Error(data?.error || "Anfrage fehlgeschlagen");
       }
-      setSuccess("Vielen Dank! Wir bestätigen Ihren Wunschtermin per E-Mail.");
-      // Reset nur teilweise, damit der User Zone/Geschlecht nicht verliert
-      setForm((prev) => ({
-        ...prev,
-        name: "",
-        email: "",
-        phone: "",
-        preferredDate: "",
-        preferredTime: "",
-        message: "",
-        consent: false,
-      }));
-      setSelectedZones([]);
-      setSelectedPackages([]);
-      setStep(1);
+      // Weiterleitung zur Erfolgsseite
+      router.push("/laser-aktion/buchen/erfolg");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unbekannter Fehler");
     } finally {

@@ -231,6 +231,10 @@ export default function LaserAktionBuchenPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="bg-gray-50 p-4 md:p-8 lg:p-10"
             >
+              <div className="mb-4 p-3 bg-white border border-gray-200 text-sm text-gray-700">
+                <span className="font-medium">Hinweis:</span> Klicke auf eine Zeile, um die Leistung auszuwählen.
+                Du kannst mehrere Pakete und/oder Zonen wählen.
+              </div>
               {gender === "damen" && (
                 <div className="mb-8">
                   <div className="grid grid-cols-3 gap-2 md:gap-4 pb-4 md:pb-6 border-b border-gray-200">
@@ -254,14 +258,15 @@ export default function LaserAktionBuchenPage() {
                           transition={{ duration: 0.35, delay: index * 0.03 }}
                           type="button"
                           onClick={() => togglePackage(pkg.name)}
-                          className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition ${active ? "bg-white" : ""
-                            }`}
+                          role="checkbox"
+                          aria-checked={active}
+                          className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition cursor-pointer border ${active ? "bg-white border-secondary" : "border-transparent hover:border-secondary/30"}`}
                         >
                           <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
                             {active ? (
                               <CheckCircle className="w-4 h-4 text-secondary" />
                             ) : (
-                              <span className="w-4 h-4" />
+                              <span className="w-4 h-4 rounded-full border border-gray-300" />
                             )}
                             {pkg.name}
                           </div>
@@ -302,14 +307,15 @@ export default function LaserAktionBuchenPage() {
                       transition={{ duration: 0.35, delay: index * 0.03 }}
                       type="button"
                       onClick={() => toggleZone(item.zone)}
-                      className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition ${active ? "bg-white" : ""
-                        }`}
+                      role="checkbox"
+                      aria-checked={active}
+                      className={`w-full grid grid-cols-3 gap-2 md:gap-4 py-3 md:py-4 text-left hover:bg-white transition cursor-pointer border ${active ? "bg-white border-secondary" : "border-transparent hover:border-secondary/30"}`}
                     >
                       <div className="font-light text-gray-800 text-sm md:text-base flex items-center gap-2">
                         {active ? (
                           <CheckCircle className="w-4 h-4 text-secondary" />
                         ) : (
-                          <span className="w-4 h-4" />
+                          <span className="w-4 h-4 rounded-full border border-gray-300" />
                         )}
                         {item.zone}
                       </div>
@@ -349,7 +355,7 @@ export default function LaserAktionBuchenPage() {
                   <button
                     className="px-6 py-3 bg-black text-white text-sm uppercase tracking-widest disabled:opacity-50"
                     onClick={() => setStep(2)}
-                    disabled={selectedZones.length === 0}
+                    disabled={selectedZones.length === 0 && selectedPackages.length === 0}
                     type="button"
                   >
                     Weiter zum Formular

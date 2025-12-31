@@ -81,8 +81,8 @@ export const LISA_KNOWLEDGE = {
                 intim_komplett_bikini_pofalte: { dauer: "-", preis: "110€" },
                 pofalte: { dauer: "-", preis: "35€" },
                 pobacken: { dauer: "-", preis: "65€" },
-                unterschenkel: { dauer: "-", preis: "95€" },
-                oberschenkel: { dauer: "-", preis: "100€" },
+                unterschenkeln: { dauer: "-", preis: "95€" },
+                oberschenkeln: { dauer: "-", preis: "100€" },
                 beine_komplett: { dauer: "-", preis: "190€" },
                 fuesse: { dauer: "-", preis: "45€" },
                 haende: { dauer: "-", preis: "30€" },
@@ -91,7 +91,7 @@ export const LISA_KNOWLEDGE = {
                 small: {
                     name: "Paket Small",
                     preis: "220€",
-                    inhalt: ["Achseln", "Unterschenkel", "Intim + Bikini inkl. Pofalte"]
+                    inhalt: ["Achseln", "Unterschenkeln", "Intim + Bikini inkl. Pofalte"]
                 },
                 medium: {
                     name: "Paket Medium",
@@ -115,8 +115,8 @@ export const LISA_KNOWLEDGE = {
                 bauch: { dauer: "-", preis: "60€" },
                 schultern: { dauer: "-", preis: "50€" },
                 ruecken: { dauer: "-", preis: "90€" },
-                unterschenkel: { dauer: "-", preis: "120€" },
-                oberschenkel: { dauer: "-", preis: "120€" },
+                unterschenkeln: { dauer: "-", preis: "120€" },
+                oberschenkeln: { dauer: "-", preis: "120€" },
                 beine_komplett: { dauer: "-", preis: "180€" },
                 bartkontur: { dauer: "-", preis: "40€" },
                 nacken: { dauer: "-", preis: "40€" },
@@ -639,14 +639,14 @@ LASER-PREISE DAMEN (Einzelbehandlung):
 - Körper: Dekollete 55€, Brustwarzen 40€, Brüste 55€, Bauch 65€, Bauchstreifen 35€, Rücken 100€
 - Arme: Achseln 55€, Oberarme 60€, Unterarme 55€, Arme komplett 100€
 - Intim: Bikinizone 60€, Intim komplett 90€, Intim+Bikini+Pofalte 110€, Pofalte 35€, Pobacken 65€
-- Beine: Oberschenkel 100€, Unterschenkel 95€, Beine komplett 190€, Füße 45€
+- Beine: Oberschenkeln 100€, Unterschenkeln 95€, Beine komplett 190€, Füße 45€
 - PAKETE: Small 220€, Medium 280€, Large 390€
 
 LASER-PREISE HERREN (Einzelbehandlung):
 - Gesicht: Hals 45€, Bartkontur 50€, Nacken 50€
 - Arme: Achseln 55€, Oberarme 50€, Unterarme 65€, Arme komplett 95€
 - Körper: Bauch 65€, Brust 80€, Schultern 50€, Rücken komplett 95€, Po gesamt 85€
-- Beine: Oberschenkel 120€, Unterschenkel 120€, Beine komplett 230€, Füße 40€
+- Beine: Oberschenkeln 120€, Unterschenkeln 120€, Beine komplett 230€, Füße 40€
 - INTIMBEREICH HERREN: KEINE PREISE VERFÜGBAR - Individuelle Beratung erforderlich!
 
 HYDRAFACIAL-PREISE:

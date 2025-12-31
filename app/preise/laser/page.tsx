@@ -31,8 +31,8 @@ const damenPreise = [
     { zone: "Intim komplett inkl. Bikini + Pofalte", preis: "110€", dauer: "-" },
     { zone: "Pofalte", preis: "35€", dauer: "-" },
     { zone: "Pobacken", preis: "65€", dauer: "-" },
-    { zone: "Unterschenkel", preis: "95€", dauer: "-" },
-    { zone: "Oberschenkel", preis: "100€", dauer: "-" },
+    { zone: "Unterschenkeln", preis: "95€", dauer: "-" },
+    { zone: "Oberschenkeln", preis: "100€", dauer: "-" },
     { zone: "Beine komplett", preis: "190€", dauer: "-" },
     { zone: "Füße", preis: "45€", dauer: "-" },
     { zone: "Hände", preis: "30€", dauer: "-" },
@@ -48,8 +48,8 @@ const herrenPreise = [
     { zone: "Bauch", preis: "60€", dauer: "-" },
     { zone: "Schultern", preis: "50€", dauer: "-" },
     { zone: "Rücken", preis: "90€", dauer: "-" },
-    { zone: "Unterschenkel", preis: "120€", dauer: "-" },
-    { zone: "Oberschenkel", preis: "120€", dauer: "-" },
+    { zone: "Unterschenkeln", preis: "120€", dauer: "-" },
+    { zone: "Oberschenkeln", preis: "120€", dauer: "-" },
     { zone: "Beine komplett", preis: "180€", dauer: "-" },
     { zone: "Bartkontur", preis: "40€", dauer: "-" },
     { zone: "Nacken", preis: "40€", dauer: "-" },
@@ -215,7 +215,7 @@ function LaserPreiseContent() {
                                         </p>
                                         <ul className="text-sm font-light text-gray-600 space-y-2 text-left">
                                             <li>✓ Achseln</li>
-                                            <li>✓ Unterschenkel</li>
+                                            <li>✓ Unterschenkeln</li>
                                             <li>✓ Intim + Bikini inkl. Pofalte</li>
                                         </ul>
                                     </div>

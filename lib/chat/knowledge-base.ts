@@ -57,49 +57,51 @@ export const LISA_KNOWLEDGE = {
             sessions: "Behandlungen im Abstand von 4-6 Wochen",
             damenPreise: {
                 gesicht: {
-                    oberlippe: { dauer: "-", preis: "30€" },
-                    kinn: { dauer: "-", preis: "30€" },
-                    wangen: { dauer: "-", preis: "30€" },
+                    oberlippe: { dauer: "-", preis: "35€" },
+                    kinn: { dauer: "-", preis: "35€" },
+                    wangen: { dauer: "-", preis: "35€" },
                     stirn: { dauer: "-", preis: "30€" },
-                    gesicht_komplett: { dauer: "-", preis: "85€" }
+                    gesicht_komplett: { dauer: "-", preis: "110€" }
                 },
-                hals: { dauer: "-", preis: "30€" },
-                achseln: { dauer: "-", preis: "50€" },
+                hals: { dauer: "-", preis: "45€" },
+                koteletten: { dauer: "-", preis: "35€" },
+                nacken: { dauer: "-", preis: "50€" },
+                dekollete: { dauer: "-", preis: "55€" },
+                brustwarzen: { dauer: "-", preis: "40€" },
+                brüste: { dauer: "-", preis: "55€" },
+                achseln: { dauer: "-", preis: "55€" },
                 unterarme: { dauer: "-", preis: "55€" },
-                oberarme: { dauer: "-", preis: "55€" },
-                arme_komplett: { dauer: "-", preis: "80€" },
-                bauch: { dauer: "-", preis: "55€" },
-                ruecken: { dauer: "-", preis: "85€" },
-                bikinizone: { dauer: "-", preis: "55€" },
-                intim_komplett: { dauer: "-", preis: "80€" },
-                intim_komplett_bikini_pofalte: { dauer: "-", preis: "95€" },
+                oberarme: { dauer: "-", preis: "60€" },
+                arme_komplett: { dauer: "-", preis: "100€" },
+                bauch: { dauer: "-", preis: "65€" },
+                bauchstreifen: { dauer: "-", preis: "35€" },
+                ruecken: { dauer: "-", preis: "100€" },
+                bikinizone: { dauer: "-", preis: "60€" },
+                intim_komplett: { dauer: "-", preis: "90€" },
+                intim_komplett_bikini_pofalte: { dauer: "-", preis: "110€" },
                 pofalte: { dauer: "-", preis: "35€" },
-                po: { dauer: "-", preis: "60€" },
+                pobacken: { dauer: "-", preis: "65€" },
                 unterschenkel: { dauer: "-", preis: "95€" },
-                oberschenkel: { dauer: "-", preis: "95€" },
-                beine_komplett: { dauer: "-", preis: "150€" },
+                oberschenkel: { dauer: "-", preis: "100€" },
+                beine_komplett: { dauer: "-", preis: "190€" },
+                fuesse: { dauer: "-", preis: "45€" },
                 haende: { dauer: "-", preis: "30€" },
-                dekollete: { dauer: "-", preis: "35€" },
-                fuesse: { dauer: "-", preis: "30€" },
-                bauchstreifen: { dauer: "-", preis: "30€" },
-                pobacken: { dauer: "-", preis: "45€" },
-                nacken: { dauer: "-", preis: "30€" },
             },
             pakete: {
                 small: {
                     name: "Paket Small",
-                    preis: "200€",
+                    preis: "220€",
                     inhalt: ["Achseln", "Unterschenkel", "Intim + Bikini inkl. Pofalte"]
                 },
                 medium: {
                     name: "Paket Medium",
-                    preis: "250€",
+                    preis: "280€",
                     inhalt: ["Achseln", "Beine komplett", "Intim + Bikini inkl. Pofalte"],
                     beliebt: true
                 },
                 large: {
                     name: "Paket Large",
-                    preis: "350€",
+                    preis: "390€",
                     inhalt: ["Achseln", "Beine komplett", "Gesicht komplett", "Unterarme", "Intim + Bikini inkl. Pofalte"]
                 }
             },
@@ -633,12 +635,12 @@ EXTREM WICHTIGE REGELN:
 ⚠️ Wenn ein Preis NICHT in der Liste steht, sage KLAR: "Für diese Zone haben wir keine spezifischen Preise hinterlegt. Bitte kontaktieren Sie uns für ein individuelles Angebot."
 
 LASER-PREISE DAMEN (Einzelbehandlung):
-- Gesicht: Wangen 35€, Kinn 35€, Oberlippe 35€, Hals 45€, Gesicht komplett 99€
-- Arme: Achseln 55€, Oberarme 45€, Unterarme 55€, Arme komplett 80€
-- Intim: Bikini 60€, Intim komplett 80€, Intim+Bikini+Pofalte 100€, Po 60€, Pofalte 35€
-- Beine: Oberschenkel 95€, Unterschenkel 95€, Beine komplett 180€
-- Körper: Bauch 65€, Rücken 95€
-- PAKETE: Small 200€, Medium 270€, Large 390€
+- Gesicht: Wangen 35€, Kinn 35€, Oberlippe 35€, Hals 45€, Koteletten 35€, Nacken 50€, Gesicht komplett 110€
+- Körper: Dekollete 55€, Brustwarzen 40€, Brüste 55€, Bauch 65€, Bauchstreifen 35€, Rücken 100€
+- Arme: Achseln 55€, Oberarme 60€, Unterarme 55€, Arme komplett 100€
+- Intim: Bikinizone 60€, Intim komplett 90€, Intim+Bikini+Pofalte 110€, Pofalte 35€, Pobacken 65€
+- Beine: Oberschenkel 100€, Unterschenkel 95€, Beine komplett 190€, Füße 45€
+- PAKETE: Small 220€, Medium 280€, Large 390€
 
 LASER-PREISE HERREN (Einzelbehandlung):
 - Gesicht: Hals 45€, Bartkontur 50€, Nacken 50€

@@ -8,32 +8,34 @@ import { useSearchParams } from "next/navigation";
 
 // Aktuelle Preise basierend auf Ihrer Preisliste
 const damenPreise = [
-    { zone: "Oberlippe", preis: "30€", dauer: "-" },
-    { zone: "Kinn", preis: "30€", dauer: "-" },
-    { zone: "Wangen", preis: "30€", dauer: "-" },
+    { zone: "Oberlippe", preis: "35€", dauer: "-" },
+    { zone: "Kinn", preis: "35€", dauer: "-" },
+    { zone: "Wangen", preis: "35€", dauer: "-" },
     { zone: "Stirn", preis: "30€", dauer: "-" },
-    { zone: "Gesicht komplett", preis: "85€", dauer: "-" },
-    { zone: "Hals", preis: "30€", dauer: "-" },
-    { zone: "Achseln", preis: "50€", dauer: "-" },
+    { zone: "Gesicht komplett", preis: "110€", dauer: "-" },
+    { zone: "Hals", preis: "45€", dauer: "-" },
+    { zone: "Koteletten", preis: "35€", dauer: "-" },
+    { zone: "Nacken", preis: "50€", dauer: "-" },
+    { zone: "Dekollete", preis: "55€", dauer: "-" },
+    { zone: "Brustwarzen", preis: "40€", dauer: "-" },
+    { zone: "Brüste", preis: "55€", dauer: "-" },
+    { zone: "Achseln", preis: "55€", dauer: "-" },
     { zone: "Unterarme", preis: "55€", dauer: "-" },
-    { zone: "Oberarme", preis: "55€", dauer: "-" },
-    { zone: "Arme komplett", preis: "80€", dauer: "-" },
-    { zone: "Bauch", preis: "55€", dauer: "-" },
-    { zone: "Rücken", preis: "85€", dauer: "-" },
-    { zone: "Bikinizone", preis: "55€", dauer: "-" },
-    { zone: "Intim komplett", preis: "80€", dauer: "-" },
-    { zone: "Intim komplett inkl. Bikini + Pofalte", preis: "95€", dauer: "-" },
+    { zone: "Oberarme", preis: "60€", dauer: "-" },
+    { zone: "Arme komplett", preis: "100€", dauer: "-" },
+    { zone: "Bauch", preis: "65€", dauer: "-" },
+    { zone: "Bauchstreifen", preis: "35€", dauer: "-" },
+    { zone: "Rücken", preis: "100€", dauer: "-" },
+    { zone: "Bikinizone", preis: "60€", dauer: "-" },
+    { zone: "Intim komplett", preis: "90€", dauer: "-" },
+    { zone: "Intim komplett inkl. Bikini + Pofalte", preis: "110€", dauer: "-" },
     { zone: "Pofalte", preis: "35€", dauer: "-" },
-    { zone: "Po", preis: "60€", dauer: "-" },
+    { zone: "Pobacken", preis: "65€", dauer: "-" },
     { zone: "Unterschenkel", preis: "95€", dauer: "-" },
-    { zone: "Oberschenkel", preis: "95€", dauer: "-" },
-    { zone: "Beine komplett", preis: "150€", dauer: "-" },
+    { zone: "Oberschenkel", preis: "100€", dauer: "-" },
+    { zone: "Beine komplett", preis: "190€", dauer: "-" },
+    { zone: "Füße", preis: "45€", dauer: "-" },
     { zone: "Hände", preis: "30€", dauer: "-" },
-    { zone: "Dekollete", preis: "35€", dauer: "-" },
-    { zone: "Füße", preis: "30€", dauer: "-" },
-    { zone: "Bauchstreifen", preis: "30€", dauer: "-" },
-    { zone: "Pobacken", preis: "45€", dauer: "-" },
-    { zone: "Nacken", preis: "30€", dauer: "-" },
 ];
 
 const herrenPreise = [
@@ -209,7 +211,7 @@ function LaserPreiseContent() {
                                             Paket Small
                                         </h4>
                                         <p className="text-3xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
-                                            € 200
+                                            € 220
                                         </p>
                                         <ul className="text-sm font-light text-gray-600 space-y-2 text-left">
                                             <li>✓ Achseln</li>
@@ -227,7 +229,7 @@ function LaserPreiseContent() {
                                             Paket Medium
                                         </h4>
                                         <p className="text-3xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
-                                            € 250
+                                            € 280
                                         </p>
                                         <ul className="text-sm font-light text-gray-600 space-y-2 text-left">
                                             <li>✓ Achseln</li>
@@ -242,7 +244,7 @@ function LaserPreiseContent() {
                                             Paket Large
                                         </h4>
                                         <p className="text-3xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
-                                            € 350
+                                            € 390
                                         </p>
                                         <ul className="text-sm font-light text-gray-600 space-y-2 text-left">
                                             <li>✓ Achseln</li>

@@ -8,32 +8,34 @@ export type GenderType = "damen" | "herren";
 
 export const damenPrices: LaserPriceItem[] = [
   { zone: "Kostenloses Erstgespräch mit Probebehandlung", priceEuro: 0 },
-  { zone: "Oberlippe", priceEuro: 30 },
-  { zone: "Kinn", priceEuro: 30 },
-  { zone: "Wangen", priceEuro: 30 },
+  { zone: "Oberlippe", priceEuro: 35 },
+  { zone: "Kinn", priceEuro: 35 },
+  { zone: "Wangen", priceEuro: 35 },
   { zone: "Stirn", priceEuro: 30 },
-  { zone: "Gesicht komplett", priceEuro: 85 },
-  { zone: "Hals", priceEuro: 30 },
-  { zone: "Achseln", priceEuro: 50 },
+  { zone: "Gesicht komplett", priceEuro: 110 },
+  { zone: "Hals", priceEuro: 45 },
+  { zone: "Koteletten", priceEuro: 35 },
+  { zone: "Nacken", priceEuro: 50 },
+  { zone: "Dekollete", priceEuro: 55 },
+  { zone: "Brustwarzen", priceEuro: 40 },
+  { zone: "Brüste", priceEuro: 55 },
+  { zone: "Achseln", priceEuro: 55 },
   { zone: "Unterarme", priceEuro: 55 },
-  { zone: "Oberarme", priceEuro: 55 },
-  { zone: "Arme komplett", priceEuro: 80 },
-  { zone: "Bauch", priceEuro: 55 },
-  { zone: "Rücken", priceEuro: 85 },
-  { zone: "Bikinizone", priceEuro: 55 },
-  { zone: "Intim komplett", priceEuro: 80 },
-  { zone: "Intim komplett inkl. Bikini + Pofalte", priceEuro: 95 },
+  { zone: "Oberarme", priceEuro: 60 },
+  { zone: "Arme komplett", priceEuro: 100 },
+  { zone: "Bauch", priceEuro: 65 },
+  { zone: "Bauchstreifen", priceEuro: 35 },
+  { zone: "Rücken", priceEuro: 100 },
+  { zone: "Bikinizone", priceEuro: 60 },
+  { zone: "Intim komplett", priceEuro: 90 },
+  { zone: "Intim komplett inkl. Bikini + Pofalte", priceEuro: 110 },
   { zone: "Pofalte", priceEuro: 35 },
-  { zone: "Po", priceEuro: 60 },
+  { zone: "Pobacken", priceEuro: 65 },
   { zone: "Unterschenkel", priceEuro: 95 },
-  { zone: "Oberschenkel", priceEuro: 95 },
-  { zone: "Beine komplett", priceEuro: 150 },
+  { zone: "Oberschenkel", priceEuro: 100 },
+  { zone: "Beine komplett", priceEuro: 190 },
+  { zone: "Füße", priceEuro: 45 },
   { zone: "Hände", priceEuro: 30 },
-  { zone: "Dekollete", priceEuro: 35 },
-  { zone: "Füße", priceEuro: 30 },
-  { zone: "Bauchstreifen", priceEuro: 30 },
-  { zone: "Pobacken", priceEuro: 45 },
-  { zone: "Nacken", priceEuro: 30 },
 ];
 
 export const herrenPrices: LaserPriceItem[] = [
@@ -79,17 +81,17 @@ export type LaserPackageItem = {
 export const damenPackages: LaserPackageItem[] = [
   {
     name: "Paket Small",
-    priceEuro: 200,
+    priceEuro: 220,
     details: ["Achseln", "Unterschenkel", "Intim + Bikini inkl. Pofalte"],
   },
   {
     name: "Paket Medium",
-    priceEuro: 250,
+    priceEuro: 280,
     details: ["Achseln", "Beine komplett", "Intim + Bikini inkl. Pofalte"],
   },
   {
     name: "Paket Large",
-    priceEuro: 350,
+    priceEuro: 390,
     details: ["Achseln", "Beine komplett", "Gesicht komplett", "Unterarme", "Intim + Bikini inkl. Pofalte"],
   },
 ];
@@ -97,3 +99,4 @@ export const damenPackages: LaserPackageItem[] = [
 export function getPackagesByGender(gender: GenderType): LaserPackageItem[] {
   return gender === "damen" ? damenPackages : [];
 }
+

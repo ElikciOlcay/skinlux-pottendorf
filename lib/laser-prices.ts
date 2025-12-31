@@ -11,7 +11,7 @@ export const damenPrices: LaserPriceItem[] = [
   { zone: "Oberlippe", priceEuro: 35 },
   { zone: "Kinn", priceEuro: 35 },
   { zone: "Wangen", priceEuro: 35 },
-  { zone: "Stirn", priceEuro: 30 },
+  { zone: "Stirn", priceEuro: 45 },
   { zone: "Gesicht komplett", priceEuro: 110 },
   { zone: "Hals", priceEuro: 45 },
   { zone: "Koteletten", priceEuro: 35 },
@@ -34,8 +34,8 @@ export const damenPrices: LaserPriceItem[] = [
   { zone: "Unterschenkeln", priceEuro: 95 },
   { zone: "Oberschenkeln", priceEuro: 100 },
   { zone: "Beine komplett", priceEuro: 190 },
-  { zone: "Füße", priceEuro: 45 },
-  { zone: "Hände", priceEuro: 30 },
+  { zone: "Füße inkl. Zehe", priceEuro: 45 },
+  { zone: "Hände", priceEuro: 45 },
 ];
 
 export const herrenPrices: LaserPriceItem[] = [
@@ -99,4 +99,5 @@ export const damenPackages: LaserPackageItem[] = [
 export function getPackagesByGender(gender: GenderType): LaserPackageItem[] {
   return gender === "damen" ? damenPackages : [];
 }
+
 

@@ -60,7 +60,7 @@ export const LISA_KNOWLEDGE = {
                     oberlippe: { dauer: "-", preis: "35€" },
                     kinn: { dauer: "-", preis: "35€" },
                     wangen: { dauer: "-", preis: "35€" },
-                    stirn: { dauer: "-", preis: "30€" },
+                    stirn: { dauer: "-", preis: "45€" },
                     gesicht_komplett: { dauer: "-", preis: "110€" }
                 },
                 hals: { dauer: "-", preis: "45€" },
@@ -84,8 +84,8 @@ export const LISA_KNOWLEDGE = {
                 unterschenkeln: { dauer: "-", preis: "95€" },
                 oberschenkeln: { dauer: "-", preis: "100€" },
                 beine_komplett: { dauer: "-", preis: "190€" },
-                fuesse: { dauer: "-", preis: "45€" },
-                haende: { dauer: "-", preis: "30€" },
+                fuesse_inkl_zehe: { dauer: "-", preis: "45€" },
+                haende: { dauer: "-", preis: "45€" },
             },
             pakete: {
                 small: {
@@ -639,7 +639,7 @@ LASER-PREISE DAMEN (Einzelbehandlung):
 - Körper: Dekollete 55€, Brustwarzen 40€, Brüste 55€, Bauch 65€, Bauchstreifen 35€, Rücken 100€
 - Arme: Achseln 55€, Oberarme 60€, Unterarme 55€, Arme komplett 100€
 - Intim: Bikinizone 60€, Intim komplett 90€, Intim+Bikini+Pofalte 110€, Pofalte 35€, Pobacken 65€
-- Beine: Oberschenkeln 100€, Unterschenkeln 95€, Beine komplett 190€, Füße 45€
+- Beine: Oberschenkeln 100€, Unterschenkeln 95€, Beine komplett 190€, Füße inkl. Zehe 45€
 - PAKETE: Small 220€, Medium 280€, Large 390€
 
 LASER-PREISE HERREN (Einzelbehandlung):

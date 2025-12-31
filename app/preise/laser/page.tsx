@@ -11,7 +11,7 @@ const damenPreise = [
     { zone: "Oberlippe", preis: "35€", dauer: "-" },
     { zone: "Kinn", preis: "35€", dauer: "-" },
     { zone: "Wangen", preis: "35€", dauer: "-" },
-    { zone: "Stirn", preis: "30€", dauer: "-" },
+    { zone: "Stirn", preis: "45€", dauer: "-" },
     { zone: "Gesicht komplett", preis: "110€", dauer: "-" },
     { zone: "Hals", preis: "45€", dauer: "-" },
     { zone: "Koteletten", preis: "35€", dauer: "-" },
@@ -34,8 +34,8 @@ const damenPreise = [
     { zone: "Unterschenkeln", preis: "95€", dauer: "-" },
     { zone: "Oberschenkeln", preis: "100€", dauer: "-" },
     { zone: "Beine komplett", preis: "190€", dauer: "-" },
-    { zone: "Füße", preis: "45€", dauer: "-" },
-    { zone: "Hände", preis: "30€", dauer: "-" },
+    { zone: "Füße inkl. Zehe", preis: "45€", dauer: "-" },
+    { zone: "Hände", preis: "45€", dauer: "-" },
 ];
 
 const herrenPreise = [

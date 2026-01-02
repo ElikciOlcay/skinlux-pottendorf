@@ -40,7 +40,6 @@
           </mj-column>
         </mj-section>
 
-        <mj-text color="#6b7280" font-size="12px">Diese Anfrage bezieht sich auf die aktuelle 50%-Aktion (gilt für die ersten zwei Behandlungen).</mj-text>
       </mj-column>
     </mj-section>
 
@@ -51,3 +50,5 @@
     </mj-section>
   </mj-body>
 </mjml>
+
+

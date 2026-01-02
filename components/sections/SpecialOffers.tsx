@@ -3,24 +3,13 @@
 import { motion } from "framer-motion";
 import { Zap, Tag, ArrowRight, Sparkles } from "lucide-react";
 
-const offers = [
-    {
-        id: 'laser',
-        title: "Laser Haarentfernung",
-        subtitle: "Limitierte Aktion",
-        description: "50% Rabatt auf die ersten 2 Laser-Haarentfernung Behandlungen. Dauerhafte Haarfreiheit zum halben Preis.",
-        price: "50%",
-        originalPrice: null,
-        discount: "Rabatt",
-        limit: "Gültig bis 31. Dezember 2025",
-        icon: Zap,
-        href: '/laser-aktion',
-        color: 'var(--color-secondary)',
-        badge: "LIMITIERT"
-    }
-];
+const offers: any[] = [];
 
 export default function SpecialOffers() {
+    if (offers.length === 0) {
+        return null;
+    }
+
     return (
         <section id="angebote" className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50">
             <div className="container mx-auto px-4">
@@ -69,7 +58,7 @@ export default function SpecialOffers() {
 
                                 {/* Badge */}
                                 <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10">
-                                    <span 
+                                    <span
                                         className="text-[0.625rem] md:text-xs font-light tracking-widest uppercase px-3 py-1.5 md:px-4 md:py-2 text-white rounded-full shadow-lg"
                                         style={{ backgroundColor: offer.color }}
                                     >
@@ -77,7 +66,7 @@ export default function SpecialOffers() {
                                     </span>
                                 </div>
 
-                                <a 
+                                <a
                                     href={offer.href}
                                     className="block p-8 md:p-12 relative z-10"
                                 >
@@ -85,12 +74,12 @@ export default function SpecialOffers() {
                                         {/* Left Side - Content */}
                                         <div>
                                             <div className="flex items-center gap-4 mb-6">
-                                                <div 
+                                                <div
                                                     className="w-20 h-20 flex-shrink-0 flex items-center justify-center rounded-2xl shadow-lg"
                                                     style={{ backgroundColor: offer.color }}
                                                 >
-                                                    <IconComponent 
-                                                        className="w-10 h-10 text-white" 
+                                                    <IconComponent
+                                                        className="w-10 h-10 text-white"
                                                     />
                                                 </div>
                                                 <div>
@@ -136,9 +125,9 @@ export default function SpecialOffers() {
                                 </a>
 
                                 {/* Hover Effect Border */}
-                                <div 
+                                <div
                                     className="absolute bottom-0 left-0 right-0 h-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                    style={{ 
+                                    style={{
                                         background: `linear-gradient(90deg, var(--color-secondary) 0%, transparent 100%)`
                                     }}
                                 />

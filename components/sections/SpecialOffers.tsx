@@ -1,9 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Tag, ArrowRight, Sparkles } from "lucide-react";
+import { Tag, ArrowRight, Sparkles, LucideIcon } from "lucide-react";
 
-const offers: never[] = [];
+type Offer = {
+    id: string;
+    title: string;
+    subtitle: string;
+    description: string;
+    price: string;
+    originalPrice: string | null;
+    discount: string;
+    limit: string;
+    icon: LucideIcon;
+    href: string;
+    color: string;
+    badge: string;
+};
+
+const offers: Offer[] = [];
 
 export default function SpecialOffers() {
     if (offers.length === 0) {

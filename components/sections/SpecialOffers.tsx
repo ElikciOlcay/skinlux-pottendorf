@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Zap, Tag, ArrowRight, Sparkles } from "lucide-react";
+import { Tag, ArrowRight, Sparkles } from "lucide-react";
 
-const offers: any[] = [];
+const offers: never[] = [];
 
 export default function SpecialOffers() {
     if (offers.length === 0) {

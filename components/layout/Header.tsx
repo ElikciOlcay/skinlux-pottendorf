@@ -429,7 +429,7 @@ export default function Header() {
 
                                         <div className="flex items-center justify-center gap-4 text-sm text-gray-600 pt-4">
                                             <Phone className="w-4 h-4" />
-                                            <a href="tel:+4366057214003" className="font-light hover:text-black transition-colors">
+                                            <a href="tel:+436649188632" className="font-light hover:text-black transition-colors">
                                                 +43 664 91 88 632
                                             </a>
                                         </div>

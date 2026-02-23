@@ -125,7 +125,7 @@ export default function StornobedingungPage() {
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <h4 className="font-medium text-black mb-2">Telefon</h4>
-                                    <p className="text-gray-700 font-light">0664 / 45 68 454</p>
+                                    <p className="text-gray-700 font-light">0664 / 91 88 632</p>
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-black mb-2">E-Mail</h4>

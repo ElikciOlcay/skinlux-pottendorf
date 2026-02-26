@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Camera, Microscope, Monitor, CheckCircle, Clock, Award, ArrowRight, Eye, ArrowLeft } from "lucide-react";
@@ -196,14 +197,13 @@ export default function Hautanalyse() {
                             className="relative"
                         >
                             <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
-                                <div
-                                    className="absolute inset-0"
-                                    style={{
-                                        backgroundImage: "url('/images/hautanalyse/hautanalyse.jpg')",
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center',
-                                        backgroundColor: '#f5f5f5'
-                                    }}
+                                <Image
+                                    src="/images/hautanalyse/hautanalyse.jpg"
+                                    alt="Hautanalyse"
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 1024px) 100vw, 50vw"
+                                    loading="lazy"
                                 />
                                 <div className="absolute -inset-4 border-2 border-secondary opacity-20" />
                                 <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2">

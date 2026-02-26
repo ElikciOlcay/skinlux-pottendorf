@@ -34,16 +34,17 @@ export default function Hero() {
                 </script>
             </Head>
             <section className="relative min-h-screen flex items-center overflow-hidden">
-                {/* Hintergrund-Video */}
-                <video
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                    src="/videos/hydrafacial-hero.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    poster="/public/images/about/studio/interior.jpg"
-                />
+            <video
+                className="absolute inset-0 w-full h-full object-cover z-0"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                poster="/images/about/studio/interior.jpg"
+            >
+                <source src="/videos/hydrafacial-hero.mp4" type="video/mp4" />
+            </video>
 
                 {/* Dunkleres Overlay für bessere Lesbarkeit */}
                 <div className="absolute inset-0 bg-black/60 z-10" />

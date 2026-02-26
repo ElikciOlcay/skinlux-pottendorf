@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 const stats = [
@@ -62,18 +63,16 @@ export default function About() {
                         transition={{ duration: 0.5 }}
                         className="order-1 lg:order-2"
                     >
-                        {/* ABOUT IMAGE - Füge hier dein Bild ein */}
                         <div className="relative aspect-[4/5] lg:aspect-[3/4]">
-                            <div
-                                className="absolute inset-0"
-                                style={{
-                                    backgroundImage: "url('/images/about-team.jpg')", // TEAM BILD HIER
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
-                                    backgroundColor: '#f5f5f5' // Fallback wenn kein Bild
-                                }}
-                            >
-                                {/* Overlay für bessere Textlesbarkeit */}
+                            <div className="absolute inset-0">
+                                <Image
+                                    src="/images/about-team.jpg"
+                                    alt="Skinlux Pottendorf Team"
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 1024px) 100vw, 50vw"
+                                    loading="lazy"
+                                />
                                 <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent" />
                             </div>
 

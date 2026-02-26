@@ -60,19 +60,14 @@ export default function Gallery() {
                             key={index}
                             className="relative aspect-square overflow-hidden bg-gray-100 group"
                         >
-                            {/* Optimized Next.js Image */}
                             <Image
                                 src={image.src}
                                 alt={image.alt}
                                 fill
                                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 50vw, 33vw"
-                                priority={index < 3} // Prioritize first 3 images
-                                onError={(e) => {
-                                    // Fallback für fehlende Bilder
-                                    const target = e.target as HTMLImageElement;
-                                    target.src = '/images/about-team.jpg';
-                                }}
+                                loading="lazy"
+                                quality={75}
                             />
 
                             {/* Hover Overlay */}

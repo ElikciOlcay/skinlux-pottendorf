@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Zap, Clock, Award, Star, CheckCircle, Sparkles, Heart } from "lucide-react";
@@ -181,14 +182,13 @@ export default function Microneedling() {
                             className="relative"
                         >
                             <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
-                                <div
-                                    className="absolute inset-0"
-                                    style={{
-                                        backgroundImage: "url('/images/treatments/microneedling.jpg')",
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center',
-                                        backgroundColor: '#f5f5f5'
-                                    }}
+                                <Image
+                                    src="/images/treatments/microneedling.jpg"
+                                    alt="Microneedling Behandlung"
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 1024px) 100vw, 50vw"
+                                    loading="lazy"
                                 />
                                 <div className="absolute -inset-4 border-2 border-secondary opacity-20" />
                                 <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2">

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle, Clock, Users, Zap, Phone, Calendar, Shield, Star, Award, Heart } from "lucide-react";
 
@@ -142,14 +143,13 @@ export default function Beratung() {
                             {/* Right Content - Image */}
                             <div className="relative">
                                 <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden rounded-xl shadow-lg">
-                                    <div
-                                        className="absolute inset-0"
-                                        style={{
-                                            backgroundImage: "url('/images/gallery/treatment-laser.jpg')",
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
-                                            backgroundColor: '#f5f5f5'
-                                        }}
+                                    <Image
+                                        src="/images/gallery/treatment-laser.jpg"
+                                        alt="Laser Behandlung"
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 1024px) 100vw, 50vw"
+                                        loading="lazy"
                                     />
                                     <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg">
                                         <p className="text-sm font-light">FDA-zertifiziert</p>

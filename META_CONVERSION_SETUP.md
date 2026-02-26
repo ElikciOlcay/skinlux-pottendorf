@@ -25,7 +25,7 @@ META_CONVERSION_API_TOKEN="EAAhf3oWEUEQBP4wpuZB5giyWxXvKvFLd5ZAcNK0K9TG9SbkMp8ik
 Fertige Funktionen zum Tracken von Events:
 
 ```typescript
-import { trackTerminBuchung, trackLaserAktionView, trackPageView, trackLead } from '@/lib/meta-tracking';
+import { trackTerminBuchung, trackPageView, trackLead } from '@/lib/meta-tracking';
 
 // Terminbuchung tracken
 trackTerminBuchung({
@@ -34,9 +34,6 @@ trackTerminBuchung({
     firstName: 'Max',
     lastName: 'Mustermann'
 });
-
-// Laser-Aktion Seitenaufruf tracken
-trackLaserAktionView();
 
 // Allgemeiner Seitenaufruf
 trackPageView('Homepage');
@@ -53,28 +50,7 @@ trackLead({ email: 'lead@example.com' });
 - `Lead` - Lead-Generierung
 - `Contact` - Kontaktaufnahme
 
-**Custom Events:**
-- `LaserAktionView` - Laser-Aktion Landingpage Aufruf
-
 ## Integration Beispiele
-
-### Laser-Aktion Landingpage
-
-```typescript
-"use client";
-
-import { useEffect } from 'react';
-import { trackLaserAktionView } from '@/lib/meta-tracking';
-
-export default function LaserAktion() {
-    useEffect(() => {
-        // Track Page View
-        trackLaserAktionView();
-    }, []);
-    
-    // ...
-}
-```
 
 ### Termin-Buchung Button
 

@@ -65,8 +65,6 @@ export const MetaEvents = {
     // Kontaktaufnahme
     CONTACT: 'Contact',
     
-    // Custom Events
-    LASER_AKTION_VIEW: 'LaserAktionView',
 };
 
 // Tracking-Funktionen für spezifische Events
@@ -74,13 +72,6 @@ export const trackTerminBuchung = (userData?: Record<string, unknown>) => {
     return trackMetaEvent(MetaEvents.SCHEDULE, userData, {
         content_name: 'Laser-Haarentfernung Termin',
         content_category: 'Terminbuchung'
-    });
-};
-
-export const trackLaserAktionView = () => {
-    return trackMetaEvent(MetaEvents.LASER_AKTION_VIEW, undefined, {
-        content_name: 'Laser-Aktion 50% Rabatt',
-        content_category: 'Aktionsseite'
     });
 };
 

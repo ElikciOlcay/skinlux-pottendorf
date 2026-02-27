@@ -7,16 +7,39 @@ import ConditionalLayout from "../components/layout/ConditionalLayout";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Skinlux Pottendorf - Laser Haarentfernung & Premium Kosmetik | Baden, M\u00f6dling",
-  description: "Skinlux Pottendorf: Professionelle Laser-Haarentfernung, HydraFacial®, und Premium Kosmetikbehandlungen in Baden-Pottendorf, N\u00d6. Modern Diodenlaser-Technologie. Auch f\u00fcr M\u00f6dling. Termin buchen!",
-  keywords: "Laser Haarentfernung Pottendorf, Laser Haarentfernung Baden, Laser M\u00f6dling, Kosmetik Niederösterreich, HydraFacial Pottendorf, Laser Behandlung Baden, dauerhafte Haarentfernung, Beauty Studio Pottendorf, Skinlux",
+  metadataBase: new URL('https://skinlux-pottendorf.at'),
+  title: {
+    default: "Skinlux Pottendorf | Laser Haarentfernung & Premium Kosmetik | Baden, Mödling",
+    template: "%s | Skinlux Pottendorf",
+  },
+  description: "Laser Haarentfernung & HydraFacial in Pottendorf. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Für Baden, Mödling & Niederösterreich.",
+  alternates: {
+    canonical: 'https://skinlux-pottendorf.at',
+  },
   openGraph: {
-    title: "Skinlux Pottendorf - Laser Haarentfernung & Kosmetik in Baden, M\u00f6dling",
-    description: "Professionelle Laser-Haarentfernung und innovative Kosmetikbehandlungen in Pottendorf, Baden. Auch Kunden aus M\u00f6dling. Erleben Sie moderne Beauty-Treatments.",
-    images: ["/og-image.jpg"],
+    title: "Skinlux Pottendorf | Laser Haarentfernung & Premium Kosmetik | Baden, Mödling",
+    description: "Laser Haarentfernung & HydraFacial in Pottendorf. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Für Baden, Mödling & Niederösterreich.",
+    images: ["https://skinlux-pottendorf.at/og-image.jpg"],
     locale: "de_AT",
     type: "website",
-    url: "https://skinlux-pottendorf.at",
+    siteName: "Skinlux Pottendorf",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Skinlux Pottendorf | Laser Haarentfernung Baden, Mödling",
+    description: "Laser Haarentfernung & HydraFacial in Pottendorf. Modernste Diodenlaser-Technologie. Kostenlose Probebehandlung.",
+    images: ["https://skinlux-pottendorf.at/og-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -43,16 +66,19 @@ export default function RootLayout({
             gtag('config', 'G-N76BWEKEH9');
           `}
         </Script>
-        <Script id="schema-org" type="application/ld+json" strategy="afterInteractive">
-          {JSON.stringify({
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "@id": "https://skinlux-pottendorf.at",
+            "@type": "BeautySalon",
+            "@id": "https://skinlux-pottendorf.at/#business",
             "name": "Skinlux Pottendorf",
-            "image": "/images/logo/skinlux-logo.png",
-            "description": "Professionelle Laser-Haarentfernung und Premium Kosmetikbehandlungen in Pottendorf, Baden, Niederösterreich. Spezialist für dauerhafte Haarentfernung, HydraFacial und Premium Facials.",
+            "alternateName": "Skinlux Medical Beauty Studio Pottendorf",
+            "image": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
+            "logo": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
+            "description": "Professionelle Laser-Haarentfernung und Premium Kosmetikbehandlungen in Pottendorf, Niederösterreich. Modernste Diodenlaser-Technologie, HydraFacial und Signature Facials.",
             "url": "https://skinlux-pottendorf.at",
-            "telephone": "+43 664 91 88 632",
+            "telephone": "+436649188632",
             "email": "hey@skinlux.at",
             "address": {
               "@type": "PostalAddress",
@@ -62,23 +88,17 @@ export default function RootLayout({
               "addressRegion": "Niederösterreich",
               "addressCountry": "AT"
             },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "47.9147",
+              "longitude": "16.3917"
+            },
             "areaServed": [
-              {
-                "@type": "City",
-                "name": "Baden"
-              },
-              {
-                "@type": "City",
-                "name": "Pottendorf"
-              },
-              {
-                "@type": "City",
-                "name": "Mödling"
-              },
-              {
-                "@type": "AdministrativeArea",
-                "name": "Niederösterreich"
-              }
+              { "@type": "City", "name": "Pottendorf" },
+              { "@type": "City", "name": "Baden" },
+              { "@type": "City", "name": "Mödling" },
+              { "@type": "City", "name": "Wiener Neustadt" },
+              { "@type": "State", "name": "Niederösterreich" }
             ],
             "priceRange": "$$",
             "openingHoursSpecification": [
@@ -96,91 +116,87 @@ export default function RootLayout({
               }
             ],
             "sameAs": [
-              "https://www.facebook.com/skinlux",
               "https://www.instagram.com/skinlux"
-            ],
-            "services": [
-              {
-                "@type": "Service",
-                "name": "Laser Haarentfernung",
-                "description": "Dauerhafte Haarentfernung mit modernster Diodenlaser-Technologie für alle Hauttypen",
-                "areaServed": ["Baden", "Pottendorf", "Mödling", "Niederösterreich"],
-                "priceRange": "ab 30€"
-              },
-              {
-                "@type": "Service",
-                "name": "HydraFacial",
-                "description": "Revolutionäre 3-in-1 Gesichtsbehandlung mit sofort sichtbaren Ergebnissen",
-                "areaServed": ["Baden", "Pottendorf", "Mödling"],
-                "priceRange": "169€ - 249€"
-              },
-              {
-                "@type": "Service",
-                "name": "Premium Facials",
-                "description": "Luxuriöse Gesichtspflege Behandlungen mit professionellen Produkten",
-                "areaServed": ["Baden", "Pottendorf", "Mödling"],
-                "priceRange": "150€ - 175€"
-              }
             ],
             "aggregateRating": {
               "@type": "AggregateRating",
-              "ratingValue": "5",
-              "ratingCount": "2000",
+              "ratingValue": "4.9",
+              "ratingCount": "120",
               "bestRating": "5",
               "worstRating": "1"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Behandlungen",
+              "itemListElement": [
+                {
+                  "@type": "OfferCatalog",
+                  "name": "Laser Haarentfernung",
+                  "itemListElement": [
+                    {
+                      "@type": "Offer",
+                      "itemOffered": {
+                        "@type": "Service",
+                        "name": "Laser Haarentfernung",
+                        "description": "Dauerhafte Haarentfernung mit modernster Diodenlaser-Technologie für alle Hauttypen",
+                        "provider": { "@id": "https://skinlux-pottendorf.at/#business" }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "@type": "OfferCatalog",
+                  "name": "HydraFacial",
+                  "itemListElement": [
+                    {
+                      "@type": "Offer",
+                      "itemOffered": {
+                        "@type": "Service",
+                        "name": "HydraFacial",
+                        "description": "Revolutionäre 3-in-1 Gesichtsbehandlung mit sofort sichtbaren Ergebnissen",
+                        "provider": { "@id": "https://skinlux-pottendorf.at/#business" }
+                      }
+                    }
+                  ]
+                }
+              ]
             }
-          })}
-        </Script>
-
-        {/* FAQ Schema */}
-        <Script id="faq-schema" type="application/ld+json" strategy="afterInteractive">
-          {JSON.stringify({
+          })}}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "Ist die Laser-Haarentfernung schmerzhaft?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Die moderne Diodenlaser-Technologie ist sehr schmerzarm. Die meisten Kunden beschreiben es als leichtes Kribbeln oder Wärmegefühl. Die integrierte Kühlung macht die Behandlung sehr angenehm."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Wie viele Behandlungen sind notwendig?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Die Anzahl der Behandlungen ist individuell und hängt von Hauttyp, Haarfarbe und behandelter Zone ab. Behandlungen finden im Abstand von 4-6 Wochen statt. Bei der kostenlosen Beratung erhalten Sie eine individuelle Einschätzung."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Kann ich eine kostenlose Probebehandlung machen?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Ja! Wir bieten eine kostenlose Laser-Probebehandlung an. So können Sie die Technologie unverbindlich testen."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Für welche Hauttypen ist die Behandlung geeignet?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Unsere moderne Diodenlaser-Technologie ist für alle Hauttypen geeignet. In der kostenlosen Erstberatung analysieren wir Ihren Hauttyp genau."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Wie lange hält das Ergebnis?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Nach Abschluss der Behandlungsserie ist das Ergebnis dauerhaft. Vereinzelt können nach Jahren einzelne Härchen nachwachsen, diese können mit Auffrischungsbehandlungen entfernt werden."
-                }
-              }
-            ]
-          })}
-        </Script>
+            "@type": "WebSite",
+            "@id": "https://skinlux-pottendorf.at/#website",
+            "name": "Skinlux Pottendorf",
+            "url": "https://skinlux-pottendorf.at",
+            "publisher": { "@id": "https://skinlux-pottendorf.at/#organization" }
+          })}}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://skinlux-pottendorf.at/#organization",
+            "name": "Skinlux Medical Beauty Studio",
+            "alternateName": "Skinlux Pottendorf",
+            "url": "https://skinlux-pottendorf.at",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+436649188632",
+              "contactType": "customer service",
+              "email": "hey@skinlux.at",
+              "availableLanguage": ["German", "English"]
+            },
+            "sameAs": ["https://www.instagram.com/skinlux"]
+          })}}
+        />
 
         <ConditionalLayout>
           {children}

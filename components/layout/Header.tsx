@@ -27,8 +27,7 @@ const navigation = [
                 icon: Droplets,
                 items: [
                     { name: "HydraFacial®", href: "/behandlungen/hydra-facial", description: "3-in-1 Premium Behandlung", highlight: true },
-                    { name: "Premium Facials", href: "/behandlungen/signature-facials", description: "Exklusive Circadia Professional Treatments" },
-                    ...(FEATURES.MICRONEEDLING_ENABLED ? [{ name: "Microneedling", href: "/behandlungen/microneedling", description: "Kollagen-Induktions-Therapie", highlight: true }] : [])
+                    { name: "Premium Facials", href: "/behandlungen/signature-facials", description: "Exklusive Circadia Professional Treatments" }
                 ]
             },
             ...(FEATURES.HAUTANALYSE_ENABLED ? [{

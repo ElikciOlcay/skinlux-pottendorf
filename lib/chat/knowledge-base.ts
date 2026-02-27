@@ -549,23 +549,6 @@ export const LISA_KNOWLEDGE = {
                 ]
             },
 
-            // Microneedling für Narben
-            acne_scars: {
-                condition: (answers: Record<string, string>) => answers.skin_concern === "scars",
-                priority: 7,
-                treatments: [
-                    {
-                        name: "Microneedling",
-                        subtitle: "Kollagen-Induktions-Therapie",
-                        description: "Effektive Behandlung von Aknenarben und Hautunregelmäßigkeiten. Aktiviert natürliche Kollagenproduktion.",
-                        benefits: ["300% mehr Kollagen", "Narbenreduktion", "Langzeiteffekt"],
-                        price: "auf Anfrage",
-                        duration: "60 Min",
-                        bookingAction: "consultation"
-                    }
-                ]
-            },
-
             // Pigmentflecken
             pigmentation: {
                 condition: (answers: Record<string, string>) => answers.skin_concern === "pigmentation",

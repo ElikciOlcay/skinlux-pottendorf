@@ -26,7 +26,6 @@ Erstelle einen Ordner `treatments/` mit folgenden Bildern:
 - **laser-hair-removal.jpg** - Laser Haarentfernung (empfohlen: 800x600px)
 - **hydra-facial.jpg** - Hydra Facial Behandlung (empfohlen: 800x600px)
 - **circadia.jpg** - Klassische Behandlung mit Circadia (empfohlen: 800x600px)
-- **microneedling.jpg** - Microneedling Behandlung (empfohlen: 800x600px)
 - **skin-analysis.jpg** - Hautanalyse (empfohlen: 800x600px)
 
 ### 4. Gallery Section
@@ -67,7 +66,6 @@ public/
     │   ├── laser-hair-removal.jpg
     │   ├── hydra-facial.jpg
     │   ├── circadia.jpg
-    │   ├── microneedling.jpg
     │   └── skin-analysis.jpg
     └── gallery/
         ├── treatment-1.jpg

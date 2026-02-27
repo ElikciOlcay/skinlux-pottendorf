@@ -1,79 +1,93 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+    const baseUrl = 'https://skinlux-pottendorf.at';
+    const currentDate = new Date('2026-02-26');
+
     return [
         {
-            url: 'https://skinlux-pottendorf.at',
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 1,
+            url: baseUrl,
+            lastModified: currentDate,
+            changeFrequency: 'daily',
+            priority: 1.0,
         },
         {
-            url: 'https://skinlux-pottendorf.at/behandlungen/laser-haarentfernung',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
+            url: `${baseUrl}/behandlungen/laser-haarentfernung`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
             priority: 0.95,
         },
         {
-            url: 'https://skinlux-pottendorf.at/behandlungen/hydra-facial',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
+            url: `${baseUrl}/behandlungen/hydra-facial`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
             priority: 0.9,
         },
         {
-            url: 'https://skinlux-pottendorf.at/behandlungen/signature-facials',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.8,
-        },
-        {
-            url: 'https://skinlux-pottendorf.at/kontakt',
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
+            url: `${baseUrl}/behandlungen/signature-facials`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
             priority: 0.85,
         },
         {
-            url: 'https://skinlux-pottendorf.at/standorte',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.9,
+            url: `${baseUrl}/behandlungen/hautanalyse`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
+            priority: 0.85,
         },
         {
-            url: 'https://skinlux-pottendorf.at/beratung',
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
-            priority: 0.75,
-        },
-        {
-            url: 'https://skinlux-pottendorf.at/gutscheine',
-            lastModified: new Date(),
+            url: `${baseUrl}/preise/laser`,
+            lastModified: currentDate,
             changeFrequency: 'weekly',
             priority: 0.8,
         },
         {
-            url: 'https://skinlux-pottendorf.at/ueber-uns',
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
+            url: `${baseUrl}/beratung`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/gutscheine`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.75,
+        },
+        {
+            url: `${baseUrl}/kontakt`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
             priority: 0.7,
         },
         {
-            url: 'https://skinlux-pottendorf.at/datenschutz',
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
-            priority: 0.5,
-        },
-        {
-            url: 'https://skinlux-pottendorf.at/impressum',
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
-            priority: 0.5,
-        },
-        {
-            url: 'https://skinlux-pottendorf.at/preise/laser',
-            lastModified: new Date(),
+            url: `${baseUrl}/ueber-uns`,
+            lastModified: currentDate,
             changeFrequency: 'monthly',
-            priority: 0.85,
+            priority: 0.7,
+        },
+        {
+            url: `${baseUrl}/standorte`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.7,
+        },
+        {
+            url: `${baseUrl}/impressum`,
+            lastModified: currentDate,
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
+        {
+            url: `${baseUrl}/datenschutz`,
+            lastModified: currentDate,
+            changeFrequency: 'yearly',
+            priority: 0.3,
+        },
+        {
+            url: `${baseUrl}/stornobedingungen`,
+            lastModified: currentDate,
+            changeFrequency: 'yearly',
+            priority: 0.3,
         },
     ];
 }
-

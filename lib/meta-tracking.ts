@@ -55,16 +55,16 @@ export const trackMetaEvent = async (
 export const MetaEvents = {
     // Terminbuchung
     SCHEDULE: 'Schedule',
-    
+
     // Seitenaufrufe
     VIEW_CONTENT: 'ViewContent',
-    
+
     // Lead-Generierung
     LEAD: 'Lead',
-    
+
     // Kontaktaufnahme
     CONTACT: 'Contact',
-    
+
 };
 
 // Tracking-Funktionen für spezifische Events

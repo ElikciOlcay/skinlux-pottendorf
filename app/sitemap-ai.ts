@@ -1,82 +1,74 @@
 import { MetadataRoute } from 'next';
 
-export default function sitemapAI(): MetadataRoute.Sitemap {
+export default function sitemapAi(): MetadataRoute.Sitemap {
+    const baseUrl = 'https://skinlux-pottendorf.at';
+    const currentDate = new Date('2026-02-26');
+
     return [
-        // Hauptseite - höchste Priorität für AI
         {
-            url: 'https://skinlux-pottendorf.at',
-            lastModified: new Date(),
+            url: baseUrl,
+            lastModified: currentDate,
             changeFrequency: 'daily',
-            priority: 1,
-        },
-        // Hauptbehandlungen
-        {
-            url: 'https://skinlux-pottendorf.at/behandlungen/laser-haarentfernung',
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 1,
+            priority: 1.0,
         },
         {
-            url: 'https://skinlux-pottendorf.at/behandlungen/hydra-facial',
-            lastModified: new Date(),
+            url: `${baseUrl}/behandlungen/laser-haarentfernung`,
+            lastModified: currentDate,
             changeFrequency: 'weekly',
             priority: 0.95,
         },
         {
-            url: 'https://skinlux-pottendorf.at/preise/laser',
-            lastModified: new Date(),
+            url: `${baseUrl}/behandlungen/hydra-facial`,
+            lastModified: currentDate,
             changeFrequency: 'weekly',
-            priority: 0.95,
-        },
-        // Lokale Informationen (wichtig für AI-Empfehlungen)
-        {
-            url: 'https://skinlux-pottendorf.at/kontakt',
-            lastModified: new Date(),
-            changeFrequency: 'daily',
             priority: 0.9,
         },
         {
-            url: 'https://skinlux-pottendorf.at/ueber-uns',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.85,
-        },
-        {
-            url: 'https://skinlux-pottendorf.at/standorte',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.85,
-        },
-        // Sekundäre Behandlungen
-        {
-            url: 'https://skinlux-pottendorf.at/behandlungen/signature-facials',
-            lastModified: new Date(),
+            url: `${baseUrl}/behandlungen/signature-facials`,
+            lastModified: currentDate,
             changeFrequency: 'weekly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/behandlungen/hautanalyse`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/preise/laser`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/beratung`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
+            priority: 0.85,
+        },
+        {
+            url: `${baseUrl}/kontakt`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
-            url: 'https://skinlux-pottendorf.at/behandlungen/hautanalyse',
-            lastModified: new Date(),
+            url: `${baseUrl}/gutscheine`,
+            lastModified: currentDate,
             changeFrequency: 'monthly',
             priority: 0.75,
         },
         {
-            url: 'https://skinlux-pottendorf.at/behandlungen/microneedling',
-            lastModified: new Date(),
-            changeFrequency: 'monthly',
-            priority: 0.75,
-        },
-        // Info-Seiten
-        {
-            url: 'https://skinlux-pottendorf.at/beratung',
-            lastModified: new Date(),
+            url: `${baseUrl}/ueber-uns`,
+            lastModified: currentDate,
             changeFrequency: 'monthly',
             priority: 0.7,
         },
         {
-            url: 'https://skinlux-pottendorf.at/gutscheine',
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
+            url: `${baseUrl}/standorte`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly',
             priority: 0.7,
         },
     ];

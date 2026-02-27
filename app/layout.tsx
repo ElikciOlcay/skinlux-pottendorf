@@ -70,13 +70,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{__html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "BeautySalon",
+            "@type": "MedicalBusiness",
             "@id": "https://skinlux-pottendorf.at/#business",
             "name": "Skinlux Pottendorf",
             "alternateName": "Skinlux Medical Beauty Studio Pottendorf",
             "image": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
             "logo": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
-            "description": "Professionelle Laser-Haarentfernung und Premium Kosmetikbehandlungen in Pottendorf, Niederösterreich. Modernste Diodenlaser-Technologie, HydraFacial und Signature Facials.",
+            "description": "Skinlux Medical Beauty Studio in Pottendorf -- Ihr Spezialist fuer dauerhafte Laser Haarentfernung, HydraFacial und Signature Facials in Niederösterreich. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Fuer Kunden aus Pottendorf, Baden, Moedling, Wiener Neustadt und ganz Niederösterreich.",
             "url": "https://skinlux-pottendorf.at",
             "telephone": "+436649188632",
             "email": "hey@skinlux.at",
@@ -86,7 +86,10 @@ export default function RootLayout({
               "addressLocality": "Pottendorf",
               "postalCode": "2486",
               "addressRegion": "Niederösterreich",
-              "addressCountry": "AT"
+              "addressCountry": {
+                "@type": "Country",
+                "name": "AT"
+              }
             },
             "geo": {
               "@type": "GeoCoordinates",

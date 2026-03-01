@@ -138,19 +138,22 @@ export default function SpecialOffers() {
                                         </div>
 
                                         {/* Right Side - Price Highlight */}
-                                        <div className="flex flex-col items-center justify-center">
-                                            <div className="text-center p-8 rounded-2xl" style={{ backgroundColor: 'rgba(184, 176, 169, 0.1)' }}>
-                                                <div className="text-6xl md:text-7xl font-light mb-2" style={{ color: offer.color }}>
-                                                    {offer.price}
-                                                </div>
-                                                <div className="text-xl md:text-2xl font-light text-gray-700 mb-4">
-                                                    {offer.discount}
-                                                </div>
-                                                <div className="text-sm font-light text-gray-500 uppercase tracking-wider">
-                                                    Auf die ersten 2 Behandlungen
+                                        {(offer.price || offer.discount) && (
+                                            <div className="flex flex-col items-center justify-center">
+                                                <div className="text-center p-8 rounded-2xl" style={{ backgroundColor: 'rgba(184, 176, 169, 0.1)' }}>
+                                                    {offer.price && (
+                                                        <div className="text-6xl md:text-7xl font-light mb-2" style={{ color: offer.color }}>
+                                                            {offer.price}
+                                                        </div>
+                                                    )}
+                                                    {offer.discount && (
+                                                        <div className="text-xl md:text-2xl font-light text-gray-700 mb-4">
+                                                            {offer.discount}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 </a>
 

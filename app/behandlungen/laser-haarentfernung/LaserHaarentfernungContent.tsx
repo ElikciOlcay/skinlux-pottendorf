@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Zap, Check, Shield, Heart, Star, ArrowRight } from "lucide-react";
+import { ArrowLeft, Zap, Check, Shield, Heart, Star, ArrowRight, TrendingUp } from "lucide-react";
 import { FEATURES } from "@/lib/features";
 import FaqAccordion from "@/components/ui/FaqAccordion";
 
@@ -96,11 +96,42 @@ export default function LaserHaarentfernungContent() {
                 <div className="container">
                     <Link
                         href="/#treatments"
-                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-8"
+                        className="inline-flex items-center gap-2 text-sm font-light text-gray-600 hover:text-black transition-colors mb-6 md:mb-8"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Zurück
                     </Link>
+
+                    {/* Kampagnen-Banner */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="mb-8 md:mb-10 bg-black text-white overflow-hidden relative"
+                    >
+                        <div className="absolute inset-0 opacity-10"
+                            style={{ backgroundImage: "radial-gradient(circle at 80% 50%, white 0%, transparent 60%)" }}
+                        />
+                        <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-6 py-5 md:px-8 md:py-6">
+                            <div>
+                                <span className="text-[10px] tracking-[0.25em] uppercase text-gray-400 mb-1.5 block">
+                                    März-Kampagne &bull; 01.03. – 31.03.2026
+                                </span>
+                                <p className="text-lg md:text-xl font-light">
+                                    <strong className="font-normal text-white">50% Rabatt</strong> auf die 1. und 8. Laser-Behandlung
+                                </p>
+                            </div>
+                            <a
+                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="shrink-0 bg-white text-black px-6 py-3 text-[10px] tracking-[0.2em] uppercase hover:bg-gray-100 transition-colors whitespace-nowrap inline-flex items-center gap-2"
+                            >
+                                Jetzt buchen
+                                <TrendingUp className="w-3.5 h-3.5" />
+                            </a>
+                        </div>
+                    </motion.div>
 
                     <div className="max-w-4xl mx-auto">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">

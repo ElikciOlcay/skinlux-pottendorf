@@ -68,137 +68,143 @@ export default function RootLayout({
         </Script>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "MedicalBusiness",
-            "@id": "https://skinlux-pottendorf.at/#business",
-            "name": "Skinlux Pottendorf",
-            "alternateName": "Skinlux Medical Beauty Studio Pottendorf",
-            "image": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
-            "logo": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
-            "description": "Skinlux Medical Beauty Studio in Pottendorf -- Ihr Spezialist fuer dauerhafte Laser Haarentfernung, HydraFacial und Signature Facials in Niederösterreich. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Fuer Kunden aus Pottendorf, Baden, Moedling, Wiener Neustadt und ganz Niederösterreich.",
-            "url": "https://skinlux-pottendorf.at",
-            "telephone": "+436649188632",
-            "email": "hey@skinlux.at",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "Marktplatz 14",
-              "addressLocality": "Pottendorf",
-              "postalCode": "2486",
-              "addressRegion": "Niederösterreich",
-              "addressCountry": {
-                "@type": "Country",
-                "name": "AT"
-              }
-            },
-            "geo": {
-              "@type": "GeoCoordinates",
-              "latitude": "47.9147",
-              "longitude": "16.3917"
-            },
-            "areaServed": [
-              { "@type": "City", "name": "Pottendorf" },
-              { "@type": "City", "name": "Baden" },
-              { "@type": "City", "name": "Mödling" },
-              { "@type": "City", "name": "Wiener Neustadt" },
-              { "@type": "State", "name": "Niederösterreich" }
-            ],
-            "priceRange": "$$",
-            "openingHoursSpecification": [
-              {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                "opens": "09:00",
-                "closes": "19:00"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MedicalBusiness",
+              "@id": "https://skinlux-pottendorf.at/#business",
+              "name": "Skinlux Pottendorf",
+              "alternateName": "Skinlux Medical Beauty Studio Pottendorf",
+              "image": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
+              "logo": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
+              "description": "Skinlux Medical Beauty Studio in Pottendorf -- Ihr Spezialist fuer dauerhafte Laser Haarentfernung, HydraFacial und Signature Facials in Niederösterreich. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Fuer Kunden aus Pottendorf, Baden, Moedling, Wiener Neustadt und ganz Niederösterreich.",
+              "url": "https://skinlux-pottendorf.at",
+              "telephone": "+436649188632",
+              "email": "hey@skinlux.at",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Marktplatz 14",
+                "addressLocality": "Pottendorf",
+                "postalCode": "2486",
+                "addressRegion": "Niederösterreich",
+                "addressCountry": {
+                  "@type": "Country",
+                  "name": "AT"
+                }
               },
-              {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": "Saturday",
-                "opens": "09:00",
-                "closes": "17:00"
-              }
-            ],
-            "sameAs": [
-              "https://www.instagram.com/skinlux"
-            ],
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.9",
-              "ratingCount": "120",
-              "bestRating": "5",
-              "worstRating": "1"
-            },
-            "hasOfferCatalog": {
-              "@type": "OfferCatalog",
-              "name": "Behandlungen",
-              "itemListElement": [
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": "47.9147",
+                "longitude": "16.3917"
+              },
+              "areaServed": [
+                { "@type": "City", "name": "Pottendorf" },
+                { "@type": "City", "name": "Baden" },
+                { "@type": "City", "name": "Mödling" },
+                { "@type": "City", "name": "Wiener Neustadt" },
+                { "@type": "State", "name": "Niederösterreich" }
+              ],
+              "priceRange": "$$",
+              "openingHoursSpecification": [
                 {
-                  "@type": "OfferCatalog",
-                  "name": "Laser Haarentfernung",
-                  "itemListElement": [
-                    {
-                      "@type": "Offer",
-                      "itemOffered": {
-                        "@type": "Service",
-                        "name": "Laser Haarentfernung",
-                        "description": "Dauerhafte Haarentfernung mit modernster Diodenlaser-Technologie für alle Hauttypen",
-                        "provider": { "@id": "https://skinlux-pottendorf.at/#business" }
-                      }
-                    }
-                  ]
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                  "opens": "09:00",
+                  "closes": "19:00"
                 },
                 {
-                  "@type": "OfferCatalog",
-                  "name": "HydraFacial",
-                  "itemListElement": [
-                    {
-                      "@type": "Offer",
-                      "itemOffered": {
-                        "@type": "Service",
-                        "name": "HydraFacial",
-                        "description": "Revolutionäre 3-in-1 Gesichtsbehandlung mit sofort sichtbaren Ergebnissen",
-                        "provider": { "@id": "https://skinlux-pottendorf.at/#business" }
-                      }
-                    }
-                  ]
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": "Saturday",
+                  "opens": "09:00",
+                  "closes": "17:00"
                 }
-              ]
-            }
-          })}}
+              ],
+              "sameAs": [
+                "https://www.instagram.com/skinlux"
+              ],
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "ratingCount": "120",
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Behandlungen",
+                "itemListElement": [
+                  {
+                    "@type": "OfferCatalog",
+                    "name": "Laser Haarentfernung",
+                    "itemListElement": [
+                      {
+                        "@type": "Offer",
+                        "itemOffered": {
+                          "@type": "Service",
+                          "name": "Laser Haarentfernung",
+                          "description": "Dauerhafte Haarentfernung mit modernster Diodenlaser-Technologie für alle Hauttypen",
+                          "provider": { "@id": "https://skinlux-pottendorf.at/#business" }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "@type": "OfferCatalog",
+                    "name": "HydraFacial",
+                    "itemListElement": [
+                      {
+                        "@type": "Offer",
+                        "itemOffered": {
+                          "@type": "Service",
+                          "name": "HydraFacial",
+                          "description": "Revolutionäre 3-in-1 Gesichtsbehandlung mit sofort sichtbaren Ergebnissen",
+                          "provider": { "@id": "https://skinlux-pottendorf.at/#business" }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            })
+          }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "@id": "https://skinlux-pottendorf.at/#website",
-            "name": "Skinlux Pottendorf",
-            "url": "https://skinlux-pottendorf.at",
-            "publisher": { "@id": "https://skinlux-pottendorf.at/#organization" }
-          })}}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": "https://skinlux-pottendorf.at/#website",
+              "name": "Skinlux Pottendorf",
+              "url": "https://skinlux-pottendorf.at",
+              "publisher": { "@id": "https://skinlux-pottendorf.at/#organization" }
+            })
+          }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "@id": "https://skinlux-pottendorf.at/#organization",
-            "name": "Skinlux Medical Beauty Studio",
-            "alternateName": "Skinlux Pottendorf",
-            "url": "https://skinlux-pottendorf.at",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png"
-            },
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "telephone": "+436649188632",
-              "contactType": "customer service",
-              "email": "hey@skinlux.at",
-              "availableLanguage": ["German", "English"]
-            },
-            "sameAs": ["https://www.instagram.com/skinlux"]
-          })}}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": "https://skinlux-pottendorf.at/#organization",
+              "name": "Skinlux Medical Beauty Studio",
+              "alternateName": "Skinlux Pottendorf",
+              "url": "https://skinlux-pottendorf.at",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png"
+              },
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+436649188632",
+                "contactType": "customer service",
+                "email": "hey@skinlux.at",
+                "availableLanguage": ["German", "English"]
+              },
+              "sameAs": ["https://www.instagram.com/skinlux"]
+            })
+          }}
         />
 
         <ConditionalLayout>

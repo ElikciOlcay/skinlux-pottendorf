@@ -5,7 +5,8 @@ import {
     Droplets,
     ArrowRight,
     Camera,
-    Heart
+    Heart,
+    Award
 } from "lucide-react";
 import { FEATURES } from "@/lib/features";
 
@@ -23,6 +24,14 @@ const treatments = [
         description: "3-in-1 Premium Behandlung für sofort sichtbare Ergebnisse.",
         icon: Droplets,
         href: '/behandlungen/hydra-facial',
+        isNew: true
+    },
+    {
+        id: "skinpen-precision",
+        title: "Microneedling",
+        description: "Natürliche Hautregeneration für strahlende, glatte Haut.",
+        icon: Award,
+        href: "/behandlungen/skinpen-precision",
         isNew: true
     },
     {

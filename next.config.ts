@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'bischofshofen.skinlux.at',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

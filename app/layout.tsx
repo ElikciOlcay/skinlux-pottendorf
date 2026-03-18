@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "../components/layout/ConditionalLayout";
 
-const inter = Inter({ subsets: ["latin"] });
+const plusJakartaSans = Plus_Jakarta_Sans({
+    subsets: ["latin"],
+    weight: ["300", "400", "500", "600", "700", "800"],
+    variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://skinlux-pottendorf.at'),
@@ -51,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body
-        className={`${inter.className} antialiased`}
+        className={`${plusJakartaSans.variable} ${plusJakartaSans.className} antialiased`}
       >
         {/* Google tag (gtag.js) */}
         <Script

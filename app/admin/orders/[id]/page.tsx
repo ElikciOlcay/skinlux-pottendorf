@@ -28,14 +28,6 @@ import {
     Moon
 } from "lucide-react";
 import { AdminAuth } from "@/lib/supabase-auth";
-import { Inter } from "next/font/google";
-
-// Inter Font konfigurieren
-const inter = Inter({
-    subsets: ["latin"],
-    weight: ['300', '400', '500', '600', '700', '800', '900'],
-    variable: '--font-inter'
-});
 
 interface VoucherDetail {
     id: string;
@@ -342,20 +334,19 @@ export default function VoucherDetailPage() {
             <div className={`min-h-screen ${theme === 'dark'
                 ? 'bg-gradient-to-br from-slate-900 to-slate-800'
                 : 'bg-gradient-to-br from-slate-50 to-slate-100'
-                } flex items-center justify-center ${inter.variable}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                } flex items-center justify-center`}>
                 <div className="text-center">
                     <div className={`inline-flex items-center justify-center w-16 h-16 ${theme === 'dark' ? 'bg-slate-800' : 'bg-white'} rounded-2xl shadow-lg mb-4`}>
                         <Gift className={`w-8 h-8 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-400'}`} />
                     </div>
-                    <h2 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'} mb-2`} style={{ fontFamily: 'var(--font-inter)' }}>Gutschein nicht gefunden</h2>
-                    <p className={`${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'} mb-6`} style={{ fontFamily: 'var(--font-inter)' }}>Der angeforderte Gutschein konnte nicht geladen werden.</p>
+                    <h2 className={`text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'} mb-2`}>Gutschein nicht gefunden</h2>
+                    <p className={`${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'} mb-6`}>Der angeforderte Gutschein konnte nicht geladen werden.</p>
                     <Link
                         href="/admin/vouchers"
                         className={`inline-flex items-center px-4 py-2 ${theme === 'dark'
                             ? 'bg-slate-700 text-white hover:bg-slate-600'
                             : 'bg-slate-900 text-white hover:bg-slate-800'
                             } rounded-lg transition-colors`}
-                        style={{ fontFamily: 'var(--font-inter)' }}
                     >
                         <ArrowLeft className="w-4 h-4 mr-2" />
                         Zurück zu Gutscheinen
@@ -372,7 +363,7 @@ export default function VoucherDetailPage() {
         <div className={`min-h-screen ${theme === 'dark'
             ? 'bg-gradient-to-br from-slate-900 to-slate-800'
             : 'bg-gradient-to-br from-slate-50 to-slate-100'
-            } ${inter.variable}`} style={{ fontFamily: 'var(--font-inter)' }}>
+            }`}>
             {/* Modern Header */}
             <header className={`${theme === 'dark'
                 ? 'bg-slate-900/80 border-slate-700/60'

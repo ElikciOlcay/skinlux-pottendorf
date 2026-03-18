@@ -26,18 +26,18 @@ import {
     MoreVertical,
     Trash2,
     RotateCcw,
-    X
+    X,
+    Crown,
+    CreditCard,
+    Printer,
+    Building2,
+    Package,
+    ChevronLeft,
+    ChevronRight,
+    LayoutGrid
 } from "lucide-react";
 import { AdminAuth, AdminVouchers, type AdminAccess } from "@/lib/supabase-auth";
 import { Voucher } from "@/lib/supabase";
-import { Inter } from "next/font/google";
-
-// Inter Font konfigurieren
-const inter = Inter({
-    subsets: ["latin"],
-    weight: ['300', '400', '500', '600', '700', '800', '900'],
-    variable: '--font-inter'
-});
 
 interface BankDetails {
     bankName: string;
@@ -129,13 +129,12 @@ export default function VouchersPage() {
         }
     }, []);
 
-    // Action Modal öffnen
+    // Action Modal handlers
     const openActionModal = (voucher: Voucher) => {
         setSelectedVoucher(voucher);
         setShowActionModal(true);
     };
 
-    // Action Modal schließen
     const closeActionModal = () => {
         setSelectedVoucher(null);
         setShowActionModal(false);
@@ -284,28 +283,46 @@ export default function VouchersPage() {
         localStorage.setItem('skinlux-dashboard-theme', newTheme);
     };
 
+    const getStatusLabel = (status: string): string => {
+        const labels: Record<string, string> = {
+            paid: 'Bezahlt',
+            pending: 'Ausstehend',
+            active: 'Aktiv',
+            cancelled: 'Storniert',
+            partially_redeemed: 'Teilweise eingelöst',
+            depleted: 'Aufgebraucht'
+        };
+        return labels[status] || status;
+    };
+
     const getStatusIcon = (status: string) => {
         switch (status) {
             case 'paid':
             case 'active':
-                return <CheckCircle className="w-4 h-4 text-green-500" />;
+                return <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />;
             case 'pending':
-                return <Clock className="w-4 h-4 text-amber-500" />;
+                return <Clock className="w-4 h-4 text-amber-500 shrink-0" />;
+            case 'partially_redeemed':
+                return <Banknote className="w-4 h-4 text-indigo-500 shrink-0" />;
+            case 'depleted':
+                return <XCircle className="w-4 h-4 text-rose-500 shrink-0" />;
             case 'cancelled':
-                return <XCircle className="w-4 h-4 text-red-500" />;
+                return <XCircle className="w-4 h-4 text-red-500 shrink-0" />;
             default:
-                return <AlertTriangle className="w-4 h-4 text-gray-500" />;
+                return <AlertTriangle className="w-4 h-4 text-gray-500 shrink-0" />;
         }
     };
 
     const getStatusBadge = (status: string) => {
-        const statusMap = {
-            'paid': theme === 'dark' ? 'bg-green-900/30 text-green-400 border-green-800' : 'bg-green-50 text-green-700 border-green-200',
-            'active': theme === 'dark' ? 'bg-green-900/30 text-green-400 border-green-800' : 'bg-green-50 text-green-700 border-green-200',
-            'pending': theme === 'dark' ? 'bg-amber-900/30 text-amber-400 border-amber-800' : 'bg-amber-50 text-amber-700 border-amber-200',
-            'cancelled': theme === 'dark' ? 'bg-red-900/30 text-red-400 border-red-800' : 'bg-red-50 text-red-700 border-red-200'
+        const statusMap: Record<string, string> = {
+            paid: theme === 'dark' ? 'bg-green-900/30 text-green-400 border-green-800' : 'bg-green-50 text-green-700 border-green-200',
+            active: theme === 'dark' ? 'bg-green-900/30 text-green-400 border-green-800' : 'bg-green-50 text-green-700 border-green-200',
+            pending: theme === 'dark' ? 'bg-amber-900/30 text-amber-400 border-amber-800' : 'bg-amber-50 text-amber-700 border-amber-200',
+            partially_redeemed: theme === 'dark' ? 'bg-indigo-900/30 text-indigo-400 border-indigo-800' : 'bg-indigo-50 text-indigo-700 border-indigo-200',
+            depleted: theme === 'dark' ? 'bg-rose-900/30 text-rose-400 border-rose-800' : 'bg-rose-50 text-rose-700 border-rose-200',
+            cancelled: theme === 'dark' ? 'bg-red-900/30 text-red-400 border-red-800' : 'bg-red-50 text-red-700 border-red-200'
         };
-        return statusMap[status as keyof typeof statusMap] || (theme === 'dark' ? 'bg-gray-900/30 text-gray-400 border-gray-800' : 'bg-gray-50 text-gray-700 border-gray-200');
+        return statusMap[status] || (theme === 'dark' ? 'bg-gray-900/30 text-gray-400 border-gray-800' : 'bg-gray-50 text-gray-700 border-gray-200');
     };
 
     // Prüfe ob es ein Admin-erstellter Gutschein ist (Vor-Ort-Verkauf)
@@ -496,13 +513,17 @@ export default function VouchersPage() {
 
     if (loading) {
         return (
-            <div className={`min-h-screen ${theme === 'dark' ? 'bg-slate-950' : 'bg-gray-50'} flex items-center justify-center ${inter.variable}`} style={{ fontFamily: 'var(--font-inter)' }}>
-                <div className="text-center">
-                    <div className="relative">
-                        <div className={`w-20 h-20 border-4 ${theme === 'dark' ? 'border-purple-500/20' : 'border-purple-300/30'} rounded-full`}></div>
-                        <div className={`absolute top-0 w-20 h-20 border-4 ${theme === 'dark' ? 'border-purple-500' : 'border-purple-400'} rounded-full animate-spin border-t-transparent`}></div>
+            <div className={`min-h-screen ${theme === 'dark' ? 'bg-slate-950' : 'bg-gradient-to-b from-gray-50 to-gray-100/80'} flex items-center justify-center`}>
+                <div className="text-center animate-fade-in">
+                    <div className="relative inline-block">
+                        <div className={`w-16 h-16 border-2 ${theme === 'dark' ? 'border-purple-500/20' : 'border-purple-300/40'} rounded-2xl`}></div>
+                        <div className={`absolute inset-0 w-16 h-16 border-2 ${theme === 'dark' ? 'border-purple-400' : 'border-purple-500'} rounded-2xl animate-spin border-t-transparent border-r-transparent`}></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <Gift className={`w-6 h-6 ${theme === 'dark' ? 'text-purple-400' : 'text-purple-500'} opacity-60`} />
+                        </div>
                     </div>
-                    <p className={`${theme === 'dark' ? 'text-slate-400' : 'text-gray-600'} mt-4 font-medium tracking-tight`} style={{ fontFamily: 'var(--font-inter)' }}>Lade Gutscheine...</p>
+                    <p className={`${theme === 'dark' ? 'text-slate-400' : 'text-gray-600'} mt-5 font-medium tracking-tight`} >Lade Gutscheine...</p>
+                    <p className={`${theme === 'dark' ? 'text-slate-500' : 'text-gray-400'} text-sm mt-1`}>Bitte einen Moment Geduld</p>
                 </div>
             </div>
         );
@@ -524,7 +545,7 @@ export default function VouchersPage() {
     };
 
     return (
-        <div className={`min-h-screen ${theme === 'dark' ? 'bg-slate-950' : 'bg-gray-50'} ${inter.variable} transition-colors duration-300`} style={{ fontFamily: 'var(--font-inter)' }}>
+        <div className={`min-h-screen ${theme === 'dark' ? 'bg-slate-950' : 'bg-gradient-to-b from-gray-50 to-gray-100/80'} transition-colors duration-300`}>
             {/* Modern Gradient Background */}
             {theme === 'dark' && (
                 <>
@@ -532,248 +553,144 @@ export default function VouchersPage() {
                     <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/10 via-transparent to-transparent pointer-events-none" />
                 </>
             )}
+            {theme === 'light' && (
+                <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top_right,_#e0e7ff20,_transparent_50%)] pointer-events-none" />
+            )}
 
-            {/* Modern Header */}
-            <header className={`relative ${theme === 'dark' ? 'bg-slate-900/50 border-slate-800/50' : 'bg-white/80 border-gray-200'} backdrop-blur-xl border-b sticky top-0 z-50 transition-colors duration-300`}>
+            {/* Toolbar */}
+            <header className={`sticky top-0 z-50 border-b transition-all duration-300 ${theme === 'dark'
+                ? 'bg-slate-900/80 border-slate-800/60 shadow-xl shadow-black/20 backdrop-blur-xl'
+                : 'bg-white/95 border-gray-200/80 shadow-md backdrop-blur-xl'
+                }`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center py-4">
-                        <div className="flex items-center space-x-4">
+                    <div className="flex flex-wrap items-center justify-between gap-4 py-3 sm:py-4">
+                        {/* Left: Back + Titel */}
+                        <div className="flex items-center gap-3 sm:gap-5 min-w-0">
                             <a
                                 href="/admin/dashboard"
-                                className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${theme === 'dark'
-                                    ? 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                className={`shrink-0 inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${theme === 'dark'
+                                    ? 'text-slate-400 hover:text-white hover:bg-slate-800/80'
+                                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
                                     }`}
                             >
-                                <ArrowLeft className="w-4 h-4 mr-2" />
-                                Dashboard
+                                <ArrowLeft className="w-4 h-4" />
+                                <span className="hidden sm:inline">Dashboard</span>
                             </a>
-                            <div className={`h-6 w-px ${theme === 'dark' ? 'bg-slate-800' : 'bg-gray-200'}`}></div>
-                            <div className="flex items-center space-x-3">
-                                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl">
+                            <div className={`shrink-0 w-px h-8 ${theme === 'dark' ? 'bg-slate-700' : 'bg-gray-200'}`} />
+                            <div className="flex items-center gap-3 min-w-0">
+                                <div className="flex shrink-0 items-center justify-center w-10 h-10 sm:w-11 sm:h-11 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-lg shadow-purple-500/20 ring-2 ring-white/10">
                                     <Gift className="w-5 h-5 text-white" />
                                 </div>
-                                <div>
-                                    <h1 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} tracking-tight`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                <div className="min-w-0">
+                                    <h1 className={`text-lg sm:text-xl font-bold truncate ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} >
                                         Gutschein-Verwaltung
                                     </h1>
                                     {adminData && (
-                                        <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`} style={{ fontFamily: 'var(--font-inter)' }}>
-                                            {adminData.role === 'super_admin' ? '👑 Super Admin' : '👤 Admin'}
-                                            {adminData.studio && ` • ${adminData.studio.name}`}
+                                        <p className={`text-xs sm:text-sm flex items-center gap-2 truncate ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
+                                            {adminData.role === 'super_admin' ? (
+                                                <span className="inline-flex items-center gap-1">
+                                                    <Crown className="w-3 h-3 shrink-0" />
+                                                    Super Admin
+                                                </span>
+                                            ) : (
+                                                <span className="inline-flex items-center gap-1">
+                                                    <User className="w-3 h-3 shrink-0" />
+                                                    Admin
+                                                </span>
+                                            )}
+                                            {adminData.studio && (
+                                                <>
+                                                    <span className={`w-0.5 h-0.5 rounded-full shrink-0 ${theme === 'dark' ? 'bg-slate-500' : 'bg-gray-400'}`} />
+                                                    <span className="truncate">{adminData.studio.name}</span>
+                                                </>
+                                            )}
                                         </p>
                                     )}
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-center space-x-3">
-                            <button
-                                onClick={handleRefresh}
-                                disabled={refreshing}
-                                className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 ${theme === 'dark'
-                                    ? 'text-slate-300 hover:text-white bg-slate-800/50 hover:bg-slate-800'
-                                    : 'text-gray-700 bg-white border border-gray-200 hover:bg-gray-50'
-                                    }`}
-                                style={{ fontFamily: 'var(--font-inter)' }}
-                            >
-                                <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
-                                Aktualisieren
-                            </button>
-
+                        {/* Right: Actions */}
+                        <div className="flex items-center gap-2 sm:gap-3">
+                            {/* Primary: Gutschein verkaufen */}
                             <button
                                 onClick={handleOpenVoucherForm}
-                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-700 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-lg shadow-green-500/25"
-                                style={{ fontFamily: 'var(--font-inter)' }}
+                                className="order-1 sm:order-1 inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:from-green-600 hover:to-emerald-600 transition-all duration-200 active:scale-[0.98]"
                             >
-                                <Plus className="w-4 h-4 mr-2" />
-                                Gutschein verkaufen
+                                <Plus className="w-4 h-4" />
+                                <span className="hidden sm:inline">Gutschein verkaufen</span>
                             </button>
 
-                            <button
-                                onClick={() => setShowBankSettings(!showBankSettings)}
-                                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg shadow-blue-500/25"
-                                style={{ fontFamily: 'var(--font-inter)' }}
-                            >
-                                <Settings className="w-4 h-4 mr-2" />
-                                Einstellungen
-                            </button>
+                            {/* Sekundär: Aktualisieren, Einstellungen */}
+                            <div className={`flex items-center rounded-xl border ${theme === 'dark' ? 'border-slate-700 bg-slate-800/50' : 'border-gray-200 bg-gray-50'}`}>
+                                <button
+                                    onClick={handleRefresh}
+                                    disabled={refreshing}
+                                    className={`inline-flex items-center justify-center sm:justify-start gap-2 px-3 py-2.5 text-sm font-medium rounded-l-xl transition-all disabled:opacity-50 ${theme === 'dark'
+                                        ? 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                                        }`}
+                                    title="Aktualisieren"
+                                >
+                                    <RefreshCw className={`w-4 h-4 shrink-0 ${refreshing ? 'animate-spin' : ''}`} />
+                                    <span className="hidden md:inline">Aktualisieren</span>
+                                </button>
+                                <div className={`w-px h-5 ${theme === 'dark' ? 'bg-slate-600' : 'bg-gray-200'}`} />
+                                <button
+                                    onClick={() => setShowBankSettings(!showBankSettings)}
+                                    className={`inline-flex items-center justify-center sm:justify-start gap-2 px-3 py-2.5 text-sm font-medium rounded-r-xl transition-all ${theme === 'dark'
+                                        ? 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                                        }`}
+                                    title="Einstellungen"
+                                >
+                                    <Settings className="w-4 h-4 shrink-0" />
+                                    <span className="hidden md:inline">Einstellungen</span>
+                                </button>
+                            </div>
 
-                            {/* Theme Toggle */}
-                            <button
-                                onClick={toggleTheme}
-                                className={`p-2 rounded-lg transition-all duration-200 ${theme === 'dark'
-                                    ? 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                                    }`}
-                                title={theme === 'dark' ? 'Hell-Modus aktivieren' : 'Dunkel-Modus aktivieren'}
-                            >
-                                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                            </button>
-
-                            <button
-                                onClick={handleLogout}
-                                className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${theme === 'dark'
-                                    ? 'text-white bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-900 hover:to-black shadow-lg shadow-slate-500/25'
-                                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
-                                    }`}
-                                style={{ fontFamily: 'var(--font-inter)' }}
-                            >
-                                <LogOut className="w-4 h-4 mr-2" />
-                                Abmelden
-                            </button>
+                            {/* Utility: Theme + Logout */}
+                            <div className={`flex items-center gap-1 rounded-xl border ${theme === 'dark' ? 'border-slate-700 bg-slate-800/50' : 'border-gray-200 bg-gray-50'}`}>
+                                <button
+                                    onClick={toggleTheme}
+                                    className={`p-2.5 rounded-l-xl transition-all hover:scale-105 ${theme === 'dark'
+                                        ? 'text-slate-400 hover:text-white hover:bg-slate-700/50'
+                                        : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+                                        }`}
+                                    title={theme === 'dark' ? 'Hell-Modus' : 'Dunkel-Modus'}
+                                >
+                                    {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                                </button>
+                                <div className={`w-px h-5 ${theme === 'dark' ? 'bg-slate-600' : 'bg-gray-200'}`} />
+                                <button
+                                    onClick={handleLogout}
+                                    className={`p-2.5 rounded-r-xl transition-all hover:scale-105 ${theme === 'dark'
+                                        ? 'text-slate-400 hover:text-red-400 hover:bg-slate-700/50'
+                                        : 'text-gray-500 hover:text-red-600 hover:bg-gray-100'
+                                        }`}
+                                    title="Abmelden"
+                                >
+                                    <LogOut className="w-4 h-4" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </header>
 
-            {/* Action Modal */}
-            {showActionModal && selectedVoucher && (
-                <div className="fixed inset-0 z-[10000] flex items-center justify-center">
-                    {/* Backdrop */}
-                    <div
-                        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-                        onClick={closeActionModal}
-                    ></div>
-
-                    {/* Modal */}
-                    <div className={`relative w-full max-w-md mx-4 ${theme === 'dark'
-                        ? 'bg-slate-900 border-slate-700'
-                        : 'bg-white border-gray-200'
-                        } border rounded-2xl shadow-2xl p-6`}>
-
-                        {/* Header */}
-                        <div className="flex items-center justify-between mb-6">
-                            <div>
-                                <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                                    Gutschein Aktionen
-                                </h3>
-                                <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
-                                    {selectedVoucher.code}
-                                </p>
-                            </div>
-                            <button
-                                onClick={closeActionModal}
-                                className={`${theme === 'dark' ? 'text-slate-400 hover:text-slate-200' : 'text-gray-400 hover:text-gray-600'} transition-colors`}
-                            >
-                                <X className="w-6 h-6" />
-                            </button>
-                        </div>
-
-                        {/* Actions */}
-                        <div className="space-y-3">
-                            {/* Details anzeigen */}
-                            <a
-                                href={`/admin/orders/${selectedVoucher.id}`}
-                                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${theme === 'dark'
-                                    ? 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                                    }`}
-                                onClick={closeActionModal}
-                            >
-                                <Eye className="w-5 h-5 mr-3" />
-                                Details anzeigen
-                            </a>
-
-                            {/* Als bezahlt markieren (nur bei pending) */}
-                            {currentTab === 'active' && selectedVoucher.payment_status === 'pending' && (
-                                <button
-                                    onClick={() => {
-                                        updateVoucherStatus(selectedVoucher.id, 'paid');
-                                        closeActionModal();
-                                    }}
-                                    disabled={updatingStatus === selectedVoucher.id}
-                                    className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
-                                        ? 'text-green-400 hover:bg-slate-800'
-                                        : 'text-green-600 hover:bg-gray-100'
-                                        }`}
-                                >
-                                    {updatingStatus === selectedVoucher.id ? (
-                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-green-600 mr-3"></div>
-                                    ) : (
-                                        <CheckCircle className="w-5 h-5 mr-3" />
-                                    )}
-                                    Als bezahlt markieren
-                                </button>
-                            )}
-
-                            {/* Wiederherstellen (nur im Papierkorb) */}
-                            {currentTab === 'trash' && (
-                                <button
-                                    onClick={() => {
-                                        handleRestoreVoucher(selectedVoucher.id);
-                                        closeActionModal();
-                                    }}
-                                    disabled={updatingStatus === selectedVoucher.id}
-                                    className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
-                                        ? 'text-blue-400 hover:bg-slate-800'
-                                        : 'text-blue-600 hover:bg-gray-100'
-                                        }`}
-                                >
-                                    {updatingStatus === selectedVoucher.id ? (
-                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-3"></div>
-                                    ) : (
-                                        <RotateCcw className="w-5 h-5 mr-3" />
-                                    )}
-                                    Wiederherstellen
-                                </button>
-                            )}
-
-                            {/* Trennlinie */}
-                            <div className={`border-t ${theme === 'dark' ? 'border-slate-800' : 'border-gray-200'} my-3`}></div>
-
-                            {/* Löschen / Endgültig löschen */}
-                            {currentTab === 'active' ? (
-                                <button
-                                    onClick={() => {
-                                        handleDeleteVoucher(selectedVoucher.id, false);
-                                        closeActionModal();
-                                    }}
-                                    disabled={updatingStatus === selectedVoucher.id}
-                                    className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
-                                        ? 'text-red-400 hover:bg-slate-800'
-                                        : 'text-red-600 hover:bg-gray-100'
-                                        }`}
-                                >
-                                    <Trash2 className="w-5 h-5 mr-3" />
-                                    Löschen
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={() => {
-                                        if (confirm('Sind Sie sicher, dass Sie diesen Gutschein ENDGÜLTIG löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!')) {
-                                            handleDeleteVoucher(selectedVoucher.id, true);
-                                            closeActionModal();
-                                        }
-                                    }}
-                                    disabled={updatingStatus === selectedVoucher.id}
-                                    className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
-                                        ? 'text-red-400 hover:bg-slate-800'
-                                        : 'text-red-600 hover:bg-gray-100'
-                                        }`}
-                                >
-                                    <X className="w-5 h-5 mr-3" />
-                                    Endgültig löschen
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
-
             {/* Main Content */}
             <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Bank Settings Modal */}
                 {showBankSettings && (
-                    <div className={`mb-8 ${theme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-gray-200'} backdrop-blur-xl rounded-2xl shadow-xl border p-8 transition-colors duration-300`}>
+                    <div className={`mb-8 ${theme === 'dark' ? 'bg-slate-900/80 border-slate-700/50' : 'bg-white border-gray-200/80'} backdrop-blur-xl rounded-2xl shadow-xl border p-8 transition-all duration-300 animate-slide-up`}>
                         <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center space-x-3">
                                 <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl">
                                     <Banknote className="w-5 h-5 text-white" />
                                 </div>
                                 <div>
-                                    <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} style={{ fontFamily: 'var(--font-inter)' }}>Bankdaten & Einstellungen</h2>
-                                    <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`} style={{ fontFamily: 'var(--font-inter)' }}>Konfiguration für Überweisungen und Gutscheine</p>
+                                    <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} >Bankdaten & Einstellungen</h2>
+                                    <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`} >Konfiguration für Überweisungen und Gutscheine</p>
                                 </div>
                             </div>
                             <button
@@ -786,7 +703,7 @@ export default function VouchersPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div className="space-y-2">
-                                <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                     Bank Name
                                 </label>
                                 <input
@@ -802,7 +719,7 @@ export default function VouchersPage() {
                             </div>
 
                             <div className="space-y-2">
-                                <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                     Kontoinhaber
                                 </label>
                                 <input
@@ -813,12 +730,12 @@ export default function VouchersPage() {
                                         ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400'
                                         : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
                                         } border`}
-                                    placeholder="z.B. Skinlux Pottendorf"
+                                    placeholder="z.B. Skinlux Bischofshofen"
                                 />
                             </div>
 
                             <div className="space-y-2">
-                                <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                     IBAN
                                 </label>
                                 <input
@@ -834,7 +751,7 @@ export default function VouchersPage() {
                             </div>
 
                             <div className="space-y-2">
-                                <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                     BIC
                                 </label>
                                 <input
@@ -857,14 +774,14 @@ export default function VouchersPage() {
                                     <Settings className="w-4 h-4 text-white" />
                                 </div>
                                 <div>
-                                    <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} style={{ fontFamily: 'var(--font-inter)' }}>Geschäftsadresse</h3>
-                                    <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`} style={{ fontFamily: 'var(--font-inter)' }}>Wird auf Gutscheinen und in E-Mails angezeigt</p>
+                                    <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} >Geschäftsadresse</h3>
+                                    <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`} >Wird auf Gutscheinen und in E-Mails angezeigt</p>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         Firmenname
                                     </label>
                                     <input
@@ -875,12 +792,12 @@ export default function VouchersPage() {
                                             ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400'
                                             : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
                                             } border`}
-                                        placeholder="z.B. Skinlux Pottendorf"
+                                        placeholder="z.B. Skinlux Bischofshofen"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         Straße & Hausnummer
                                     </label>
                                     <input
@@ -896,7 +813,7 @@ export default function VouchersPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         Postleitzahl
                                     </label>
                                     <input
@@ -912,7 +829,7 @@ export default function VouchersPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         Stadt
                                     </label>
                                     <input
@@ -923,12 +840,12 @@ export default function VouchersPage() {
                                             ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400'
                                             : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
                                             } border`}
-                                        placeholder="z.B. Pottendorf"
+                                        placeholder="z.B. Bischofshofen"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         Land
                                     </label>
                                     <input
@@ -944,7 +861,7 @@ export default function VouchersPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         Telefon
                                     </label>
                                     <input
@@ -960,7 +877,7 @@ export default function VouchersPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         E-Mail
                                     </label>
                                     <input
@@ -971,12 +888,12 @@ export default function VouchersPage() {
                                             ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400'
                                             : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400'
                                             } border`}
-                                        placeholder="z.B. hey@skinlux.at"
+                                        placeholder="z.B. hello@skinlux.at"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         Website
                                     </label>
                                     <input
@@ -1000,14 +917,14 @@ export default function VouchersPage() {
                                     <Gift className="w-4 h-4 text-white" />
                                 </div>
                                 <div>
-                                    <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} style={{ fontFamily: 'var(--font-inter)' }}>Gutschein-Einstellungen</h3>
-                                    <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`} style={{ fontFamily: 'var(--font-inter)' }}>Konfiguration für Gutschein-Verhalten</p>
+                                    <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} >Gutschein-Einstellungen</h3>
+                                    <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`} >Konfiguration für Gutschein-Verhalten</p>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         Verwendungszweck-Vorlage
                                     </label>
                                     <input
@@ -1023,7 +940,7 @@ export default function VouchersPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <label className={`block text-sm font-semibold ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                         Gültigkeit (Monate)
                                     </label>
                                     <input
@@ -1049,11 +966,11 @@ export default function VouchersPage() {
                                             onChange={(e) => setBankDetails(prev => ({ ...prev, sendVoucherAsPDF: e.target.checked }))}
                                             className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2"
                                         />
-                                        <label htmlFor="sendVoucherAsPDF" className={`text-sm font-medium ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                        <label htmlFor="sendVoucherAsPDF" className={`text-sm font-medium ${theme === 'dark' ? 'text-slate-300' : 'text-gray-700'}`} >
                                             Gutscheine automatisch als PDF versenden
                                         </label>
                                     </div>
-                                    <p className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} mt-1 ml-7`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                    <p className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} mt-1 ml-7`} >
                                         Wenn aktiviert, wird der Gutschein automatisch als PDF an die E-Mail-Adresse gesendet
                                     </p>
                                 </div>
@@ -1088,7 +1005,7 @@ export default function VouchersPage() {
 
                 {/* Gutschein-Verkauf Modal */}
                 {showVoucherForm && (
-                    <div className={`mb-8 ${theme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-gray-200'} backdrop-blur-xl rounded-2xl shadow-xl border p-8 transition-colors duration-300`}>
+                    <div className={`mb-8 ${theme === 'dark' ? 'bg-slate-900/80 border-slate-700/50' : 'bg-white border-gray-200/80'} backdrop-blur-xl rounded-2xl shadow-xl border p-8 transition-all duration-300 animate-slide-up`}>
                         <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center space-x-3">
                                 <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-xl">
@@ -1113,11 +1030,11 @@ export default function VouchersPage() {
                                 ? 'bg-gradient-to-r from-green-900/40 to-green-800/40 border-green-800/50'
                                 : 'bg-gradient-to-r from-slate-800 to-slate-900 border-slate-700'
                                 } border rounded-xl p-6 text-center shadow-lg`}>
-                                <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-green-300' : 'text-white'} mb-2`} style={{ fontFamily: 'var(--font-inter)' }}>Gutschein-Code</h3>
-                                <div className={`text-3xl font-bold ${theme === 'dark' ? 'text-green-200' : 'text-white'} font-mono tracking-wider`} style={{ fontFamily: 'var(--font-inter)' }}>
+                                <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-green-300' : 'text-white'} mb-2`} >Gutschein-Code</h3>
+                                <div className={`text-3xl font-bold ${theme === 'dark' ? 'text-green-200' : 'text-white'} font-mono tracking-wider`} >
                                     {voucherForm.voucherCode}
                                 </div>
-                                <p className={`text-sm ${theme === 'dark' ? 'text-green-400' : 'text-slate-300'} mt-2`} style={{ fontFamily: 'var(--font-inter)' }}>Dieser Code wird auf dem Gutschein gedruckt</p>
+                                <p className={`text-sm ${theme === 'dark' ? 'text-green-400' : 'text-slate-300'} mt-2`} >Dieser Code wird auf dem Gutschein gedruckt</p>
                             </div>
 
                             {/* Käufer-Informationen */}
@@ -1204,14 +1121,23 @@ export default function VouchersPage() {
 
                             {/* Info-Box */}
                             <div className={`${theme === 'dark' ? 'bg-blue-900/30 border-blue-800' : 'bg-blue-50 border-blue-200'} border rounded-xl p-4`}>
-                                <div className="flex items-center space-x-2 mb-2">
-                                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                                <div className="flex items-center gap-2 mb-3">
+                                    <Banknote className={`w-4 h-4 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`} />
                                     <span className={`text-sm font-semibold ${theme === 'dark' ? 'text-blue-300' : 'text-blue-900'}`}>Vor-Ort-Verkauf</span>
                                 </div>
-                                <ul className={`text-sm ${theme === 'dark' ? 'text-blue-400' : 'text-blue-800'} space-y-1`}>
-                                    <li>• Sofortige Barzahlung</li>
-                                    <li>• Gutschein wird ausgedruckt</li>
-                                    <li>• Status: Bezahlt & Aktiv</li>
+                                <ul className={`text-sm ${theme === 'dark' ? 'text-blue-400' : 'text-blue-800'} space-y-2`}>
+                                    <li className="flex items-center gap-2">
+                                        <CreditCard className="w-3.5 h-3.5 shrink-0" />
+                                        Sofortige Barzahlung
+                                    </li>
+                                    <li className="flex items-center gap-2">
+                                        <Printer className="w-3.5 h-3.5 shrink-0" />
+                                        Gutschein wird ausgedruckt
+                                    </li>
+                                    <li className="flex items-center gap-2">
+                                        <CheckCircle className="w-3.5 h-3.5 shrink-0" />
+                                        Status: Bezahlt & Aktiv
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -1244,89 +1170,88 @@ export default function VouchersPage() {
 
                 {/* Error Message */}
                 {error && (
-                    <div className={`mb-6 ${theme === 'dark' ? 'bg-red-900/30 border-red-800 text-red-400' : 'bg-red-50 border-red-200 text-red-700'} border px-6 py-4 rounded-xl flex items-center space-x-3`}>
+                    <div className={`mb-6 ${theme === 'dark' ? 'bg-red-900/30 border-red-800 text-red-400' : 'bg-red-50 border-red-200 text-red-700'} border px-6 py-4 rounded-2xl flex items-center space-x-3 shadow-lg animate-fade-in`}>
                         <AlertTriangle className="w-5 h-5 text-red-500" />
                         <span>{error}</span>
                     </div>
                 )}
 
                 {/* Enhanced Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div className={`${theme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-gray-200'} backdrop-blur-xl p-6 rounded-2xl shadow-lg border hover:shadow-xl transition-all duration-300`}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                    <div className={`group ${theme === 'dark' ? 'bg-slate-900/80 border-slate-700/50' : 'bg-white border-gray-200/80'} backdrop-blur-xl p-6 rounded-2xl shadow-md border hover:shadow-xl hover:-translate-y-1 hover:border-blue-500/30 transition-all duration-300 ease-out`}>
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className={`text-sm font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wide`}>Gesamt</p>
-                                <p className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mt-1`}>{stats.total}</p>
+                                <p className={`text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>Gesamt</p>
+                                <p className={`text-3xl font-bold tabular-nums ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mt-2`}>{stats.total}</p>
                                 <p className={`text-sm ${theme === 'dark' ? 'text-slate-500' : 'text-gray-600'} mt-1`}>Gutscheine</p>
                             </div>
-                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
-                                <Gift className="w-6 h-6 text-white" />
+                            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300">
+                                <Gift className="w-7 h-7 text-white" />
                             </div>
                         </div>
                     </div>
 
-                    <div className={`${theme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-gray-200'} backdrop-blur-xl p-6 rounded-2xl shadow-lg border hover:shadow-xl transition-all duration-300`}>
+                    <div className={`group ${theme === 'dark' ? 'bg-slate-900/80 border-slate-700/50' : 'bg-white border-gray-200/80'} backdrop-blur-xl p-6 rounded-2xl shadow-md border hover:shadow-xl hover:-translate-y-1 hover:border-green-500/30 transition-all duration-300 ease-out`}>
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className={`text-sm font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wide`}>Bezahlt</p>
-                                <p className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mt-1`}>{stats.paid}</p>
+                                <p className={`text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>Bezahlt</p>
+                                <p className={`text-3xl font-bold tabular-nums ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mt-2`}>{stats.paid}</p>
                                 <p className={`text-sm ${theme === 'dark' ? 'text-slate-500' : 'text-gray-600'} mt-1`}>Aktive Gutscheine</p>
                             </div>
-                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl">
-                                <CheckCircle className="w-6 h-6 text-white" />
+                            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg shadow-green-500/30 group-hover:scale-110 transition-transform duration-300">
+                                <CheckCircle className="w-7 h-7 text-white" />
                             </div>
                         </div>
                     </div>
 
-                    <div className={`${theme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-gray-200'} backdrop-blur-xl p-6 rounded-2xl shadow-lg border hover:shadow-xl transition-all duration-300`}>
+                    <div className={`group ${theme === 'dark' ? 'bg-slate-900/80 border-slate-700/50' : 'bg-white border-gray-200/80'} backdrop-blur-xl p-6 rounded-2xl shadow-md border hover:shadow-xl hover:-translate-y-1 hover:border-amber-500/30 transition-all duration-300 ease-out`}>
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className={`text-sm font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wide`}>Ausstehend</p>
-                                <p className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mt-1`}>{stats.pending}</p>
+                                <p className={`text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>Ausstehend</p>
+                                <p className={`text-3xl font-bold tabular-nums ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mt-2`}>{stats.pending}</p>
                                 <p className={`text-sm ${theme === 'dark' ? 'text-slate-500' : 'text-gray-600'} mt-1`}>Zu bearbeiten</p>
                             </div>
-                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl">
-                                <Clock className="w-6 h-6 text-white" />
+                            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl shadow-lg shadow-amber-500/30 group-hover:scale-110 transition-transform duration-300">
+                                <Clock className="w-7 h-7 text-white" />
                             </div>
                         </div>
                     </div>
 
-                    <div className={`${theme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-gray-200'} backdrop-blur-xl p-6 rounded-2xl shadow-lg border hover:shadow-xl transition-all duration-300`}>
+                    <div className={`group ${theme === 'dark' ? 'bg-slate-900/80 border-slate-700/50' : 'bg-white border-gray-200/80'} backdrop-blur-xl p-6 rounded-2xl shadow-md border hover:shadow-xl hover:-translate-y-1 hover:border-emerald-500/30 transition-all duration-300 ease-out`}>
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className={`text-sm font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wide`}>Umsatz</p>
-                                <p className={`text-3xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mt-1`}>€{stats.revenue.toLocaleString()}</p>
+                                <p className={`text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>Umsatz</p>
+                                <p className={`text-3xl font-bold tabular-nums ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mt-2`}>€{stats.revenue.toLocaleString()}</p>
                                 <p className={`text-sm ${theme === 'dark' ? 'text-slate-500' : 'text-gray-600'} mt-1`}>Gesamtwert</p>
                             </div>
-                            <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl">
-                                <Euro className="w-6 h-6 text-white" />
+                            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform duration-300">
+                                <Euro className="w-7 h-7 text-white" />
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Enhanced Vouchers Table */}
-                <div className={`${theme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-gray-200'} backdrop-blur-xl rounded-2xl shadow-xl border overflow-hidden`}>
+                <div className={`${theme === 'dark' ? 'bg-slate-900/80 border-slate-700/50' : 'bg-white border-gray-200/80'} backdrop-blur-xl rounded-2xl shadow-lg border overflow-hidden`}>
                     {/* Tab Header */}
-                    <div className={`px-6 py-4 border-b ${theme === 'dark' ? 'border-slate-800 bg-slate-900/50' : 'border-gray-200 bg-gray-50/50'}`}>
-                        <div className="flex flex-col space-y-4">
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                                <div>
-                                    <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Gutschein-Verwaltung</h2>
-                                    <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} mt-1`}>
-                                        {currentTab === 'active'
-                                            ? `${filteredVouchers.length} von ${vouchers.length} aktiven Gutscheinen`
-                                            : `${deletedVouchers.length} gelöschte Gutscheine`
-                                        }
-                                    </p>
-                                </div>
+                    <div className={`px-6 py-5 border-b ${theme === 'dark' ? 'border-slate-700/50 bg-slate-800/30' : 'border-gray-200 bg-gray-50/80'}`}>
+                        <div className="flex flex-col gap-4">
+                            <div>
+                                <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Gutschein-Verwaltung</h2>
+                                <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} mt-1`}>
+                                    {currentTab === 'active'
+                                        ? `${filteredVouchers.length} von ${vouchers.length} aktiven Gutscheinen`
+                                        : `${deletedVouchers.length} gelöschte Gutscheine`
+                                    }
+                                </p>
                             </div>
 
-                            {/* Tabs */}
-                            <div className="flex space-x-1">
-                                <button
-                                    onClick={() => setCurrentTab('active')}
-                                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${currentTab === 'active'
+                            {/* Tabs + Suche in einer Zeile */}
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                <div className="flex space-x-1">
+                                    <button
+                                        onClick={() => setCurrentTab('active')}
+                                    className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${currentTab === 'active'
                                         ? theme === 'dark'
                                             ? 'bg-blue-900/50 text-blue-300 border border-blue-800'
                                             : 'bg-blue-50 text-blue-700 border border-blue-200'
@@ -1346,7 +1271,7 @@ export default function VouchersPage() {
                                 </button>
                                 <button
                                     onClick={() => setCurrentTab('trash')}
-                                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${currentTab === 'trash'
+                                    className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${currentTab === 'trash'
                                         ? theme === 'dark'
                                             ? 'bg-red-900/50 text-red-300 border border-red-800'
                                             : 'bg-red-50 text-red-700 border border-red-200'
@@ -1356,9 +1281,7 @@ export default function VouchersPage() {
                                         }`}
                                 >
                                     <div className="flex items-center space-x-2">
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
+                                        <Trash2 className="w-4 h-4" />
                                         <span>Papierkorb</span>
                                         <span className={`px-2 py-0.5 text-xs rounded-full ${theme === 'dark' ? 'bg-slate-700 text-slate-300' : 'bg-gray-200 text-gray-600'
                                             }`}>
@@ -1366,34 +1289,45 @@ export default function VouchersPage() {
                                         </span>
                                     </div>
                                 </button>
-                            </div>
-                        </div>
+                                </div>
 
-                        {/* Simplified Filter Section */}
-                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-
-                            {/* Search Bar */}
-                            <div className="flex-1">
-                                <div className="relative">
-                                    <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-400'}`} />
-                                    <input
-                                        type="text"
-                                        placeholder="Gutscheine durchsuchen..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className={`w-full pl-10 pr-10 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${theme === 'dark'
-                                            ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400'
-                                            : 'bg-white border-gray-200 text-gray-900 placeholder-gray-400'
-                                            } border`}
-                                    />
-                                    {searchTerm && (
+                                {/* Suchfeld rechts */}
+                                <div className="flex items-center gap-2 w-full sm:w-auto">
+                                    <div className="relative w-full sm:w-64">
+                                        <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-400'}`} />
+                                        <input
+                                            type="text"
+                                            placeholder="Gutscheine durchsuchen..."
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                            className={`w-full pl-10 pr-10 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent focus:border-transparent transition-all duration-200 ${theme === 'dark'
+                                                ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400 focus:bg-slate-700/50'
+                                                : 'bg-white border-gray-200 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-300'
+                                                } border`}
+                                        />
+                                        {searchTerm && (
+                                            <button
+                                                onClick={() => setSearchTerm('')}
+                                                className={`absolute right-3 top-1/2 -translate-y-1/2 ${theme === 'dark' ? 'text-slate-400 hover:text-slate-200' : 'text-gray-400 hover:text-gray-600'} transition-colors`}
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        )}
+                                    </div>
+                                    {(searchTerm || statusFilter !== 'all') && (
                                         <button
-                                            onClick={() => setSearchTerm('')}
-                                            className={`absolute right-3 top-1/2 transform -translate-y-1/2 ${theme === 'dark' ? 'text-slate-400 hover:text-slate-200' : 'text-gray-400 hover:text-gray-600'} transition-colors`}
+                                            onClick={() => {
+                                                setSearchTerm('');
+                                                setStatusFilter('all');
+                                            }}
+                                            className={`shrink-0 inline-flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all ${theme === 'dark'
+                                                ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                                                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                                                }`}
+                                            title="Alle Filter zurücksetzen"
                                         >
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
+                                            <RotateCcw className="w-4 h-4 sm:mr-1" />
+                                            <span className="hidden sm:inline">Zurücksetzen</span>
                                         </button>
                                     )}
                                 </div>
@@ -1403,7 +1337,7 @@ export default function VouchersPage() {
                             <div className="flex flex-wrap gap-2">
                                 <button
                                     onClick={() => setStatusFilter('all')}
-                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'all'
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${statusFilter === 'all'
                                         ? theme === 'dark'
                                             ? 'bg-blue-600 text-white shadow-lg'
                                             : 'bg-blue-600 text-white shadow-lg'
@@ -1412,12 +1346,13 @@ export default function VouchersPage() {
                                             : 'text-gray-600 bg-white hover:bg-gray-50 border border-gray-200'
                                         }`}
                                 >
+                                    <LayoutGrid className="w-4 h-4 mr-1" />
                                     Alle ({stats.total})
                                 </button>
 
                                 <button
                                     onClick={() => setStatusFilter('pending')}
-                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'pending'
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${statusFilter === 'pending'
                                         ? theme === 'dark'
                                             ? 'bg-amber-600 text-white shadow-lg'
                                             : 'bg-amber-600 text-white shadow-lg'
@@ -1432,7 +1367,7 @@ export default function VouchersPage() {
 
                                 <button
                                     onClick={() => setStatusFilter('paid')}
-                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'paid'
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${statusFilter === 'paid'
                                         ? theme === 'dark'
                                             ? 'bg-green-600 text-white shadow-lg'
                                             : 'bg-green-600 text-white shadow-lg'
@@ -1447,7 +1382,7 @@ export default function VouchersPage() {
 
                                 <button
                                     onClick={() => setStatusFilter('partially_redeemed')}
-                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'partially_redeemed'
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${statusFilter === 'partially_redeemed'
                                         ? theme === 'dark'
                                             ? 'bg-indigo-600 text-white shadow-lg'
                                             : 'bg-indigo-600 text-white shadow-lg'
@@ -1462,7 +1397,7 @@ export default function VouchersPage() {
 
                                 <button
                                     onClick={() => setStatusFilter('depleted')}
-                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'depleted'
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${statusFilter === 'depleted'
                                         ? theme === 'dark'
                                             ? 'bg-rose-600 text-white shadow-lg'
                                             : 'bg-rose-600 text-white shadow-lg'
@@ -1475,33 +1410,14 @@ export default function VouchersPage() {
                                     Aufgebraucht ({stats.depleted})
                                 </button>
                             </div>
-
-                            {/* Clear All Filters */}
-                            {(searchTerm || statusFilter !== 'all') && (
-                                <button
-                                    onClick={() => {
-                                        setSearchTerm('');
-                                        setStatusFilter('all');
-                                    }}
-                                    className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${theme === 'dark'
-                                        ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-                                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-                                        }`}
-                                    title="Alle Filter zurücksetzen"
-                                >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            )}
                         </div>
                     </div>
                 </div>
 
                 {/* Table Content */}
-                <div className="overflow-x-auto overflow-y-visible">
-                    <table className="min-w-full divide-y divide-slate-800">
-                        <thead className={theme === 'dark' ? 'bg-slate-900/50' : 'bg-gray-50/50'}>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full">
+                        <thead className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-gray-50/80'} border-b ${theme === 'dark' ? 'border-slate-700' : 'border-gray-200'}`}>
                             <tr>
                                 <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
                                     Gutschein
@@ -1526,9 +1442,9 @@ export default function VouchersPage() {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className={`${theme === 'dark' ? 'bg-slate-900 divide-slate-800' : 'bg-white divide-gray-100'} divide-y`}>
+                        <tbody className={`${theme === 'dark' ? 'bg-slate-900/50 divide-slate-700/50' : 'bg-white divide-gray-100'} divide-y`}>
                             {paginatedVouchers.map((voucher) => (
-                                <tr key={voucher.id} className={`${theme === 'dark' ? 'hover:bg-slate-800/50' : 'hover:bg-gray-50/50'} transition-colors`}>
+                                <tr key={voucher.id} className={`${theme === 'dark' ? 'hover:bg-slate-800/60' : 'hover:bg-gray-50'} transition-colors duration-200`}>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="flex items-center space-x-3">
                                             <div className={`flex items-center justify-center w-8 h-8 ${theme === 'dark' ? 'bg-blue-900/30' : 'bg-blue-100'} rounded-lg`}>
@@ -1572,16 +1488,12 @@ export default function VouchersPage() {
                                         <div className="flex items-center space-x-2">
                                             {isAdminVoucher(voucher) ? (
                                                 <>
-                                                    <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                                    </svg>
+                                                    <Building2 className="w-4 h-4 text-purple-500 shrink-0" />
                                                     <span className={`text-sm ${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'}`}>Studio</span>
                                                 </>
                                             ) : voucher.delivery_method === 'post' ? (
                                                 <>
-                                                    <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                                                    </svg>
+                                                    <Package className="w-4 h-4 text-orange-500 shrink-0" />
                                                     <span className={`text-sm ${theme === 'dark' ? 'text-orange-400' : 'text-orange-600'}`}>Post</span>
                                                 </>
                                             ) : (
@@ -1596,7 +1508,7 @@ export default function VouchersPage() {
                                         <div className="flex items-center space-x-2">
                                             {getStatusIcon(voucher.payment_status)}
                                             <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full border ${getStatusBadge(voucher.payment_status)}`}>
-                                                {voucher.payment_status}
+                                                {getStatusLabel(voucher.payment_status)}
                                             </span>
                                         </div>
                                     </td>
@@ -1609,7 +1521,7 @@ export default function VouchersPage() {
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <button
                                             onClick={() => openActionModal(voucher)}
-                                            className={`inline-flex items-center justify-center w-8 h-8 rounded-lg transition-colors ${theme === 'dark'
+                                            className={`inline-flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 hover:scale-110 ${theme === 'dark'
                                                 ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
                                                 : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
                                                 }`}
@@ -1627,9 +1539,9 @@ export default function VouchersPage() {
                 {/* Pagination */}
                 {totalPages > 1 && (
                     <div className={`${theme === 'dark'
-                        ? 'bg-slate-900/50 border-slate-800'
-                        : 'bg-gray-50/50 border-gray-200'
-                        } border rounded-xl mt-6 p-4`}>
+                        ? 'bg-slate-800/30 border-slate-700/50'
+                        : 'bg-gray-50/80 border-gray-200'
+                        } border rounded-2xl mt-6 p-5`}>
 
                         {/* Pagination Header */}
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0 mb-4">
@@ -1647,7 +1559,7 @@ export default function VouchersPage() {
                                             setItemsPerPage(Number(e.target.value));
                                             setCurrentPage(1);
                                         }}
-                                        className={`px-3 py-1 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${theme === 'dark'
+                                        className={`px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${theme === 'dark'
                                             ? 'bg-slate-800 border-slate-700 text-white'
                                             : 'bg-white border-gray-200 text-gray-900'
                                             } border`}
@@ -1673,29 +1585,25 @@ export default function VouchersPage() {
                                 <button
                                     onClick={goToPrevPage}
                                     disabled={currentPage === 1}
-                                    className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${theme === 'dark'
                                         ? 'text-slate-300 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-900'
                                         : 'text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 disabled:bg-gray-100'
                                         }`}
                                 >
-                                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
+                                    <ChevronLeft className="w-4 h-4 mr-1" />
                                     Zurück
                                 </button>
 
                                 <button
                                     onClick={goToNextPage}
                                     disabled={currentPage === totalPages}
-                                    className={`inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${theme === 'dark'
                                         ? 'text-slate-300 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-900'
                                         : 'text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 disabled:bg-gray-100'
                                         }`}
                                 >
                                     Weiter
-                                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
+                                    <ChevronRight className="w-4 h-4 ml-1" />
                                 </button>
                             </div>
 
@@ -1812,6 +1720,143 @@ export default function VouchersPage() {
                                 : 'Es wurden noch keine Gutscheine erstellt.'
                             }
                         </p>
+                    </div>
+                )}
+
+                {/* Action Modal */}
+                {showActionModal && selectedVoucher && (
+                    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                        <div
+                            className={`${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-gray-200'} border rounded-2xl shadow-2xl max-w-md mx-4 w-full`}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Modal Header */}
+                            <div className={`px-6 py-4 border-b ${theme === 'dark' ? 'border-slate-800' : 'border-gray-200'}`}>
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-3">
+                                        <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
+                                            <Gift className="w-5 h-5 text-white" />
+                                        </div>
+                                        <div>
+                                            <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                                                Gutschein-Aktionen
+                                            </h3>
+                                            <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
+                                                Code: {selectedVoucher.code}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={closeActionModal}
+                                        className={`${theme === 'dark' ? 'text-slate-400 hover:text-slate-200' : 'text-gray-400 hover:text-gray-600'} transition-colors`}
+                                    >
+                                        <X className="w-6 h-6" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Modal Content */}
+                            <div className="px-6 py-4 space-y-2">
+                                <a
+                                    href={`/admin/orders/${selectedVoucher.id}`}
+                                    className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors ${theme === 'dark'
+                                        ? 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                                        : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                                        }`}
+                                    onClick={closeActionModal}
+                                >
+                                    <Eye className="w-5 h-5 mr-3" />
+                                    Details anzeigen
+                                </a>
+
+                                {/* Nur anzeigen wenn im aktiven Tab und Status pending */}
+                                {currentTab === 'active' && selectedVoucher.payment_status === 'pending' && (
+                                    <button
+                                        onClick={() => {
+                                            updateVoucherStatus(selectedVoucher.id, 'paid');
+                                            closeActionModal();
+                                        }}
+                                        disabled={updatingStatus === selectedVoucher.id}
+                                        className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                            ? 'text-green-400 hover:bg-slate-800'
+                                            : 'text-green-600 hover:bg-gray-100'
+                                            }`}
+                                    >
+                                        {updatingStatus === selectedVoucher.id ? (
+                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-green-600 mr-3"></div>
+                                        ) : (
+                                            <CheckCircle className="w-5 h-5 mr-3" />
+                                        )}
+                                        Als bezahlt markieren
+                                    </button>
+                                )}
+
+                                {/* Nur anzeigen wenn im Papierkorb-Tab */}
+                                {currentTab === 'trash' && (
+                                    <button
+                                        onClick={() => {
+                                            handleRestoreVoucher(selectedVoucher.id);
+                                            closeActionModal();
+                                        }}
+                                        disabled={updatingStatus === selectedVoucher.id}
+                                        className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                            ? 'text-blue-400 hover:bg-slate-800'
+                                            : 'text-blue-600 hover:bg-gray-100'
+                                            }`}
+                                    >
+                                        {updatingStatus === selectedVoucher.id ? (
+                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-3"></div>
+                                        ) : (
+                                            <RotateCcw className="w-5 h-5 mr-3" />
+                                        )}
+                                        Wiederherstellen
+                                    </button>
+                                )}
+
+                                <div className={`border-t ${theme === 'dark' ? 'border-slate-800' : 'border-gray-200'} my-2`}></div>
+
+                                {/* Lösch-Aktionen je nach Tab */}
+                                {currentTab === 'active' ? (
+                                    <button
+                                        onClick={() => {
+                                            handleDeleteVoucher(selectedVoucher.id, false);
+                                            closeActionModal();
+                                        }}
+                                        disabled={updatingStatus === selectedVoucher.id}
+                                        className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                            ? 'text-red-400 hover:bg-slate-800'
+                                            : 'text-red-600 hover:bg-gray-100'
+                                            }`}
+                                    >
+                                        <Trash2 className="w-5 h-5 mr-3" />
+                                        Löschen
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => {
+                                            if (confirm('Sind Sie sicher, dass Sie diesen Gutschein ENDGÜLTIG löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!')) {
+                                                handleDeleteVoucher(selectedVoucher.id, true);
+                                                closeActionModal();
+                                            }
+                                        }}
+                                        disabled={updatingStatus === selectedVoucher.id}
+                                        className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${theme === 'dark'
+                                            ? 'text-red-400 hover:bg-slate-800'
+                                            : 'text-red-600 hover:bg-gray-100'
+                                            }`}
+                                    >
+                                        <X className="w-5 h-5 mr-3" />
+                                        Endgültig löschen
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Click outside to close */}
+                        <div
+                            className="absolute inset-0 -z-10"
+                            onClick={closeActionModal}
+                        ></div>
                     </div>
                 )}
             </main>

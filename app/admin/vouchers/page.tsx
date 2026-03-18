@@ -175,8 +175,16 @@ export default function VouchersPage() {
             voucher.sender_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             (voucher.sender_email && voucher.sender_email.toLowerCase().includes(searchTerm.toLowerCase()));
 
+        const totalAmount = Number(voucher.amount);
+        const remainingAmount = Number(voucher.remaining_amount ?? voucher.amount);
+
+        const isDepleted = remainingAmount <= 0;
+        const isPartiallyRedeemed = remainingAmount > 0 && remainingAmount < totalAmount;
+
         const matchesStatus = statusFilter === "all" ||
-            voucher.payment_status === statusFilter;
+            voucher.payment_status === statusFilter ||
+            (statusFilter === "partially_redeemed" && isPartiallyRedeemed) ||
+            (statusFilter === "depleted" && isDepleted);
 
         return matchesSearch && matchesStatus;
     });
@@ -504,6 +512,12 @@ export default function VouchersPage() {
         total: vouchers.length,
         pending: vouchers.filter(v => v.payment_status === 'pending').length,
         paid: vouchers.filter(v => v.payment_status === 'paid').length,
+        partiallyRedeemed: vouchers.filter(v => {
+            const totalAmount = Number(v.amount);
+            const remainingAmount = Number(v.remaining_amount ?? v.amount);
+            return remainingAmount > 0 && remainingAmount < totalAmount;
+        }).length,
+        depleted: vouchers.filter(v => Number(v.remaining_amount ?? v.amount) <= 0).length,
         revenue: vouchers
             .filter(v => v.payment_status === 'paid')
             .reduce((sum, v) => sum + Number(v.amount), 0)
@@ -1430,6 +1444,36 @@ export default function VouchersPage() {
                                     <CheckCircle className="w-4 h-4 mr-1" />
                                     Bezahlt ({stats.paid})
                                 </button>
+
+                                <button
+                                    onClick={() => setStatusFilter('partially_redeemed')}
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'partially_redeemed'
+                                        ? theme === 'dark'
+                                            ? 'bg-indigo-600 text-white shadow-lg'
+                                            : 'bg-indigo-600 text-white shadow-lg'
+                                        : theme === 'dark'
+                                            ? 'text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700'
+                                            : 'text-gray-600 bg-white hover:bg-gray-50 border border-gray-200'
+                                        }`}
+                                >
+                                    <Banknote className="w-4 h-4 mr-1" />
+                                    Teilweise eingelöst ({stats.partiallyRedeemed})
+                                </button>
+
+                                <button
+                                    onClick={() => setStatusFilter('depleted')}
+                                    className={`inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${statusFilter === 'depleted'
+                                        ? theme === 'dark'
+                                            ? 'bg-rose-600 text-white shadow-lg'
+                                            : 'bg-rose-600 text-white shadow-lg'
+                                        : theme === 'dark'
+                                            ? 'text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700'
+                                            : 'text-gray-600 bg-white hover:bg-gray-50 border border-gray-200'
+                                        }`}
+                                >
+                                    <XCircle className="w-4 h-4 mr-1" />
+                                    Aufgebraucht ({stats.depleted})
+                                </button>
                             </div>
 
                             {/* Clear All Filters */}
@@ -1466,7 +1510,7 @@ export default function VouchersPage() {
                                     Käufer
                                 </th>
                                 <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
-                                    Betrag
+                                    Betrag / Rest
                                 </th>
                                 <th className={`px-6 py-4 text-left text-xs font-semibold ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'} uppercase tracking-wider`}>
                                     Versand
@@ -1519,6 +1563,9 @@ export default function VouchersPage() {
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                                             €{Number(voucher.amount).toFixed(0)}
+                                        </div>
+                                        <div className={`text-xs mt-1 ${theme === 'dark' ? 'text-slate-400' : 'text-gray-500'}`}>
+                                            Rest: €{Number(voucher.remaining_amount ?? voucher.amount).toFixed(0)}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">

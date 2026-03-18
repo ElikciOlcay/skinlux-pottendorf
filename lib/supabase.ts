@@ -16,6 +16,7 @@ export interface Voucher {
     id: string
     code: string
     amount: number
+    remaining_amount?: number
     sender_name: string
     sender_email: string
     payment_status: 'pending' | 'paid' | 'cancelled'

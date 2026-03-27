@@ -45,7 +45,7 @@ export default function NewsWidget() {
                         <div className="p-3 flex items-center gap-3">
                             <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0">
                                 <Image
-                                    src="/images/treatment-analysis.jpg"
+                                    src="https://bischofshofen.skinlux.at/images/microneedling/treatment-microneedling.png"
                                     alt="SkinPen Neuigkeit"
                                     fill
                                     className="object-cover"

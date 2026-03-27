@@ -29,7 +29,7 @@ const treatments = [
     },
     {
         id: "skinpen-precision",
-        title: "SkinPen® Precision Elite",
+        title: "SkinPen® Microneedling",
         description: "Medizinisches Microneedling – FDA-zertifiziert, für verfeinertes Hautbild.",
         icon: Award,
         href: "/behandlungen/skinpen-precision",

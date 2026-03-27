@@ -2,14 +2,16 @@ import { Metadata } from "next";
 import SkinPenPrecisionContent from "./SkinPenPrecisionContent";
 
 export const metadata: Metadata = {
-    title: "SkinPen Microneedling Pottendorf | Baden, Mödling",
-    description: "SkinPen Precision Microneedling in Pottendorf. FDA-zugelassen, natürliche Hautregeneration, reduziert Narben und Falten. Jetzt Termin buchen.",
+    title: "SkinPen Precision Elite | Medizinisches Microneedling Pottendorf",
+    description:
+        "Medizinisches Microneedling mit SkinPen Precision Elite in Pottendorf. FDA-zertifiziert, Kollagen & Elastin, Narben, Falten, Pigmentierung. Buchung folgt in Kürze.",
     alternates: {
         canonical: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
     },
     openGraph: {
-        title: "SkinPen Microneedling Pottendorf | Baden, Mödling",
-        description: "SkinPen Precision Microneedling in Pottendorf. FDA-zugelassen, natürliche Hautregeneration, reduziert Narben und Falten.",
+        title: "SkinPen Precision Elite | Medizinisches Microneedling Pottendorf",
+        description:
+            "Medizinisches Microneedling mit SkinPen Precision Elite. FDA-zertifiziert für Aknenarben, Falten, Poren und Pigmentstörungen.",
         url: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
         type: "website",
         locale: "de_AT",
@@ -17,21 +19,24 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "SkinPen Microneedling Pottendorf | Baden, Mödling",
-        description: "SkinPen Precision Microneedling in Pottendorf. FDA-zugelassen, natürliche Hautregeneration, reduziert Narben und Falten.",
+        title: "SkinPen Precision Elite | Medizinisches Microneedling Pottendorf",
+        description:
+            "FDA-zertifiziertes Microneedling in Pottendorf – Hautregeneration, Kollagen & Elastin.",
     },
 };
 
 const medicalProcedureSchema = {
     "@context": "https://schema.org",
     "@type": "MedicalProcedure",
-    name: "SkinPen Precision Microneedling",
-    alternateName: "Microneedling Hautregeneration",
-    description: "Professionelle SkinPen Precision Microneedling-Behandlung in Pottendorf, Niederösterreich. FDA-zugelassen, natürliche Hautregeneration für Aknenarben, Falten und Hautverfeinerung.",
+    name: "SkinPen Precision Elite Microneedling",
+    alternateName: "Medizinisches Microneedling SkinPen",
+    description:
+        "Medizinisches Microneedling mit SkinPen Precision Elite in Pottendorf, Niederösterreich. FDA-zertifiziert. Aktiviert Wundheilung und Kollagen-/Elastin-Neubildung bei Narben, Falten, Poren und Pigmentstörungen.",
     procedureType: "Microneedling-Behandlung",
-    howPerformed: "Erzeugt temporäre mikroskopische Kanäle in der Haut durch sterile Nadeln. Aktiviert die natürliche Kollagen- und Elastinproduktion.",
-    preparation: "Kostenlose Erstberatung mit Hauttyp-Bestimmung und individueller Behandlungsplanung.",
-    followup: "Nachsorge und Pflegetipps. Behandlungen im Abstand von 4-6 Wochen.",
+    howPerformed:
+        "Kontrollierte mikroskopische Kanäle mit medizinischem SkinPen Precision Elite; Regulation der Pigmentierungsaktivität und Stimulation der Hautregeneration.",
+    preparation: "Kostenlose Erstberatung mit Hautanalyse und individueller Planung.",
+    followup: "Nachsorge und Pflegetipps. Behandlungen typischerweise im Abstand von 4–6 Wochen.",
     provider: {
         "@id": "https://skinlux-pottendorf.at/#business",
     },
@@ -47,18 +52,13 @@ const medicalProcedureSchema = {
 const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    serviceType: "SkinPen Precision Microneedling",
-    name: "SkinPen Precision Microneedling",
+    serviceType: "SkinPen Precision Elite Microneedling",
+    name: "SkinPen Precision Elite Microneedling",
     provider: {
         "@id": "https://skinlux-pottendorf.at/#business",
     },
     areaServed: ["Pottendorf", "Baden", "Mödling", "Wiener Neustadt", "Niederösterreich"],
-    offers: {
-        "@type": "Offer",
-        priceCurrency: "EUR",
-        availability: "https://schema.org/InStock",
-        url: "https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D",
-    },
+    url: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
 };
 
 const faqSchema = {
@@ -67,10 +67,18 @@ const faqSchema = {
     mainEntity: [
         {
             "@type": "Question",
+            name: "Was ist SkinPen Precision Elite?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "SkinPen Precision Elite ist ein medizinisches Microneedling-Gerät, das den natürlichen Wundheilungsprozess der Haut aktiviert, die Hautregeneration stimuliert und die Neubildung von Kollagen und Elastin anregt.",
+            },
+        },
+        {
+            "@type": "Question",
             name: "Was macht diese Behandlung so besonders?",
             acceptedAnswer: {
                 "@type": "Answer",
-                text: "Wir aktivieren die natürliche Regeneration Ihrer Haut. Keine künstlichen Füllstoffe, sondern Ihre eigene Haut arbeitet für Sie und wird strahlender, glatter und jünger.",
+                text: "Wir arbeiten mit einem FDA-zertifizierten System und kontrollierter Stimulation. Die Haut reguliert dabei unter anderem die Pigmentierungsaktivität – für ein verfeinertes, ebenmäßigeres Hautbild.",
             },
         },
         {
@@ -78,7 +86,7 @@ const faqSchema = {
             name: "Funktioniert das bei meiner Haut?",
             acceptedAnswer: {
                 "@type": "Answer",
-                text: "Ja, diese Behandlung ist für alle Hauttypen und Hautfarben geeignet. Wir passen die Behandlung individuell an Ihre Bedürfnisse an.",
+                text: "In der Beratung prüfen wir Hauttyp, Beschwerdebild und Kontraindikationen und passen die Behandlung individuell an.",
             },
         },
         {
@@ -86,7 +94,15 @@ const faqSchema = {
             name: "Wie oft muss ich kommen?",
             acceptedAnswer: {
                 "@type": "Answer",
-                text: "Für langfristige, sichtbare Ergebnisse empfehlen wir 3-6 Behandlungen im Abstand von 4-6 Wochen. Erste Verbesserungen sind oft schon nach der ersten Behandlung sichtbar.",
+                text: "Für langfristige Ergebnisse empfehlen wir in der Regel 3–6 Behandlungen im Abstand von 4–6 Wochen. Erste Veränderungen sind oft bereits nach der ersten Sitzung sichtbar.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Gibt es eine Ausfallzeit?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Es kann zu 1–2 Tagen kommen, in denen die Haut gerötet oder leicht empfindlich ist.",
             },
         },
         {
@@ -94,15 +110,31 @@ const faqSchema = {
             name: "Muss ich danach zuhause bleiben?",
             acceptedAnswer: {
                 "@type": "Answer",
-                text: "Nein. Sie können direkt wieder Ihrem Alltag nachgehen. Die Haut kann 1-2 Tage leicht gerötet sein, was eine normale Reaktion ist.",
+                text: "Nein. Sie müssen nicht zuhause bleiben. Mit der kurzen Phase von Rötung und Empfindlichkeit sollten Sie vorsichtig mit Sonne, Sport und reizenden Produkten umgehen – das besprechen wir im Studio.",
             },
         },
         {
             "@type": "Question",
-            name: "Was kostet Microneedling mit SkinPen?",
+            name: "Wann darf ich nicht behandelt werden?",
             acceptedAnswer: {
                 "@type": "Answer",
-                text: "Bei Skinlux Pottendorf starten die Preise für eine SkinPen Precision Behandlung ab 199 Euro pro Sitzung. Für optimale Ergebnisse bieten wir auch Kurpakete an.",
+                text: "Bei Schwangerschaft und Stillzeit, aktiven Fieberblasen, Blutverdünnung, Keloid-Narbenbildung, Erkältungssymptomen oder akuten Krankheiten ist die Behandlung nicht möglich.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Tut das weh?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Die meisten empfinden die Behandlung als gut verträglich. Auf Wunsch nutzen wir eine Betäubungscreme.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Was kostet Microneedling mit SkinPen? Wann kann ich buchen?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Preise und Online-Buchung für SkinPen Precision Elite werden in Kürze veröffentlicht. Bis dahin erreichen Sie Skinlux Pottendorf über die Kontaktseite oder telefonisch.",
             },
         },
     ],
@@ -127,7 +159,7 @@ const breadcrumbSchema = {
         {
             "@type": "ListItem",
             position: 3,
-            name: "SkinPen Precision",
+            name: "SkinPen Precision Elite",
             item: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
         },
     ],

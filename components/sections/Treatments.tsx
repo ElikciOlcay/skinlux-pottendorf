@@ -9,6 +9,7 @@ import {
     Award
 } from "lucide-react";
 import { FEATURES } from "@/lib/features";
+import ComingSoonBadge from "@/components/ui/ComingSoonBadge";
 
 const treatments = [
     {
@@ -28,11 +29,11 @@ const treatments = [
     },
     {
         id: "skinpen-precision",
-        title: "Microneedling",
-        description: "Natürliche Hautregeneration für strahlende, glatte Haut.",
+        title: "SkinPen® Precision Elite",
+        description: "Medizinisches Microneedling – FDA-zertifiziert, für verfeinertes Hautbild.",
         icon: Award,
         href: "/behandlungen/skinpen-precision",
-        isNew: true
+        comingSoon: true,
     },
     {
         id: 'premium-facials',
@@ -73,6 +74,7 @@ export default function Treatments() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
                     {treatments.map((treatment) => {
                         const IconComponent = treatment.icon;
+                        const showComingSoon = "comingSoon" in treatment && treatment.comingSoon;
                         return (
                             <div
                                 key={treatment.id}
@@ -89,14 +91,18 @@ export default function Treatments() {
 
                                     {/* Content */}
                                     <div className="flex-1">
-                                        <div className="flex items-center gap-3 mb-3">
+                                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3">
                                             <h3 className="text-lg md:text-xl font-light text-black">
                                                 {treatment.title}
                                             </h3>
-                                            {treatment.isNew && (
-                                                <span className="text-xs font-light tracking-widest uppercase px-2 py-1 bg-secondary text-white">
-                                                    NEU
-                                                </span>
+                                            {showComingSoon ? (
+                                                <ComingSoonBadge size="sm" className="shrink-0" />
+                                            ) : (
+                                                treatment.isNew && (
+                                                    <span className="text-xs font-light tracking-widest uppercase px-2 py-1 bg-secondary text-white">
+                                                        NEU
+                                                    </span>
+                                                )
                                             )}
                                         </div>
 

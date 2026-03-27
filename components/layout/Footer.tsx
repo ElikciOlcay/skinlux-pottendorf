@@ -65,6 +65,12 @@ const Footer = () => {
                                 HydraFacial®
                             </Link>
                             <Link
+                                href="/behandlungen/skinpen-precision"
+                                className="block font-light text-gray-600 hover:text-black transition-colors"
+                            >
+                                SkinPen® Precision Elite
+                            </Link>
+                            <Link
                                 href="/ueber-uns"
                                 className="block font-light text-gray-600 hover:text-black transition-colors"
                             >

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
+import NewsWidget from "@/components/ui/NewsWidget";
 
 interface ConditionalLayoutProps {
     children: React.ReactNode;
@@ -30,6 +31,7 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
                 {children}
             </main>
             <Footer />
+            <NewsWidget />
             <ChatWidget />
         </>
     );

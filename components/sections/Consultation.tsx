@@ -39,4 +39,4 @@ export default function Consultation() {
             </div>
         </section>
     );
-} 
+}

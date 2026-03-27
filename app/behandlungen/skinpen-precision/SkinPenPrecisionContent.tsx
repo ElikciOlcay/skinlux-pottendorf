@@ -232,12 +232,6 @@ export default function SkinPenPrecisionContent() {
                                 >
                                     Kontakt
                                 </Link>
-                                <Link
-                                    href="/#consultation"
-                                    className="btn-secondary inline-flex items-center justify-center text-lg px-8 py-4"
-                                >
-                                    Kostenlose Beratung
-                                </Link>
                             </div>
                         </motion.div>
 
@@ -516,12 +510,6 @@ export default function SkinPenPrecisionContent() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link href="/kontakt" className="btn-primary inline-flex items-center justify-center">
                                 Kontakt
-                            </Link>
-                            <Link
-                                href="/#consultation"
-                                className="btn-secondary bg-white text-black hover:bg-gray-100 inline-flex items-center justify-center"
-                            >
-                                Kostenlose Beratung
                             </Link>
                         </div>
                     </motion.div>

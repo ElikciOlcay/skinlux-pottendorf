@@ -25,7 +25,7 @@ export default function NewsWidget() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 24, scale: 0.97 }}
                     transition={{ duration: 0.25 }}
-                    className="fixed bottom-24 right-4 md:right-6 z-30 w-[300px] max-w-[calc(100vw-2rem)]"
+                    className="fixed bottom-24 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-6 z-30 w-[300px] max-w-[calc(100vw-2rem)]"
                     aria-label="Aktuelle Neuigkeit"
                 >
                     <div className="rounded-2xl border border-white/15 bg-black/80 backdrop-blur-md shadow-2xl overflow-hidden">

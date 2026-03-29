@@ -1,17 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Tag, ArrowRight, Sparkles, LucideIcon, Zap } from "lucide-react";
+import { ArrowRight, LucideIcon, Zap } from "lucide-react";
 
 type Offer = {
     id: string;
     title: string;
-    subtitle: string;
     description: string;
-    price: string;
-    originalPrice: string | null;
-    discount: string;
-    limit: string;
+    detail: string;
     icon: LucideIcon;
     href: string;
     color: string;
@@ -22,12 +17,8 @@ const offers: Offer[] = [
     {
         id: 'laser-kampagne',
         title: "Laser März-Kampagne",
-        subtitle: "01.03. – 31.03.2026",
         description: "50% Rabatt auf deine 1. und 8. Laser-Behandlung. Dauerhafte Haarfreiheit jetzt zum halben Preis starten!",
-        price: "",
-        originalPrice: null,
-        discount: "",
-        limit: "Gültig 01.03. – 31.03.2026",
+        detail: "Gültig 01.03. – 31.03.2026",
         icon: Zap,
         href: 'https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT',
         color: 'var(--color-primary)',
@@ -41,132 +32,73 @@ export default function SpecialOffers() {
     }
 
     return (
-        <section id="angebote" className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50">
+        <section id="angebote" className="py-16 md:py-20 bg-white">
             <div className="container mx-auto px-4">
-                {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="text-center mb-12 md:mb-16"
-                >
-                    <div className="inline-flex items-center gap-2 mb-4">
-                        <Tag className="w-5 h-5" style={{ color: 'var(--color-secondary)' }} />
-                        <span className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500">
-                            Aktuelle Angebote
-                        </span>
-                    </div>
+                <div className="text-center mb-12 md:mb-16">
+                    <span className="text-xs md:text-sm font-light tracking-widest uppercase text-gray-500 mb-4 block">
+                        Aktuelle Angebote
+                    </span>
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6 text-black">
                         Spezial Angebote
                     </h2>
                     <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light">
                         Exklusive Behandlungen für deine natürliche Schönheit
                     </p>
-                </motion.div>
+                </div>
 
-                {/* Offers Grid */}
-                <div className="max-w-5xl mx-auto">
-                    {offers.map((offer, index) => {
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-4xl mx-auto">
+                    {offers.map((offer) => {
                         const IconComponent = offer.icon;
                         return (
-                            <motion.div
+                            <a
                                 key={offer.id}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.2 }}
-                                className="relative bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 group overflow-hidden border border-gray-100"
+                                href={offer.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group relative flex items-start gap-5 border border-gray-200 bg-white p-5 md:p-6 transition-all duration-300 hover:border-gray-300 hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] hover:-translate-y-0.5"
                             >
-                                {/* Decorative Background Pattern */}
-                                <div className="absolute inset-0 opacity-5">
-                                    <div className="absolute inset-0" style={{
-                                        backgroundImage: `radial-gradient(circle at 20% 50%, var(--color-secondary) 0%, transparent 50%),
-                                                         radial-gradient(circle at 80% 80%, var(--color-secondary) 0%, transparent 50%)`
-                                    }} />
+                                <div
+                                    className="relative h-20 w-20 md:h-24 md:w-24 flex-shrink-0 flex items-center justify-center"
+                                    style={{ backgroundColor: offer.color }}
+                                >
+                                    <IconComponent className="w-8 h-8 md:w-10 md:h-10 text-white" strokeWidth={1.5} />
                                 </div>
 
-                                {/* Badge */}
-                                <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10">
-                                    <span
-                                        className="text-[0.625rem] md:text-xs font-light tracking-widest uppercase px-3 py-1.5 md:px-4 md:py-2 text-white rounded-full shadow-lg"
-                                        style={{ backgroundColor: offer.color }}
-                                    >
-                                        {offer.badge}
+                                <div className="flex-1 min-w-0 py-0.5">
+                                    <div className="flex items-center gap-3 mb-1.5">
+                                        <h3 className="text-base md:text-lg font-light text-black leading-snug">
+                                            {offer.title}
+                                        </h3>
+                                        <span
+                                            className="text-[0.55rem] font-light tracking-widest uppercase px-2 py-0.5 text-white shrink-0"
+                                            style={{ backgroundColor: offer.color }}
+                                        >
+                                            {offer.badge}
+                                        </span>
+                                    </div>
+
+                                    <p className="text-gray-600 font-light text-sm mb-2 leading-relaxed line-clamp-2">
+                                        {offer.description}
+                                    </p>
+
+                                    <p className="text-xs font-light text-gray-400 mb-3">
+                                        {offer.detail}
+                                    </p>
+
+                                    <span className="text-xs font-light tracking-widest uppercase inline-flex items-center gap-2 transition-colors" style={{ color: offer.color }}>
+                                        Jetzt buchen
+                                        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                                     </span>
                                 </div>
-
-                                <a
-                                    href={offer.href}
-                                    className="block p-8 md:p-12 relative z-10"
-                                >
-                                    <div className="grid md:grid-cols-2 gap-8 items-center">
-                                        {/* Left Side - Content */}
-                                        <div>
-                                            <div className="flex items-center gap-4 mb-6">
-                                                <div
-                                                    className="w-20 h-20 flex-shrink-0 flex items-center justify-center rounded-2xl shadow-lg"
-                                                    style={{ backgroundColor: offer.color }}
-                                                >
-                                                    <IconComponent
-                                                        className="w-10 h-10 text-white"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <h3 className="text-2xl md:text-3xl font-light mb-2 text-black">
-                                                        {offer.title}
-                                                    </h3>
-                                                    <p className="text-sm font-light text-gray-500 uppercase tracking-wider">
-                                                        {offer.subtitle}
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <p className="text-gray-600 font-light mb-8 leading-relaxed text-lg">
-                                                {offer.description}
-                                            </p>
-
-                                            <div className="flex items-center gap-2 text-sm font-light text-gray-600 mb-8 pb-8 border-b border-gray-200">
-                                                <Sparkles className="w-4 h-4" />
-                                                <span>{offer.limit}</span>
-                                            </div>
-
-                                            <div className="flex items-center gap-3 text-base md:text-lg font-light tracking-widest uppercase py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-lg group-hover:scale-105" style={{ color: 'white', backgroundColor: 'var(--color-secondary)' }}>
-                                                <span>Weitere Infos</span>
-                                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                            </div>
-                                        </div>
-
-                                        {/* Right Side - Price Highlight */}
-                                        {(offer.price || offer.discount) && (
-                                            <div className="flex flex-col items-center justify-center">
-                                                <div className="text-center p-8 rounded-2xl" style={{ backgroundColor: 'rgba(184, 176, 169, 0.1)' }}>
-                                                    {offer.price && (
-                                                        <div className="text-6xl md:text-7xl font-light mb-2" style={{ color: offer.color }}>
-                                                            {offer.price}
-                                                        </div>
-                                                    )}
-                                                    {offer.discount && (
-                                                        <div className="text-xl md:text-2xl font-light text-gray-700 mb-4">
-                                                            {offer.discount}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </a>
-
-                                {/* Hover Effect Border */}
-                                <div
-                                    className="absolute bottom-0 left-0 right-0 h-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                    style={{
-                                        background: `linear-gradient(90deg, var(--color-secondary) 0%, transparent 100%)`
-                                    }}
-                                />
-                            </motion.div>
+                            </a>
                         );
                     })}
+                </div>
+
+                <div className="mt-10 text-center">
+                    <p className="text-xs font-light text-gray-400">
+                        Angebote gültig solange der Vorrat reicht. Keine Barauszahlung möglich.
+                    </p>
                 </div>
             </div>
         </section>

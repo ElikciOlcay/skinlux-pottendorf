@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, MapPin, Clock } from 'lucide-react';
+import { Phone, MapPin, Clock, Briefcase } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -89,6 +89,12 @@ const Footer = () => {
                                 Gutscheine
                             </Link>
                             <Link
+                                href="/karriere"
+                                className="block font-light text-gray-600 hover:text-black transition-colors"
+                            >
+                                Karriere
+                            </Link>
+                            <Link
                                 href="/stornobedingungen"
                                 className="block font-light text-gray-600 hover:text-black transition-colors"
                             >
@@ -127,6 +133,25 @@ const Footer = () => {
                             </a>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* Karriere Banner */}
+            <div className="border-t border-gray-100">
+                <div className="container py-5">
+                    <Link
+                        href="/karriere"
+                        className="flex items-center justify-center gap-3 group"
+                    >
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium tracking-wide uppercase text-white rounded-full" style={{ backgroundColor: 'var(--color-secondary)' }}>
+                            <Briefcase className="w-3 h-3" />
+                            Wir suchen dringend
+                        </span>
+                        <span className="text-sm font-light text-gray-600 group-hover:text-black transition-colors">
+                            Kosmetikerin (m/w/d) gesucht
+                        </span>
+                        <span className="text-xs text-gray-400 group-hover:text-gray-600 transition-colors">&rarr;</span>
+                    </Link>
                 </div>
             </div>
 

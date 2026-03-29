@@ -25,7 +25,7 @@ const treatments = [
         id: "skinpen-precision",
         title: "SkinPen\u00AE Microneedling",
         description: "Medizinisches Microneedling – FDA-zertifiziert, für verfeinertes Hautbild.",
-        image: "/images/gallery/treatment-analysis.jpg",
+        image: "/images/microneedling/treatment-microneedling.png",
         href: "/behandlungen/skinpen-precision",
         comingSoon: true,
     },

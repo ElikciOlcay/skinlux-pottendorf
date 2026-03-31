@@ -14,8 +14,6 @@ import {
     Info,
 } from "lucide-react";
 import FaqAccordion from "@/components/ui/FaqAccordion";
-import ComingSoonBadge from "@/components/ui/ComingSoonBadge";
-import { SKINPEN_COMING_SOON_LABEL } from "@/lib/skinpen-badge";
 
 const eignetSichBesonders = [
     "Aknenarben und anderen Narben",
@@ -139,9 +137,9 @@ const faq = [
             "Behandlungen sind bei Schwangerschaft und Stillzeit, aktiven Fieberblasen, Blutverdünnung, ausgeprägter Keloid-Narbenbildung, Erkältungssymptomen oder akuten Krankheiten nicht möglich. Bei Unsicherheit fragen Sie bitte vorab in der Beratung nach.",
     },
     {
-        frage: "Was kostet Microneedling mit SkinPen®? Wann kann ich buchen?",
+        frage: "Was kostet Microneedling mit SkinPen®?",
         antwort:
-            "Preise und Online-Buchung für SkinPen® Precision Elite folgen in Kürze. Bis dahin erreichen Sie uns gern telefonisch oder über die Kontaktseite – wir informieren Sie, sobald es losgeht.",
+            "Bei Skinlux Pottendorf kostet eine SkinPen® Precision Elite Einzelbehandlung (60 Min.) € 199. Mit der 3er Kur sparen Sie und zahlen nur € 499. In der kostenlosen Beratung erstellen wir Ihren individuellen Behandlungsplan.",
     },
 ];
 
@@ -195,43 +193,43 @@ export default function SkinPenPrecisionContent() {
                                 >
                                     FDA-zertifiziert
                                 </span>
-                                <ComingSoonBadge size="md" />
                             </div>
 
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-6 text-black leading-tight">
                                 SkinPen<sup className="text-2xl md:text-3xl align-super">®</sup> Precision Elite
                             </h1>
 
-                            <p className="text-xl text-gray-600 font-light mb-6 leading-relaxed">
-                                Der SkinPen<sup>®</sup> Precision Elite ist ein medizinisches Microneedling-Gerät, das gezielt den
-                                natürlichen Wundheilungsprozess der Haut aktiviert. Dadurch wird die Hautregeneration stimuliert und
-                                die Neubildung von Kollagen und Elastin angeregt.
+                            <p className="text-xl text-gray-600 font-light mb-8 leading-relaxed">
+                                FDA-zertifiziertes Microneedling für natürliche Hautregeneration. Aktiviert die körpereigene
+                                Kollagen- und Elastinproduktion – bei Narben, Falten, Poren und Pigmentstörungen.
                             </p>
 
-                            <div className="mb-8">
-                                <p className="text-sm font-light tracking-[0.2em] uppercase text-gray-500 mb-4">
-                                    Die Behandlung eignet sich besonders zur Verbesserung von
-                                </p>
-                                <BulletList items={eignetSichBesonders} />
+                            <div className="grid grid-cols-2 gap-6 mb-8">
+                                <div>
+                                    <div className="text-2xl font-light mb-1" style={{ color: "var(--color-secondary)" }}>€ 199</div>
+                                    <div className="text-sm font-light text-gray-600">60 Minuten</div>
+                                </div>
+                                <div>
+                                    <div className="text-2xl font-light mb-1 text-black">3er Kur</div>
+                                    <div className="text-sm font-light text-gray-600">€ 499</div>
+                                </div>
                             </div>
 
-                            <p className="text-lg text-gray-600 font-light mb-8 leading-relaxed">
-                                Durch die kontrollierte Stimulation wird die Pigmentierungsaktivität der Haut reguliert und das
-                                Hautbild sichtbar verfeinert und ebenmäßiger.
-                            </p>
-
-                            <p className="text-sm font-light text-gray-500 mb-8 border-l-2 border-gray-200 pl-4">
-                                Buchung und Preise für diese Behandlung folgen in Kürze ({SKINPEN_COMING_SOON_LABEL}). Bei Fragen
-                                erreichen Sie uns jederzeit.
-                            </p>
-
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Link
-                                    href="/kontakt"
+                                <a
+                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="btn-primary inline-flex items-center justify-center text-lg px-8 py-4"
                                 >
-                                    Kontakt
-                                </Link>
+                                    Termin buchen
+                                </a>
+                                <a
+                                    href="#preise"
+                                    className="btn-secondary inline-flex items-center justify-center text-lg px-8 py-4"
+                                >
+                                    Preise ansehen
+                                </a>
                             </div>
                         </motion.div>
 
@@ -468,6 +466,70 @@ export default function SkinPenPrecisionContent() {
                 </div>
             </section>
 
+            <section id="preise" className="py-20 bg-gray-50">
+                <div className="container">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center mb-16"
+                    >
+                        <span className="text-sm font-light tracking-[0.3em] uppercase text-gray-500 mb-4 block">
+                            Investition
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-light mb-6 text-black">
+                            Microneedling <span className="text-black">Preise</span>
+                        </h2>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="p-8 border border-gray-200 bg-white"
+                        >
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 className="text-xl font-light mb-2 text-black">Einzelbehandlung</h3>
+                                    <p className="text-gray-600 font-light">60 Minuten Microneedling-Behandlung</p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-2xl font-light" style={{ color: "var(--color-secondary)" }}>€ 199</div>
+                                    <div className="text-sm text-gray-500 font-light">60 Min.</div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
+                            className="p-8 border border-secondary bg-secondary/5"
+                        >
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 className="text-xl font-light mb-2 text-black">3er Kur</h3>
+                                    <p className="text-gray-600 font-light">Optimale Ergebnisse durch Behandlungsserie</p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-2xl font-light" style={{ color: "var(--color-secondary)" }}>€ 499</div>
+                                    <div className="text-sm text-gray-500 font-light">Ersparnis</div>
+                                </div>
+                            </div>
+                            <div className="bg-secondary/10 p-3 border border-secondary/20">
+                                <p className="text-sm font-light text-gray-700">
+                                    <strong>Unser Tipp:</strong> Für langfristige, sichtbare Ergebnisse bei Narben und Hautverfeinerung
+                                </p>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
             <section className="py-20 bg-white">
                 <div className="container">
                     <motion.div
@@ -501,16 +563,58 @@ export default function SkinPenPrecisionContent() {
                         <h2 className="text-4xl md:text-5xl font-light mb-6 text-white">
                             Bereit für ein verfeinertes <span className="text-white">Hautbild?</span>
                         </h2>
-                        <p className="text-xl font-light text-gray-300 mb-4">
-                            Interesse an SkinPen<sup>®</sup> Precision Elite in Pottendorf? Buchung und Preise folgen in Kürze.
+                        <p className="text-xl font-light text-gray-300 mb-8">
+                            Vereinbaren Sie Ihren Microneedling-Termin in Pottendorf und erleben Sie strahlende, glatte Haut – ganz natürlich.
                         </p>
-                        <div className="flex justify-center mb-8">
-                            <ComingSoonBadge size="md" className="ring-white/10" />
-                        </div>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link href="/kontakt" className="btn-primary inline-flex items-center justify-center">
-                                Kontakt
+                            <a
+                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-primary inline-flex items-center justify-center"
+                            >
+                                Termin buchen
+                            </a>
+                            <Link
+                                href="/kontakt"
+                                className="btn-secondary bg-white text-black hover:bg-gray-100 inline-flex items-center justify-center"
+                            >
+                                Kostenlose Beratung
                             </Link>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+
+            <section className="py-20 bg-white">
+                <div className="container max-w-4xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h2 className="text-3xl md:text-4xl font-light mb-8 text-black">
+                            SkinPen<sup>®</sup> Precision Elite – Medizinisches Microneedling in Pottendorf
+                        </h2>
+                        <div className="space-y-6 text-gray-600 font-light leading-relaxed">
+                            <p>
+                                Der SkinPen<sup>®</sup> Precision Elite ist ein medizinisches Microneedling-Gerät, das gezielt den
+                                natürlichen Wundheilungsprozess der Haut aktiviert. Dadurch wird die Hautregeneration stimuliert und
+                                die Neubildung von Kollagen und Elastin angeregt.
+                            </p>
+                            <div>
+                                <p className="text-sm font-light tracking-[0.2em] uppercase text-gray-500 mb-4">
+                                    Die Behandlung eignet sich besonders zur Verbesserung von
+                                </p>
+                                <BulletList items={eignetSichBesonders} />
+                            </div>
+                            <p>
+                                Durch die kontrollierte Stimulation wird die Pigmentierungsaktivität der Haut reguliert und das
+                                Hautbild sichtbar verfeinert und ebenmäßiger. Bei Skinlux Pottendorf bieten wir SkinPen<sup>®</sup> Precision
+                                Elite Microneedling ab € 199 pro Sitzung an – inklusive persönlicher Beratung und individueller
+                                Nachsorge.
+                            </p>
                         </div>
                     </motion.div>
                 </div>

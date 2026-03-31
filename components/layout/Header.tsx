@@ -6,7 +6,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Zap, Droplets, Sparkles, Phone, ChevronRight } from "lucide-react";
 import { FEATURES } from "@/lib/features";
-import ComingSoonBadge from "@/components/ui/ComingSoonBadge";
 import { usePathname } from "next/navigation";
 
 const navigation = [
@@ -32,7 +31,7 @@ const navigation = [
                         name: "SkinPen® Precision Elite",
                         href: "/behandlungen/skinpen-precision",
                         description: "Medizinisches Microneedling, FDA-zertifiziert",
-                        comingSoon: true,
+                        highlight: true,
                     },
                     { name: "Premium Facials", href: "/behandlungen/signature-facials", description: "Exklusive Circadia Professional Treatments" }
                 ]
@@ -193,9 +192,6 @@ export default function Header() {
                                                                                             <span className="ml-2 text-xs bg-secondary text-white px-2 py-0.5 rounded">
                                                                                                 NEU
                                                                                             </span>
-                                                                                        )}
-                                                                                        {"comingSoon" in subItem && subItem.comingSoon && (
-                                                                                            <ComingSoonBadge size="sm" className="ml-2 align-middle" />
                                                                                         )}
                                                                                     </p>
                                                                                     <p className="text-xs text-gray-500 font-light">
@@ -392,9 +388,6 @@ export default function Header() {
                                                                                                 <span className="ml-2 text-xs bg-secondary text-white px-2 py-0.5 rounded">
                                                                                                     NEU
                                                                                                 </span>
-                                                                                            )}
-                                                                                            {"comingSoon" in subItem && subItem.comingSoon && (
-                                                                                                <ComingSoonBadge size="sm" className="ml-2 align-middle" />
                                                                                             )}
                                                                                         </p>
                                                                                         <p className="text-xs text-gray-500 font-light">

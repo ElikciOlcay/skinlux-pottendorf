@@ -4,7 +4,7 @@ import SkinPenPrecisionContent from "./SkinPenPrecisionContent";
 export const metadata: Metadata = {
     title: "SkinPen Precision Elite | Medizinisches Microneedling Pottendorf",
     description:
-        "Medizinisches Microneedling mit SkinPen Precision Elite in Pottendorf. FDA-zertifiziert, Kollagen & Elastin, Narben, Falten, Pigmentierung. Buchung folgt in Kürze.",
+        "Medizinisches Microneedling mit SkinPen Precision Elite in Pottendorf. FDA-zertifiziert, Kollagen & Elastin, Narben, Falten, Pigmentierung. Ab € 199.",
     alternates: {
         canonical: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
     },
@@ -59,6 +59,12 @@ const serviceSchema = {
     },
     areaServed: ["Pottendorf", "Baden", "Mödling", "Wiener Neustadt", "Niederösterreich"],
     url: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
+    offers: {
+        "@type": "Offer",
+        priceCurrency: "EUR",
+        availability: "https://schema.org/InStock",
+        url: "https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT",
+    },
 };
 
 const faqSchema = {
@@ -131,10 +137,10 @@ const faqSchema = {
         },
         {
             "@type": "Question",
-            name: "Was kostet Microneedling mit SkinPen? Wann kann ich buchen?",
+            name: "Was kostet Microneedling mit SkinPen?",
             acceptedAnswer: {
                 "@type": "Answer",
-                text: "Preise und Online-Buchung für SkinPen Precision Elite werden in Kürze veröffentlicht. Bis dahin erreichen Sie Skinlux Pottendorf über die Kontaktseite oder telefonisch.",
+                text: "Bei Skinlux Pottendorf kostet eine SkinPen Precision Elite Einzelbehandlung (60 Min.) € 199. Mit der 3er Kur sparen Sie und zahlen nur € 499. In der kostenlosen Beratung erstellen wir Ihren individuellen Behandlungsplan.",
             },
         },
     ],

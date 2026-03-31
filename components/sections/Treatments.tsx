@@ -27,7 +27,7 @@ const treatments = [
         description: "Medizinisches Microneedling – FDA-zertifiziert, für verfeinertes Hautbild.",
         image: "/images/microneedling/treatment-microneedling.png",
         href: "/behandlungen/skinpen-precision",
-        comingSoon: true,
+        isNew: true,
     },
     {
         id: 'premium-facials',

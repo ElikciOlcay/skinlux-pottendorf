@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, LucideIcon, Zap } from "lucide-react";
+import { ArrowRight, LucideIcon } from "lucide-react";
 
 type Offer = {
     id: string;
@@ -13,18 +13,7 @@ type Offer = {
     badge: string;
 };
 
-const offers: Offer[] = [
-    {
-        id: 'laser-kampagne',
-        title: "Laser März-Kampagne",
-        description: "50% Rabatt auf deine 1. und 8. Laser-Behandlung. Dauerhafte Haarfreiheit jetzt zum halben Preis starten!",
-        detail: "Gültig 01.03. – 31.03.2026",
-        icon: Zap,
-        href: 'https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT',
-        color: 'var(--color-primary)',
-        badge: "AKTION"
-    }
-];
+const offers: Offer[] = [];
 
 export default function SpecialOffers() {
     if (offers.length === 0) {

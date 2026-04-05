@@ -174,8 +174,15 @@ function MessageContent({ content }: { content: string }) {
     );
 }
 
+const EASTER_END = new Date("2026-04-07T00:00:00+02:00");
+
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
+    const [isEaster, setIsEaster] = useState(false);
+
+    useEffect(() => {
+        setIsEaster(new Date() < EASTER_END);
+    }, []);
     const [showActions, setShowActions] = useState(true);
     const [hasUserWritten, setHasUserWritten] = useState(false);
 
@@ -423,9 +430,9 @@ export default function ChatWidget() {
 
     return (
         <>
-            {/* Chat Button */}
+            {/* Chat Button - waehrend Ostern ausgeblendet */}
             <AnimatePresence>
-                {!isOpen && (
+                {!isOpen && !isEaster && (
                     <motion.button
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}

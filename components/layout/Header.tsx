@@ -50,12 +50,44 @@ const navigation = [
     { name: "Kontakt", href: "/kontakt" },
 ];
 
+const EASTER_END = new Date("2026-04-07T00:00:00+02:00");
+
+function useIsEasterActive() {
+    const [active, setActive] = useState(false);
+    useEffect(() => {
+        setActive(new Date() < EASTER_END);
+    }, []);
+    return active;
+}
+
+const EASTER_EGGS_POSITIONS = [
+    { left: "8%", delay: 0, duration: 6, color: "#f8bbd0" },
+    { left: "22%", delay: 1.2, duration: 7, color: "#fff176" },
+    { left: "38%", delay: 0.5, duration: 5.5, color: "#ce93d8" },
+    { left: "55%", delay: 2, duration: 6.5, color: "#80cbc4" },
+    { left: "72%", delay: 0.8, duration: 7.5, color: "#ffab91" },
+    { left: "88%", delay: 1.5, duration: 5, color: "#90caf9" },
+];
+
+function EasterEggIcon({ color, size = 14 }: { color: string; size?: number }) {
+    return (
+        <svg width={size} height={size * 1.3} viewBox="0 0 20 26" fill="none">
+            <ellipse cx="10" cy="14" rx="9" ry="12" fill={color} />
+            <ellipse cx="10" cy="14" rx="9" ry="12" fill="white" opacity="0.2" />
+            <path d="M4 10 Q10 7 16 10" stroke="white" strokeWidth="1.2" opacity="0.5" fill="none" />
+            <path d="M3 16 L17 16" stroke="white" strokeWidth="0.8" opacity="0.3" fill="none" />
+            <circle cx="7" cy="11" r="1.2" fill="white" opacity="0.4" />
+        </svg>
+    );
+}
+
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [mobileActiveMenu, setMobileActiveMenu] = useState<string | null>(null);
     const pathname = usePathname();
+    const isEaster = useIsEasterActive();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -99,7 +131,7 @@ export default function Header() {
                 }}
             >
                 <header
-                    className={`w-full transition-all duration-500 ${isScrolled
+                    className={`w-full transition-all duration-500 relative overflow-hidden ${isScrolled
                         ? "bg-white/95 backdrop-blur-sm shadow-sm"
                         : "bg-transparent"
                         }`}
@@ -107,6 +139,30 @@ export default function Header() {
                         paddingTop: 'max(0.5rem, env(safe-area-inset-top))'
                     }}
                 >
+                    {isEaster && !isScrolled && pathname === "/" && (
+                        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                            {EASTER_EGGS_POSITIONS.map((egg, i) => (
+                                <motion.div
+                                    key={i}
+                                    className="absolute"
+                                    style={{ left: egg.left, top: -20 }}
+                                    animate={{
+                                        y: [0, 120],
+                                        opacity: [0.7, 0],
+                                        rotate: [0, 15, -10, 5],
+                                    }}
+                                    transition={{
+                                        duration: egg.duration,
+                                        delay: egg.delay,
+                                        repeat: Infinity,
+                                        ease: "easeIn",
+                                    }}
+                                >
+                                    <EasterEggIcon color={egg.color} size={12} />
+                                </motion.div>
+                            ))}
+                        </div>
+                    )}
                     <div className="container mx-auto px-4">
                         <div className="flex items-center justify-between h-16 md:h-20">
                             {/* Logo */}
@@ -118,15 +174,15 @@ export default function Header() {
                                     <Image
                                         src={
                                             isScrolled
-                                                ? "/images/logo/skinlux-logo.png"
+                                                ? "/images/logo/skinlux-logo-easter.png"
                                                 : pathname === "/"
-                                                    ? "/images/logo/skinlux-logo-white.png"
-                                                    : "/images/logo/skinlux-logo.png"
+                                                    ? "/images/logo/skinlux-logo-easter-white.png"
+                                                    : "/images/logo/skinlux-logo-easter.png"
                                         }
-                                        alt="SKINLUX"
-                                        width={140}
-                                        height={48}
-                                        className="h-8 md:h-10 w-auto"
+                                        alt="SKINLUX Medical Beauty"
+                                        width={220}
+                                        height={75}
+                                        className="h-16 md:h-[4.5rem] w-auto"
                                         priority
                                     />
                                 </motion.div>
@@ -440,12 +496,35 @@ export default function Header() {
                                         </div>
                                     </motion.div>
 
+                                    {/* Oster-Hase im Mobile Nav */}
+                                    {isEaster && (
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: 0.5, type: "spring", stiffness: 120 }}
+                                            className="flex justify-center mt-8"
+                                        >
+                                            <motion.div
+                                                animate={{ y: [0, -6, 0] }}
+                                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                            >
+                                                <Image
+                                                    src="/images/easter-bunny.png"
+                                                    alt="Frohe Ostern!"
+                                                    width={100}
+                                                    height={100}
+                                                    className="w-20 h-20 opacity-80"
+                                                />
+                                            </motion.div>
+                                        </motion.div>
+                                    )}
+
                                     {/* Footer Links */}
                                     <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ delay: 0.5 }}
-                                        className="mt-12 pt-8 px-6 border-t border-gray-200"
+                                        className="mt-8 pt-8 px-6 border-t border-gray-200"
                                     >
                                         <div className="flex justify-center gap-6 text-xs">
                                             <Link
@@ -468,6 +547,32 @@ export default function Header() {
                             </nav>
                         </motion.div>
                     </div>
+                )}
+            </AnimatePresence>
+
+            {/* Oster-Hase - Peek von unten rechts */}
+            <AnimatePresence>
+                {isEaster && !isOpen && (
+                    <motion.div
+                        className="fixed bottom-0 right-2 sm:right-4 md:right-8 z-30 pointer-events-none"
+                        initial={{ y: 60, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 60, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 120, damping: 14, delay: 1.5 }}
+                    >
+                        <motion.div
+                            animate={{ y: [0, -5, 0] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                            <Image
+                                src="/images/easter-bunny.png"
+                                alt="Frohe Ostern!"
+                                width={90}
+                                height={90}
+                                className="w-14 h-14 sm:w-16 sm:h-16 md:w-[90px] md:h-[90px] translate-y-2 md:translate-y-3"
+                            />
+                        </motion.div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </>

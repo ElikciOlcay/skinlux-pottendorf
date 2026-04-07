@@ -131,7 +131,7 @@ export default function Header() {
                 }}
             >
                 <header
-                    className={`w-full transition-all duration-500 relative overflow-hidden ${isScrolled
+                    className={`w-full transition-all duration-500 relative ${isScrolled
                         ? "bg-white/95 backdrop-blur-sm shadow-sm"
                         : "bg-transparent"
                         }`}
@@ -174,15 +174,15 @@ export default function Header() {
                                     <Image
                                         src={
                                             isScrolled
-                                                ? "/images/logo/skinlux-logo-easter.png"
+                                                ? "/images/logo/skinlux-logo.png"
                                                 : pathname === "/"
-                                                    ? "/images/logo/skinlux-logo-easter-white.png"
-                                                    : "/images/logo/skinlux-logo-easter.png"
+                                                    ? "/images/logo/skinlux-logo-white.png"
+                                                    : "/images/logo/skinlux-logo.png"
                                         }
-                                        alt="SKINLUX Medical Beauty"
-                                        width={220}
-                                        height={75}
-                                        className="h-16 md:h-[4.5rem] w-auto"
+                                        alt="SKINLUX"
+                                        width={140}
+                                        height={48}
+                                        className="h-8 md:h-10 w-auto"
                                         priority
                                     />
                                 </motion.div>
@@ -215,68 +215,65 @@ export default function Header() {
                                         <AnimatePresence>
                                             {item.hasDropdown && activeDropdown === item.name && (
                                                 <motion.div
-                                                    initial={{ opacity: 0, y: 10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    exit={{ opacity: 0, y: 10 }}
-                                                    transition={{ duration: 0.2 }}
-                                                    className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[500px] bg-white shadow-xl border-t-2 border-secondary"
+                                                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                                                    transition={{ duration: 0.2, ease: "easeOut" }}
+                                                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[560px] bg-white/[0.98] backdrop-blur-xl rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-gray-100/80 overflow-hidden"
                                                 >
-                                                    <div className="p-8">
-                                                        <div className="grid grid-cols-2 gap-12">
+                                                    <div className="p-2">
+                                                        <div className="grid grid-cols-2 gap-1">
                                                             {item.dropdown?.map((category) => (
-                                                                <div key={category.category}>
-                                                                    <div className="flex items-center gap-2 mb-4">
-                                                                        <category.icon className="w-4 h-4 text-secondary" />
-                                                                        <h3 className="text-sm font-light tracking-widest uppercase text-gray-500">
+                                                                <div key={category.category} className="space-y-1">
+                                                                    <div className="flex items-center gap-2 px-4 pt-4 pb-2">
+                                                                        <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-gray-50">
+                                                                            <category.icon className="w-3.5 h-3.5 text-gray-400" />
+                                                                        </div>
+                                                                        <h3 className="text-[11px] font-medium tracking-widest uppercase text-gray-400">
                                                                             {category.category}
                                                                         </h3>
                                                                     </div>
-                                                                    <ul className="space-y-3">
-                                                                        {category.items.map((subItem) => (
-                                                                            <li key={subItem.name}>
-                                                                                <Link
-                                                                                    href={subItem.href}
-                                                                                    className="group block"
-                                                                                    onClick={() => setActiveDropdown(null)}
-                                                                                >
-                                                                                    <p className={`text-sm font-light mb-1 transition-colors ${subItem.highlight
-                                                                                        ? 'text-secondary hover:text-secondary-dark'
-                                                                                        : 'text-gray-800 hover:text-black'
-                                                                                        }`}>
-                                                                                        {subItem.name}
-                                                                                        {subItem.highlight && (
-                                                                                            <span className="ml-2 text-xs bg-secondary text-white px-2 py-0.5 rounded">
-                                                                                                NEU
-                                                                                            </span>
-                                                                                        )}
-                                                                                    </p>
-                                                                                    <p className="text-xs text-gray-500 font-light">
-                                                                                        {subItem.description}
-                                                                                    </p>
-                                                                                </Link>
-                                                                            </li>
-                                                                        ))}
-                                                                    </ul>
+                                                                    {category.items.map((subItem) => (
+                                                                        <Link
+                                                                            key={subItem.name}
+                                                                            href={subItem.href}
+                                                                            className="group flex items-start gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-50/80 transition-colors"
+                                                                            onClick={() => setActiveDropdown(null)}
+                                                                        >
+                                                                            <div className="flex-1 min-w-0">
+                                                                                <p className="text-[13px] font-normal text-gray-800 group-hover:text-black transition-colors flex items-center gap-2">
+                                                                                    {subItem.name}
+                                                                                </p>
+                                                                                <p className="text-[11px] text-gray-400 font-light mt-0.5 leading-relaxed">
+                                                                                    {subItem.description}
+                                                                                </p>
+                                                                            </div>
+                                                                            <ChevronRight className="w-3.5 h-3.5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0" />
+                                                                        </Link>
+                                                                    ))}
                                                                 </div>
                                                             ))}
                                                         </div>
+                                                    </div>
 
-                                                        {/* Bottom CTA */}
-                                                        <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
-                                                            <div className="flex items-center gap-4 text-sm text-gray-600">
-                                                                <Phone className="w-4 h-4" />
-                                                                <span className="font-light">+43 664 91 88 632</span>
-                                                            </div>
-                                                            <a
-                                                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                className="text-sm font-light text-secondary hover:text-secondary-dark transition-colors"
-                                                                onClick={() => setActiveDropdown(null)}
-                                                            >
-                                                                Online Termin buchen →
-                                                            </a>
-                                                        </div>
+                                                    <div className="px-6 py-4 bg-gray-50/60 border-t border-gray-100/80 flex items-center justify-between">
+                                                        <a
+                                                            href="tel:+4366491886320"
+                                                            className="flex items-center gap-2.5 text-xs text-gray-500 hover:text-gray-700 transition-colors"
+                                                        >
+                                                            <Phone className="w-3.5 h-3.5" />
+                                                            <span className="font-light">+43 664 91 88 632</span>
+                                                        </a>
+                                                        <a
+                                                            href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-black hover:bg-gray-800 px-4 py-2 rounded-full transition-colors"
+                                                            onClick={() => setActiveDropdown(null)}
+                                                        >
+                                                            Termin buchen
+                                                            <ChevronRight className="w-3 h-3" />
+                                                        </a>
                                                     </div>
                                                 </motion.div>
                                             )}

@@ -163,8 +163,8 @@ const Footer = () => {
                         <div className="flex items-center">
                             <Link href="/">
                                 <Image
-                                    src="/images/logo/skinlux-logo-easter.png"
-                                    alt="SKINLUX Medical Beauty"
+                                    src="/images/logo/skinlux-logo.png"
+                                    alt="SKINLUX"
                                     width={100}
                                     height={32}
                                     className="h-6 w-auto hover:opacity-80 transition-opacity cursor-pointer"

@@ -382,7 +382,8 @@ export default function Header() {
                             <nav
                                 className="h-full overflow-y-auto"
                                 style={{
-                                    paddingTop: 'calc(4rem + max(0.5rem, env(safe-area-inset-top)))'
+                                    paddingTop: 'calc(var(--promo-banner-height, 0px) + 4rem + max(0.5rem, env(safe-area-inset-top)))',
+                                    paddingBottom: 'max(2rem, env(safe-area-inset-bottom))'
                                 }}
                             >
                                 <div className="pb-8">

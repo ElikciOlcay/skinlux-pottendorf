@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Gift, Check, AlertCircle, Loader, Mail, MapPin, User, CreditCard } from "lucide-react";
 import { getCurrentSubdomain } from "@/lib/supabase";
+import MothersDayVoucherBanner from "@/components/ui/MothersDayVoucherBanner";
 
 const voucherAmounts = [50, 100, 150, 200, 250, 300];
 
@@ -323,7 +324,7 @@ export default function GutscheineContent() {
                 </div>
             </section>
 
-
+            <MothersDayVoucherBanner />
 
             {/* Step Content */}
             <section className="py-8">

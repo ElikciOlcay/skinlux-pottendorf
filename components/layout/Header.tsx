@@ -118,16 +118,17 @@ export default function Header() {
         <>
             {/* Fixed Header Container */}
             <div
-                className="!fixed !top-0 !left-0 !right-0 !z-40"
+                className="!fixed !left-0 !right-0 !z-40"
                 style={{
                     position: 'fixed' as const,
-                    top: 0,
+                    top: 'var(--promo-banner-height, 0px)',
                     left: 0,
                     right: 0,
                     zIndex: 40,
                     transform: 'none',
                     backfaceVisibility: 'hidden',
-                    willChange: 'auto'
+                    willChange: 'auto',
+                    transition: 'top 0.3s ease'
                 }}
             >
                 <header

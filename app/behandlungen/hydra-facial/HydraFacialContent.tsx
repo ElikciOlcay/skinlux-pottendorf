@@ -96,12 +96,12 @@ const faq = [
         antwort: "Bei Skinlux Pottendorf bieten wir verschiedene HydraFacial-Pakete an. Die genauen Preise erfahren Sie bei der Terminvereinbarung oder in einem kostenlosen Beratungsgespraech. Jede Behandlung wird individuell auf Ihre Haut abgestimmt."
     },
     {
-        frage: "Fuer wen ist HydraFacial geeignet?",
-        antwort: "HydraFacial eignet sich fuer nahezu alle Hauttypen und Altersgruppen. Besonders empfehlenswert ist die Behandlung bei fahler Haut, verstopften Poren, Akne, trockener Haut, Sonnenschaeden und ersten Alterungszeichen."
+        frage: "Für wen ist HydraFacial geeignet?",
+        antwort: "HydraFacial eignet sich für nahezu alle Hauttypen und Altersgruppen. Besonders empfehlenswert ist die Behandlung bei fahler Haut, verstopften Poren, Akne, trockener Haut, Sonnenschäden und ersten Alterungszeichen."
     },
     {
         frage: "Wie lange haelt der HydraFacial-Effekt?",
-        antwort: "Der sofortige Glow-Effekt haelt etwa 5-7 Tage an. Die tiefergehenden Effekte wie verbesserte Hydration und verfeinerte Poren halten 4-6 Wochen. Fuer langfristig strahlende Haut empfehlen wir monatliche Behandlungen."
+        antwort: "Der sofortige Glow-Effekt haelt etwa 5-7 Tage an. Die tiefergehenden Effekte wie verbesserte Hydration und verfeinerte Poren halten 4-6 Wochen. Für langfristig strahlende Haut empfehlen wir monatliche Behandlungen."
     }
 ];
 

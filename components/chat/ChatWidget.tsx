@@ -431,7 +431,7 @@ export default function ChatWidget() {
 
     return (
         <>
-            {/* Chat Button - waehrend Ostern ausgeblendet */}
+            {/* Chat Button - während Ostern ausgeblendet */}
             <AnimatePresence>
                 {!isOpen && !isEaster && (
                     <motion.button

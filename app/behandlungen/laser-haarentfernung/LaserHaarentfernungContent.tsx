@@ -26,19 +26,19 @@ const laserFaq = [
     },
     {
         frage: "Was kostet Laser Haarentfernung in Pottendorf?",
-        antwort: "Die Preise bei Skinlux beginnen ab 35 Euro fuer kleine Zonen wie Oberlippe oder Kinn. Groessere Bereiche wie Beine komplett kosten 180 Euro. Wir bieten auch Pakete mit Ersparnis an. Die kostenlose Erstberatung ist unverbindlich."
+        antwort: "Die Preise bei Skinlux beginnen ab 35 Euro für kleine Zonen wie Oberlippe oder Kinn. Größere Bereiche wie Beine komplett kosten 180 Euro. Wir bieten auch Pakete mit Ersparnis an. Die kostenlose Erstberatung ist unverbindlich."
     },
     {
         frage: "Wie funktioniert Laser Haarentfernung?",
-        antwort: "Der Diodenlaser sendet gezieltes Licht, das vom Melanin im Haarfollikel absorbiert wird. Die entstehende Waerme zerstoert die Haarwurzel dauerhaft, waehrend das umliegende Gewebe unversehrt bleibt. Unser integriertes Kuehlsystem sorgt dabei fuer maximalen Komfort."
+        antwort: "Der Diodenlaser sendet gezieltes Licht, das vom Melanin im Haarfollikel absorbiert wird. Die entstehende Wärme zerstört die Haarwurzel dauerhaft, während das umliegende Gewebe unversehrt bleibt. Unser integriertes Kühlsystem sorgt dabei für maximalen Komfort."
     },
     {
         frage: "Ist Laser Haarentfernung dauerhaft?",
-        antwort: "Ja, nach einer vollstaendigen Behandlungsserie von 6-8 Sitzungen ist eine dauerhafte Reduktion von bis zu 90% der Haare moeglich. Vereinzelt koennen feine Haare nachwachsen, die mit einer Auffrischungsbehandlung einfach entfernt werden."
+        antwort: "Ja, nach einer vollstaendigen Behandlungsserie von 6-8 Sitzungen ist eine dauerhafte Reduktion von bis zu 90% der Haare möglich. Vereinzelt können feine Haare nachwachsen, die mit einer Auffrischungsbehandlung einfach entfernt werden."
     },
     {
         frage: "Welche Risiken hat Laser Haarentfernung?",
-        antwort: "Bei professioneller Durchfuehrung ist die Behandlung sehr sicher. Voruebergehende Roetungen oder leichte Schwellungen koennen auftreten und klingen innerhalb weniger Stunden ab. Dank unserer FDA-zertifizierten Technologie sind ernsthafte Nebenwirkungen aeusserst selten."
+        antwort: "Bei professioneller Durchfuehrung ist die Behandlung sehr sicher. Vorübergehende Roetungen oder leichte Schwellungen können auftreten und klingen innerhalb weniger Stunden ab. Dank unserer FDA-zertifizierten Technologie sind ernsthafte Nebenwirkungen aeusserst selten."
     },
     {
         frage: "Wie lange dauert eine Laser-Sitzung?",

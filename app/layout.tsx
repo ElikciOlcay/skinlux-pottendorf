@@ -84,7 +84,7 @@ export default function RootLayout({
               "alternateName": "Skinlux Medical Beauty Studio Pottendorf",
               "image": "https://pottendorf.skinlux.at/images/logo/skinlux-logo.png",
               "logo": "https://pottendorf.skinlux.at/images/logo/skinlux-logo.png",
-              "description": "Skinlux Medical Beauty Studio in Pottendorf -- Ihr Spezialist fuer dauerhafte Laser Haarentfernung, HydraFacial und Signature Facials in Niederösterreich. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Fuer Kunden aus Pottendorf, Baden, Moedling, Wiener Neustadt und ganz Niederösterreich.",
+              "description": "Skinlux Medical Beauty Studio in Pottendorf -- Ihr Spezialist für dauerhafte Laser Haarentfernung, HydraFacial und Signature Facials in Niederösterreich. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Für Kunden aus Pottendorf, Baden, Mödling, Wiener Neustadt und ganz Niederösterreich.",
               "url": "https://pottendorf.skinlux.at",
               "telephone": "+436649188632",
               "email": "hey@skinlux.at",

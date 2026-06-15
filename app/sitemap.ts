@@ -1,11 +1,12 @@
 import { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/site';
+import { LOCAL_LANDING_PATHS } from '@/lib/seo/localLandingData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = SITE_URL;
     const currentDate = new Date('2026-02-26');
 
-    return [
+    const corePages: MetadataRoute.Sitemap = [
         {
             url: baseUrl,
             lastModified: currentDate,
@@ -97,4 +98,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.3,
         },
     ];
+
+    const localPages: MetadataRoute.Sitemap = LOCAL_LANDING_PATHS.map(({ city, service }) => ({
+        url: `${baseUrl}/${city}/${service}`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.75,
+    }));
+
+    return [...corePages, ...localPages];
 }

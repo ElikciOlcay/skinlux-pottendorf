@@ -137,6 +137,32 @@ const Footer = () => {
                 </div>
             </div>
 
+            {/* Local SEO */}
+            <div className="border-t border-gray-100">
+                <div className="container py-8">
+                    <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-light text-gray-500">
+                        <Link href="/pottendorf/laser-haarentfernung" className="hover:text-black transition-colors">
+                            Laser Pottendorf
+                        </Link>
+                        <Link href="/wien/laser-haarentfernung" className="hover:text-black transition-colors">
+                            Laser Wien
+                        </Link>
+                        <Link href="/wiener-neustadt/laser-haarentfernung" className="hover:text-black transition-colors">
+                            Laser Wiener Neustadt
+                        </Link>
+                        <Link href="/baden-bei-wien/laser-haarentfernung" className="hover:text-black transition-colors">
+                            Laser Baden
+                        </Link>
+                        <Link href="/moedling/laser-haarentfernung" className="hover:text-black transition-colors">
+                            Laser Mödling
+                        </Link>
+                        <Link href="/neunkirchen/laser-haarentfernung" className="hover:text-black transition-colors">
+                            Laser Neunkirchen
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
             {/* Karriere Banner */}
             <div className="border-t border-gray-100">
                 <div className="container py-5">

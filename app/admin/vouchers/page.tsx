@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
     LogOut,
@@ -566,7 +567,7 @@ export default function VouchersPage() {
                     <div className="flex flex-wrap items-center justify-between gap-4 py-3 sm:py-4">
                         {/* Left: Back + Titel */}
                         <div className="flex items-center gap-3 sm:gap-5 min-w-0">
-                            <a
+                            <Link
                                 href="/admin/dashboard"
                                 className={`shrink-0 inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${theme === 'dark'
                                     ? 'text-slate-400 hover:text-white hover:bg-slate-800/80'
@@ -575,7 +576,7 @@ export default function VouchersPage() {
                             >
                                 <ArrowLeft className="w-4 h-4" />
                                 <span className="hidden sm:inline">Dashboard</span>
-                            </a>
+                            </Link>
                             <div className={`shrink-0 w-px h-8 ${theme === 'dark' ? 'bg-slate-700' : 'bg-gray-200'}`} />
                             <div className="flex items-center gap-3 min-w-0">
                                 <div className="flex shrink-0 items-center justify-center w-10 h-10 sm:w-11 sm:h-11 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-lg shadow-purple-500/20 ring-2 ring-white/10">
@@ -1757,7 +1758,7 @@ export default function VouchersPage() {
 
                             {/* Modal Content */}
                             <div className="px-6 py-4 space-y-2">
-                                <a
+                                <Link
                                     href={`/admin/orders/${selectedVoucher.id}`}
                                     className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors ${theme === 'dark'
                                         ? 'text-slate-300 hover:bg-slate-800 hover:text-white'
@@ -1767,7 +1768,7 @@ export default function VouchersPage() {
                                 >
                                     <Eye className="w-5 h-5 mr-3" />
                                     Details anzeigen
-                                </a>
+                                </Link>
 
                                 {/* Nur anzeigen wenn im aktiven Tab und Status pending */}
                                 {currentTab === 'active' && selectedVoucher.payment_status === 'pending' && (

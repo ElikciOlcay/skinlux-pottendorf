@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import HautanalyseContent from "./HautanalyseContent";
+import TreatmentSeoLinks from "@/components/seo/TreatmentSeoLinks";
 
 export const metadata: Metadata = {
     title: "Hautanalyse Pottendorf | Professionelle Diagnose",
@@ -87,6 +88,7 @@ export default function HautanalysePage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
             <HautanalyseContent />
+            <TreatmentSeoLinks serviceSlug="hautanalyse" />
         </>
     );
 }

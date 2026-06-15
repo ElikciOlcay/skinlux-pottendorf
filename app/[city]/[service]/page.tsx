@@ -10,6 +10,7 @@ import {
 import {
   getOtherCitiesForService,
   getOtherServicesForCity,
+  getGuidesForService,
   getServiceBySlug,
 } from "@/lib/seo/internalLinks";
 import WwwResearchLink from "@/components/seo/WwwResearchLink";
@@ -63,6 +64,7 @@ export default async function LocalLandingPage({ params }: Props) {
   const serviceDefinition = getServiceBySlug(entry.service);
   const otherCities = getOtherCitiesForService(entry.service, entry.city);
   const otherServices = getOtherServicesForCity(entry.city, entry.service);
+  const relatedGuides = getGuidesForService(entry.service, 3);
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -178,6 +180,31 @@ export default async function LocalLandingPage({ params }: Props) {
         </div>
       </section>
 
+      <section className="py-16 md:py-20">
+        <div className="container max-w-4xl">
+          <p className="text-lg text-gray-700 font-light leading-relaxed mb-10">
+            {entry.intro}
+          </p>
+          {entry.travelNote && (
+            <p className="text-base text-gray-600 font-light leading-relaxed mb-10 border-l-2 border-gray-200 pl-6">
+              {entry.travelNote}
+            </p>
+          )}
+          <div className="space-y-10">
+            {entry.sections.map((section) => (
+              <article key={section.heading}>
+                <h2 className="text-2xl md:text-3xl font-light text-black mb-4">
+                  {section.heading}
+                </h2>
+                <p className="text-gray-600 font-light leading-relaxed">
+                  {section.body}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 md:py-20 bg-gray-50">
         <div className="container max-w-4xl">
           <h2 className="text-3xl md:text-4xl font-light text-black mb-8">
@@ -254,6 +281,31 @@ export default async function LocalLandingPage({ params }: Props) {
                     in {entry.cityLabel}
                   </span>
                 </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {relatedGuides.length > 0 && (
+        <section className="py-16 md:py-20 bg-white border-t border-gray-100">
+          <div className="container max-w-4xl">
+            <h2 className="text-3xl md:text-4xl font-light text-black mb-8">
+              Hintergrundwissen zu {entry.serviceLabel}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {relatedGuides.map((guide) => (
+                <a
+                  key={guide.url}
+                  href={guide.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group p-5 border border-gray-200 hover:border-gray-400 transition-colors"
+                >
+                  <span className="text-base font-light text-black group-hover:text-gray-700">
+                    {guide.label}
+                  </span>
+                </a>
               ))}
             </div>
           </div>

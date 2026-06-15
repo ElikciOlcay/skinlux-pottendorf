@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import SignatureFacialsContent from "./SignatureFacialsContent";
+import TreatmentSeoLinks from "@/components/seo/TreatmentSeoLinks";
 
 export const metadata: Metadata = {
     title: "Premium Facials Pottendorf | Circadia Kosmetik Baden",
@@ -108,6 +109,7 @@ export default function SignatureFacialsPage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
             <SignatureFacialsContent />
+            <TreatmentSeoLinks serviceSlug="signature-facials" />
         </>
     );
 }

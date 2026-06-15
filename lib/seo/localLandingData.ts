@@ -12,6 +12,9 @@ export type LocalLandingPageEntry = {
   title: string;
   description: string;
   h1: string;
+  intro: string;
+  travelNote?: string;
+  sections: Array<{ heading: string; body: string }>;
   primaryKeyword: string;
   secondaryKeywords: string[];
   faq: Array<{ question: string; answer: string }>;
@@ -165,6 +168,73 @@ function buildFaq(
   }
 }
 
+function buildIntro(
+  city: CityDefinition,
+  serviceLabel: string,
+  isStudioCity: boolean
+): string {
+  if (isStudioCity) {
+    return `${serviceLabel} im ${STUDIO_LABEL}: Modernste Technologie, persönliche Beratung und transparente Preise. In der kostenlosen Erstberatung analysieren wir Haut- und Haartyp und erstellen Ihren individuellen Behandlungsplan.`;
+  }
+  return `Sie suchen ${serviceLabel.toLowerCase()} in ${city.label}? Viele Kundinnen und Kunden aus ${city.label} und Umgebung vertrauen auf unser Studio in Pottendorf – gut erreichbar aus dem Wiener Umland und Niederösterreich.`;
+}
+
+function buildTravelNote(cityLabel: string, isStudioCity: boolean): string | undefined {
+  if (isStudioCity) return undefined;
+  return `Von ${cityLabel} erreichen Sie unser Studio in Pottendorf (${STUDIO_ADDRESS}) bequem mit dem Auto oder öffentlichen Verkehr. Parkplätze sind vorhanden. Termine buchen Sie online – wir freuen uns auf Ihren Besuch.`;
+}
+
+function buildSections(
+  serviceSlug: string,
+  cityLabel: string,
+  isStudioCity: boolean
+): Array<{ heading: string; body: string }> {
+  const location = isStudioCity ? "in Pottendorf" : `für Kundinnen aus ${cityLabel}`;
+
+  switch (serviceSlug) {
+    case "laser-haarentfernung":
+      return [
+        {
+          heading: `Warum Skinlux für Laser Haarentfernung ${location}?`,
+          body: "Diodenlaser-Technologie mit integriertem Kühlsystem – nahezu schmerzfrei und für alle Hauttypen. Jede Behandlung wird individuell auf Zone, Haarfarbe und Hauttyp abgestimmt.",
+        },
+        {
+          heading: "Ablauf und Ergebnisse",
+          body: "Nach der kostenlosen Erstberatung planen wir 6 bis 8 Sitzungen im Abstand von 4 bis 6 Wochen. Die meisten Kundinnen sehen bereits nach wenigen Terminen deutliche Reduktion.",
+        },
+      ];
+    case "hydra-facial":
+      return [
+        {
+          heading: `HydraFacial ${location}`,
+          body: "3-in-1 Behandlung: Tiefenreinigung, Peeling und Hydration in einer Sitzung. Ideal bei fahler, unreiner oder trockener Haut – mit sofort sichtbarem Glow.",
+        },
+        {
+          heading: "Individuelle Anpassung",
+          body: "Seren und Boosters werden passend zu Ihrem Hautzustand gewählt. Für dauerhaft gesunde Haut empfehlen wir alle 4 bis 6 Wochen eine Behandlung.",
+        },
+      ];
+    case "skinpen-precision":
+      return [
+        {
+          heading: `SkinPen Microneedling ${location}`,
+          body: "FDA-zugelassenes Microneedling regt die Kollagenproduktion an – wirksam bei Aknenarben, großen Poren und feinen Linien.",
+        },
+        {
+          heading: "Realistische Erwartungen",
+          body: "Für optimale Ergebnisse planen wir 3 bis 6 Sitzungen. Leichte Rötungen klingen in 24 bis 48 Stunden ab.",
+        },
+      ];
+    default:
+      return [
+        {
+          heading: `${serviceSlug.replace(/-/g, " ")} ${location}`,
+          body: `Im ${STUDIO_LABEL} erhalten Sie professionelle Behandlungen mit persönlicher Beratung. Buchen Sie Ihre kostenlose Erstberatung online.`,
+        },
+      ];
+  }
+}
+
 function buildEntry(
   city: CityDefinition,
   serviceSlug: string
@@ -192,6 +262,9 @@ function buildEntry(
     h1: isStudioCity
       ? `${service.label} in Pottendorf`
       : `${service.label} für ${city.label}`,
+    intro: buildIntro(city, service.label, isStudioCity),
+    travelNote: buildTravelNote(city.label, isStudioCity),
+    sections: buildSections(service.slug, city.label, isStudioCity),
     primaryKeyword: `${serviceKeyword} ${cityKeyword}`,
     secondaryKeywords: [
       `${serviceKeyword} ${cityKeyword} termin`,

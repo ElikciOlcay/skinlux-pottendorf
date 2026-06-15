@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { SHORE_BOOKING_URL } from "@/lib/booking";
 import HydraFacialContent from "./HydraFacialContent";
+import TreatmentSeoLinks from "@/components/seo/TreatmentSeoLinks";
 
 export const metadata: Metadata = {
     title: "HydraFacial Pottendorf | Gesichtsbehandlung Baden, Mödling",
@@ -185,6 +186,7 @@ export default function HydraFacialPage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
             <HydraFacialContent />
+            <TreatmentSeoLinks serviceSlug="hydra-facial" />
         </>
     );
 }

@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 import type { Metadata } from "next";
 import Hero from "@/components/sections/Hero";
+import RegionalSeoHub from "@/components/seo/RegionalSeoHub";
 import { GOOGLE_REVIEWS_SCHEMA } from "@/lib/reviews";
 
 const Treatments = dynamic(() => import("@/components/sections/Treatments"), {
@@ -86,6 +87,7 @@ export default function Home() {
       />
       <Hero />
       <Treatments />
+      <RegionalSeoHub />
       <SpecialOffers />
       <About />
       <Testimonials />

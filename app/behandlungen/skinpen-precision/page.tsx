@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { SHORE_BOOKING_URL } from "@/lib/booking";
 import SkinPenPrecisionContent from "./SkinPenPrecisionContent";
+import TreatmentSeoLinks from "@/components/seo/TreatmentSeoLinks";
 
 export const metadata: Metadata = {
     title: "SkinPen Precision Elite | Medizinisches Microneedling Pottendorf",
@@ -192,6 +193,7 @@ export default function SkinPenPrecisionPage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
             <SkinPenPrecisionContent />
+            <TreatmentSeoLinks serviceSlug="skinpen-precision" />
         </>
     );
 }

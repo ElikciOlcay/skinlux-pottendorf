@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { SHORE_BOOKING_URL } from "@/lib/booking";
 import LaserHaarentfernungContent from "./LaserHaarentfernungContent";
+import TreatmentSeoLinks from "@/components/seo/TreatmentSeoLinks";
 
 export const metadata: Metadata = {
     title: "Laser Haarentfernung Pottendorf | Baden, Mödling",
@@ -185,6 +186,7 @@ export default function LaserHaarentfernungPage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
             <LaserHaarentfernungContent />
+            <TreatmentSeoLinks serviceSlug="laser-haarentfernung" />
         </>
     );
 }

@@ -1,7 +1,22 @@
+import { getWwwGuidesForService } from "@/lib/seo/wwwLinks";
+
 export type ServiceDefinition = {
   slug: string;
   label: string;
   mainUrl: string;
+};
+
+export type LocalPageLink = {
+  city: string;
+  cityLabel: string;
+  url: string;
+};
+
+export type GuideLink = {
+  slug: string;
+  label: string;
+  url: string;
+  external?: boolean;
 };
 
 export const SERVICES: ServiceDefinition[] = [
@@ -115,19 +130,46 @@ export function getCityBySlug(slug: string): CityDefinition | undefined {
   return CITIES.find((c) => c.slug === slug);
 }
 
+export function getLocalPageUrl(citySlug: string, serviceSlug: string): string {
+  return `/${citySlug}/${serviceSlug}`;
+}
+
 export function getOtherCitiesForService(
   serviceSlug: string,
   currentCity: string
-): Array<{ city: string; cityLabel: string; url: string }> {
-  return CITIES.filter(
-    (c) => c.slug !== currentCity && c.services.includes(serviceSlug)
-  )
-    .slice(0, 6)
+): LocalPageLink[] {
+  return getCitiesForService(serviceSlug, {
+    excludeCity: currentCity,
+    limit: 6,
+  });
+}
+
+export function getCitiesForService(
+  serviceSlug: string,
+  options?: { excludeCity?: string; limit?: number }
+): LocalPageLink[] {
+  const exclude = options?.excludeCity;
+
+  return CITIES.filter((c) => c.services.includes(serviceSlug))
+    .filter((c) => c.slug !== exclude)
+    .slice(0, options?.limit ?? 12)
     .map((c) => ({
       city: c.slug,
       cityLabel: c.label,
-      url: `/${c.slug}/${serviceSlug}`,
+      url: getLocalPageUrl(c.slug, serviceSlug),
     }));
+}
+
+export function getGuidesForService(
+  serviceSlug: string,
+  limit = 4
+): GuideLink[] {
+  return getWwwGuidesForService(serviceSlug, limit).map((guide, index) => ({
+    slug: `www-${index}`,
+    label: guide.label,
+    url: guide.url,
+    external: true,
+  }));
 }
 
 export function getOtherServicesForCity(
@@ -142,7 +184,11 @@ export function getOtherServicesForCity(
     .map((s) => {
       const service = getServiceBySlug(s);
       if (!service) return null;
-      return { slug: s, label: service.label, url: `/${citySlug}/${s}` };
+      return {
+        slug: s,
+        label: service.label,
+        url: getLocalPageUrl(citySlug, s),
+      };
     })
     .filter((s): s is { slug: string; label: string; url: string } => s !== null);
 }

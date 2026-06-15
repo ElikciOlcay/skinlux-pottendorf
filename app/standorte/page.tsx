@@ -1,16 +1,17 @@
 import { Metadata } from "next";
 import StandorteContent from "./StandorteContent";
+import { GOOGLE_AGGREGATE_RATING_SCHEMA } from "@/lib/business-info";
 
 export const metadata: Metadata = {
     title: "Standorte | Skinlux Studios",
     description: "Alle Skinlux Studios auf einen Blick. Professionelle Laser Haarentfernung in Pottendorf, Saalfelden & Mattsee. Studio in Ihrer Nähe finden.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/standorte",
+        canonical: "https://pottendorf.skinlux.at/standorte",
     },
     openGraph: {
         title: "Standorte | Skinlux Studios",
         description: "Alle Skinlux Studios auf einen Blick. Professionelle Laser Haarentfernung in Pottendorf, Saalfelden, Mattsee und mehr.",
-        url: "https://skinlux-pottendorf.at/standorte",
+        url: "https://pottendorf.skinlux.at/standorte",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -25,12 +26,12 @@ export const metadata: Metadata = {
 const localBusinessPottendorf = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://skinlux-pottendorf.at/#business",
+    "@id": "https://pottendorf.skinlux.at/#business",
     name: "Skinlux Pottendorf",
     image: "/images/about/studio/interior.jpg",
     telephone: "+436649188632",
     email: "hey@skinlux.at",
-    url: "https://skinlux-pottendorf.at",
+    url: "https://pottendorf.skinlux.at",
     address: {
         "@type": "PostalAddress",
         streetAddress: "Marktplatz 14",
@@ -44,13 +45,7 @@ const localBusinessPottendorf = {
         latitude: 47.8667,
         longitude: 16.2833,
     },
-    aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.9",
-        ratingCount: "120",
-        bestRating: "5",
-        worstRating: "1",
-    },
+    aggregateRating: GOOGLE_AGGREGATE_RATING_SCHEMA,
 };
 
 const localBusinessSaalfelden = {
@@ -111,13 +106,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Standorte",
-            item: "https://skinlux-pottendorf.at/standorte",
+            item: "https://pottendorf.skinlux.at/standorte",
         },
     ],
 };

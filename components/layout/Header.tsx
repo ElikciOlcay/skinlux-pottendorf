@@ -1,5 +1,6 @@
 "use client";
 
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -259,14 +260,15 @@ export default function Header() {
 
                                                     <div className="px-6 py-4 bg-gray-50/60 border-t border-gray-100/80 flex items-center justify-between">
                                                         <a
-                                                            href="tel:+4366491886320"
+                                                            href="tel:+436649188632"
                                                             className="flex items-center gap-2.5 text-xs text-gray-500 hover:text-gray-700 transition-colors"
                                                         >
                                                             <Phone className="w-3.5 h-3.5" />
                                                             <span className="font-light">+43 664 91 88 632</span>
                                                         </a>
                                                         <a
-                                                            href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                                            href={SHORE_BOOKING_URL}
+                                                            data-conversion-source="header-dropdown"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-black hover:bg-gray-800 px-4 py-2 rounded-full transition-colors"
@@ -286,7 +288,8 @@ export default function Header() {
                             {/* Desktop CTA Button */}
                             <div className="hidden md:block">
                                 <a
-                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    href={SHORE_BOOKING_URL}
+                                    data-conversion-source="header-desktop"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn-primary inline-flex items-center justify-center"
@@ -478,7 +481,8 @@ export default function Header() {
                                         className="mt-8 px-6 space-y-4"
                                     >
                                         <a
-                                            href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                            href={SHORE_BOOKING_URL}
+                                            data-conversion-source="header-mobile"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             onClick={closeMobileMenu}

@@ -1,8 +1,10 @@
 "use client";
 
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Star, Heart, Shield, Users, Award, Sparkles } from "lucide-react";
+import { GOOGLE_RATING } from "@/lib/business-info";
 
 export default function UeberUnsContent() {
     return (
@@ -40,7 +42,7 @@ export default function UeberUnsContent() {
                             <span className="text-gray-300">|</span>
                             <div className="flex items-center gap-2">
                                 <Star className="w-4 h-4" style={{ color: 'var(--color-secondary)' }} />
-                                <span>5.0 Google Bewertung</span>
+                                <span>{GOOGLE_RATING.value} Google Bewertung ({GOOGLE_RATING.reviewCount})</span>
                             </div>
                         </div>
                     </div>
@@ -292,7 +294,7 @@ export default function UeberUnsContent() {
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                                 {[
                                     { number: "2000+", label: "Zufriedene Kunden" },
-                                    { number: "5★", label: "Google Bewertung" },
+                                    { number: `${GOOGLE_RATING.value}★`, label: "Google Bewertung" },
                                     { number: "95%", label: "Zufriedenheit" },
                                     { number: "5", label: "Jahre Erfahrung" }
                                 ].map((stat) => (
@@ -354,7 +356,7 @@ export default function UeberUnsContent() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-6 justify-center">
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-black text-white font-light tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gray-800"

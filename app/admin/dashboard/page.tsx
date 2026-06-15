@@ -374,7 +374,7 @@ export default function AdminDashboard() {
                         Skinlux Partner Dashboard • Alle Ihre Anwendungen an einem Ort
                     </p>
                     <p className={`text-xs ${theme === 'dark' ? 'text-slate-600' : 'text-gray-400'} mt-1 font-light transition-colors duration-300`}>
-                        © 2024 Skinlux. Alle Rechte vorbehalten.
+                        © 2026 Skinlux. Alle Rechte vorbehalten.
                     </p>
                 </div>
             </main>

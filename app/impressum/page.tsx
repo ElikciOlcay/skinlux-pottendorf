@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     title: "Impressum | Skinlux Pottendorf",
     description: "Impressum von Skinlux Pottendorf. Informationspflicht laut §5 E-Commerce Gesetz. Kontaktdaten, Unternehmensdaten und rechtliche Informationen.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/impressum",
+        canonical: "https://pottendorf.skinlux.at/impressum",
     },
     robots: {
         index: false,
@@ -21,13 +21,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Impressum",
-            item: "https://skinlux-pottendorf.at/impressum",
+            item: "https://pottendorf.skinlux.at/impressum",
         },
     ],
 };

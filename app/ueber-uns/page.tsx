@@ -1,16 +1,17 @@
 import { Metadata } from "next";
 import UeberUnsContent from "./UeberUnsContent";
+import { GOOGLE_AGGREGATE_RATING_SCHEMA } from "@/lib/business-info";
 
 export const metadata: Metadata = {
     title: "Über uns | Skinlux Pottendorf",
     description: "Lernen Sie das Skinlux Team in Pottendorf kennen. Seit 2020 Ihr Partner für Laser Haarentfernung & Premium Beauty-Behandlungen in der Region.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/ueber-uns",
+        canonical: "https://pottendorf.skinlux.at/ueber-uns",
     },
     openGraph: {
         title: "Über uns | Skinlux Pottendorf",
         description: "Lernen Sie das Skinlux Team in Pottendorf kennen. Seit 2020 Ihr Partner für professionelle Laser Haarentfernung und Beauty-Behandlungen.",
-        url: "https://skinlux-pottendorf.at/ueber-uns",
+        url: "https://pottendorf.skinlux.at/ueber-uns",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -27,14 +28,14 @@ const aboutPageSchema = {
     "@type": "AboutPage",
     name: "Über uns - Skinlux Pottendorf",
     description: "Lernen Sie das Skinlux Team in Pottendorf kennen.",
-    url: "https://skinlux-pottendorf.at/ueber-uns",
+    url: "https://pottendorf.skinlux.at/ueber-uns",
     mainEntity: {
         "@type": "Organization",
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
         name: "Skinlux Pottendorf",
         description: "Medical Beauty Studio für professionelle Laser Haarentfernung und Kosmetikbehandlungen in Pottendorf, Niederösterreich.",
         foundingDate: "2020",
-        url: "https://skinlux-pottendorf.at",
+        url: "https://pottendorf.skinlux.at",
         telephone: "+436649188632",
         email: "hey@skinlux.at",
         address: {
@@ -45,13 +46,7 @@ const aboutPageSchema = {
             addressRegion: "Niederösterreich",
             addressCountry: "AT",
         },
-        aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "4.9",
-            ratingCount: "120",
-            bestRating: "5",
-            worstRating: "1",
-        },
+        aggregateRating: GOOGLE_AGGREGATE_RATING_SCHEMA,
         member: [
             {
                 "@type": "Person",
@@ -75,13 +70,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Über uns",
-            item: "https://skinlux-pottendorf.at/ueber-uns",
+            item: "https://pottendorf.skinlux.at/ueber-uns",
         },
     ],
 };

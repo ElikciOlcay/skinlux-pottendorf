@@ -126,7 +126,7 @@ Kosmetik Niederösterreich, HydraFacial Pottendorf, etc.
 ```
 og:title - Erweitert mit Baden, Mödling
 og:description - Regional optimiert
-og:url - https://skinlux-pottendorf.at
+og:url - https://pottendorf.skinlux.at
 ```
 
 ## ChatGPT Integration

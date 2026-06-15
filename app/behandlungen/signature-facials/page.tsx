@@ -5,12 +5,12 @@ export const metadata: Metadata = {
     title: "Premium Facials Pottendorf | Circadia Kosmetik Baden",
     description: "Exklusive Premium Facials mit Circadia Professional in Pottendorf. Maßgeschneiderte 90-Minuten Gesichtsbehandlungen. Jetzt Termin buchen.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/behandlungen/signature-facials",
+        canonical: "https://pottendorf.skinlux.at/behandlungen/signature-facials",
     },
     openGraph: {
         title: "Premium Facials Pottendorf | Circadia Kosmetik Baden",
         description: "Exklusive Premium Facials mit Circadia Professional in Pottendorf. Maßgeschneiderte 90-Minuten Gesichtsbehandlungen.",
-        url: "https://skinlux-pottendorf.at/behandlungen/signature-facials",
+        url: "https://pottendorf.skinlux.at/behandlungen/signature-facials",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -29,7 +29,7 @@ const serviceSchema = {
     name: "Signature Facials mit Circadia Professional",
     description: "Exklusive Premium Gesichtsbehandlungen mit Circadia Professional Produkten in Pottendorf. Maßgeschneiderte 90-Minuten Erlebnisse für individuelle Hautbedürfnisse.",
     provider: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
     areaServed: ["Pottendorf", "Baden", "Mödling", "Wiener Neustadt", "Niederösterreich"],
     offers: [
@@ -65,19 +65,19 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Behandlungen",
-            item: "https://skinlux-pottendorf.at/#treatments",
+            item: "https://pottendorf.skinlux.at/#treatments",
         },
         {
             "@type": "ListItem",
             position: 3,
             name: "Premium Facials",
-            item: "https://skinlux-pottendorf.at/behandlungen/signature-facials",
+            item: "https://pottendorf.skinlux.at/behandlungen/signature-facials",
         },
     ],
 };

@@ -5,12 +5,12 @@ export const metadata: Metadata = {
     title: "Gutscheine | Skinlux Pottendorf",
     description: "Verschenken Sie Schönheit mit einem Skinlux Gutschein. Geschenkgutscheine für Laser Haarentfernung & Beauty-Behandlungen in Pottendorf. Ab 25€.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/gutscheine",
+        canonical: "https://pottendorf.skinlux.at/gutscheine",
     },
     openGraph: {
         title: "Gutscheine | Skinlux Pottendorf",
         description: "Verschenken Sie Schönheit mit einem Skinlux Gutschein. Geschenkgutscheine für Laser Haarentfernung und Beauty-Behandlungen in Pottendorf.",
-        url: "https://skinlux-pottendorf.at/gutscheine",
+        url: "https://pottendorf.skinlux.at/gutscheine",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -37,10 +37,10 @@ const productSchema = {
         highPrice: "300",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
-        url: "https://skinlux-pottendorf.at/gutscheine",
+        url: "https://pottendorf.skinlux.at/gutscheine",
     },
     seller: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
 };
 
@@ -52,13 +52,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Gutscheine",
-            item: "https://skinlux-pottendorf.at/gutscheine",
+            item: "https://pottendorf.skinlux.at/gutscheine",
         },
     ],
 };

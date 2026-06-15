@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, MapPin, Clock, Briefcase } from 'lucide-react';
+import { GOOGLE_RATING_LABEL, OPENING_HOURS_SUMMARY, GOOGLE_REVIEWS_URL } from '@/lib/business-info';
 
 const Footer = () => {
     return (
@@ -39,9 +40,9 @@ const Footer = () => {
                         <div className="flex items-start justify-center gap-3 text-gray-600">
                             <Clock className="w-4 h-4 mt-0.5" strokeWidth={1} />
                             <div className="font-light">
-                                <p>Montag - Freitag: 09:00 - 21:30</p>
-                                <p>Samstag: 07:00 - 12:00</p>
-                                <p>Sonntag: Geschlossen</p>
+                                {OPENING_HOURS_SUMMARY.map((line) => (
+                                    <p key={line}>{line}</p>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -124,12 +125,12 @@ const Footer = () => {
                                 ))}
                             </div>
                             <a
-                                href="https://g.page/r/CZXEP1GJQRbVEBM/review"
+                                href={GOOGLE_REVIEWS_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-xs font-light text-gray-600 hover:text-black transition-colors"
                             >
-                                150+ Google Bewertungen
+                                {GOOGLE_RATING_LABEL}
                             </a>
                         </div>
                     </div>
@@ -173,7 +174,7 @@ const Footer = () => {
                         </div>
 
                         {/* Copyright */}
-                        <p>© 2024 Skinlux. Alle Rechte vorbehalten.</p>
+                        <p>© 2026 Skinlux. Alle Rechte vorbehalten.</p>
 
                         {/* Legal Links */}
                         <div className="flex gap-6">

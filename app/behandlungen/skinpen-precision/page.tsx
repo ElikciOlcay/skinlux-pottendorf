@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import SkinPenPrecisionContent from "./SkinPenPrecisionContent";
 
 export const metadata: Metadata = {
@@ -6,13 +7,13 @@ export const metadata: Metadata = {
     description:
         "Medizinisches Microneedling mit SkinPen Precision Elite in Pottendorf. FDA-zertifiziert, Kollagen & Elastin, Narben, Falten, Pigmentierung. Ab € 199.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
+        canonical: "https://pottendorf.skinlux.at/behandlungen/skinpen-precision",
     },
     openGraph: {
         title: "SkinPen Precision Elite | Medizinisches Microneedling Pottendorf",
         description:
             "Medizinisches Microneedling mit SkinPen Precision Elite. FDA-zertifiziert für Aknenarben, Falten, Poren und Pigmentstörungen.",
-        url: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
+        url: "https://pottendorf.skinlux.at/behandlungen/skinpen-precision",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -38,7 +39,7 @@ const medicalProcedureSchema = {
     preparation: "Kostenlose Erstberatung mit Hautanalyse und individueller Planung.",
     followup: "Nachsorge und Pflegetipps. Behandlungen typischerweise im Abstand von 4–6 Wochen.",
     provider: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
     areaServed: [
         { "@type": "City", name: "Pottendorf" },
@@ -55,15 +56,15 @@ const serviceSchema = {
     serviceType: "SkinPen Precision Elite Microneedling",
     name: "SkinPen Precision Elite Microneedling",
     provider: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
     areaServed: ["Pottendorf", "Baden", "Mödling", "Wiener Neustadt", "Niederösterreich"],
-    url: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
+    url: "https://pottendorf.skinlux.at/behandlungen/skinpen-precision",
     offers: {
         "@type": "Offer",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
-        url: "https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT",
+        url: SHORE_BOOKING_URL,
     },
 };
 
@@ -154,19 +155,19 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Behandlungen",
-            item: "https://skinlux-pottendorf.at/#treatments",
+            item: "https://pottendorf.skinlux.at/#treatments",
         },
         {
             "@type": "ListItem",
             position: 3,
             name: "SkinPen Precision Elite",
-            item: "https://skinlux-pottendorf.at/behandlungen/skinpen-precision",
+            item: "https://pottendorf.skinlux.at/behandlungen/skinpen-precision",
         },
     ],
 };

@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     title: "Datenschutz | Skinlux Pottendorf",
     description: "Datenschutzerklärung von Skinlux Pottendorf. Informationen zur Erhebung, Verarbeitung und Nutzung Ihrer personenbezogenen Daten gemäß DSGVO.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/datenschutz",
+        canonical: "https://pottendorf.skinlux.at/datenschutz",
     },
     robots: {
         index: false,
@@ -21,13 +21,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Datenschutz",
-            item: "https://skinlux-pottendorf.at/datenschutz",
+            item: "https://pottendorf.skinlux.at/datenschutz",
         },
     ],
 };

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { LISA_SYSTEM_PROMPT, LISA_KNOWLEDGE } from "@/lib/chat/knowledge-base";
+import { OPENING_HOURS_CHAT_TEXT } from "@/lib/business-info";
 
 const ENHANCED_SYSTEM_PROMPT = `
 ${LISA_SYSTEM_PROMPT}
@@ -36,7 +37,7 @@ const FALLBACK_RESPONSES = {
         "HydraFacial® Preise:\n\n• Signature (1 Std.): 169€\n• Signature+LED (1 Std. 15 Min.): 189€\n• Deluxe (1 Std. 15 Min.): 199€\n• Platinum (2 Std.): 249€\n• Po-Behandlung: 169€\n• Rücken: 189€\n\nKostenlose Beratung möglich!"
     ],
     termin: [
-        "Terminvereinbarung ist ganz einfach:\n\nOnline: Über unsere Website\nTelefonisch: +43 664 91 88 632\n\nÖffnungszeiten:\nDi-Fr: 09:00 - 18:00\nSa: 09:00 - 14:00",
+        `Terminvereinbarung ist ganz einfach:\n\nOnline: Über unsere Website\nTelefonisch: +43 664 91 88 632\n\nÖffnungszeiten:\n${OPENING_HOURS_CHAT_TEXT}`,
         "Sie können jederzeit einen Termin vereinbaren:\n\n• Online-Buchung rund um die Uhr\n• Telefonisch während der Geschäftszeiten\n• Kostenlose Erstberatung möglich\n\nWir freuen uns auf Sie!"
     ],
     default: [

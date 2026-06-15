@@ -3,12 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, X, Check } from "lucide-react";
-
-interface CookiePreferences {
-    necessary: boolean;
-    analytics: boolean;
-    marketing: boolean;
-}
+import {
+    getStoredConsent,
+    saveCookieConsent,
+    type CookiePreferences,
+} from "@/lib/cookie-consent";
 
 export default function CookieBanner() {
     const [showBanner, setShowBanner] = useState(false);
@@ -20,13 +19,13 @@ export default function CookieBanner() {
     });
 
     useEffect(() => {
-        // Check if user has already made a choice
-        const cookieConsent = localStorage.getItem('skinlux-cookie-consent');
-        if (!cookieConsent) {
-            // Show banner after a short delay
+        const stored = getStoredConsent();
+        if (!stored) {
             const timer = setTimeout(() => setShowBanner(true), 2000);
             return () => clearTimeout(timer);
         }
+
+        setPreferences(stored.preferences);
     }, []);
 
     const acceptAll = () => {
@@ -52,14 +51,7 @@ export default function CookieBanner() {
     };
 
     const savePreferences = (prefs: CookiePreferences) => {
-        localStorage.setItem('skinlux-cookie-consent', JSON.stringify({
-            timestamp: new Date().toISOString(),
-            preferences: prefs
-        }));
-
-        // Here you would typically integrate with your analytics/marketing tools
-        // Example: Google Analytics, Facebook Pixel, etc.
-
+        saveCookieConsent(prefs);
         setShowBanner(false);
         setShowSettings(false);
     };

@@ -1,7 +1,9 @@
 "use client";
 
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import Link from "next/link";
 import { ArrowLeft, MessageCircle, Calendar, MapPin, Clock, Phone, Mail } from "lucide-react";
+import { OPENING_HOURS } from "@/lib/business-info";
 
 export default function KontaktContent() {
     return (
@@ -58,7 +60,7 @@ export default function KontaktContent() {
                                     24/7 verfügbar - Buchen Sie Ihren Wunschtermin direkt online
                                 </p>
                                 <a
-                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    href={SHORE_BOOKING_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 text-sm font-light text-black hover:text-gray-600 transition-colors group"
@@ -165,46 +167,20 @@ export default function KontaktContent() {
                                 </h3>
                                 <div className="bg-white p-8 h-full">
                                     <div className="space-y-4">
-                                        <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Montag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Dienstag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Mittwoch</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Donnerstag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Freitag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Samstag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                07:00 - 12:00
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-3">
-                                            <span className="text-gray-600 font-light">Sonntag</span>
-                                            <span className="text-gray-400 font-light">Geschlossen</span>
-                                        </div>
+                                        {OPENING_HOURS.map((entry, index) => (
+                                            <div
+                                                key={entry.key}
+                                                className={`flex justify-between items-center py-3 ${index < OPENING_HOURS.length - 1 ? "border-b border-gray-100" : ""}`}
+                                            >
+                                                <span className="text-gray-600 font-light">{entry.label}</span>
+                                                <span
+                                                    className={`font-light ${entry.closed ? "text-gray-400" : ""}`}
+                                                    style={entry.closed ? undefined : { color: 'var(--color-primary)' }}
+                                                >
+                                                    {entry.display}
+                                                </span>
+                                            </div>
+                                        ))}
                                     </div>
 
                                     <div className="mt-8 p-6 bg-gray-50 rounded-lg">
@@ -239,7 +215,7 @@ export default function KontaktContent() {
                             Kontaktieren Sie uns - wir sind gerne für Sie da.
                         </p>
                         <a
-                            href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                            href={SHORE_BOOKING_URL}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-black text-white font-light tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gray-800"

@@ -1,8 +1,10 @@
 "use client";
 
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Clock, Gift } from "lucide-react";
+import { GOOGLE_RATING } from "@/lib/business-info";
 
 export default function OfferPopup() {
     const [isOpen, setIsOpen] = useState(false);
@@ -140,7 +142,7 @@ export default function OfferPopup() {
                                             rel="noopener noreferrer"
                                             className="text-xs font-light text-gray-600 hover:text-secondary transition-colors"
                                         >
-                                            150 Bewertungen
+                                            {GOOGLE_RATING.reviewCount} Bewertungen
                                         </a>
                                     </div>
 
@@ -153,7 +155,7 @@ export default function OfferPopup() {
 
                                     <div className="flex flex-col gap-3 justify-center">
                                         <a
-                                            href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                            href={SHORE_BOOKING_URL}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             onClick={handleClose}

@@ -1,5 +1,6 @@
 "use client";
 
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Sparkles, Heart, Check, Clock, Shield, Star, Award } from "lucide-react";
@@ -152,7 +153,7 @@ export default function SignatureFacialsContent() {
 
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <a
-                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    href={SHORE_BOOKING_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn-primary inline-flex items-center justify-center text-lg px-8 py-4"
@@ -391,7 +392,7 @@ export default function SignatureFacialsContent() {
                                 </div>
                             </div>
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full btn-secondary text-center py-3"
@@ -431,7 +432,7 @@ export default function SignatureFacialsContent() {
                                 </div>
                             </div>
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full btn-primary text-center py-3"
@@ -466,7 +467,7 @@ export default function SignatureFacialsContent() {
                                 </div>
                             </div>
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full btn-secondary text-center py-3"
@@ -527,7 +528,7 @@ export default function SignatureFacialsContent() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn-primary inline-flex items-center justify-center"

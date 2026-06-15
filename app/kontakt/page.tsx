@@ -5,12 +5,12 @@ export const metadata: Metadata = {
     title: "Kontakt | Skinlux Pottendorf",
     description: "Kontaktieren Sie Skinlux Pottendorf für Laser Haarentfernung & Kosmetik in Pottendorf. Per Telefon, E-Mail, WhatsApp oder online buchen.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/kontakt",
+        canonical: "https://pottendorf.skinlux.at/kontakt",
     },
     openGraph: {
         title: "Kontakt | Skinlux Pottendorf",
         description: "Kontaktieren Sie Skinlux Pottendorf für Laser Haarentfernung und Kosmetikbehandlungen. Telefon, E-Mail, WhatsApp oder online buchen.",
-        url: "https://skinlux-pottendorf.at/kontakt",
+        url: "https://pottendorf.skinlux.at/kontakt",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -27,9 +27,9 @@ const contactPageSchema = {
     "@type": "ContactPage",
     name: "Kontakt - Skinlux Pottendorf",
     description: "Kontaktieren Sie Skinlux Pottendorf für Termine und Beratung.",
-    url: "https://skinlux-pottendorf.at/kontakt",
+    url: "https://pottendorf.skinlux.at/kontakt",
     mainEntity: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
 };
 
@@ -41,13 +41,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Kontakt",
-            item: "https://skinlux-pottendorf.at/kontakt",
+            item: "https://pottendorf.skinlux.at/kontakt",
         },
     ],
 };

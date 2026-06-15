@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Gift, Check, AlertCircle, Loader, Mail, MapPin, User, CreditCard } from "lucide-react";
 import { getCurrentSubdomain } from "@/lib/supabase";
-import MothersDayVoucherBanner from "@/components/ui/MothersDayVoucherBanner";
+import { trackConversionEvent, ConversionEvents } from "@/lib/analytics";
 
 const voucherAmounts = [50, 100, 150, 200, 250, 300];
 
@@ -182,6 +182,11 @@ export default function GutscheineContent() {
             console.log('🎉 Setting success data:', orderData);
             setOrderData(orderData);
             setOrderSuccess(true);
+            trackConversionEvent(ConversionEvents.VOUCHER_PURCHASE, {
+                event_label: "gutscheine",
+                value: orderData.amount,
+                currency: "EUR",
+            });
 
         } catch (err: unknown) {
             console.error('💥 Error in handleFinalSubmit:', err);
@@ -323,8 +328,6 @@ export default function GutscheineContent() {
                     </div>
                 </div>
             </section>
-
-            <MothersDayVoucherBanner />
 
             {/* Step Content */}
             <section className="py-8">

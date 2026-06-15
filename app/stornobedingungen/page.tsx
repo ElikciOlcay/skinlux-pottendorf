@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import { Clock, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { OPENING_HOURS_SUMMARY } from '@/lib/business-info';
 
 export const metadata: Metadata = {
     title: 'Stornobedingungen | Skinlux Pottendorf',
     description: 'Unsere Stornobedingungen für Termine bei Skinlux Pottendorf. Informieren Sie sich über Absagefristen und Gebühren.',
     alternates: {
-        canonical: 'https://skinlux-pottendorf.at/stornobedingungen',
+        canonical: 'https://pottendorf.skinlux.at/stornobedingungen',
     },
     robots: {
         index: false,
@@ -21,13 +22,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Stornobedingungen",
-            item: "https://skinlux-pottendorf.at/stornobedingungen",
+            item: "https://pottendorf.skinlux.at/stornobedingungen",
         },
     ],
 };
@@ -165,9 +166,12 @@ export default function StornobedingungPage() {
                                     <div>
                                         <h4 className="font-medium text-black mb-2">Öffnungszeiten</h4>
                                         <p className="text-gray-700 font-light">
-                                            Montag - Freitag: 09:00 - 21:30<br />
-                                            Samstag: 07:00 - 12:00<br />
-                                            Sonntag: Geschlossen
+                                            {OPENING_HOURS_SUMMARY.map((line, index) => (
+                                                <span key={line}>
+                                                    {line}
+                                                    {index < OPENING_HOURS_SUMMARY.length - 1 ? <br /> : null}
+                                                </span>
+                                            ))}
                                         </p>
                                     </div>
                                     <div>

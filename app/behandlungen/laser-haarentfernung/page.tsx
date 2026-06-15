@@ -1,16 +1,17 @@
 import { Metadata } from "next";
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import LaserHaarentfernungContent from "./LaserHaarentfernungContent";
 
 export const metadata: Metadata = {
     title: "Laser Haarentfernung Pottendorf | Baden, Mödling",
     description: "Dauerhafte Laser Haarentfernung in Pottendorf. Modernste Diodenlaser-Technologie, schmerzarm, für alle Hauttypen. Kostenlose Probebehandlung buchen.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/behandlungen/laser-haarentfernung",
+        canonical: "https://pottendorf.skinlux.at/behandlungen/laser-haarentfernung",
     },
     openGraph: {
         title: "Laser Haarentfernung Pottendorf | Baden, Mödling",
         description: "Dauerhafte Laser Haarentfernung in Pottendorf. Modernste Diodenlaser-Technologie, schmerzarm, für alle Hauttypen. Kostenlose Probebehandlung.",
-        url: "https://skinlux-pottendorf.at/behandlungen/laser-haarentfernung",
+        url: "https://pottendorf.skinlux.at/behandlungen/laser-haarentfernung",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -32,7 +33,7 @@ const medicalProcedureSchema = {
     preparation: "Kostenlose Erstberatung mit Hauttyp-Bestimmung und individueller Behandlungsplanung.",
     followup: "Nachsorge und Pflegetipps. Behandlungen im Abstand von 4-6 Wochen.",
     provider: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
     areaServed: [
         { "@type": "City", name: "Pottendorf" },
@@ -49,14 +50,14 @@ const serviceSchema = {
     serviceType: "Laser Haarentfernung",
     name: "Laser Haarentfernung",
     provider: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
     areaServed: ["Pottendorf", "Baden", "Mödling", "Wiener Neustadt", "Niederösterreich"],
     offers: {
         "@type": "Offer",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
-        url: "https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT",
+        url: SHORE_BOOKING_URL,
     },
 };
 
@@ -147,19 +148,19 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Behandlungen",
-            item: "https://skinlux-pottendorf.at/#treatments",
+            item: "https://pottendorf.skinlux.at/#treatments",
         },
         {
             "@type": "ListItem",
             position: 3,
             name: "Laser Haarentfernung",
-            item: "https://skinlux-pottendorf.at/behandlungen/laser-haarentfernung",
+            item: "https://pottendorf.skinlux.at/behandlungen/laser-haarentfernung",
         },
     ],
 };

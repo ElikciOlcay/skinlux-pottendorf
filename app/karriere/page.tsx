@@ -5,12 +5,12 @@ export const metadata: Metadata = {
     title: "Karriere | Skinlux Pottendorf",
     description: "Karriere bei Skinlux Pottendorf: Ausgebildete Kosmetikerin (m/w/d) gesucht für apparative Behandlungen in einem modernen Premium Studio.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/karriere",
+        canonical: "https://pottendorf.skinlux.at/karriere",
     },
     openGraph: {
         title: "Karriere | Skinlux Pottendorf",
         description: "Karriere bei Skinlux Pottendorf: Ausgebildete Kosmetikerin (m/w/d) gesucht für apparative Behandlungen in einem modernen Premium Studio.",
-        url: "https://skinlux-pottendorf.at/karriere",
+        url: "https://pottendorf.skinlux.at/karriere",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Medical Beauty Studio",
@@ -33,8 +33,8 @@ const jobPostingSchema = {
     hiringOrganization: {
         "@type": "Organization",
         name: "Skinlux Medical Beauty Studio",
-        sameAs: "https://skinlux-pottendorf.at",
-        logo: "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
+        sameAs: "https://pottendorf.skinlux.at",
+        logo: "https://pottendorf.skinlux.at/images/logo/skinlux-logo.png",
     },
     jobLocation: {
         "@type": "Place",
@@ -71,13 +71,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Karriere",
-            item: "https://skinlux-pottendorf.at/karriere",
+            item: "https://pottendorf.skinlux.at/karriere",
         },
     ],
 };

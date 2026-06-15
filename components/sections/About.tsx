@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { GOOGLE_RATING } from "@/lib/business-info";
 
 const stats = [
     { value: "5", label: "Jahre Erfahrung" },
     { value: "2000", label: "Zufriedene Kunden" },
     { value: "98%", label: "Erfolgsquote" },
-    { value: "5.0", label: "Google Bewertung" },
+    { value: GOOGLE_RATING.value, label: "Google Bewertung" },
 ];
 
 export default function About() {

@@ -1,3 +1,6 @@
+import { OPENING_HOURS_BY_DAY } from "@/lib/business-info";
+import { SHORE_BOOKING_URL } from "@/lib/booking";
+
 export const LISA_KNOWLEDGE = {
     identity: {
         name: "Lisa",
@@ -13,7 +16,7 @@ export const LISA_KNOWLEDGE = {
         address: "Marktplatz 14, 2486 Pottendorf",
         phone: "+43 664 91 88 632",
         email: "hey@skinlux.at",
-        website: "www.skinlux-pottendorf.at",
+        website: "pottendorf.skinlux.at",
         founded: "2020",
         serviceAreas: {
             primary: "Pottendorf / Baden",
@@ -307,17 +310,9 @@ export const LISA_KNOWLEDGE = {
     },
 
     booking: {
-        online: "https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D",
+        online: SHORE_BOOKING_URL,
         phone: "+43 664 91 88 632",
-        hours: {
-            monday: "Geschlossen",
-            tuesday: "09:00 - 18:00",
-            wednesday: "09:00 - 18:00",
-            thursday: "09:00 - 18:00",
-            friday: "09:00 - 18:00",
-            saturday: "09:00 - 14:00",
-            sunday: "Geschlossen"
-        }
+        hours: OPENING_HOURS_BY_DAY,
     },
 
     // Intelligentes Hautanalyse-Quiz System

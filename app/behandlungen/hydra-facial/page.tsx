@@ -1,16 +1,17 @@
 import { Metadata } from "next";
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import HydraFacialContent from "./HydraFacialContent";
 
 export const metadata: Metadata = {
     title: "HydraFacial Pottendorf | Gesichtsbehandlung Baden, Mödling",
     description: "HydraFacial® Behandlung in Pottendorf. Tiefenreinigung, Extraktion & Hydration für sofort sichtbare Ergebnisse. Für alle Hauttypen geeignet.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/behandlungen/hydra-facial",
+        canonical: "https://pottendorf.skinlux.at/behandlungen/hydra-facial",
     },
     openGraph: {
         title: "HydraFacial Pottendorf | Gesichtsbehandlung Baden, Mödling",
         description: "HydraFacial® Behandlung in Pottendorf. Tiefenreinigung, Extraktion und Hydration für sofort sichtbare Ergebnisse. Für alle Hauttypen.",
-        url: "https://skinlux-pottendorf.at/behandlungen/hydra-facial",
+        url: "https://pottendorf.skinlux.at/behandlungen/hydra-facial",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -32,7 +33,7 @@ const medicalProcedureSchema = {
     preparation: "Keine spezielle Vorbereitung notwendig. Beratungsgespräch vor der ersten Behandlung.",
     followup: "Sofort gesellschaftsfähig. Für optimale Ergebnisse monatliche Behandlungen empfohlen.",
     provider: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
     areaServed: [
         { "@type": "City", name: "Pottendorf" },
@@ -49,14 +50,14 @@ const serviceSchema = {
     serviceType: "HydraFacial®",
     name: "HydraFacial® Gesichtsbehandlung",
     provider: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
     areaServed: ["Pottendorf", "Baden", "Mödling", "Wiener Neustadt", "Niederösterreich"],
     offers: {
         "@type": "Offer",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
-        url: "https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT",
+        url: SHORE_BOOKING_URL,
     },
 };
 
@@ -147,19 +148,19 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Behandlungen",
-            item: "https://skinlux-pottendorf.at/#treatments",
+            item: "https://pottendorf.skinlux.at/#treatments",
         },
         {
             "@type": "ListItem",
             position: 3,
             name: "HydraFacial®",
-            item: "https://skinlux-pottendorf.at/behandlungen/hydra-facial",
+            item: "https://pottendorf.skinlux.at/behandlungen/hydra-facial",
         },
     ],
 };

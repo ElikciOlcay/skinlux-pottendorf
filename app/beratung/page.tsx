@@ -5,12 +5,12 @@ export const metadata: Metadata = {
     title: "Kostenlose Beratung | Skinlux Pottendorf",
     description: "Kostenlose Beratung & Probebehandlung für Laser Haarentfernung bei Skinlux Pottendorf. Hauttyp-Bestimmung, FDA-zertifiziert. Jetzt testen.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/beratung",
+        canonical: "https://pottendorf.skinlux.at/beratung",
     },
     openGraph: {
         title: "Kostenlose Beratung | Skinlux Pottendorf",
         description: "Kostenlose Beratung und Probebehandlung für Laser Haarentfernung bei Skinlux Pottendorf. Jetzt unverbindlich testen.",
-        url: "https://skinlux-pottendorf.at/beratung",
+        url: "https://pottendorf.skinlux.at/beratung",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -28,7 +28,7 @@ const serviceSchema = {
     name: "Kostenlose Beratung & Probebehandlung",
     description: "Kostenlose Erstberatung mit Hauttyp-Bestimmung und Probebehandlung für Laser Haarentfernung bei Skinlux Pottendorf.",
     provider: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
     areaServed: [
         { "@type": "City", name: "Pottendorf" },
@@ -93,13 +93,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Kostenlose Beratung",
-            item: "https://skinlux-pottendorf.at/beratung",
+            item: "https://pottendorf.skinlux.at/beratung",
         },
     ],
 };

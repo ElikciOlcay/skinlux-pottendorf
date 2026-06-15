@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { GOOGLE_AGGREGATE_RATING_SCHEMA, OPENING_HOURS_SCHEMA } from '@/lib/business-info';
 
 // Strukturierte Metadaten für AI-Systeme
 export async function GET() {
@@ -7,8 +8,8 @@ export async function GET() {
     "@type": "Organization",
     "name": "Skinlux Pottendorf",
     "legalName": "Skinlux - Medical Beauty Studio",
-    "url": "https://skinlux-pottendorf.at",
-    "logo": "https://skinlux-pottendorf.at/images/logo/skinlux-logo.png",
+    "url": "https://pottendorf.skinlux.at",
+    "logo": "https://pottendorf.skinlux.at/images/logo/skinlux-logo.png",
     "description": "Professionelles Medical Beauty Studio in Pottendorf (Baden) mit modernem Laser und HydraFacial. Serviert Baden, Pottendorf und Mödling.",
     "foundingDate": "2020",
     "contactPoint": {
@@ -77,33 +78,8 @@ export async function GET() {
       "https://www.facebook.com/skinlux",
       "https://www.instagram.com/skinlux"
     ],
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "09:00",
-        "closes": "19:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Saturday",
-        "opens": "09:00",
-        "closes": "17:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Sunday",
-        "opens": "00:00",
-        "closes": "00:00"
-      }
-    ],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5.0",
-      "ratingCount": "2000",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
+    "openingHoursSpecification": OPENING_HOURS_SCHEMA,
+    "aggregateRating": GOOGLE_AGGREGATE_RATING_SCHEMA,
     "location": {
       "@type": "Place",
       "geo": {

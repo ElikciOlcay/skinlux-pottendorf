@@ -1,5 +1,6 @@
 "use client";
 
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Check, Clock, Shield, Heart, X, Star, Sparkles, Users, Droplets, TrendingUp } from "lucide-react";
@@ -216,7 +217,7 @@ export default function HydraFacialContent() {
 
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <a
-                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    href={SHORE_BOOKING_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn-primary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
@@ -293,7 +294,7 @@ export default function HydraFacialContent() {
 
                             <div className="flex flex-col gap-4">
                                 <a
-                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    href={SHORE_BOOKING_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="btn-primary inline-flex items-center justify-center text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto"
@@ -465,7 +466,7 @@ export default function HydraFacialContent() {
                         className="text-center mt-16"
                     >
                         <a
-                            href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                            href={SHORE_BOOKING_URL}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-primary inline-flex items-center justify-center"
@@ -534,7 +535,7 @@ export default function HydraFacialContent() {
                                 </li>
                             </ul>
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full btn-secondary text-center py-3"
@@ -582,7 +583,7 @@ export default function HydraFacialContent() {
                                 </li>
                             </ul>
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full btn-secondary text-center py-3"
@@ -635,7 +636,7 @@ export default function HydraFacialContent() {
                                 </li>
                             </ul>
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full btn-primary text-center py-3"
@@ -683,7 +684,7 @@ export default function HydraFacialContent() {
                                 </li>
                             </ul>
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-full btn-secondary text-center py-3"
@@ -723,7 +724,7 @@ export default function HydraFacialContent() {
                                     Tiefenreinigende Pflege für glatte, straffe Haut am Po – exklusiv für Frauen. Ideal bei Unreinheiten, vergrößerten Poren oder unebener Haut. Mit sanftem Peeling, porentiefe Ausreinigung und Feuchtigkeitsversorgung – für ein sichtbar verfeinertes Hautbild und strahlend gepflegte Haut.
                                 </p>
                                 <a
-                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    href={SHORE_BOOKING_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-full btn-secondary text-center py-2 text-sm mt-4"
@@ -753,7 +754,7 @@ export default function HydraFacialContent() {
                                     Intensive Tiefenreinigung für den Rücken – ideal bei Unreinheiten, verstopften Poren oder trockener Haut. Mit sanftem Peeling, Ausreinigung und Feuchtigkeits-Boost für glatte, geklärte und gepflegte Haut.
                                 </p>
                                 <a
-                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    href={SHORE_BOOKING_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-full btn-secondary text-center py-2 text-sm mt-4"
@@ -938,7 +939,7 @@ export default function HydraFacialContent() {
                                     Lassen Sie sich bei Ihrer Behandlung beraten, welcher Booster am besten zu Ihren Hautzielen passt.
                                 </p>
                                 <a
-                                    href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                    href={SHORE_BOOKING_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center justify-center btn-secondary px-6 py-3"

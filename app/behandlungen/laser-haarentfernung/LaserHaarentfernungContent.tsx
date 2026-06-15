@@ -1,5 +1,6 @@
 "use client";
 
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Zap, Check, Shield, Heart, Star, ArrowRight } from "lucide-react";
@@ -150,7 +151,7 @@ export default function LaserHaarentfernungContent() {
 
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <a
-                                        href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                        href={SHORE_BOOKING_URL}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="btn-primary inline-flex items-center justify-center"
@@ -351,7 +352,7 @@ export default function LaserHaarentfernungContent() {
                                 Kostenlose Erstberatung inklusive Probebehandlung
                             </p>
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center px-10 py-4 bg-white text-black text-base font-light hover:bg-gray-100 transition-colors"

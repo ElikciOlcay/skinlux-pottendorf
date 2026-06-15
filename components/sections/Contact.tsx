@@ -1,7 +1,9 @@
 "use client";
 
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import { motion } from 'framer-motion';
 import { MessageCircle, Calendar, MapPin, Clock } from 'lucide-react';
+import { OPENING_HOURS } from '@/lib/business-info';
 
 const Contact = () => {
     return (
@@ -48,7 +50,7 @@ const Contact = () => {
                             </p>
 
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-3 px-6 py-3 text-white text-sm font-light tracking-widest uppercase transition-all"
@@ -157,46 +159,20 @@ const Contact = () => {
                                     </h4>
 
                                     <div className="space-y-3">
-                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Montag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Dienstag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Mittwoch</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Donnerstag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Freitag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                09:00 - 21:30
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                                            <span className="text-gray-600 font-light">Samstag</span>
-                                            <span className="font-light" style={{ color: 'var(--color-primary)' }}>
-                                                07:00 - 12:00
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-2">
-                                            <span className="text-gray-600 font-light">Sonntag</span>
-                                            <span className="text-gray-400 font-light">Geschlossen</span>
-                                        </div>
+                                        {OPENING_HOURS.map((entry, index) => (
+                                            <div
+                                                key={entry.key}
+                                                className={`flex justify-between items-center py-2 ${index < OPENING_HOURS.length - 1 ? "border-b border-gray-100" : ""}`}
+                                            >
+                                                <span className="text-gray-600 font-light">{entry.label}</span>
+                                                <span
+                                                    className={`font-light ${entry.closed ? "text-gray-400" : ""}`}
+                                                    style={entry.closed ? undefined : { color: 'var(--color-primary)' }}
+                                                >
+                                                    {entry.display}
+                                                </span>
+                                            </div>
+                                        ))}
                                     </div>
 
                                     <p className="mt-6 text-sm text-gray-500 font-light italic">

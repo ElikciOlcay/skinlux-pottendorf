@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         destination: "/behandlungen/skinpen-precision",
         permanent: true,
       },
+      {
+        source: "/aktion/muttertag",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
   images: {

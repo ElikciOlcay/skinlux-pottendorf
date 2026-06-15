@@ -5,12 +5,12 @@ export const metadata: Metadata = {
     title: "Laser Preise | Skinlux Pottendorf",
     description: "Laser Haarentfernung Preise bei Skinlux Pottendorf. Transparente Preisliste für Damen & Herren. Vorteilspakete ab 220€. Jetzt buchen.",
     alternates: {
-        canonical: "https://skinlux-pottendorf.at/preise/laser",
+        canonical: "https://pottendorf.skinlux.at/preise/laser",
     },
     openGraph: {
         title: "Laser Preise | Skinlux Pottendorf",
         description: "Preise für dauerhafte Laser Haarentfernung bei Skinlux Pottendorf. Transparente Preisliste für Damen und Herren. Vorteilspakete ab 220€.",
-        url: "https://skinlux-pottendorf.at/preise/laser",
+        url: "https://pottendorf.skinlux.at/preise/laser",
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
@@ -27,9 +27,9 @@ const offerCatalogSchema = {
     "@type": "OfferCatalog",
     name: "Laser Haarentfernung Preisliste - Skinlux Pottendorf",
     description: "Preise für dauerhafte Laser Haarentfernung bei Skinlux Pottendorf für Damen und Herren.",
-    url: "https://skinlux-pottendorf.at/preise/laser",
+    url: "https://pottendorf.skinlux.at/preise/laser",
     provider: {
-        "@id": "https://skinlux-pottendorf.at/#business",
+        "@id": "https://pottendorf.skinlux.at/#business",
     },
     itemListElement: [
         {
@@ -70,13 +70,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://skinlux-pottendorf.at",
+            item: "https://pottendorf.skinlux.at",
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Laser Preise",
-            item: "https://skinlux-pottendorf.at/preise/laser",
+            item: "https://pottendorf.skinlux.at/preise/laser",
         },
     ],
 };

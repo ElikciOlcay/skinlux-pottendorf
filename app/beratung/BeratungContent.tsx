@@ -1,8 +1,10 @@
 "use client";
 
+import { SHORE_BOOKING_URL } from "@/lib/booking";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle, Clock, Users, Zap, Phone, Calendar, Shield, Star, Award, Heart } from "lucide-react";
+import { GOOGLE_RATING } from "@/lib/business-info";
 import FaqAccordion from "@/components/ui/FaqAccordion";
 
 const benefits = [
@@ -118,7 +120,7 @@ export default function BeratungContent() {
 
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <a
-                                        href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                        href={SHORE_BOOKING_URL}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-light tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gray-800"
@@ -287,7 +289,7 @@ export default function BeratungContent() {
                                 { number: "2000+", label: "Zufriedene Kunden", icon: Users },
                                 { number: "99%", label: "Zufriedenheitsrate", icon: Heart },
                                 { number: "5", label: "Jahre Erfahrung", icon: Award },
-                                { number: "5.0", label: "Google Bewertung", icon: Star }
+                                { number: GOOGLE_RATING.value, label: "Google Bewertung", icon: Star }
                             ].map((stat) => (
                                 <div key={stat.label}>
                                     <stat.icon className="w-8 h-8 mx-auto mb-4" style={{ color: 'var(--color-secondary)' }} />
@@ -317,7 +319,7 @@ export default function BeratungContent() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-6 justify-center">
                             <a
-                                href="https://connect.shore.com/bookings/dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e/services?hl=de-AT&gei=Iwh2aM38Auy69u8Pmae0aQ&rwg_token=ACgRB3dRZMVhLtkIuF0fRbzv9GM0kGSjP3rM39ofuuwZDTydcvoXAWib3y3tuvKM2MJqsNcKA5PRZKvTFP_MXcHXA8uv6aoP0g%3D%3D"
+                                href={SHORE_BOOKING_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-black text-white font-light tracking-widest uppercase text-sm transition-all duration-300 hover:bg-gray-800"

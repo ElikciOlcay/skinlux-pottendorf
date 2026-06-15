@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
 
 export default function sitemapAi(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://skinlux-pottendorf.at';
+    const baseUrl = SITE_URL;
     const currentDate = new Date('2026-02-26');
 
     return [

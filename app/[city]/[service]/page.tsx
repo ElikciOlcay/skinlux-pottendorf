@@ -12,6 +12,7 @@ import {
   getOtherServicesForCity,
   getServiceBySlug,
 } from "@/lib/seo/internalLinks";
+import WwwResearchLink from "@/components/seo/WwwResearchLink";
 
 type Props = {
   params: Promise<{ city: string; service: string }>;
@@ -258,6 +259,13 @@ export default async function LocalLandingPage({ params }: Props) {
           </div>
         </section>
       )}
+
+      <WwwResearchLink
+        citySlug={entry.city}
+        cityLabel={entry.cityLabel}
+        serviceSlug={entry.service}
+        serviceLabel={entry.serviceLabel}
+      />
 
       <section className="py-16 md:py-20 bg-black text-white">
         <div className="container max-w-4xl text-center">

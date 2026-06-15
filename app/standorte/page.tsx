@@ -1,37 +1,34 @@
 import { Metadata } from "next";
 import StandorteContent from "./StandorteContent";
 import { GOOGLE_AGGREGATE_RATING_SCHEMA } from "@/lib/business-info";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
     title: "Standorte | Skinlux Studios",
-    description: "Alle Skinlux Studios auf einen Blick. Professionelle Laser Haarentfernung in Pottendorf, Saalfelden & Mattsee. Studio in Ihrer Nähe finden.",
+    description:
+        "Alle Skinlux Studios: Pottendorf, Bischofshofen und Pinzgau (Saalfelden). Online-Terminbuchung an allen Standorten.",
     alternates: {
-        canonical: "https://pottendorf.skinlux.at/standorte",
+        canonical: `${SITE_URL}/standorte`,
     },
     openGraph: {
         title: "Standorte | Skinlux Studios",
-        description: "Alle Skinlux Studios auf einen Blick. Professionelle Laser Haarentfernung in Pottendorf, Saalfelden, Mattsee und mehr.",
-        url: "https://pottendorf.skinlux.at/standorte",
+        description:
+            "Skinlux Studios in Pottendorf, Bischofshofen und Saalfelden – professionelle Kosmetikbehandlungen mit Online-Buchung.",
+        url: `${SITE_URL}/standorte`,
         type: "website",
         locale: "de_AT",
         siteName: "Skinlux Pottendorf",
-    },
-    twitter: {
-        card: "summary_large_image",
-        title: "Standorte | Skinlux Studios",
-        description: "Alle Skinlux Studios auf einen Blick. Professionelle Laser Haarentfernung in Pottendorf, Saalfelden, Mattsee und mehr.",
     },
 };
 
 const localBusinessPottendorf = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://pottendorf.skinlux.at/#business",
+    "@id": `${SITE_URL}/#business`,
     name: "Skinlux Pottendorf",
-    image: "/images/about/studio/interior.jpg",
     telephone: "+436649188632",
     email: "hey@skinlux.at",
-    url: "https://pottendorf.skinlux.at",
+    url: SITE_URL,
     address: {
         "@type": "PostalAddress",
         streetAddress: "Marktplatz 14",
@@ -40,61 +37,40 @@ const localBusinessPottendorf = {
         addressRegion: "Niederösterreich",
         addressCountry: "AT",
     },
-    geo: {
-        "@type": "GeoCoordinates",
-        latitude: 47.8667,
-        longitude: 16.2833,
-    },
     aggregateRating: GOOGLE_AGGREGATE_RATING_SCHEMA,
 };
 
-const localBusinessSaalfelden = {
+const localBusinessBischofshofen = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: "Skinlux Saalfelden",
-    image: "/images/about/studio/interior.jpg",
-    telephone: "+436644568454",
-    email: "pinzgau@skinlux.at",
-    url: "https://www.skinlux.at/pinzgau/",
+    name: "Skinlux Bischofshofen",
+    telephone: "+436605721403",
+    email: "hello@skinlux.at",
+    url: "https://bischofshofen.skinlux.at",
     address: {
         "@type": "PostalAddress",
-        streetAddress: "Birkengasse 3b Top 9",
-        addressLocality: "Saalfelden am Steinernen Meer",
-        postalCode: "5760",
+        streetAddress: "Bahnhofstraße 17",
+        addressLocality: "Bischofshofen",
+        postalCode: "5500",
         addressRegion: "Salzburg",
         addressCountry: "AT",
-    },
-    aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.9",
-        ratingCount: "120",
-        bestRating: "5",
-        worstRating: "1",
     },
 };
 
-const localBusinessMattsee = {
+const localBusinessPinzgau = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: "Skinlux Mattsee",
-    image: "/images/about/studio/interior.jpg",
-    telephone: "+436608580766",
-    email: "mattsee@skinlux.at",
-    url: "https://www.skinlux.at/mattsee/",
+    name: "Skinlux Pinzgau",
+    telephone: "+436644568454",
+    email: "pinzgau@skinlux.at",
+    url: "https://pinzgau.skinlux.at",
     address: {
         "@type": "PostalAddress",
-        streetAddress: "Ramooser Straße 5",
-        addressLocality: "Mattsee",
-        postalCode: "5163",
+        streetAddress: "Leoganger Straße 12/Top 1c",
+        addressLocality: "Saalfelden",
+        postalCode: "5760",
         addressRegion: "Salzburg",
         addressCountry: "AT",
-    },
-    aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.9",
-        ratingCount: "120",
-        bestRating: "5",
-        worstRating: "1",
     },
 };
 
@@ -106,13 +82,13 @@ const breadcrumbSchema = {
             "@type": "ListItem",
             position: 1,
             name: "Startseite",
-            item: "https://pottendorf.skinlux.at",
+            item: SITE_URL,
         },
         {
             "@type": "ListItem",
             position: 2,
             name: "Standorte",
-            item: "https://pottendorf.skinlux.at/standorte",
+            item: `${SITE_URL}/standorte`,
         },
     ],
 };
@@ -126,11 +102,11 @@ export default function StandortePage() {
             />
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSaalfelden) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessBischofshofen) }}
             />
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessMattsee) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessPinzgau) }}
             />
             <script
                 type="application/ld+json"

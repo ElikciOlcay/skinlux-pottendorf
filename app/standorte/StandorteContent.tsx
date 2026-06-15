@@ -13,90 +13,64 @@ import {
     Star,
     Clock,
     Award,
-    Sparkles
 } from "lucide-react";
 
 const studios = [
     {
         id: "pottendorf",
-        name: "Studio Pottendorf",
+        name: "Skinlux Pottendorf",
         address: {
             street: "Marktplatz 14",
             zip: "2486",
-            city: "Pottendorf"
+            city: "Pottendorf",
         },
-        coordinates: {
-            lat: 47.8667,
-            lng: 16.2833
-        },
-        region: "Baden, Niederösterreich",
         contact: {
             phone: "0664 / 91 88 632",
-            email: "hey@skinlux.at"
+            email: "hey@skinlux.at",
         },
         image: "/images/about/studio/interior.jpg",
-        website: "https://www.skinlux.at/pottendorf/",
+        website: "https://pottendorf.skinlux.at",
         rating: 5.0,
-        reviews: 62,
-        isMain: true,
-        features: ["Hauptstandort", "Zentrale Lage", "Modernes Equipment"]
+        reviews: 173,
+        isCurrent: true,
+        features: ["Hauptstandort", "Abendtermine", "Volles Behandlungsangebot"],
     },
     {
-        id: "pottendorf",
-        name: "Studio Pottendorf",
+        id: "bischofshofen",
+        name: "Skinlux Bischofshofen",
         address: {
-            street: "Marktplatz 14",
-            zip: "2486",
-            city: "Pottendorf"
+            street: "Bahnhofstraße 17",
+            zip: "5500",
+            city: "Bischofshofen",
         },
         contact: {
             phone: "0660 / 57 21 403",
-            email: "hello@skinlux.at"
+            email: "hello@skinlux.at",
         },
         image: "/images/about/studio/interior.jpg",
-        website: "https://www.skinlux.at/laser-haarentfernung-pongau/",
+        website: "https://bischofshofen.skinlux.at",
         rating: 5.0,
-        reviews: 87,
-        features: ["Schwester-Studio", "Größtes Studio", "Vollausstattung"]
+        reviews: 201,
+        features: ["Pongau", "Größtes Studio", "Ratgeber & Guides"],
     },
     {
-        id: "saalfelden",
-        name: "Studio Saalfelden",
+        id: "pinzgau",
+        name: "Skinlux Pinzgau",
         address: {
-            street: "Birkengasse 3b Top 9",
+            street: "Leoganger Straße 12/Top 1c",
             zip: "5760",
-            city: "Saalfelden am Steinernen Meer"
+            city: "Saalfelden",
         },
         contact: {
             phone: "0664 / 45 68 454",
-            email: "pinzgau@skinlux.at"
+            email: "pinzgau@skinlux.at",
         },
         image: "/images/about/studio/interior.jpg",
-        website: "https://www.skinlux.at/pinzgau/",
+        website: "https://pinzgau.skinlux.at",
         rating: 5.0,
-        reviews: 75,
-        features: ["Pinzgau Region", "Premium Ausstattung", "Entspannte Atmosphäre"]
+        reviews: 44,
+        features: ["Pinzgau", "DIVINIA Eclibs", "HydraFacial"],
     },
-    {
-        id: "mattsee",
-        name: "Studio Mattsee",
-        address: {
-            street: "Ramooser Straße 5",
-            zip: "5163",
-            city: "Mattsee"
-        },
-        contact: {
-            phone: "0660 / 858 07 66",
-            email: "mattsee@skinlux.at"
-        },
-        image: "/images/about/studio/interior.jpg",
-        website: "https://www.skinlux.at/mattsee/",
-        rating: 5.0,
-        reviews: null,
-        isNew: true,
-        discount: "20% Eröffnungsrabatt",
-        features: ["Neu eröffnet", "Modernste Technik", "Exklusive Angebote"]
-    }
 ];
 
 export default function StandorteContent() {
@@ -111,7 +85,6 @@ export default function StandorteContent() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-            {/* Hero Section */}
             <section className="relative py-16 md:py-24 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-100/50 to-pink-50/30" />
                 <div className="container relative z-10">
@@ -121,27 +94,20 @@ export default function StandorteContent() {
                         transition={{ duration: 0.8 }}
                         className="text-center max-w-4xl mx-auto"
                     >
-                        <div className="inline-flex items-center gap-2 bg-secondary/10 px-4 py-2 rounded-full mb-6">
-                            <Sparkles className="w-4 h-4 text-secondary" />
-                            <span className="text-sm font-light tracking-wide text-secondary">
-                                NEU: 4. Studio in Mattsee eröffnet!
-                            </span>
-                        </div>
                         <h1 className="text-4xl md:text-6xl font-light mb-6 text-black">
-                            Unsere <span style={{ color: 'var(--color-secondary)' }}>Standorte</span>
+                            Unsere <span style={{ color: "var(--color-secondary)" }}>Standorte</span>
                         </h1>
                         <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed max-w-3xl mx-auto">
-                            Besuchen Sie eines unserer exklusiven Skinlux-Studios und erleben Sie professionelle
-                            Laser-Haarentfernung in minimalistischer, entspannter Atmosphäre.
+                            Skinlux betreibt drei Studios in Österreich. Wählen Sie den Standort,
+                            der für Sie am besten erreichbar ist – alle mit Online-Terminbuchung.
                         </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Studios Grid */}
             <section className="py-16">
                 <div className="container">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                         {studios.map((studio, index) => (
                             <motion.article
                                 key={studio.id}
@@ -150,47 +116,29 @@ export default function StandorteContent() {
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
                                 onMouseEnter={() => setHoveredStudio(studio.id)}
                                 onMouseLeave={() => setHoveredStudio(null)}
-                                className={`group relative bg-white rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${studio.isMain ? 'border-2 border-secondary/20' : 'border border-gray-200'
-                                    }`}
+                                className={`group relative bg-white rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${
+                                    studio.isCurrent ? "border-2 border-secondary/20" : "border border-gray-200"
+                                }`}
                             >
-                                {/* Studio Image */}
                                 <div className="relative h-64 md:h-72 overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10" />
                                     <Image
                                         src={studio.image}
-                                        alt={`${studio.name} - Skinlux Studio`}
+                                        alt={`${studio.name} – Skinlux Studio`}
                                         fill
                                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     />
-
-                                    {/* Badges */}
-                                    <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
-                                        {studio.isMain && (
+                                    {studio.isCurrent && (
+                                        <div className="absolute top-4 left-4 z-20">
                                             <div className="bg-primary text-white px-3 py-1 rounded-full text-xs font-light tracking-wide">
-                                                Hauptstandort
-                                            </div>
-                                        )}
-                                        {studio.isNew && (
-                                            <div className="bg-secondary text-white px-3 py-1 rounded-full text-xs font-light tracking-wide">
-                                                Neu eröffnet
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Discount Badge */}
-                                    {studio.discount && (
-                                        <div className="absolute top-4 right-4 z-20">
-                                            <div className="bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded-full text-sm font-medium">
-                                                {studio.discount}
+                                                Ihr Studio
                                             </div>
                                         </div>
                                     )}
                                 </div>
 
-                                {/* Studio Content */}
                                 <div className="p-6 md:p-8">
-                                    {/* Header */}
                                     <div className="flex items-start justify-between mb-4">
                                         <div>
                                             <h2 className="text-2xl md:text-3xl font-light mb-2 text-black">
@@ -203,22 +151,17 @@ export default function StandorteContent() {
                                                 </span>
                                             </div>
                                         </div>
-
-                                        {/* Rating */}
-                                        {studio.reviews && (
-                                            <div className="flex items-center gap-1">
-                                                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                                                <span className="text-sm font-medium">{studio.rating}</span>
-                                                <span className="text-xs text-gray-500">({studio.reviews})</span>
-                                            </div>
-                                        )}
+                                        <div className="flex items-center gap-1">
+                                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                            <span className="text-sm font-medium">{studio.rating}</span>
+                                            <span className="text-xs text-gray-500">({studio.reviews})</span>
+                                        </div>
                                     </div>
 
-                                    {/* Features */}
                                     <div className="flex flex-wrap gap-2 mb-6">
-                                        {studio.features.map((feature, featureIndex) => (
+                                        {studio.features.map((feature) => (
                                             <span
-                                                key={featureIndex}
+                                                key={feature}
                                                 className="text-xs px-3 py-1 bg-gray-100 text-gray-700 rounded-full font-light"
                                             >
                                                 {feature}
@@ -226,7 +169,6 @@ export default function StandorteContent() {
                                         ))}
                                     </div>
 
-                                    {/* Contact Information */}
                                     <div className="space-y-3 mb-8">
                                         <div className="flex items-center gap-3">
                                             <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
@@ -252,7 +194,6 @@ export default function StandorteContent() {
                                         </div>
                                     </div>
 
-                                    {/* Action Buttons */}
                                     <div className="flex gap-3">
                                         <a
                                             href={studio.website}
@@ -261,7 +202,7 @@ export default function StandorteContent() {
                                             className="flex-1 btn-primary inline-flex items-center justify-center gap-2"
                                         >
                                             <ExternalLink className="w-4 h-4" />
-                                            Zur Website
+                                            {studio.isCurrent ? "Zur Startseite" : "Zur Website"}
                                         </a>
                                         <a
                                             href={getGoogleMapsUrl(studio.address)}
@@ -275,12 +216,9 @@ export default function StandorteContent() {
                                     </div>
                                 </div>
 
-                                {/* Hover Overlay Effect */}
                                 <motion.div
                                     initial={{ opacity: 0 }}
-                                    animate={{
-                                        opacity: hoveredStudio === studio.id ? 1 : 0
-                                    }}
+                                    animate={{ opacity: hoveredStudio === studio.id ? 1 : 0 }}
                                     transition={{ duration: 0.3 }}
                                     className="absolute inset-0 bg-gradient-to-t from-secondary/10 to-transparent pointer-events-none"
                                 />
@@ -288,7 +226,6 @@ export default function StandorteContent() {
                         ))}
                     </div>
 
-                    {/* Call to Action */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -299,17 +236,22 @@ export default function StandorteContent() {
                             <div className="mb-6">
                                 <Award className="w-12 h-12 mx-auto mb-4 text-secondary" />
                                 <h3 className="text-2xl md:text-3xl font-light mb-4 text-black">
-                                    Ihr perfekter Standort
+                                    Übersicht auf skinlux.at
                                 </h3>
-                                <p className="text-gray-600 font-light leading-relaxed">
-                                    Alle unsere Studios bieten die gleiche hochwertige Behandlungsqualität und modernste Technologie.
-                                    Wählen Sie einfach den Standort, der für Sie am bequemsten ist.
+                                <p className="text-gray-600 font-light leading-relaxed mb-4">
+                                    Alle Standorte, Behandlungen und Ratgeber finden Sie auch auf unserer
+                                    zentralen Website.
                                 </p>
+                                <a
+                                    href="https://www.skinlux.at/standorte"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-gray-500 hover:text-black transition-colors"
+                                >
+                                    www.skinlux.at/standorte
+                                </a>
                             </div>
-                            <Link
-                                href="/beratung"
-                                className="btn-primary inline-flex items-center gap-2"
-                            >
+                            <Link href="/beratung" className="btn-primary inline-flex items-center gap-2">
                                 <Clock className="w-4 h-4" />
                                 Kostenlose Beratung buchen
                             </Link>

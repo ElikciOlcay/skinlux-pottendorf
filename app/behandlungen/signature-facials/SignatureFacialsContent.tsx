@@ -212,7 +212,7 @@ export default function SignatureFacialsContent() {
                 <div className="container">
                     <div className="grid md:grid-cols-4 gap-8">
                         {[
-                            { number: "3", label: "Premium Behandlungen", icon: Heart },
+                            { number: "5", label: "Premium Behandlungen", icon: Heart },
                             { number: "90", label: "Minuten Luxus", icon: Clock },
                             { number: "5★", label: "Premium Service", icon: Award },
                             { number: "100%", label: "Individuell", icon: Star }
@@ -365,7 +365,7 @@ export default function SignatureFacialsContent() {
                         </h2>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -463,6 +463,76 @@ export default function SignatureFacialsContent() {
                                 <div className="text-right">
                                     <div className="text-3xl font-light" style={{ color: 'var(--color-secondary)' }}>
                                         € 175
+                                    </div>
+                                </div>
+                            </div>
+                            <a
+                                href={SHORE_BOOKING_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full btn-secondary text-center py-3"
+                            >
+                                Jetzt buchen
+                            </a>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                            className="p-6 border border-gray-200 bg-white hover:border-secondary/30 transition-colors"
+                        >
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 className="text-xl font-light mb-2" text-black>
+                                        Circadia SWiCH™ Treatment
+                                    </h3>
+                                    <p className="text-sm text-gray-600 font-light mb-2">
+                                        3er Kur inkl. Nachbehandlungen · 2 Std.
+                                    </p>
+                                    <p className="text-gray-600 font-light">
+                                        Innovative Alternative zum chemischen Peeling ohne Ausfallzeit. Aktiviert die Hauterneuerung von innen, regt Kollagen- und Elastinbildung an – ideal für reife und müde Haut ab ca. 35 Jahren.
+                                    </p>
+                                </div>
+                                <div className="text-right flex-shrink-0 ml-4">
+                                    <div className="text-3xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                        € 649
+                                    </div>
+                                </div>
+                            </div>
+                            <a
+                                href={SHORE_BOOKING_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full btn-secondary text-center py-3"
+                            >
+                                Jetzt buchen
+                            </a>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            className="p-6 border border-gray-200 bg-white hover:border-secondary/30 transition-colors"
+                        >
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h3 className="text-xl font-light mb-2" text-black>
+                                        Circadia Radiance 4C Facial
+                                    </h3>
+                                    <p className="text-sm text-gray-600 font-light mb-2">
+                                        1 Std. 30 Min.
+                                    </p>
+                                    <p className="text-gray-600 font-light">
+                                        Vier hochwirksame Formen von Vitamin C gegen fahle Haut, ungleichmäßigen Teint und feine Linien. Für sofort sichtbare und langfristige Ergebnisse – strahlend, geschützt und revitalisiert.
+                                    </p>
+                                </div>
+                                <div className="text-right flex-shrink-0 ml-4">
+                                    <div className="text-3xl font-light" style={{ color: 'var(--color-secondary)' }}>
+                                        € 189
                                     </div>
                                 </div>
                             </div>

@@ -54,6 +54,20 @@ const serviceSchema = {
             priceCurrency: "EUR",
             availability: "https://schema.org/InStock",
         },
+        {
+            "@type": "Offer",
+            name: "Circadia SWiCH Treatment 3er Kur",
+            price: "649",
+            priceCurrency: "EUR",
+            availability: "https://schema.org/InStock",
+        },
+        {
+            "@type": "Offer",
+            name: "Circadia Radiance 4C Facial",
+            price: "189",
+            priceCurrency: "EUR",
+            availability: "https://schema.org/InStock",
+        },
     ],
 };
 

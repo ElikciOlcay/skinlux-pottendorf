@@ -5,6 +5,7 @@ import "./globals.css";
 import ConditionalLayout from "../components/layout/ConditionalLayout";
 import { SITE_URL, OG_IMAGE_URL } from "@/lib/site";
 import { GOOGLE_AGGREGATE_RATING_SCHEMA, OPENING_HOURS_SCHEMA } from "@/lib/business-info";
+import { COOKIE_CONSENT_KEY, GTM_ID } from "@/lib/cookie-consent";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
     subsets: ["latin"],
@@ -59,6 +60,7 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${plusJakartaSans.className} antialiased`}
       >
+        {/* Consent Mode default + gespeicherte Zustimmung VOR GTM */}
         <Script id="google-consent-default" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
@@ -71,8 +73,41 @@ export default function RootLayout({
               'ad_personalization': 'denied',
               'wait_for_update': 500
             });
+            try {
+              var stored = localStorage.getItem('${COOKIE_CONSENT_KEY}');
+              if (stored) {
+                var data = JSON.parse(stored);
+                var prefs = data.preferences || {};
+                gtag('consent', 'update', {
+                  'analytics_storage': prefs.analytics ? 'granted' : 'denied',
+                  'ad_storage': prefs.marketing ? 'granted' : 'denied',
+                  'ad_user_data': prefs.marketing ? 'granted' : 'denied',
+                  'ad_personalization': prefs.marketing ? 'granted' : 'denied'
+                });
+              }
+            } catch (e) {}
           `}
         </Script>
+        {/* Google Tag Manager */}
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','${GTM_ID}');
+          `}
+        </Script>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

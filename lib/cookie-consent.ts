@@ -1,4 +1,6 @@
 export const COOKIE_CONSENT_KEY = "skinlux-cookie-consent";
+export const GTM_ID = "GTM-WF7B8JVD";
+/** GA4 läuft über GTM – ID nur als Referenz / für gtag-Events */
 export const GA_MEASUREMENT_ID = "G-N76BWEKEH9";
 
 export interface CookiePreferences {
@@ -18,8 +20,6 @@ declare global {
         gtag?: (...args: unknown[]) => void;
     }
 }
-
-let gaLoaded = false;
 
 export function getStoredConsent(): CookieConsentData | null {
     if (typeof window === "undefined") return null;
@@ -45,41 +45,28 @@ function ensureGtag(): (...args: unknown[]) => void {
     return window.gtag;
 }
 
-export function loadGoogleAnalytics(): void {
-    if (typeof window === "undefined" || gaLoaded) return;
-
-    const gtag = ensureGtag();
-    gtag("js", new Date());
-    gtag("config", GA_MEASUREMENT_ID);
-
-    if (document.getElementById("google-analytics-script")) {
-        gaLoaded = true;
-        return;
-    }
-
-    const script = document.createElement("script");
-    script.id = "google-analytics-script";
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-    document.head.appendChild(script);
-
-    gaLoaded = true;
-}
-
 export function updateConsentState(preferences: CookiePreferences): void {
     if (typeof window === "undefined") return;
 
+    const analytics = preferences.analytics ? "granted" : "denied";
+    const marketing = preferences.marketing ? "granted" : "denied";
+
     const gtag = ensureGtag();
     gtag("consent", "update", {
-        analytics_storage: preferences.analytics ? "granted" : "denied",
-        ad_storage: preferences.marketing ? "granted" : "denied",
-        ad_user_data: preferences.marketing ? "granted" : "denied",
-        ad_personalization: preferences.marketing ? "granted" : "denied",
+        analytics_storage: analytics,
+        ad_storage: marketing,
+        ad_user_data: marketing,
+        ad_personalization: marketing,
     });
 
-    if (preferences.analytics) {
-        loadGoogleAnalytics();
-    }
+    // Explizites Event für GTM-Trigger (Consent Mode + Custom Trigger)
+    window.dataLayer!.push({
+        event: "cookie_consent_update",
+        analytics_storage: analytics,
+        ad_storage: marketing,
+        ad_user_data: marketing,
+        ad_personalization: marketing,
+    });
 }
 
 export function saveCookieConsent(preferences: CookiePreferences): void {

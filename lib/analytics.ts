@@ -10,6 +10,10 @@ export const ConversionEvents = {
 type ConversionEventName =
     (typeof ConversionEvents)[keyof typeof ConversionEvents];
 
+/**
+ * Custom Conversion-Events an dataLayer/gtag.
+ * Nur bei Analytics-Consent – Ads-Conversions laufen über GTM Consent Mode.
+ */
 export function trackConversionEvent(
     eventName: ConversionEventName,
     params?: Record<string, string | number | undefined>

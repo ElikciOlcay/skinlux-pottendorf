@@ -6,17 +6,21 @@ import { Cookie, X, Check } from "lucide-react";
 import {
     getStoredConsent,
     saveCookieConsent,
+    openCookieSettings,
+    COOKIE_SETTINGS_EVENT,
+    DEFAULT_DENIED_PREFERENCES,
+    ACCEPTED_ALL_PREFERENCES,
     type CookiePreferences,
 } from "@/lib/cookie-consent";
+
+export { openCookieSettings };
 
 export default function CookieBanner() {
     const [showBanner, setShowBanner] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
-    const [preferences, setPreferences] = useState<CookiePreferences>({
-        necessary: true,
-        analytics: false,
-        marketing: false
-    });
+    const [preferences, setPreferences] = useState<CookiePreferences>(
+        DEFAULT_DENIED_PREFERENCES
+    );
 
     useEffect(() => {
         const stored = getStoredConsent();
@@ -28,13 +32,25 @@ export default function CookieBanner() {
         setPreferences(stored.preferences);
     }, []);
 
-    const acceptAll = () => {
-        const allPreferences = {
-            necessary: true,
-            analytics: true,
-            marketing: true
+    useEffect(() => {
+        const handleOpenSettings = () => {
+            const stored = getStoredConsent();
+            if (stored) {
+                setPreferences(stored.preferences);
+            } else {
+                setPreferences(DEFAULT_DENIED_PREFERENCES);
+            }
+            setShowSettings(true);
+            setShowBanner(true);
         };
-        savePreferences(allPreferences);
+
+        window.addEventListener(COOKIE_SETTINGS_EVENT, handleOpenSettings);
+        return () =>
+            window.removeEventListener(COOKIE_SETTINGS_EVENT, handleOpenSettings);
+    }, []);
+
+    const acceptAll = () => {
+        savePreferences(ACCEPTED_ALL_PREFERENCES);
     };
 
     const acceptSelected = () => {
@@ -42,25 +58,21 @@ export default function CookieBanner() {
     };
 
     const rejectAll = () => {
-        const minimalPreferences = {
-            necessary: true,
-            analytics: false,
-            marketing: false
-        };
-        savePreferences(minimalPreferences);
+        savePreferences(DEFAULT_DENIED_PREFERENCES);
     };
 
     const savePreferences = (prefs: CookiePreferences) => {
         saveCookieConsent(prefs);
+        setPreferences(prefs);
         setShowBanner(false);
         setShowSettings(false);
     };
 
     const togglePreference = (key: keyof CookiePreferences) => {
-        if (key === 'necessary') return; // Necessary cookies can't be disabled
-        setPreferences(prev => ({
+        if (key === "necessary") return;
+        setPreferences((prev) => ({
             ...prev,
-            [key]: !prev[key]
+            [key]: !prev[key],
         }));
     };
 
@@ -76,20 +88,28 @@ export default function CookieBanner() {
                 >
                     <div className="container py-6">
                         {!showSettings ? (
-                            // Main Cookie Banner
                             <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
                                 <div className="flex items-start gap-4 flex-1">
-                                    <Cookie className="w-6 h-6 mt-1 flex-shrink-0" style={{ color: 'var(--color-secondary)' }} />
+                                    <Cookie
+                                        className="w-6 h-6 mt-1 flex-shrink-0"
+                                        style={{ color: "var(--color-secondary)" }}
+                                    />
                                     <div>
-                                        <h3 className="text-lg font-light mb-2" style={{ color: 'var(--color-primary)' }}>
+                                        <h3
+                                            className="text-lg font-light mb-2"
+                                            style={{ color: "var(--color-primary)" }}
+                                        >
                                             Cookie-Einstellungen
                                         </h3>
                                         <p className="text-sm text-gray-600 font-light leading-relaxed">
-                                            Wir verwenden Cookies, um Ihnen die bestmögliche Nutzererfahrung zu bieten.
-                                            Notwendige Cookies sind für die Grundfunktionen der Website erforderlich.
-                                            Sie können auch optionale Cookies für Analytics und Marketing akzeptieren.
+                                            Wir verwenden Cookies, um Ihnen die bestmögliche
+                                            Nutzererfahrung zu bieten. Notwendige Cookies sind für
+                                            die Grundfunktionen der Website erforderlich. Sie können
+                                            auch optionale Cookies für Analytics und Marketing
+                                            akzeptieren.
                                         </p>
                                         <button
+                                            type="button"
                                             onClick={() => setShowSettings(true)}
                                             className="mt-2 text-sm text-blue-600 hover:text-blue-800 transition-colors underline"
                                         >
@@ -100,88 +120,115 @@ export default function CookieBanner() {
 
                                 <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
                                     <button
+                                        type="button"
                                         onClick={rejectAll}
                                         className="px-6 py-2 text-sm font-light border border-gray-300 hover:border-gray-400 transition-colors"
                                     >
                                         Nur notwendige
                                     </button>
                                     <button
+                                        type="button"
                                         onClick={acceptAll}
                                         className="px-6 py-2 text-sm font-light text-white hover:opacity-90 transition-opacity"
-                                        style={{ backgroundColor: 'var(--color-secondary)' }}
+                                        style={{
+                                            backgroundColor: "var(--color-secondary)",
+                                        }}
                                     >
                                         Alle akzeptieren
                                     </button>
                                 </div>
                             </div>
                         ) : (
-                            // Cookie Settings Panel
                             <div>
                                 <div className="flex items-center justify-between mb-6">
-                                    <h3 className="text-lg font-light" style={{ color: 'var(--color-primary)' }}>
+                                    <h3
+                                        className="text-lg font-light"
+                                        style={{ color: "var(--color-primary)" }}
+                                    >
                                         Cookie-Einstellungen
                                     </h3>
                                     <button
-                                        onClick={() => setShowSettings(false)}
+                                        type="button"
+                                        onClick={() => {
+                                            if (getStoredConsent()) {
+                                                setShowBanner(false);
+                                                setShowSettings(false);
+                                            } else {
+                                                setShowSettings(false);
+                                            }
+                                        }}
                                         className="p-2 hover:bg-gray-100 transition-colors"
+                                        aria-label="Schließen"
                                     >
                                         <X className="w-4 h-4" />
                                     </button>
                                 </div>
 
                                 <div className="space-y-6">
-                                    {/* Necessary Cookies */}
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
-                                            <h4 className="text-sm font-medium mb-1" style={{ color: 'var(--color-primary)' }}>
+                                            <h4
+                                                className="text-sm font-medium mb-1"
+                                                style={{ color: "var(--color-primary)" }}
+                                            >
                                                 Notwendige Cookies
                                             </h4>
                                             <p className="text-xs text-gray-600 font-light">
-                                                Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.
+                                                Diese Cookies sind für die Grundfunktionen der
+                                                Website erforderlich und können nicht deaktiviert
+                                                werden.
                                             </p>
                                         </div>
                                         <div className="ml-4 flex items-center">
                                             <Check className="w-4 h-4 text-green-500" />
-                                            <span className="ml-2 text-xs text-gray-500">Immer aktiv</span>
+                                            <span className="ml-2 text-xs text-gray-500">
+                                                Immer aktiv
+                                            </span>
                                         </div>
                                     </div>
 
-                                    {/* Analytics Cookies */}
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
-                                            <h4 className="text-sm font-medium mb-1" style={{ color: 'var(--color-primary)' }}>
+                                            <h4
+                                                className="text-sm font-medium mb-1"
+                                                style={{ color: "var(--color-primary)" }}
+                                            >
                                                 Analytics Cookies
                                             </h4>
                                             <p className="text-xs text-gray-600 font-light">
-                                                Helfen uns zu verstehen, wie Besucher die Website nutzen, um die Benutzererfahrung zu verbessern.
+                                                Helfen uns zu verstehen, wie Besucher die Website
+                                                nutzen, um die Benutzererfahrung zu verbessern.
                                             </p>
                                         </div>
                                         <label className="ml-4 relative inline-flex items-center cursor-pointer">
                                             <input
                                                 type="checkbox"
                                                 checked={preferences.analytics}
-                                                onChange={() => togglePreference('analytics')}
+                                                onChange={() => togglePreference("analytics")}
                                                 className="sr-only peer"
                                             />
                                             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                                         </label>
                                     </div>
 
-                                    {/* Marketing Cookies */}
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
-                                            <h4 className="text-sm font-medium mb-1" style={{ color: 'var(--color-primary)' }}>
+                                            <h4
+                                                className="text-sm font-medium mb-1"
+                                                style={{ color: "var(--color-primary)" }}
+                                            >
                                                 Marketing Cookies
                                             </h4>
                                             <p className="text-xs text-gray-600 font-light">
-                                                Ermöglichen es uns, relevante Werbung anzuzeigen und die Effektivität unserer Kampagnen zu messen.
+                                                Ermöglichen es uns, relevante Werbung anzuzeigen und
+                                                die Effektivität unserer Kampagnen zu messen.
                                             </p>
                                         </div>
                                         <label className="ml-4 relative inline-flex items-center cursor-pointer">
                                             <input
                                                 type="checkbox"
                                                 checked={preferences.marketing}
-                                                onChange={() => togglePreference('marketing')}
+                                                onChange={() => togglePreference("marketing")}
                                                 className="sr-only peer"
                                             />
                                             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
@@ -191,22 +238,30 @@ export default function CookieBanner() {
 
                                 <div className="flex flex-col sm:flex-row gap-3 mt-8">
                                     <button
+                                        type="button"
                                         onClick={rejectAll}
                                         className="px-6 py-2 text-sm font-light border border-gray-300 hover:border-gray-400 transition-colors"
                                     >
                                         Nur notwendige
                                     </button>
                                     <button
+                                        type="button"
                                         onClick={acceptSelected}
                                         className="px-6 py-2 text-sm font-light text-white hover:opacity-90 transition-opacity"
-                                        style={{ backgroundColor: 'var(--color-secondary)' }}
+                                        style={{
+                                            backgroundColor: "var(--color-secondary)",
+                                        }}
                                     >
                                         Auswahl speichern
                                     </button>
                                     <button
+                                        type="button"
                                         onClick={acceptAll}
                                         className="px-6 py-2 text-sm font-light border hover:bg-gray-50 transition-colors"
-                                        style={{ borderColor: 'var(--color-secondary)', color: 'var(--color-secondary)' }}
+                                        style={{
+                                            borderColor: "var(--color-secondary)",
+                                            color: "var(--color-secondary)",
+                                        }}
                                     >
                                         Alle akzeptieren
                                     </button>
@@ -218,4 +273,4 @@ export default function CookieBanner() {
             )}
         </AnimatePresence>
     );
-} 
+}

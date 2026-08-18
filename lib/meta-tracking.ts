@@ -1,4 +1,7 @@
-// Meta Conversions API Tracking Helper
+import { getStoredConsent } from "@/lib/cookie-consent";
+
+// Meta Conversions API Tracking Helper (server-side via API-Route)
+// Client-Pixel wird bewusst NICHT geladen – nur CAPI nach Marketing-Consent.
 
 export const trackMetaEvent = async (
     eventName: string,
@@ -20,71 +23,63 @@ export const trackMetaEvent = async (
         [key: string]: unknown;
     }
 ) => {
+    if (typeof window === "undefined") return false;
+
+    const consent = getStoredConsent();
+    if (!consent?.preferences.marketing) {
+        return false;
+    }
+
     try {
-        const response = await fetch('/api/meta-conversion', {
-            method: 'POST',
+        const response = await fetch("/api/meta-conversion", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 eventName,
                 eventData: {
                     sourceUrl: window.location.href,
-                    customData
+                    customData,
                 },
-                userData
-            })
+                userData,
+            }),
         });
 
         if (!response.ok) {
-            console.error('Meta Tracking Error:', await response.text());
             return false;
         }
 
-        const result = await response.json();
-        console.log('Meta Event tracked:', eventName, result);
+        await response.json();
         return true;
-
-    } catch (error) {
-        console.error('Meta Tracking Error:', error);
+    } catch {
         return false;
     }
 };
 
-// Standard-Events
 export const MetaEvents = {
-    // Terminbuchung
-    SCHEDULE: 'Schedule',
-
-    // Seitenaufrufe
-    VIEW_CONTENT: 'ViewContent',
-
-    // Lead-Generierung
-    LEAD: 'Lead',
-
-    // Kontaktaufnahme
-    CONTACT: 'Contact',
-
+    SCHEDULE: "Schedule",
+    VIEW_CONTENT: "ViewContent",
+    LEAD: "Lead",
+    CONTACT: "Contact",
 };
 
-// Tracking-Funktionen für spezifische Events
 export const trackTerminBuchung = (userData?: Record<string, unknown>) => {
     return trackMetaEvent(MetaEvents.SCHEDULE, userData, {
-        content_name: 'Laser-Haarentfernung Termin',
-        content_category: 'Terminbuchung'
+        content_name: "Laser-Haarentfernung Termin",
+        content_category: "Terminbuchung",
     });
 };
 
 export const trackPageView = (pageName: string) => {
     return trackMetaEvent(MetaEvents.VIEW_CONTENT, undefined, {
-        content_name: pageName
+        content_name: pageName,
     });
 };
 
 export const trackLead = (userData?: Record<string, unknown>) => {
     return trackMetaEvent(MetaEvents.LEAD, userData, {
-        content_name: 'Lead Generierung',
-        content_category: 'Lead'
+        content_name: "Lead Generierung",
+        content_category: "Lead",
     });
 };
-

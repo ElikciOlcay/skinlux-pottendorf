@@ -5,7 +5,11 @@ import "./globals.css";
 import ConditionalLayout from "../components/layout/ConditionalLayout";
 import { SITE_URL, OG_IMAGE_URL } from "@/lib/site";
 import { GOOGLE_AGGREGATE_RATING_SCHEMA, OPENING_HOURS_SCHEMA } from "@/lib/business-info";
-import { COOKIE_CONSENT_KEY, GTM_ID } from "@/lib/cookie-consent";
+import {
+  COOKIE_CONSENT_KEY,
+  GTM_ID,
+  getConsentBootstrapInlineScript,
+} from "@/lib/cookie-consent";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
     subsets: ["latin"],
@@ -60,33 +64,9 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${plusJakartaSans.className} antialiased`}
       >
-        {/* Consent Mode default + gespeicherte Zustimmung VOR GTM */}
+        {/* Consent Mode V2 default + frühe Restore VOR GTM */}
         <Script id="google-consent-default" strategy="beforeInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){window.dataLayer.push(arguments);}
-            window.gtag = gtag;
-            gtag('consent', 'default', {
-              'analytics_storage': 'denied',
-              'ad_storage': 'denied',
-              'ad_user_data': 'denied',
-              'ad_personalization': 'denied',
-              'wait_for_update': 500
-            });
-            try {
-              var stored = localStorage.getItem('${COOKIE_CONSENT_KEY}');
-              if (stored) {
-                var data = JSON.parse(stored);
-                var prefs = data.preferences || {};
-                gtag('consent', 'update', {
-                  'analytics_storage': prefs.analytics ? 'granted' : 'denied',
-                  'ad_storage': prefs.marketing ? 'granted' : 'denied',
-                  'ad_user_data': prefs.marketing ? 'granted' : 'denied',
-                  'ad_personalization': prefs.marketing ? 'granted' : 'denied'
-                });
-              }
-            } catch (e) {}
-          `}
+          {getConsentBootstrapInlineScript(COOKIE_CONSENT_KEY)}
         </Script>
         {/* Google Tag Manager */}
         <Script id="google-tag-manager" strategy="afterInteractive">

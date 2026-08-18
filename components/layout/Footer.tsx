@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, MapPin, Clock, Briefcase } from 'lucide-react';
 import { GOOGLE_RATING_LABEL, OPENING_HOURS_SUMMARY, GOOGLE_REVIEWS_URL } from '@/lib/business-info';
+import CookieSettingsButton from '@/components/ui/CookieSettingsButton';
 
 const Footer = () => {
     return (
@@ -216,6 +217,7 @@ const Footer = () => {
                             >
                                 Datenschutz
                             </Link>
+                            <CookieSettingsButton />
                         </div>
                     </div>
                 </div>

@@ -25,8 +25,8 @@ export default function CookieBanner() {
     useEffect(() => {
         const stored = getStoredConsent();
         if (!stored) {
-            const timer = setTimeout(() => setShowBanner(true), 2000);
-            return () => clearTimeout(timer);
+            setShowBanner(true);
+            return;
         }
 
         setPreferences(stored.preferences);

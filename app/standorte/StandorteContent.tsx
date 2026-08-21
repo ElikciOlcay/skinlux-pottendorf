@@ -31,7 +31,7 @@ const studios = [
         image: "/images/about/studio/interior.jpg",
         website: "https://pottendorf.skinlux.at",
         rating: 5.0,
-        reviews: 173,
+        reviews: 184,
         isCurrent: true,
         features: ["Hauptstandort", "Abendtermine", "Volles Behandlungsangebot"],
     },
@@ -50,7 +50,7 @@ const studios = [
         image: "/images/about/studio/interior.jpg",
         website: "https://bischofshofen.skinlux.at",
         rating: 5.0,
-        reviews: 201,
+        reviews: 229,
         features: ["Pongau", "Größtes Studio", "Ratgeber & Guides"],
     },
     {
@@ -68,7 +68,7 @@ const studios = [
         image: "/images/about/studio/interior.jpg",
         website: "https://pinzgau.skinlux.at",
         rating: 5.0,
-        reviews: 44,
+        reviews: 46,
         features: ["Pinzgau", "DIVINIA Eclibs", "HydraFacial"],
     },
 ];

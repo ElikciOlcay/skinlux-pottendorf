@@ -1,6 +1,6 @@
 export const GOOGLE_RATING = {
     value: "5.0",
-    reviewCount: 183,
+    reviewCount: 184,
 } as const;
 
 export const GOOGLE_RATING_LABEL = `${GOOGLE_RATING.reviewCount} Google Bewertungen`;

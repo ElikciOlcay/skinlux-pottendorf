@@ -1,4 +1,4 @@
-import { getStoredConsent } from "@/lib/cookie-consent";
+import { hasAnalyticsConsent } from "@/lib/cookie-consent";
 
 export const ConversionEvents = {
     BOOKING_CLICK: "booking_click",
@@ -20,8 +20,7 @@ export function trackConversionEvent(
 ): void {
     if (typeof window === "undefined") return;
 
-    const consent = getStoredConsent();
-    if (!consent?.preferences.analytics) return;
+    if (!hasAnalyticsConsent()) return;
     if (typeof window.gtag !== "function") return;
 
     window.gtag("event", eventName, {

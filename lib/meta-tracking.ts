@@ -1,4 +1,4 @@
-import { getStoredConsent } from "@/lib/cookie-consent";
+import { hasMarketingConsent } from "@/lib/cookie-consent";
 
 // Meta Conversions API Tracking Helper (server-side via API-Route)
 // Client-Pixel wird bewusst NICHT geladen – nur CAPI nach Marketing-Consent.
@@ -25,8 +25,7 @@ export const trackMetaEvent = async (
 ) => {
     if (typeof window === "undefined") return false;
 
-    const consent = getStoredConsent();
-    if (!consent?.preferences.marketing) {
+    if (!hasMarketingConsent()) {
         return false;
     }
 

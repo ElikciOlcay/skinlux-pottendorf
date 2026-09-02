@@ -5,8 +5,6 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
 import NewsWidget from "@/components/ui/NewsWidget";
-import CookieBanner from "@/components/ui/CookieBanner";
-import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import ConversionTracker from "@/components/analytics/ConversionTracker";
 
 interface ConditionalLayoutProps {
@@ -36,8 +34,6 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
             <Footer />
             <NewsWidget />
             <ChatWidget />
-            <CookieBanner />
-            <GoogleAnalytics />
             <ConversionTracker />
         </>
     );

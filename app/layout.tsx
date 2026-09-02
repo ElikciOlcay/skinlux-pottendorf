@@ -6,7 +6,6 @@ import ConditionalLayout from "../components/layout/ConditionalLayout";
 import { SITE_URL, OG_IMAGE_URL } from "@/lib/site";
 import { GOOGLE_AGGREGATE_RATING_SCHEMA, OPENING_HOURS_SCHEMA } from "@/lib/business-info";
 import {
-  COOKIE_CONSENT_KEY,
   GTM_ID,
   getConsentBootstrapInlineScript,
 } from "@/lib/cookie-consent";
@@ -64,9 +63,9 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${plusJakartaSans.className} antialiased`}
       >
-        {/* Consent Mode V2 default + frühe Restore VOR GTM */}
+        {/* Consent Mode V2 default denied – Cookiebot (GTM) aktualisiert nach Consent */}
         <Script id="google-consent-default" strategy="beforeInteractive">
-          {getConsentBootstrapInlineScript(COOKIE_CONSENT_KEY)}
+          {getConsentBootstrapInlineScript()}
         </Script>
         {/* Google Tag Manager */}
         <Script id="google-tag-manager" strategy="afterInteractive">

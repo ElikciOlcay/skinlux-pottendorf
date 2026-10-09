@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "../components/layout/ConditionalLayout";
@@ -10,9 +10,11 @@ import {
   getConsentBootstrapInlineScript,
 } from "@/lib/cookie-consent";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-    subsets: ["latin"],
-    weight: ["300", "400", "500", "600", "700", "800"],
+const plusJakartaSans = localFont({
+    src: "./fonts/plus-jakarta-sans-latin.woff2",
+    weight: "300 800",
+    style: "normal",
+    display: "swap",
     variable: "--font-sans",
 });
 

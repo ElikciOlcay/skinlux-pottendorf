@@ -14,6 +14,16 @@ interface ConditionalLayoutProps {
 export default function ConditionalLayout({ children }: ConditionalLayoutProps) {
     const pathname = usePathname();
     const isAdminRoute = pathname.startsWith('/admin');
+    const isCampaignLanding = pathname.startsWith('/aktion/');
+
+    if (isCampaignLanding) {
+        return (
+            <>
+                {children}
+                <ConversionTracker />
+            </>
+        );
+    }
 
     if (isAdminRoute) {
         // Admin-Bereich: Keine Navigation, Footer oder Popups

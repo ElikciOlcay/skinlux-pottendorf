@@ -38,3 +38,5 @@ export const WHATSAPP_BOOKING_URL =
     "https://wa.me/436649188632?text=Hallo%20Skinlux!%20Ich%20m%C3%B6chte%20gerne%20einen%20Termin%20vereinbaren.";
 
 export const PHONE_E164 = "+436649188632";
+export const PHONE_DISPLAY = "0664 / 91 88 632";
+export const PHONE_TEL = `tel:${PHONE_E164}`;

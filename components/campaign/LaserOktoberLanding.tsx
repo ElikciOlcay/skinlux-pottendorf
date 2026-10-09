@@ -337,30 +337,31 @@ export default function LaserOktoberLanding({ bookingUrl, pricesHref }: LaserOkt
                             <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-gray-700)]">
                                 Dein möglicher Start bis Sommer
                             </p>
-                            <div className="overflow-x-auto pb-2">
-                                <ol className="flex min-w-[28rem] items-start sm:min-w-0">
-                                    {TIMELINE.map((step, index) => (
-                                        <li key={step.label} className="relative flex flex-1 flex-col items-center gap-3">
-                                            {index < TIMELINE.length - 1 ? (
-                                                <span
-                                                    className="absolute left-1/2 top-4 h-px w-full bg-[var(--color-primary)]"
-                                                    aria-hidden="true"
-                                                />
-                                            ) : null}
+                            <div className="relative mx-auto w-full">
+                                <span
+                                    className="pointer-events-none absolute left-[calc(100%/14)] right-[calc(100%/14)] top-3.5 h-px bg-[var(--color-primary)] sm:top-4"
+                                    aria-hidden="true"
+                                />
+                                <ol className="relative flex items-start">
+                                    {TIMELINE.map((step) => (
+                                        <li
+                                            key={step.label}
+                                            className="flex min-w-0 flex-1 flex-col items-center gap-2"
+                                        >
                                             <span
-                                                className={`relative z-10 flex h-8 w-8 items-center justify-center ${
+                                                className={`relative z-10 flex h-7 w-7 shrink-0 items-center justify-center sm:h-8 sm:w-8 ${
                                                     step.highlight
                                                         ? "bg-[var(--color-primary)] text-white"
                                                         : "border border-[var(--color-primary)] bg-white"
                                                 }`}
                                             >
                                                 {step.highlight ? (
-                                                    <Sun className="h-4 w-4" aria-hidden="true" />
+                                                    <Sun className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
                                                 ) : (
-                                                    <span className="h-2 w-2 bg-[var(--color-primary)]" aria-hidden="true" />
+                                                    <span className="h-1.5 w-1.5 bg-[var(--color-primary)] sm:h-2 sm:w-2" aria-hidden="true" />
                                                 )}
                                             </span>
-                                            <span className="text-xs font-light text-[var(--color-gray-700)]">
+                                            <span className="w-full text-center text-[10px] font-light leading-tight text-[var(--color-gray-700)] sm:text-xs">
                                                 {step.label}
                                             </span>
                                         </li>

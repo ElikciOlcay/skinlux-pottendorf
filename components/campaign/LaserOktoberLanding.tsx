@@ -97,7 +97,7 @@ const FAQ = [
     {
         question: "Wie funktioniert die 50-%-Aktion?",
         answer:
-            "Die ersten zwei Behandlungen sind um 50 % reduziert. Der Rabatt gilt bis 31. Oktober 2026 für Einzelzonen und wird vor Ort abgezogen. Pakete sind ausgenommen.",
+            "Die ersten zwei Behandlungen sind um 50 % reduziert. Der Rabatt gilt bis 31. Oktober 2026 nur für Neukunden und wird vor Ort abgezogen.",
     },
     {
         question: "Wie viele Behandlungen sind notwendig?",
@@ -302,7 +302,7 @@ export default function LaserOktoberLanding({ bookingUrl, pricesHref }: LaserOkt
 
                         <p className="mt-5 text-center text-xs font-light leading-relaxed text-[var(--color-gray-700)]">
                             Aktionspreis für die ersten zwei Einzelbehandlungen. Danach gilt der reguläre Preis.
-                            Aktion gültig bis 31.10.2026, Pakete ausgenommen. Der Rabatt wird vor Ort abgezogen.
+                            Aktion gültig bis 31.10.2026, nur für Neukunden. Der Rabatt wird vor Ort abgezogen.
                         </p>
                     </div>
                 </div>

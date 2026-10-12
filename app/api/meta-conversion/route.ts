@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { META_PIXEL_ID } from '@/lib/meta-tracking';
 
-const PIXEL_ID = process.env.META_PIXEL_ID || '';
+const PIXEL_ID = process.env.META_PIXEL_ID || META_PIXEL_ID;
 const ACCESS_TOKEN = process.env.META_CONVERSION_API_TOKEN || '';
 const API_VERSION = 'v21.0';
 
@@ -13,7 +14,7 @@ function hashData(data: string): string {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { eventName, eventData, userData } = body;
+        const { eventName, eventData, userData, eventId: clientEventId } = body;
 
         if (!PIXEL_ID || !ACCESS_TOKEN) {
             return NextResponse.json(
@@ -70,8 +71,10 @@ export async function POST(request: NextRequest) {
             hashedUserData.fbp = fbpMatch[1];
         }
 
-        // Event-ID für Deduplizierung
-        const eventId = crypto.randomBytes(16).toString('hex');
+        const eventId =
+            typeof clientEventId === 'string' && clientEventId.length > 0
+                ? clientEventId
+                : crypto.randomBytes(16).toString('hex');
 
         // Payload erstellen
         const payload = {

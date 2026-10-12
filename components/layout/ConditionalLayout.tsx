@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
 import NewsWidget from "@/components/ui/NewsWidget";
 import ConversionTracker from "@/components/analytics/ConversionTracker";
+import MetaPixel from "@/components/analytics/MetaPixel";
 
 interface ConditionalLayoutProps {
     children: React.ReactNode;
@@ -20,6 +21,7 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
         return (
             <>
                 {children}
+                <MetaPixel />
                 <ConversionTracker />
             </>
         );
@@ -44,6 +46,7 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
             <Footer />
             <NewsWidget />
             <ChatWidget />
+            <MetaPixel />
             <ConversionTracker />
         </>
     );

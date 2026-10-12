@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { trackConversionEvent, ConversionEvents } from "@/lib/analytics";
+import { trackContact, trackTerminBuchung } from "@/lib/meta-tracking";
 
 function getClickSource(anchor: HTMLAnchorElement): string {
     return (
@@ -24,6 +25,7 @@ export default function ConversionTracker() {
                 trackConversionEvent(ConversionEvents.BOOKING_CLICK, {
                     event_label: source,
                 });
+                void trackTerminBuchung();
                 return;
             }
 
@@ -31,6 +33,7 @@ export default function ConversionTracker() {
                 trackConversionEvent(ConversionEvents.WHATSAPP_CLICK, {
                     event_label: source,
                 });
+                void trackContact();
                 return;
             }
 
@@ -38,6 +41,7 @@ export default function ConversionTracker() {
                 trackConversionEvent(ConversionEvents.PHONE_CLICK, {
                     event_label: source,
                 });
+                void trackContact();
             }
         };
 

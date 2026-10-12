@@ -106,7 +106,7 @@ export default function LaserOktoberPriceList({
                     </ul>
 
                     <p className="mt-6 text-sm font-light leading-relaxed text-[var(--color-gray-700)]">
-                        Aktion gültig bis 31.10.2026, nur für Einzelzonen – Pakete ausgenommen.
+                        Aktion gültig bis 31.10.2026, nur für Neukunden.
                         Der Rabatt wird vor Ort abgezogen.
                     </p>
 

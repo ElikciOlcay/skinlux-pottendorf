@@ -9,6 +9,7 @@ import {
   GTM_ID,
   getConsentBootstrapInlineScript,
 } from "@/lib/cookie-consent";
+import { getMetaPixelBootstrapInlineScript } from "@/lib/meta-tracking";
 
 const plusJakartaSans = localFont({
     src: "./fonts/plus-jakarta-sans-latin.woff2",
@@ -78,6 +79,9 @@ export default function RootLayout({
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','${GTM_ID}');
           `}
+        </Script>
+        <Script id="meta-pixel" strategy="afterInteractive">
+          {getMetaPixelBootstrapInlineScript()}
         </Script>
         {/* Google Tag Manager (noscript) */}
         <noscript>

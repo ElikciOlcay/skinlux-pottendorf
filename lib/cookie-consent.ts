@@ -40,6 +40,28 @@ export function openCookieSettings(): void {
     getCookiebot()?.renew?.();
 }
 
+const COOKIEBOT_CONSENT_EVENTS = [
+    "CookiebotOnConsentReady",
+    "CookiebotOnAccept",
+    "CookiebotOnDecline",
+] as const;
+
+export function subscribeToCookiebotConsent(callback: () => void): () => void {
+    if (typeof window === "undefined") return () => undefined;
+
+    callback();
+
+    for (const eventName of COOKIEBOT_CONSENT_EVENTS) {
+        window.addEventListener(eventName, callback);
+    }
+
+    return () => {
+        for (const eventName of COOKIEBOT_CONSENT_EVENTS) {
+            window.removeEventListener(eventName, callback);
+        }
+    };
+}
+
 /**
  * Consent Mode V2 Default denied VOR GTM.
  * Cookiebot (über GTM) aktualisiert die Signale nach der Nutzerentscheidung.

@@ -1,55 +1,51 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Script from "next/script";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import {
     hasMarketingConsent,
     subscribeToCookiebotConsent,
 } from "@/lib/cookie-consent";
-import { META_PIXEL_ID, MetaEvents, trackMetaPixelEvent } from "@/lib/meta-tracking";
+import { MetaEvents, trackMetaPixelEvent } from "@/lib/meta-tracking";
+
+function applyMetaConsent(granted: boolean): void {
+    if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+    window.fbq("consent", granted ? "grant" : "revoke");
+}
 
 export default function MetaPixel() {
     const pathname = usePathname();
-    const [enabled, setEnabled] = useState(false);
-    const skipNextPageView = useRef(true);
+    const grantedRef = useRef(false);
+    const pageViewSentRef = useRef(false);
+    const isFirstPath = useRef(true);
 
     useEffect(() => {
         return subscribeToCookiebotConsent(() => {
-            setEnabled(hasMarketingConsent());
+            const granted = hasMarketingConsent();
+            applyMetaConsent(granted);
+
+            if (granted && !pageViewSentRef.current) {
+                pageViewSentRef.current = true;
+                trackMetaPixelEvent(MetaEvents.PAGE_VIEW);
+            }
+
+            if (!granted) {
+                pageViewSentRef.current = false;
+            }
+
+            grantedRef.current = granted;
         });
     }, []);
 
     useEffect(() => {
-        if (!enabled) {
-            skipNextPageView.current = true;
+        if (isFirstPath.current) {
+            isFirstPath.current = false;
             return;
         }
 
-        if (skipNextPageView.current) {
-            skipNextPageView.current = false;
-            return;
-        }
-
+        if (!grantedRef.current) return;
         trackMetaPixelEvent(MetaEvents.PAGE_VIEW);
-    }, [enabled, pathname]);
+    }, [pathname]);
 
-    if (!enabled) return null;
-
-    return (
-        <Script id="meta-pixel" strategy="afterInteractive">
-            {`
-                !function(f,b,e,v,n,t,s)
-                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                n.queue=[];t=b.createElement(e);t.async=!0;
-                t.src=v;s=b.getElementsByTagName(e)[0];
-                s.parentNode.insertBefore(t,s)}(window, document,'script',
-                'https://connect.facebook.net/en_US/fbevents.js');
-                fbq('init', '${META_PIXEL_ID}');
-                fbq('track', 'PageView');
-            `}
-        </Script>
-    );
+    return null;
 }

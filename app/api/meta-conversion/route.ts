@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { META_PIXEL_ID } from '@/lib/meta-tracking';
 
-const PIXEL_ID = process.env.META_PIXEL_ID || META_PIXEL_ID;
+const PIXEL_ID = META_PIXEL_ID;
 const ACCESS_TOKEN = process.env.META_CONVERSION_API_TOKEN || '';
 const API_VERSION = 'v21.0';
 

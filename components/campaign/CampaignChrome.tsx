@@ -13,12 +13,16 @@ type CampaignChromeProps = {
     bookingUrl: string;
     contentName: string;
     children: React.ReactNode;
+    stickyNote?: string;
+    conversionSource?: string;
 };
 
 export default function CampaignChrome({
     bookingUrl,
     contentName,
     children,
+    stickyNote = "50 % auf die ersten 2 Behandlungen",
+    conversionSource,
 }: CampaignChromeProps) {
     return (
         <div className="bg-white pb-28 text-[var(--color-text-primary)] md:pb-0">
@@ -51,9 +55,9 @@ export default function CampaignChrome({
 
             <div className="fixed inset-x-0 bottom-0 z-30 border-t border-[var(--color-gray-300)] bg-white px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
                 <p className="mb-2 text-center text-[11px] font-light uppercase tracking-[0.16em] text-[var(--color-gray-700)]">
-                    50 % auf die ersten 2 Behandlungen
+                    {stickyNote}
                 </p>
-                <BookingButton href={bookingUrl} className={bookingButtonClass}>
+                <BookingButton href={bookingUrl} className={bookingButtonClass} conversionSource={conversionSource}>
                     Jetzt Termin buchen
                 </BookingButton>
             </div>

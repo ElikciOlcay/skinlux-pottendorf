@@ -414,72 +414,16 @@ export default function HautanalyseContent() {
                         </h2>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                        {/* Standard Option */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="bg-white p-8 border border-gray-200 hover:border-secondary/30 transition-colors"
-                        >
-                            <div className="text-center">
-                                <h3 className="text-2xl font-light mb-4" text-black>
-                                    Standard Hautanalyse
-                                </h3>
-                                <div className="text-5xl font-light mb-4" style={{ color: 'var(--color-secondary)' }}>
-                                    €49
-                                </div>
-                                <p className="text-gray-600 font-light mb-6">
-                                    Komplette Analyse mit Beratung
-                                </p>
-
-                                <div className="space-y-3 mb-8 text-left">
-                                    {[
-                                        "HD-Hautaufnahmen",
-                                        "7 Analyseparameter",
-                                        "Digitaler Hautreport",
-                                        "Persönliche Beratung",
-                                        "Behandlungsempfehlungen",
-                                        "Pflegeplan"
-                                    ].map((feature, index) => (
-                                        <div key={index} className="flex items-center gap-3">
-                                            <CheckCircle className="w-4 h-4" style={{ color: 'var(--color-secondary)' }} />
-                                            <span className="text-sm font-light text-gray-700">{feature}</span>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <a
-                                    href={SHORE_BOOKING_URL}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn-secondary inline-flex items-center justify-center w-full"
-                                >
-                                    Hautanalyse buchen
-                                </a>
-                            </div>
-                        </motion.div>
-
+                    <div className="max-w-xl mx-auto">
                         {/* Kostenlose Option */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                            className="bg-white p-8 border-2 border-secondary relative"
+                            transition={{ duration: 0.6 }}
+                            className="bg-white p-8 border-2 border-secondary"
                         >
-                            {/* Popular Badge */}
-                            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                                <div
-                                    className="px-6 py-2 text-white text-xs font-light tracking-wider uppercase"
-                                    style={{ backgroundColor: 'var(--color-secondary)' }}
-                                >
-                                    Beliebt
-                                </div>
-                            </div>
-
-                            <div className="text-center pt-4">
+                            <div className="text-center">
                                 <h3 className="text-2xl font-light mb-4" text-black>
                                     Kostenlose Hautanalyse
                                 </h3>

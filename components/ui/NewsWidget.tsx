@@ -50,8 +50,8 @@ export default function NewsWidget() {
                             <div className="p-3 flex items-center gap-3">
                                 <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0">
                                     <Image
-                                        src="https://bischofshofen.skinlux.at/images/microneedling/treatment-microneedling.png"
-                                        alt="SkinPen Neuigkeit"
+                                        src="/images/green-peel/green-peel-behandlung.jpg"
+                                        alt="GREEN PEEL Neuigkeit"
                                         fill
                                         className="object-cover"
                                         sizes="64px"
@@ -63,17 +63,17 @@ export default function NewsWidget() {
                                         Neu bei Skinlux
                                     </p>
                                     <p className="text-white/80 text-[13px] font-light truncate">
-                                        SkinPen Precision
+                                        GREEN PEEL® Kräuterschälkur
                                     </p>
                                     <p className="text-white/60 text-xs font-light mt-1">
-                                        Präzises Microneedling für Narben, Poren und Hautstruktur.
+                                        Natürliche Hauterneuerung mit der Kraft ausgewählter Kräuter.
                                     </p>
                                 </div>
                             </div>
 
                             <div className="px-3 pb-3">
                                 <Link
-                                    href="/behandlungen/skinpen-precision"
+                                    href="/behandlungen/green-peel"
                                     onClick={handleDismiss}
                                     className="inline-flex items-center gap-2 text-xs font-light tracking-[0.12em] uppercase text-white bg-white/10 hover:bg-white/20 transition-colors px-3 py-2 rounded-lg"
                                 >

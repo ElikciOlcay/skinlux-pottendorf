@@ -36,13 +36,6 @@ const serviceSchema = {
     offers: [
         {
             "@type": "Offer",
-            name: "Standard Hautanalyse",
-            price: "49",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/InStock",
-        },
-        {
-            "@type": "Offer",
             name: "Kostenlose Hautanalyse bei Buchung ab €150",
             price: "0",
             priceCurrency: "EUR",

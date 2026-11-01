@@ -36,7 +36,7 @@ const serviceSchema = {
     offers: [
         {
             "@type": "Offer",
-            name: "Circadia Customized Facial",
+            name: "Klassische Circadia Gesichtsbehandlung",
             price: "150",
             priceCurrency: "EUR",
             availability: "https://schema.org/InStock",

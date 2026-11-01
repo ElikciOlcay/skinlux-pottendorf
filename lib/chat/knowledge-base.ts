@@ -214,7 +214,7 @@ export const LISA_KNOWLEDGE = {
             description: "Exklusive Gesichtsbehandlungen mit Circadia Professional",
             types: [
                 {
-                    name: "Circadia Customized Facial",
+                    name: "Klassische Circadia Gesichtsbehandlung",
                     duration: "1 Std. 30 Min.",
                     price: "150€",
                     benefits: ["Individueller Mixology Prozess", "Porentiefreinigung", "Hautverjüngung"]

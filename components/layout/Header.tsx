@@ -51,6 +51,19 @@ const navigation = [
     { name: "Kontakt", href: "/kontakt" },
 ];
 
+// Verteilt die Dropdown-Kategorien auf zwei Spalten, jeweils in die kürzere,
+// damit keine Lücke unter einer kurzen Kategorie entsteht.
+function splitIntoColumns<T extends { items: unknown[] }>(categories: T[]): [T[], T[]] {
+    const columns: [T[], T[]] = [[], []];
+    const heights = [0, 0];
+    for (const category of categories) {
+        const target = heights[0] <= heights[1] ? 0 : 1;
+        columns[target].push(category);
+        heights[target] += category.items.length + 1;
+    }
+    return columns;
+}
+
 const EASTER_END = new Date("2026-04-07T00:00:00+02:00");
 
 function useIsEasterActive() {
@@ -224,34 +237,38 @@ export default function Header() {
                                                     className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[560px] bg-white/[0.98] backdrop-blur-xl rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-gray-100/80 overflow-hidden"
                                                 >
                                                     <div className="p-2">
-                                                        <div className="grid grid-cols-2 gap-1">
-                                                            {item.dropdown?.map((category) => (
-                                                                <div key={category.category} className="space-y-1">
-                                                                    <div className="flex items-center gap-2 px-4 pt-4 pb-2">
-                                                                        <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-gray-50">
-                                                                            <category.icon className="w-3.5 h-3.5 text-gray-400" />
-                                                                        </div>
-                                                                        <h3 className="text-[11px] font-medium tracking-widest uppercase text-gray-400">
-                                                                            {category.category}
-                                                                        </h3>
-                                                                    </div>
-                                                                    {category.items.map((subItem) => (
-                                                                        <Link
-                                                                            key={subItem.name}
-                                                                            href={subItem.href}
-                                                                            className="group flex items-start gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-50/80 transition-colors"
-                                                                            onClick={() => setActiveDropdown(null)}
-                                                                        >
-                                                                            <div className="flex-1 min-w-0">
-                                                                                <p className="text-[13px] font-normal text-gray-800 group-hover:text-black transition-colors flex items-center gap-2">
-                                                                                    {subItem.name}
-                                                                                </p>
-                                                                                <p className="text-[11px] text-gray-400 font-light mt-0.5 leading-relaxed">
-                                                                                    {subItem.description}
-                                                                                </p>
+                                                        <div className="grid grid-cols-2 gap-1 items-start">
+                                                            {splitIntoColumns(item.dropdown ?? []).map((column, columnIndex) => (
+                                                                <div key={columnIndex} className="space-y-1">
+                                                                    {column.map((category) => (
+                                                                        <div key={category.category} className="space-y-1">
+                                                                            <div className="flex items-center gap-2 px-4 pt-4 pb-2">
+                                                                                <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-gray-50">
+                                                                                    <category.icon className="w-3.5 h-3.5 text-gray-400" />
+                                                                                </div>
+                                                                                <h3 className="text-[11px] font-medium tracking-widest uppercase text-gray-400">
+                                                                                    {category.category}
+                                                                                </h3>
                                                                             </div>
-                                                                            <ChevronRight className="w-3.5 h-3.5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0" />
-                                                                        </Link>
+                                                                            {category.items.map((subItem) => (
+                                                                                <Link
+                                                                                    key={subItem.name}
+                                                                                    href={subItem.href}
+                                                                                    className="group flex items-start gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-50/80 transition-colors"
+                                                                                    onClick={() => setActiveDropdown(null)}
+                                                                                >
+                                                                                    <div className="flex-1 min-w-0">
+                                                                                        <p className="text-[13px] font-normal text-gray-800 group-hover:text-black transition-colors flex items-center gap-2">
+                                                                                            {subItem.name}
+                                                                                        </p>
+                                                                                        <p className="text-[11px] text-gray-400 font-light mt-0.5 leading-relaxed">
+                                                                                            {subItem.description}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <ChevronRight className="w-3.5 h-3.5 text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5 flex-shrink-0" />
+                                                                                </Link>
+                                                                            ))}
+                                                                        </div>
                                                                     ))}
                                                                 </div>
                                                             ))}

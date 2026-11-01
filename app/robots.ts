@@ -1,6 +1,31 @@
 import { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/site';
 
+/**
+ * KI-Crawler, die die Website lesen dürfen – für Suche und Antworten in ChatGPT,
+ * Claude, Perplexity, Gemini, Copilot und Apple Intelligence.
+ * Getrennt aufgeführt, damit die Freigabe unabhängig von der allgemeinen Regel ist.
+ */
+const AI_CRAWLERS = [
+    // OpenAI / ChatGPT
+    'OAI-SearchBot',
+    'ChatGPT-User',
+    'GPTBot',
+    // Anthropic / Claude
+    'Claude-SearchBot',
+    'Claude-User',
+    'ClaudeBot',
+    // Perplexity
+    'PerplexityBot',
+    'Perplexity-User',
+    // Google Gemini, Apple Intelligence
+    'Google-Extended',
+    'Applebot',
+    'Applebot-Extended',
+];
+
+const PRIVATE_PATHS = ['/admin/', '/api/'];
+
 export default function robots(): MetadataRoute.Robots {
     const baseUrl = SITE_URL;
 
@@ -9,54 +34,30 @@ export default function robots(): MetadataRoute.Robots {
             {
                 userAgent: '*',
                 allow: '/',
-                disallow: [
-                    '/admin/',
-                    '/api/',
-                    '/*.json$',
-                    '/*?*',
-                    '/admin/*',
-                    '/api/*',
-                ],
+                disallow: [...PRIVATE_PATHS, '/*.json$', '/*?*'],
             },
             {
                 userAgent: 'Googlebot',
                 allow: '/',
-                disallow: [
-                    '/admin/',
-                    '/api/',
-                ],
-                crawlDelay: 0,
+                disallow: PRIVATE_PATHS,
             },
             {
+                // Bing-Index ist auch Grundlage für ChatGPT-Suche und Copilot
                 userAgent: 'Bingbot',
                 allow: '/',
-                disallow: [
-                    '/admin/',
-                    '/api/',
-                ],
-                crawlDelay: 1,
+                disallow: PRIVATE_PATHS,
             },
             {
-                userAgent: 'AhrefsBot',
-                disallow: '/',
+                userAgent: AI_CRAWLERS,
+                allow: '/',
+                disallow: PRIVATE_PATHS,
             },
             {
-                userAgent: 'SemrushBot',
-                disallow: '/',
-            },
-            {
-                userAgent: 'DotBot',
-                disallow: '/',
-            },
-            {
-                userAgent: 'MJ12bot',
+                userAgent: ['AhrefsBot', 'SemrushBot', 'DotBot', 'MJ12bot'],
                 disallow: '/',
             },
         ],
-        sitemap: [
-            `${baseUrl}/sitemap.xml`,
-            `${baseUrl}/sitemap-ai.xml`,
-        ],
+        sitemap: `${baseUrl}/sitemap.xml`,
         host: baseUrl,
     };
 }

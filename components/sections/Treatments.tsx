@@ -20,7 +20,6 @@ const treatments = [
         description: "3-in-1 Premium Behandlung für sofort sichtbare Ergebnisse.",
         image: "/images/gallery/treatment-hydrafacial.jpg",
         href: '/behandlungen/hydra-facial',
-        isNew: true
     },
     {
         id: "skinpen-precision",
@@ -28,7 +27,6 @@ const treatments = [
         description: "Medizinisches Microneedling – FDA-zertifiziert, für verfeinertes Hautbild.",
         image: "/images/microneedling/treatment-microneedling.png",
         href: "/behandlungen/skinpen-precision",
-        isNew: true,
     },
     {
         id: 'premium-facials',
@@ -43,7 +41,6 @@ const treatments = [
         description: "Professionelle Hautdiagnose mit modernster Technologie.",
         image: "/images/hautanalyse/hautanalyse.jpg",
         href: '/behandlungen/hautanalyse',
-        isNew: true
     }] : []),
 ];
 
@@ -89,16 +86,7 @@ export default function Treatments() {
                                         </h3>
                                         {showComingSoon ? (
                                             <ComingSoonBadge size="sm" className="shrink-0" />
-                                        ) : (
-                                            treatment.isNew && (
-                                                <span
-                                                    className="text-[0.55rem] font-light tracking-widest uppercase px-2 py-0.5 text-white shrink-0"
-                                                    style={{ backgroundColor: 'var(--color-secondary)' }}
-                                                >
-                                                    NEU
-                                                </span>
-                                            )
-                                        )}
+                                        ) : null}
                                     </div>
 
                                     <p className="text-gray-600 font-light text-sm mb-3 leading-relaxed line-clamp-2">

@@ -36,6 +36,12 @@ export default function sitemapAi(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         {
+            url: `${baseUrl}/behandlungen/green-peel`,
+            lastModified: new Date("2026-11-01"),
+            changeFrequency: "weekly",
+            priority: 0.9,
+        },
+        {
             url: `${baseUrl}/preise/laser`,
             lastModified: currentDate,
             changeFrequency: "weekly",

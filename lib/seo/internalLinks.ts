@@ -36,6 +36,11 @@ export const SERVICES: ServiceDefinition[] = [
     mainUrl: "/behandlungen/skinpen-precision",
   },
   {
+    slug: "green-peel",
+    label: "GREEN PEEL",
+    mainUrl: "/behandlungen/green-peel",
+  },
+  {
     slug: "signature-facials",
     label: "Signature Facials",
     mainUrl: "/behandlungen/signature-facials",

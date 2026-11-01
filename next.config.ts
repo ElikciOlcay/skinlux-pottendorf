@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/green-peel",
+        destination: "/behandlungen/green-peel",
+        permanent: true,
+      },
+      {
         source: "/aktion/muttertag",
         destination: "/",
         permanent: true,

@@ -73,6 +73,12 @@ const Footer = () => {
                                 SkinPen® Precision Elite
                             </Link>
                             <Link
+                                href="/behandlungen/green-peel"
+                                className="block font-light text-gray-600 hover:text-black transition-colors"
+                            >
+                                GREEN PEEL®
+                            </Link>
+                            <Link
                                 href="/ueber-uns"
                                 className="block font-light text-gray-600 hover:text-black transition-colors"
                             >

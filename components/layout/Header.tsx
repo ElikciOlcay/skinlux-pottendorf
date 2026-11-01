@@ -33,6 +33,7 @@ const navigation = [
                         href: "/behandlungen/skinpen-precision",
                         description: "Medizinisches Microneedling, FDA-zertifiziert",
                     },
+                    { name: "GREEN PEEL®", href: "/behandlungen/green-peel", description: "Die Original Kräuterschälkur" },
                     { name: "Premium Facials", href: "/behandlungen/signature-facials", description: "Exklusive Circadia Professional Treatments" }
                 ]
             },

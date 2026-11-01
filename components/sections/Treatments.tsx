@@ -29,6 +29,13 @@ const treatments = [
         href: "/behandlungen/skinpen-precision",
     },
     {
+        id: "green-peel",
+        title: "GREEN PEEL®",
+        description: "Die Original Kräuterschälkur – Fresh Up, Energy & Classic für natürliche Hauterneuerung.",
+        image: "/images/green-peel/green-peel-behandlung.jpg",
+        href: "/behandlungen/green-peel",
+    },
+    {
         id: 'premium-facials',
         title: "Premium Facials",
         description: "Exklusive 90-Minuten Gesichtsbehandlungen mit Circadia Professional.",

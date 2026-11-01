@@ -32,6 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         {
+            url: `${baseUrl}/behandlungen/green-peel`,
+            lastModified: new Date('2026-11-01'),
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
             url: `${baseUrl}/behandlungen/signature-facials`,
             lastModified: currentDate,
             changeFrequency: 'weekly',

@@ -27,12 +27,11 @@ const navigation = [
                 category: "Facials",
                 icon: Droplets,
                 items: [
-                    { name: "HydraFacial®", href: "/behandlungen/hydra-facial", description: "3-in-1 Premium Behandlung", highlight: true },
+                    { name: "HydraFacial®", href: "/behandlungen/hydra-facial", description: "3-in-1 Premium Behandlung" },
                     {
                         name: "SkinPen® Precision Elite",
                         href: "/behandlungen/skinpen-precision",
                         description: "Medizinisches Microneedling, FDA-zertifiziert",
-                        highlight: true,
                     },
                     { name: "Premium Facials", href: "/behandlungen/signature-facials", description: "Exklusive Circadia Professional Treatments" }
                 ]

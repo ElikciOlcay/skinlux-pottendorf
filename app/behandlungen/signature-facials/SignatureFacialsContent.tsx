@@ -376,7 +376,7 @@ export default function SignatureFacialsContent() {
                             <div className="flex items-start justify-between mb-6">
                                 <div>
                                     <h3 className="text-xl font-light mb-2" text-black>
-                                        Circadia Customized Facial
+                                        Klassische Circadia Gesichtsbehandlung
                                     </h3>
                                     <p className="text-sm text-gray-600 font-light mb-2">
                                         1 Std. 30 Min.

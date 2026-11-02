@@ -14,7 +14,7 @@ import { OG_IMAGE_PATH, SITE_URL } from "@/lib/site";
 
 const title = "50 % auf die ersten 2 Laser-Behandlungen | Skinlux Pottendorf";
 const description =
-    "Herbstaktion bei Skinlux in Pottendorf: 50 % auf die ersten 2 Behandlungen der Laser-Haarentfernung. Termin online sichern. Aktion bis 31. Oktober 2026.";
+    "Herbstaktion bei Skinlux in Pottendorf: 50 % auf die ersten 2 Behandlungen der Laser-Haarentfernung. Termin online sichern. Aktion bis 30. November 2026.";
 const pageUrl = `${SITE_URL}/aktion/laser-oktober`;
 
 export const metadata: Metadata = {

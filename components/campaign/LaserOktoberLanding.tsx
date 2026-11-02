@@ -45,12 +45,12 @@ const LASER_IMAGES = [
 ] as const;
 
 const TIMELINE = [
-    { label: "Okt", highlight: false },
     { label: "Nov", highlight: false },
     { label: "Dez", highlight: false },
     { label: "Feb", highlight: false },
     { label: "Mär", highlight: false },
-    { label: "Apr", highlight: false },
+    { label: "Mai", highlight: false },
+    { label: "Jun", highlight: false },
     { label: "Sommer", highlight: true },
 ] as const;
 
@@ -97,7 +97,7 @@ const FAQ = [
     {
         question: "Wie funktioniert die 50-%-Aktion?",
         answer:
-            "Die ersten zwei Behandlungen sind um 50 % reduziert. Der Rabatt gilt bis 31. Oktober 2026 für Einzelzonen und wird vor Ort abgezogen. Pakete sind ausgenommen.",
+            "Die ersten zwei Behandlungen sind um 50 % reduziert. Der Rabatt gilt bis 30. November 2026 für Einzelzonen und wird vor Ort abgezogen. Pakete sind ausgenommen.",
     },
     {
         question: "Wie viele Behandlungen sind notwendig?",
@@ -147,7 +147,7 @@ export default function LaserOktoberLanding({ bookingUrl, pricesHref }: LaserOkt
                             <div className="mb-6 flex items-center justify-center gap-3 lg:justify-start">
                                 <BadgePercent className="h-5 w-5" aria-hidden="true" />
                                 <p className="text-xs font-medium uppercase tracking-[0.2em] text-white">
-                                    Herbstaktion · nur bis 31.10.2026
+                                    Herbstaktion · nur bis 30.11.2026
                                 </p>
                             </div>
                             <h1 className="text-4xl font-light leading-[1.08] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
@@ -224,7 +224,7 @@ export default function LaserOktoberLanding({ bookingUrl, pricesHref }: LaserOkt
                 <div className="container grid grid-cols-3 divide-x divide-[var(--color-gray-300)] py-5">
                     {[
                         { value: "50 %", label: "2 Behandlungen" },
-                        { value: "31.10.", label: "Aktionsende" },
+                        { value: "30.11.", label: "Aktionsende" },
                         { value: "5,0", label: "Google-Rating" },
                     ].map((item) => (
                         <div key={item.label} className="px-2 text-center sm:px-6">
@@ -302,7 +302,7 @@ export default function LaserOktoberLanding({ bookingUrl, pricesHref }: LaserOkt
 
                         <p className="mt-5 text-center text-xs font-light leading-relaxed text-[var(--color-gray-700)]">
                             Aktionspreis für die ersten zwei Einzelbehandlungen. Danach gilt der reguläre Preis.
-                            Aktion gültig bis 31.10.2026, Pakete ausgenommen. Der Rabatt wird vor Ort abgezogen.
+                            Aktion gültig bis 30.11.2026, Pakete ausgenommen. Der Rabatt wird vor Ort abgezogen.
                         </p>
                     </div>
                 </div>
@@ -572,7 +572,7 @@ export default function LaserOktoberLanding({ bookingUrl, pricesHref }: LaserOkt
                     <div className="mx-auto max-w-3xl text-center">
                         <BadgePercent className="mx-auto h-10 w-10 text-white" strokeWidth={1.25} aria-hidden="true" />
                         <p className="mt-5 text-xs font-medium uppercase tracking-[0.24em] text-white">
-                            Aktion endet am 31. Oktober
+                            Aktion endet am 30. November
                         </p>
                         <h2 id="abschluss-heading" className="mt-4 text-3xl font-light leading-tight text-white md:text-5xl">
                             Bereit für deinen ersten Schritt?

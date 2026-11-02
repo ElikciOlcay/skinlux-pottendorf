@@ -2,12 +2,12 @@ import { SHORE_BOOKING_HOST } from "@/lib/booking";
 
 const SHORE_BOOKING_ID = "dc2d0fdc-7b2a-4fa4-b3a5-8305737b8f1e";
 
-/** Basis-URL der Shore-Buchung für die Oktober-Aktion. */
+/** Basis-URL der Shore-Buchung für die Herbstaktion (Oktober + November). */
 export const LASER_OKTOBER_BOOKING_BASE_URL =
     `https://${SHORE_BOOKING_HOST}/bookings/${SHORE_BOOKING_ID}/services`;
 
 /** Ab diesem Zeitpunkt (Europe/Vienna) ist die Aktion abgelaufen. */
-export const LASER_OKTOBER_CAMPAIGN_END = "2026-11-01T00:00:00";
+export const LASER_OKTOBER_CAMPAIGN_END = "2026-12-01T00:00:00";
 
 export const LASER_OKTOBER_TIME_ZONE = "Europe/Vienna";
 

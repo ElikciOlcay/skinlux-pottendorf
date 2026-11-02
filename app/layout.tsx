@@ -4,12 +4,40 @@ import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "../components/layout/ConditionalLayout";
 import { SITE_URL, OG_IMAGE_URL } from "@/lib/site";
-import { GOOGLE_AGGREGATE_RATING_SCHEMA, OPENING_HOURS_SCHEMA } from "@/lib/business-info";
+import { GOOGLE_AGGREGATE_RATING_SCHEMA, GOOGLE_REVIEWS_URL, OPENING_HOURS_SCHEMA } from "@/lib/business-info";
 import {
   GTM_ID,
   getConsentBootstrapInlineScript,
 } from "@/lib/cookie-consent";
 import { getMetaPixelBootstrapInlineScript } from "@/lib/meta-tracking";
+
+const TREATMENTS = [
+  {
+    name: "Laser Haarentfernung",
+    url: "/behandlungen/laser-haarentfernung",
+    description: "Dauerhafte Haarentfernung mit Diodenlaser und integrierter Kühlung für alle Hauttypen. Kostenloses Erstgespräch mit Probebehandlung.",
+  },
+  {
+    name: "HydraFacial",
+    url: "/behandlungen/hydra-facial",
+    description: "Original HydraFacial – 3-in-1-Gesichtsbehandlung aus Reinigung, Peeling und Feuchtigkeit.",
+  },
+  {
+    name: "SkinPen Precision Elite Microneedling",
+    url: "/behandlungen/skinpen-precision",
+    description: "FDA-zertifiziertes medizinisches Microneedling bei Aknenarben, Falten, Poren und Pigmentstörungen.",
+  },
+  {
+    name: "GREEN PEEL Kräuterschälkur",
+    url: "/behandlungen/green-peel",
+    description: "Original GREEN PEEL Kräuterschälkur nach Dr. med. Christine Schrammek – Fresh Up, Energy und Classic.",
+  },
+  {
+    name: "Premium Facials mit Circadia",
+    url: "/behandlungen/signature-facials",
+    description: "Gesichtsbehandlungen mit Circadia Professional, individuell auf die Haut abgestimmt.",
+  },
+];
 
 const plusJakartaSans = localFont({
     src: "./fonts/plus-jakarta-sans-latin.woff2",
@@ -25,13 +53,13 @@ export const metadata: Metadata = {
     default: "Skinlux Pottendorf | Laser Haarentfernung & Premium Kosmetik | Baden, Mödling",
     template: "%s | Skinlux Pottendorf",
   },
-  description: "Laser Haarentfernung & HydraFacial in Pottendorf. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Für Baden, Mödling & Niederösterreich.",
+  description: "Laser Haarentfernung, HydraFacial, SkinPen Microneedling & GREEN PEEL in Pottendorf. Kostenlose Probebehandlung, 5,0 ★ bei Google. Für Baden, Mödling & NÖ.",
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
     title: "Skinlux Pottendorf | Laser Haarentfernung & Premium Kosmetik | Baden, Mödling",
-    description: "Laser Haarentfernung & HydraFacial in Pottendorf. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Für Baden, Mödling & Niederösterreich.",
+    description: "Laser Haarentfernung, HydraFacial, SkinPen Microneedling & GREEN PEEL in Pottendorf. Kostenlose Probebehandlung, 5,0 ★ bei Google. Für Baden, Mödling & NÖ.",
     images: [OG_IMAGE_URL],
     locale: "de_AT",
     type: "website",
@@ -104,7 +132,7 @@ export default function RootLayout({
               "alternateName": "Skinlux Medical Beauty Studio Pottendorf",
               "image": "https://pottendorf.skinlux.at/images/logo/skinlux-logo.png",
               "logo": "https://pottendorf.skinlux.at/images/logo/skinlux-logo.png",
-              "description": "Skinlux Medical Beauty Studio in Pottendorf -- Ihr Spezialist für dauerhafte Laser Haarentfernung, HydraFacial und Signature Facials in Niederösterreich. Modernste Diodenlaser-Technologie, kostenlose Probebehandlung. Für Kunden aus Pottendorf, Baden, Mödling, Wiener Neustadt und ganz Niederösterreich.",
+              "description": "Skinlux Medical Beauty Studio in Pottendorf – Spezialist für dauerhafte Laser Haarentfernung, HydraFacial, SkinPen Microneedling, GREEN PEEL Kräuterschälkur und Premium Facials mit Circadia in Niederösterreich. Kostenlose Erstberatung mit Probebehandlung. Für Kundinnen und Kunden aus Pottendorf, Baden, Mödling, Wiener Neustadt und ganz Niederösterreich.",
               "url": "https://pottendorf.skinlux.at",
               "telephone": "+436649188632",
               "email": "hey@skinlux.at",
@@ -134,44 +162,37 @@ export default function RootLayout({
               "priceRange": "$$",
               "openingHoursSpecification": OPENING_HOURS_SCHEMA,
               "sameAs": [
-                "https://www.instagram.com/skinlux"
+                "https://www.instagram.com/skinlux",
+                GOOGLE_REVIEWS_URL
+              ],
+              "brand": { "@type": "Brand", "name": "Skinlux", "url": "https://www.skinlux.at" },
+              "knowsAbout": [
+                "Laser Haarentfernung",
+                "Diodenlaser",
+                "HydraFacial",
+                "Microneedling",
+                "SkinPen",
+                "GREEN PEEL",
+                "Kräuterschälkur",
+                "Circadia",
+                "Gesichtsbehandlung",
+                "Hautanalyse"
               ],
               "aggregateRating": GOOGLE_AGGREGATE_RATING_SCHEMA,
               "hasOfferCatalog": {
                 "@type": "OfferCatalog",
                 "name": "Behandlungen",
-                "itemListElement": [
-                  {
-                    "@type": "OfferCatalog",
-                    "name": "Laser Haarentfernung",
-                    "itemListElement": [
-                      {
-                        "@type": "Offer",
-                        "itemOffered": {
-                          "@type": "Service",
-                          "name": "Laser Haarentfernung",
-                          "description": "Dauerhafte Haarentfernung mit modernster Diodenlaser-Technologie für alle Hauttypen",
-                          "provider": { "@id": "https://pottendorf.skinlux.at/#business" }
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "@type": "OfferCatalog",
-                    "name": "HydraFacial",
-                    "itemListElement": [
-                      {
-                        "@type": "Offer",
-                        "itemOffered": {
-                          "@type": "Service",
-                          "name": "HydraFacial",
-                          "description": "Revolutionäre 3-in-1 Gesichtsbehandlung mit sofort sichtbaren Ergebnissen",
-                          "provider": { "@id": "https://pottendorf.skinlux.at/#business" }
-                        }
-                      }
-                    ]
+                "itemListElement": TREATMENTS.map((treatment) => ({
+                  "@type": "Offer",
+                  "url": `${SITE_URL}${treatment.url}`,
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": treatment.name,
+                    "description": treatment.description,
+                    "url": `${SITE_URL}${treatment.url}`,
+                    "provider": { "@id": "https://pottendorf.skinlux.at/#business" }
                   }
-                ]
+                }))
               }
             })
           }}

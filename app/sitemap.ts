@@ -4,7 +4,7 @@ import { LOCAL_LANDING_PATHS } from '@/lib/seo/localLandingData';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = SITE_URL;
-    const currentDate = new Date('2026-02-26');
+    const currentDate = new Date('2026-11-01');
 
     const corePages: MetadataRoute.Sitemap = [
         {
@@ -33,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
         {
             url: `${baseUrl}/behandlungen/green-peel`,
-            lastModified: new Date('2026-11-01'),
+            lastModified: currentDate,
             changeFrequency: 'weekly',
             priority: 0.9,
         },

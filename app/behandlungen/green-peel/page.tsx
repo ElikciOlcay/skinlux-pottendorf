@@ -7,7 +7,7 @@ import TreatmentSeoLinks from "@/components/seo/TreatmentSeoLinks";
 const PAGE_URL = "https://pottendorf.skinlux.at/behandlungen/green-peel";
 
 export const metadata: Metadata = {
-    title: "GREEN PEEL® Pottendorf – Original Kräuterschälkur | skinlux",
+    title: { absolute: "GREEN PEEL® Pottendorf – Original Kräuterschälkur | Skinlux" },
     description:
         "Entdecke die Original GREEN PEEL® Kräuterschälkur bei skinlux in Pottendorf. Fresh Up, Energy & Classic für individuelle Hautbedürfnisse. Jetzt Termin buchen.",
     alternates: {

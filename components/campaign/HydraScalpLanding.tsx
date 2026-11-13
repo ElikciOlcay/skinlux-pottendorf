@@ -373,7 +373,25 @@ export default function HydraScalpLanding({ bookingUrl }: HydraScalpLandingProps
             {/* Ablauf + Vorteile */}
             <section className="bg-[var(--color-gray-100)] py-14 md:py-20" aria-labelledby="ablauf-heading">
                 <div className="container">
-                    <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                    <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+                        <div className="relative aspect-[4/5] overflow-hidden bg-white">
+                            <Image
+                                src="/images/hydrascalp/hydrascalp-keravive-ampullen.jpg"
+                                alt="HydraScalp Handstück mit Keravive Peptide Complex Ampullen und Spray"
+                                fill
+                                sizes="(min-width: 1024px) 40vw, 100vw"
+                                className="object-cover object-[center_60%]"
+                            />
+                            <div className="absolute bottom-5 left-5 right-5 bg-white p-5 text-left">
+                                <p className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]">
+                                    Keravive Peptide Complex
+                                </p>
+                                <p className="mt-2 text-sm font-light leading-relaxed text-[var(--color-gray-700)]">
+                                    Speziell für die Kopfhaut entwickelt – in der Behandlung und als Spray für zu Hause.
+                                </p>
+                            </div>
+                        </div>
+
                         <div>
                             <p className="mb-3 text-xs font-medium uppercase tracking-[0.22em] text-[var(--color-primary)]">
                                 So funktioniert&apos;s
@@ -398,10 +416,23 @@ export default function HydraScalpLanding({ bookingUrl }: HydraScalpLandingProps
                             </ol>
                         </div>
 
-                        <div className="border border-[var(--color-gray-300)] bg-white p-6 md:p-7 lg:mt-[7.5rem]">
+                    </div>
+
+                    <div className="mx-auto mt-10 grid max-w-5xl overflow-hidden border border-[var(--color-gray-300)] bg-white md:grid-cols-[0.8fr_1.2fr]">
+                        <div className="relative aspect-square bg-[#f7f7f7]">
+                            <Image
+                                src="/images/hydrascalp/hydrascalp-keravive-heimpflege.jpg"
+                                alt="HydraScalp with Keravive Peptide Complex Spray für die Heimpflege"
+                                fill
+                                sizes="(min-width: 768px) 38vw, 100vw"
+                                className="object-contain"
+                            />
+                        </div>
+                        <div className="flex flex-col justify-center p-6 md:p-8">
                             <p className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]">
-                                Die Vorteile
+                                Heimpflege inklusive
                             </p>
+                            <h3 className="mt-3 text-2xl font-light text-black md:text-3xl">Die Vorteile von HydraScalp</h3>
                             <ul className="mt-5 grid gap-3 text-sm font-light text-[var(--color-gray-700)]">
                                 {VORTEILE.map((vorteil) => (
                                     <li key={vorteil} className="flex items-start gap-2">

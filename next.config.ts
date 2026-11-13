@@ -14,6 +14,16 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/hydrascalp",
+        destination: "/behandlungen/hydrascalp",
+        permanent: true,
+      },
+      {
+        source: "/keravive",
+        destination: "/behandlungen/hydrascalp",
+        permanent: true,
+      },
+      {
         source: "/aktion/muttertag",
         destination: "/",
         permanent: true,

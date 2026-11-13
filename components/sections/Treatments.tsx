@@ -36,6 +36,13 @@ const treatments = [
         href: "/behandlungen/green-peel",
     },
     {
+        id: "hydrascalp",
+        title: "HydraScalp™",
+        description: "Kopfhautreinigung, Exfoliation und Keravive Peptide Complex – die Basis für schönes Haar.",
+        image: "/images/hydrascalp/hydrascalp-behandlung.jpg",
+        href: "/behandlungen/hydrascalp",
+    },
+    {
         id: 'premium-facials',
         title: "Premium Facials",
         description: "Exklusive 90-Minuten Gesichtsbehandlungen mit Circadia Professional.",

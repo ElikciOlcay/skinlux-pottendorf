@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Zap, Droplets, Sparkles, Phone, ChevronRight } from "lucide-react";
+import { ChevronDown, Zap, Droplets, Sparkles, Phone, ChevronRight, Waves } from "lucide-react";
 import { FEATURES } from "@/lib/features";
 import { usePathname } from "next/navigation";
 
@@ -35,6 +35,13 @@ const navigation = [
                     },
                     { name: "GREEN PEEL®", href: "/behandlungen/green-peel", description: "Die Original Kräuterschälkur" },
                     { name: "Premium Facials", href: "/behandlungen/signature-facials", description: "Exklusive Circadia Professional Treatments" }
+                ]
+            },
+            {
+                category: "Kopfhaut",
+                icon: Waves,
+                items: [
+                    { name: "HydraScalp™", href: "/behandlungen/hydrascalp", description: "Kopfhautpflege mit Keravive" }
                 ]
             },
             ...(FEATURES.HAUTANALYSE_ENABLED ? [{

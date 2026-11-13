@@ -41,6 +41,11 @@ export const SERVICES: ServiceDefinition[] = [
     mainUrl: "/behandlungen/green-peel",
   },
   {
+    slug: "hydrascalp",
+    label: "HydraScalp",
+    mainUrl: "/behandlungen/hydrascalp",
+  },
+  {
     slug: "signature-facials",
     label: "Signature Facials",
     mainUrl: "/behandlungen/signature-facials",

@@ -79,6 +79,12 @@ const Footer = () => {
                                 GREEN PEEL®
                             </Link>
                             <Link
+                                href="/behandlungen/hydrascalp"
+                                className="block font-light text-gray-600 hover:text-black transition-colors"
+                            >
+                                HydraScalp™
+                            </Link>
+                            <Link
                                 href="/ueber-uns"
                                 className="block font-light text-gray-600 hover:text-black transition-colors"
                             >

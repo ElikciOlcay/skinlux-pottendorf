@@ -13,7 +13,8 @@ import {
     Star,
 } from "lucide-react";
 import BookingButton from "@/components/campaign/BookingButton";
-import { HYDRASCALP_CONVERSION_SOURCE, HYDRASCALP_PREISE } from "@/lib/campaigns/hydrascalp";
+import { formatEuro, pakete as HYDRASCALP_PREISE } from "@/app/behandlungen/hydrascalp/data";
+import { HYDRASCALP_CONVERSION_SOURCE } from "@/lib/campaigns/hydrascalp";
 import { GOOGLE_RATING, GOOGLE_REVIEWS_URL } from "@/lib/business-info";
 import { PHONE_DISPLAY, PHONE_TEL } from "@/lib/booking";
 import { GOOGLE_REVIEWS } from "@/lib/reviews";
@@ -102,11 +103,6 @@ const heroButtonClass =
 
 const textLinkClass =
     "underline decoration-[var(--color-gray-300)] underline-offset-4 transition-colors hover:text-[var(--color-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
-
-function formatEuro(value: number) {
-    // de-AT gruppiert vierstellige Zahlen nicht – Tausenderpunkt explizit setzen (€ 1.000).
-    return `€ ${String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
-}
 
 type HydraScalpLandingProps = {
     bookingUrl: string;
@@ -541,9 +537,9 @@ export default function HydraScalpLanding({ bookingUrl }: HydraScalpLandingProps
                                 Deine Fragen, kurz beantwortet
                             </h2>
                             <p className="mt-5 text-sm font-light leading-relaxed text-[var(--color-gray-700)]">
-                                Mehr zur HydraFacial-Technologie findest du auf unserer{" "}
-                                <Link href="/behandlungen/hydra-facial" className={textLinkClass}>
-                                    HydraFacial Seite
+                                Alle Details zur Behandlung findest du auf unserer{" "}
+                                <Link href="/behandlungen/hydrascalp" className={textLinkClass}>
+                                    HydraScalp™ Seite
                                 </Link>
                                 .
                             </p>

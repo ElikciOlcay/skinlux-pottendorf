@@ -59,7 +59,7 @@ const jsonLd = {
   "@type": "BeautySalon",
   "name": "Skinlux Pottendorf",
   "@id": "https://pottendorf.skinlux.at/#business",
-  "description": "Laser Haarentfernung, HydraFacial, SkinPen Microneedling, GREEN PEEL und Premium Facials in Pottendorf. Kostenlose Erstberatung mit Probebehandlung.",
+  "description": "Laser Haarentfernung, HydraFacial, SkinPen Microneedling, GREEN PEEL, HydraScalp und Premium Facials in Pottendorf. Kostenlose Erstberatung mit Probebehandlung.",
   "url": "https://pottendorf.skinlux.at",
   "address": {
     "@type": "PostalAddress",
@@ -72,7 +72,7 @@ const jsonLd = {
     { "@type": "City", "name": "Baden" },
     { "@type": "City", "name": "Mödling" },
   ],
-  "serviceType": ["Laser Haarentfernung", "HydraFacial", "SkinPen Microneedling", "GREEN PEEL Kräuterschälkur", "Circadia Gesichtsbehandlung"],
+  "serviceType": ["Laser Haarentfernung", "HydraFacial", "SkinPen Microneedling", "GREEN PEEL Kräuterschälkur", "HydraScalp Kopfhautbehandlung", "Circadia Gesichtsbehandlung"],
   "priceRange": "$$",
 };
 

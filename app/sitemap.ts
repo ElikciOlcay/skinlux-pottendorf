@@ -38,6 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         {
+            url: `${baseUrl}/behandlungen/hydrascalp`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly',
+            priority: 0.9,
+        },
+        {
             url: `${baseUrl}/behandlungen/signature-facials`,
             lastModified: currentDate,
             changeFrequency: 'weekly',

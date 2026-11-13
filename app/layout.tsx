@@ -33,6 +33,11 @@ const TREATMENTS = [
     description: "Original GREEN PEEL Kräuterschälkur nach Dr. med. Christine Schrammek – Fresh Up, Energy und Classic.",
   },
   {
+    name: "HydraScalp mit Keravive",
+    url: "/behandlungen/hydrascalp",
+    description: "Kopfhautbehandlung by HydraFacial – Reinigung, Exfoliation und Keravive Peptide Complex inklusive Heimpflege.",
+  },
+  {
     name: "Premium Facials mit Circadia",
     url: "/behandlungen/signature-facials",
     description: "Gesichtsbehandlungen mit Circadia Professional, individuell auf die Haut abgestimmt.",
@@ -132,7 +137,7 @@ export default function RootLayout({
               "alternateName": "Skinlux Medical Beauty Studio Pottendorf",
               "image": "https://pottendorf.skinlux.at/images/logo/skinlux-logo.png",
               "logo": "https://pottendorf.skinlux.at/images/logo/skinlux-logo.png",
-              "description": "Skinlux Medical Beauty Studio in Pottendorf – Spezialist für dauerhafte Laser Haarentfernung, HydraFacial, SkinPen Microneedling, GREEN PEEL Kräuterschälkur und Premium Facials mit Circadia in Niederösterreich. Kostenlose Erstberatung mit Probebehandlung. Für Kundinnen und Kunden aus Pottendorf, Baden, Mödling, Wiener Neustadt und ganz Niederösterreich.",
+              "description": "Skinlux Medical Beauty Studio in Pottendorf – Spezialist für dauerhafte Laser Haarentfernung, HydraFacial, SkinPen Microneedling, GREEN PEEL Kräuterschälkur, HydraScalp Kopfhautbehandlung und Premium Facials mit Circadia in Niederösterreich. Kostenlose Erstberatung mit Probebehandlung. Für Kundinnen und Kunden aus Pottendorf, Baden, Mödling, Wiener Neustadt und ganz Niederösterreich.",
               "url": "https://pottendorf.skinlux.at",
               "telephone": "+436649188632",
               "email": "hey@skinlux.at",
@@ -174,6 +179,9 @@ export default function RootLayout({
                 "SkinPen",
                 "GREEN PEEL",
                 "Kräuterschälkur",
+                "HydraScalp",
+                "Keravive",
+                "Kopfhautbehandlung",
                 "Circadia",
                 "Gesichtsbehandlung",
                 "Hautanalyse"

@@ -1,4 +1,5 @@
 import { methoden as greenPeelMethoden } from "@/app/behandlungen/green-peel/data";
+import { abPreis as hydraScalpAb } from "@/app/behandlungen/hydrascalp/data";
 import { PHONE_DISPLAY } from "@/lib/booking";
 import { GOOGLE_RATING, OPENING_HOURS_SUMMARY } from "@/lib/business-info";
 import { damenPrices, herrenPrices } from "@/lib/laser-prices";
@@ -34,6 +35,10 @@ export const HOME_FAQ = [
     {
         frage: "Welche Gesichtsbehandlungen bietet Skinlux Pottendorf an?",
         antwort: `Original HydraFacial® (ab 169 €), SkinPen® Precision Elite Microneedling (199 €, 3er-Kur 499 €), die GREEN PEEL® Kräuterschälkur in drei Intensitäten (ab ${greenPeelAb} €) sowie Premium Facials mit Circadia Professional (ab 150 €). Welche Behandlung passt, wird vorab in einer Hautberatung geklärt.`,
+    },
+    {
+        frage: "Gibt es bei Skinlux Pottendorf auch eine Kopfhautbehandlung?",
+        antwort: `Ja. HydraScalp™ by HydraFacial reinigt die Kopfhaut, entfernt Talg und Produktablagerungen und versorgt sie mit dem Keravive Peptide Complex – die Heimpflege ist inklusive. Eine Teilbehandlung kostet ab ${hydraScalpAb} €, empfohlen sind mindestens 3 Behandlungen im Abstand von 4 Wochen. HydraScalp ist eine kosmetische Kopfhautpflege und keine medizinische Therapie gegen Haarausfall.`,
     },
     {
         frage: "Ist die Laser-Haarentfernung schmerzhaft?",

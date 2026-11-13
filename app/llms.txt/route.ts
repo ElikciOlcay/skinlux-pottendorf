@@ -1,4 +1,5 @@
 import { methoden as greenPeelMethoden } from "@/app/behandlungen/green-peel/data";
+import { pakete as hydraScalpPakete } from "@/app/behandlungen/hydrascalp/data";
 import { PHONE_DISPLAY, PHONE_E164 } from "@/lib/booking";
 import { GOOGLE_RATING, OPENING_HOURS_SUMMARY } from "@/lib/business-info";
 import { FEATURES } from "@/lib/features";
@@ -34,6 +35,9 @@ function laserBeispiele() {
 function buildLlmsTxt() {
     const rating = GOOGLE_RATING.value.replace(".", ",");
     const greenPeel = greenPeelMethoden.map((m) => `${m.name} ${euro(m.preis)}`).join(", ");
+    const hydraScalp = hydraScalpPakete
+        .map((p) => `${p.name} ${euro(p.einzel)} (3er-Kur ${euro(p.kur)})`)
+        .join(", ");
 
     const behandlungen = [
         `- [Laser-Haarentfernung](${SITE_URL}/behandlungen/laser-haarentfernung): Dauerhafte Haarentfernung mit Diodenlaser und integrierter Kühlung, für alle Hauttypen, Damen und Herren. Kostenloses Erstgespräch mit Probebehandlung. Einzelzonen ab ${euro(laserAbPreis())}, z. B. ${laserBeispiele()}. Meist rund 10 Sitzungen im Abstand von etwa 6 Wochen.`,
@@ -41,6 +45,7 @@ function buildLlmsTxt() {
         `- [HydraFacial®](${SITE_URL}/behandlungen/hydra-facial): Original HydraFacial – 3-in-1-Behandlung aus Reinigung, Peeling und Feuchtigkeit. Signature 169 €, Signature + LED 189 €, Deluxe 199 €, Platinum 249 €.`,
         `- [SkinPen® Precision Elite Microneedling](${SITE_URL}/behandlungen/skinpen-precision): FDA-zertifiziertes medizinisches Microneedling bei Aknenarben, Falten, großen Poren und Pigmentstörungen. Einzelbehandlung (60 Min.) 199 €, 3er-Kur 499 €.`,
         `- [GREEN PEEL® Kräuterschälkur](${SITE_URL}/behandlungen/green-peel): Original-Kräuterschälkur nach Dr. med. Christine Schrammek, ohne chemische Peelingsäuren. Drei Methoden: ${greenPeel}.`,
+        `- [HydraScalp™ mit Keravive](${SITE_URL}/behandlungen/hydrascalp): Kopfhautbehandlung by HydraFacial – Reinigung, Exfoliation und Keravive Peptide Complex, Heimpflege inklusive. ${hydraScalp}. Empfohlen: mindestens 3 Behandlungen im Abstand von 4 Wochen. Keine medizinische Therapie gegen Haarausfall.`,
         `- [Premium Facials mit Circadia](${SITE_URL}/behandlungen/signature-facials): Klassische Circadia Gesichtsbehandlung 150 €, Firming Peptide Mask 175 €, Oxygen RX Facial 175 €, Radiance 4C Facial 189 €, SWiCH 3er-Kur 649 €.`,
         ...(FEATURES.HAUTANALYSE_ENABLED
             ? [`- [Hautanalyse](${SITE_URL}/behandlungen/hautanalyse): Professionelle Hautanalyse mit HD-Aufnahmen und 7 Analyseparametern – kostenlos bei Buchung ab 150 € Behandlung/Produkte.`]
@@ -49,7 +54,7 @@ function buildLlmsTxt() {
 
     return `# Skinlux Pottendorf
 
-> Skinlux Medical Beauty in Pottendorf (Bezirk Baden, Niederösterreich) ist ein Studio für Laser-Haarentfernung, HydraFacial®, SkinPen® Microneedling, GREEN PEEL® und Premium Facials. ${rating} Sterne bei ${GOOGLE_RATING.reviewCount} Google-Bewertungen. Kostenlose Erstberatung mit Probebehandlung für Laser-Haarentfernung.
+> Skinlux Medical Beauty in Pottendorf (Bezirk Baden, Niederösterreich) ist ein Studio für Laser-Haarentfernung, HydraFacial®, SkinPen® Microneedling, GREEN PEEL®, HydraScalp™ und Premium Facials. ${rating} Sterne bei ${GOOGLE_RATING.reviewCount} Google-Bewertungen. Kostenlose Erstberatung mit Probebehandlung für Laser-Haarentfernung.
 
 ## Auf einen Blick
 

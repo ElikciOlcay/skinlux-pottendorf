@@ -188,7 +188,7 @@ const Footer = () => {
                             Wir suchen dich
                         </span>
                         <span className="text-sm font-light text-gray-600 group-hover:text-black transition-colors">
-                            Laserspezialistin & Fachärztin / Facharzt für Dermatologie (m/w/d)
+                            Kosmetikerin, Laserspezialistin & Fachärztin / Facharzt für Dermatologie (m/w/d)
                         </span>
                         <span className="text-xs text-gray-400 group-hover:text-gray-600 transition-colors">&rarr;</span>
                     </Link>

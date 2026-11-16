@@ -3,7 +3,7 @@ import KarriereContent from "./KarriereContent";
 import { jobDescriptionHtml, jobs } from "./data";
 
 const description =
-    "Karriere bei skinlux MEDICAL BEAUTY in Pottendorf: Laserspezialistin für dauerhafte Haarentfernung (m/w/d, Teilzeit) und Fachärztin / Facharzt für Dermatologie (m/w/d, selbstständige Kooperation) gesucht.";
+    "Karriere bei skinlux MEDICAL BEAUTY in Pottendorf: Kosmetikerin (m/w/d), Laserspezialistin für dauerhafte Haarentfernung (m/w/d) und Fachärztin / Facharzt für Dermatologie (m/w/d) gesucht.";
 
 export const metadata: Metadata = {
     title: "Karriere | Skinlux Pottendorf",

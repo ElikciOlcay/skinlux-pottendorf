@@ -25,6 +25,49 @@ export interface Job {
 
 export const jobs: Job[] = [
     {
+        slug: "kosmetikerin",
+        title: "Kosmetikerin (m/w/d)",
+        shortTitle: "Kosmetikerin (m/w/d)",
+        type: "Teilzeit",
+        highlights: ["Teilzeit", "Pottendorf", "Laser, Hydrafacial & SkinPen"],
+        teaser:
+            "Du bist ausgebildete Kosmetikerin und möchtest in einem hochwertigen Studio-Umfeld arbeiten – mit Fokus auf moderne Ästhetik, apparative Behandlungen und präzise Behandlungsergebnisse.",
+        tasksTitle: "Deine Aufgaben",
+        tasks: [
+            "Durchführung von Laser Haarentfernung, Hydrafacial und Microneedling (SkinPen)",
+            "Kundenberatung vor, während und nach der Behandlung",
+            "Präzise Hautanalysen und individuelle Empfehlungen",
+            "Dokumentation und Sicherstellung eines hochwertigen Kundenerlebnisses",
+        ],
+        profile: [
+            "Abgeschlossene Kosmetikausbildung",
+            "Erfahrung in apparativer Kosmetik von Vorteil",
+            "Gepflegtes, professionelles Auftreten",
+            "Zuverlässigkeit und eigenständige Arbeitsweise",
+        ],
+        benefits: [
+            {
+                icon: "studio",
+                title: "Premium Studio",
+                text: "Moderne Ästhetik und hochwertige Prozesse.",
+            },
+            {
+                icon: "training",
+                title: "Weiterbildung",
+                text: "Klare Standards und laufende Schulungen.",
+            },
+            {
+                icon: "salary",
+                title: "Vergütung",
+                text: "Attraktive Bezahlung plus Bonusmöglichkeiten.",
+            },
+        ],
+        ctaTitle: "Bewirb dich jetzt",
+        ctaText: "Wir freuen uns auf deine Bewerbung – ganz unkompliziert per WhatsApp oder E-Mail.",
+        employmentType: "PART_TIME",
+        datePosted: "2026-03-01",
+    },
+    {
         slug: "laserspezialistin",
         title: "Laserspezialistin für dauerhafte Haarentfernung (m/w/d)",
         shortTitle: "Laserspezialistin (m/w/d)",

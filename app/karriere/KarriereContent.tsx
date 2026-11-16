@@ -207,7 +207,11 @@ export default function KarriereContent() {
                         </p>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                    <div
+                        className={`grid md:grid-cols-2 gap-6 mx-auto ${
+                            jobs.length >= 3 ? 'lg:grid-cols-3 max-w-6xl' : 'max-w-5xl'
+                        }`}
+                    >
                         {jobs.map((job, index) => (
                             <JobOverviewCard key={job.slug} job={job} index={index} />
                         ))}

@@ -1,15 +1,19 @@
 import { Metadata } from "next";
 import KarriereContent from "./KarriereContent";
+import { jobDescriptionHtml, jobs } from "./data";
+
+const description =
+    "Karriere bei skinlux MEDICAL BEAUTY in Pottendorf: Laserspezialistin für dauerhafte Haarentfernung (m/w/d, Teilzeit) und Fachärztin / Facharzt für Dermatologie (m/w/d, selbstständige Kooperation) gesucht.";
 
 export const metadata: Metadata = {
     title: "Karriere | Skinlux Pottendorf",
-    description: "Karriere bei Skinlux Pottendorf: Ausgebildete Kosmetikerin (m/w/d) gesucht für apparative Behandlungen in einem modernen Premium Studio.",
+    description,
     alternates: {
         canonical: "https://pottendorf.skinlux.at/karriere",
     },
     openGraph: {
         title: "Karriere | Skinlux Pottendorf",
-        description: "Karriere bei Skinlux Pottendorf: Ausgebildete Kosmetikerin (m/w/d) gesucht für apparative Behandlungen in einem modernen Premium Studio.",
+        description,
         url: "https://pottendorf.skinlux.at/karriere",
         type: "website",
         locale: "de_AT",
@@ -18,18 +22,17 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "Karriere | Skinlux Pottendorf",
-        description: "Karriere bei Skinlux Pottendorf: Ausgebildete Kosmetikerin (m/w/d) gesucht für apparative Behandlungen in einem modernen Premium Studio.",
+        description,
     },
 };
 
-const jobPostingSchema = {
+const jobPostingSchemas = jobs.map((job) => ({
     "@context": "https://schema.org",
     "@type": "JobPosting",
-    title: "Kosmetikerin (m/w/d)",
-    description: "Skinlux Pottendorf sucht eine ausgebildete Kosmetikerin für apparative Behandlungen wie Laser Haarentfernung, Hydrafacial und Microneedling (SkinPen). Fokus auf Kundenberatung, Hautanalyse und hochwertiges Kundenerlebnis im Premium Studio.",
-    datePosted: "2026-03-01",
-    validThrough: "2026-12-31",
-    employmentType: "PART_TIME",
+    title: job.title,
+    description: jobDescriptionHtml(job),
+    datePosted: job.datePosted,
+    employmentType: job.employmentType,
     hiringOrganization: {
         "@type": "Organization",
         name: "Skinlux Medical Beauty Studio",
@@ -47,21 +50,12 @@ const jobPostingSchema = {
             addressCountry: "AT",
         },
     },
-    jobLocationType: "ON_SITE",
-    baseSalary: {
-        "@type": "MonetaryAmount",
-        currency: "EUR",
-        value: {
-            "@type": "QuantitativeValue",
-            unitText: "MONTH",
-        },
-    },
-    responsibilities: "Durchführung von Laser Haarentfernung, Hydrafacial und Microneedling (SkinPen), Kundenberatung, Hautanalysen und strukturierte Dokumentation.",
-    qualifications: "Abgeschlossene Kosmetikausbildung, Erfahrung in apparativer Kosmetik von Vorteil, gepflegtes Auftreten, Zuverlässigkeit.",
-    skills: "Laser Haarentfernung, Hydrafacial, Microneedling, Hautanalyse, Kundenberatung, apparative Kosmetik",
-    industry: "Beauty & Kosmetik",
+    url: `https://pottendorf.skinlux.at/karriere#${job.slug}`,
+    responsibilities: job.tasks.join(". "),
+    qualifications: job.profile.join(". "),
+    industry: "Beauty & Medical Beauty",
     directApply: true,
-};
+}));
 
 const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -85,10 +79,13 @@ const breadcrumbSchema = {
 export default function KarrierePage() {
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostingSchema) }}
-            />
+            {jobPostingSchemas.map((schema) => (
+                <script
+                    key={schema.title}
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+                />
+            ))}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}

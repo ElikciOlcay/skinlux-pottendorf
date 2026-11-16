@@ -181,14 +181,14 @@ const Footer = () => {
                 <div className="container py-5">
                     <Link
                         href="/karriere"
-                        className="flex items-center justify-center gap-3 group"
+                        className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center group"
                     >
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium tracking-wide uppercase text-white rounded-full" style={{ backgroundColor: 'var(--color-secondary)' }}>
                             <Briefcase className="w-3 h-3" />
-                            Wir suchen dringend
+                            Wir suchen dich
                         </span>
                         <span className="text-sm font-light text-gray-600 group-hover:text-black transition-colors">
-                            Kosmetikerin (m/w/d) gesucht
+                            Laserspezialistin & Fachärztin / Facharzt für Dermatologie (m/w/d)
                         </span>
                         <span className="text-xs text-gray-400 group-hover:text-gray-600 transition-colors">&rarr;</span>
                     </Link>

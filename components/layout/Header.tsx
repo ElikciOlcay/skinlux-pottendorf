@@ -5,9 +5,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Zap, Droplets, Sparkles, Phone, ChevronRight, Waves } from "lucide-react";
+import { ChevronDown, Zap, Droplets, Sparkles, Phone, ChevronRight, Waves, Gift } from "lucide-react";
 import { FEATURES } from "@/lib/features";
 import { usePathname } from "next/navigation";
+import { isChristmasActive } from "@/lib/campaigns/weihnachten";
 
 const navigation = [
     {
@@ -109,6 +110,11 @@ export default function Header() {
     const [mobileActiveMenu, setMobileActiveMenu] = useState<string | null>(null);
     const pathname = usePathname();
     const isEaster = useIsEasterActive();
+    const [isChristmas, setIsChristmas] = useState(false);
+
+    useEffect(() => {
+        setIsChristmas(isChristmasActive());
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -226,6 +232,9 @@ export default function Header() {
                                                 : 'text-gray-700 hover:text-gray-900'
                                                 }`}
                                         >
+                                            {item.href === "/gutscheine" && isChristmas && (
+                                                <Gift className="w-3.5 h-3.5 text-[#C8A96A]" strokeWidth={1.75} aria-hidden="true" />
+                                            )}
                                             {item.name}
                                             {item.hasDropdown && (
                                                 <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
@@ -491,6 +500,9 @@ export default function Header() {
                                                     onClick={closeMobileMenu}
                                                     className="block px-6 py-4 text-sm font-light tracking-widest uppercase text-gray-700 hover:bg-gray-50 transition-colors"
                                                 >
+                                                    {item.href === "/gutscheine" && isChristmas && (
+                                                        <Gift className="inline-block w-4 h-4 mr-2 -mt-0.5 text-[#C8A96A]" strokeWidth={1.75} aria-hidden="true" />
+                                                    )}
                                                     {item.name}
                                                 </Link>
                                             )}

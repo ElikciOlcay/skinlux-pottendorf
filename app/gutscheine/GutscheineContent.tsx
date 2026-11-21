@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import ChristmasVoucherHint from "@/components/christmas/ChristmasVoucherHint";
 import { ArrowLeft, ArrowRight, Gift, Check, AlertCircle, Loader, Mail, MapPin, User, CreditCard } from "lucide-react";
 import { getCurrentSubdomain } from "@/lib/supabase";
 import { trackConversionEvent, ConversionEvents } from "@/lib/analytics";
@@ -325,6 +326,8 @@ export default function GutscheineContent() {
                         <p className="text-lg md:text-xl text-gray-600 mb-6 font-light leading-relaxed max-w-2xl mx-auto">
                             Überraschen Sie Ihre Liebsten mit einem Gutschein für unvergessliche Beauty-Momente
                         </p>
+
+                        <ChristmasVoucherHint />
                     </div>
                 </div>
             </section>

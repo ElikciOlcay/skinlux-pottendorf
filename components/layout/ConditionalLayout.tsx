@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Header from "@/components/layout/Header";
+import ChristmasBanner from "@/components/christmas/ChristmasBanner";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
 import NewsWidget from "@/components/ui/NewsWidget";
@@ -39,6 +40,7 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
     // Normale Website: Mit Header, Footer
     return (
         <>
+            <ChristmasBanner />
             <Header />
             <main className="min-h-screen">
                 {children}

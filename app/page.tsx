@@ -1,6 +1,8 @@
 import dynamic from 'next/dynamic';
 import type { Metadata } from "next";
 import Hero from "@/components/sections/Hero";
+import ChristmasVoucherSection from "@/components/christmas/ChristmasVoucherSection";
+import Snowfall from "@/components/christmas/Snowfall";
 import RegionalSeoHub from "@/components/seo/RegionalSeoHub";
 import HomeFaq from "@/components/sections/HomeFaq";
 import { GOOGLE_REVIEWS_SCHEMA } from "@/lib/reviews";
@@ -87,7 +89,11 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(GOOGLE_REVIEWS_SCHEMA) }}
       />
-      <Hero />
+      <div className="relative">
+        <Hero />
+        <Snowfall />
+      </div>
+      <ChristmasVoucherSection city="Pottendorf" />
       <Treatments />
       <RegionalSeoHub />
       <SpecialOffers />

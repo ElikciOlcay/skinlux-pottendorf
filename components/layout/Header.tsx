@@ -9,6 +9,7 @@ import { ChevronDown, Zap, Droplets, Sparkles, Phone, ChevronRight, Waves, Gift 
 import { FEATURES } from "@/lib/features";
 import { usePathname } from "next/navigation";
 import { isChristmasActive } from "@/lib/campaigns/weihnachten";
+import LogoSantaHat from "@/components/christmas/LogoSantaHat";
 
 const navigation = [
     {
@@ -197,7 +198,7 @@ export default function Header() {
                             <Link href="/" className="relative z-50 flex-shrink-0">
                                 <motion.div
                                     whileHover={{ scale: 1.02 }}
-                                    className="flex items-center"
+                                    className="relative flex items-center"
                                 >
                                     <Image
                                         src={
@@ -213,6 +214,7 @@ export default function Header() {
                                         className="h-8 md:h-10 w-auto"
                                         priority
                                     />
+                                    <LogoSantaHat />
                                 </motion.div>
                             </Link>
 

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import LogoSantaHat from "@/components/christmas/LogoSantaHat";
 import { ArrowRight, Gift, Mail, Sparkles, Star } from "lucide-react";
 
 import {
@@ -148,13 +149,16 @@ function VoucherCard({ city }: { city: string }) {
                 <Bow className="absolute right-[22%] top-[38%] h-20 w-20 -translate-y-1/2 translate-x-[calc(50%-12px)]" />
 
                 <div className="relative flex h-full flex-col justify-between p-6 md:p-7">
-                    <Image
-                        src="/images/logo/skinlux-logo.png"
-                        alt="Skinlux"
-                        width={120}
-                        height={40}
-                        className="h-7 w-auto self-start"
-                    />
+                    <span className="relative self-start">
+                        <Image
+                            src="/images/logo/skinlux-logo.png"
+                            alt="Skinlux"
+                            width={120}
+                            height={45}
+                            className="block h-12 w-auto"
+                        />
+                        <LogoSantaHat always />
+                    </span>
                     <div>
                         <p className="text-[0.6rem] uppercase tracking-[0.35em] opacity-60">Geschenkgutschein</p>
                         <p className="mt-1 text-4xl font-light md:text-5xl">€ 100</p>

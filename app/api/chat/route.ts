@@ -28,7 +28,7 @@ const FALLBACK_RESPONSES = {
         "Guten Tag! Ich bin Lisa von SkinLux Pottendorf. Womit kann ich Ihnen heute behilflich sein?"
     ],
     behandlung: [
-        "Bei SkinLux Pottendorf bieten wir verschiedene Behandlungen an:\n\n• Laser-Haarentfernung Damen & Herren (ab 30€)\n• HydraFacial® (ab 169€)\n• Premium Facials (ab 150€)\n\nKostenlose Erstberatung und Probebehandlung! Rufen Sie uns an: +43 664 91 88 632",
+        "Bei SkinLux Pottendorf bieten wir verschiedene Behandlungen an:\n\n• Laser-Haarentfernung Damen & Herren (ab 30€)\n• HydraFacial® (ab 169€)\n• Premium Facials (ab 175€)\n\nKostenlose Erstberatung und Probebehandlung! Rufen Sie uns an: +43 664 91 88 632",
         "Unsere beliebtesten Behandlungen sind:\n\n• Dauerhafte Laser-Haarentfernung für Damen & Herren\n• HydraFacial® für sofort strahlende Haut\n• Premium Facials mit Circadia Professional\n\nSparen Sie mit unseren Paketen! Kostenlose Beratung möglich."
     ],
     preis: [

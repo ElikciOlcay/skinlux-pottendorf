@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { PREMIUM_FACIALS_OFFERS } from "@/lib/premium-facials";
 import SignatureFacialsContent from "./SignatureFacialsContent";
 import TreatmentSeoLinks from "@/components/seo/TreatmentSeoLinks";
 
@@ -33,43 +34,7 @@ const serviceSchema = {
         "@id": "https://pottendorf.skinlux.at/#business",
     },
     areaServed: ["Pottendorf", "Baden", "Mödling", "Wiener Neustadt", "Niederösterreich"],
-    offers: [
-        {
-            "@type": "Offer",
-            name: "Klassische Circadia Gesichtsbehandlung",
-            price: "150",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/InStock",
-        },
-        {
-            "@type": "Offer",
-            name: "Firming Peptide Mask Treatment",
-            price: "175",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/InStock",
-        },
-        {
-            "@type": "Offer",
-            name: "Oxygen RX Facial mit Cocoa-Enzyme",
-            price: "175",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/InStock",
-        },
-        {
-            "@type": "Offer",
-            name: "Circadia SWiCH Treatment 3er Kur",
-            price: "649",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/InStock",
-        },
-        {
-            "@type": "Offer",
-            name: "Circadia Radiance 4C Facial",
-            price: "189",
-            priceCurrency: "EUR",
-            availability: "https://schema.org/InStock",
-        },
-    ],
+    offers: PREMIUM_FACIALS_OFFERS,
 };
 
 const breadcrumbSchema = {

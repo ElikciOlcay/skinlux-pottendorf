@@ -1,3 +1,4 @@
+import { PREMIUM_FACIALS_PRICE_TEXT } from "@/lib/premium-facials";
 import { methoden as greenPeelMethoden } from "@/app/behandlungen/green-peel/data";
 import { pakete as hydraScalpPakete } from "@/app/behandlungen/hydrascalp/data";
 import { PHONE_DISPLAY, PHONE_E164 } from "@/lib/booking";
@@ -46,7 +47,7 @@ function buildLlmsTxt() {
         `- [SkinPen® Precision Elite Microneedling](${SITE_URL}/behandlungen/skinpen-precision): FDA-zertifiziertes medizinisches Microneedling bei Aknenarben, Falten, großen Poren und Pigmentstörungen. Einzelbehandlung (60 Min.) 199 €, 3er-Kur 499 €.`,
         `- [GREEN PEEL® Kräuterschälkur](${SITE_URL}/behandlungen/green-peel): Original-Kräuterschälkur nach Dr. med. Christine Schrammek, ohne chemische Peelingsäuren. Drei Methoden: ${greenPeel}.`,
         `- [HydraScalp™ mit Keravive](${SITE_URL}/behandlungen/hydrascalp): Kopfhautbehandlung by HydraFacial – Reinigung, Exfoliation und Keravive Peptide Complex, Heimpflege inklusive. ${hydraScalp}. Empfohlen: mindestens 3 Behandlungen im Abstand von 4 Wochen. Keine medizinische Therapie gegen Haarausfall.`,
-        `- [Premium Facials mit Circadia](${SITE_URL}/behandlungen/signature-facials): Klassische Circadia Gesichtsbehandlung 150 €, Firming Peptide Mask 175 €, Oxygen RX Facial 175 €, Radiance 4C Facial 189 €, SWiCH 3er-Kur 649 €.`,
+        `- [Premium Facials mit Circadia](${SITE_URL}/behandlungen/signature-facials): ${PREMIUM_FACIALS_PRICE_TEXT}.`,
         ...(FEATURES.HAUTANALYSE_ENABLED
             ? [`- [Hautanalyse](${SITE_URL}/behandlungen/hautanalyse): Professionelle Hautanalyse mit HD-Aufnahmen und 7 Analyseparametern – kostenlos bei Buchung ab 150 € Behandlung/Produkte.`]
             : []),

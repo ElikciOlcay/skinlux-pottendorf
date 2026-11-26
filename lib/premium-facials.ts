@@ -1,4 +1,10 @@
 /** Premium Facials (Circadia): einzige Quelle für Behandlungsseite, Schema und Chat. */
+export interface FacialImage {
+    src: string;
+    alt: string;
+    caption: string;
+}
+
 export interface PremiumFacial {
     id: string;
     name: string;
@@ -12,7 +18,10 @@ export interface PremiumFacial {
     about: string;
     need: string;
     chatBenefits: readonly string[];
+    images?: readonly FacialImage[];
 }
+
+const RESULT_CAPTION = "Vorher / Nachher – Beispielergebnis, Bild: Circadia";
 
 export const PREMIUM_FACIALS: readonly PremiumFacial[] = [
     {
@@ -32,6 +41,9 @@ export const PREMIUM_FACIALS: readonly PremiumFacial[] = [
         about: "Eine luxuriöse, nicht-invasive Anti-Aging-Gesichtsbehandlung von Circadia. Sie kombiniert ein sanftes Himbeer-Enzympeeling mit einer intensiv straffenden Peptidmaske und regenerierender Abschlusspflege. Das Ergebnis ist ein sofort frischeres, praller und gefestigter wirkendes Hautbild – ohne übliche Ausfallzeit.",
         need: "Straffung, Falten, Lifting-Effekt",
         chatBenefits: ["Straffung", "Peptidmaske", "Frischeres Hautbild"],
+        images: [
+            { src: "/images/facials/luxelift-vorher-nachher.jpg", alt: "LuxeLift Facial: Haut vor und nach der Behandlung", caption: RESULT_CAPTION },
+        ],
     },
     {
         id: "c2o2",
@@ -50,6 +62,10 @@ export const PREMIUM_FACIALS: readonly PremiumFacial[] = [
         about: "Eine professionelle, zweiphasige Gesichtsbehandlung von Circadia, die reinigende Aktivkohle mit einer sauerstoffaktivierenden Behandlung kombiniert. Sie wurde speziell für unreine und zu Akne neigende Haut entwickelt und verbindet intensive Reinigung mit revitalisierender Hautpflege.",
         need: "Akne, Pickel, ölige Haut",
         chatBenefits: ["Klärung", "Sauberere Poren", "Aktivkohle & Sauerstoff"],
+        images: [
+            { src: "/images/facials/c2o2-vorher-nachher.jpg", alt: "C2O2 Facial: unreine Haut vor und nach der Behandlung", caption: RESULT_CAPTION },
+            { src: "/images/facials/c2o2-aktivkohle-maske.jpg", alt: "Auftragen der C2O2 Aktivkohle-Maske mit dem Pinsel", caption: "Die Aktivkohle-Maske des C2O2 Facials" },
+        ],
     },
     {
         id: "calming",
@@ -69,6 +85,9 @@ export const PREMIUM_FACIALS: readonly PremiumFacial[] = [
         about: "Eine besonders sanfte, hautberuhigende Gesichtsbehandlung von Circadia, die auf die Bedürfnisse sensibler und gestresster Haut abgestimmt ist. Ausgewählte beruhigende und feuchtigkeitsspendende Wirkstoffe unterstützen die Hautregeneration und sorgen für ein angenehmes, entspanntes Hautgefühl.",
         need: "Rosazea, Rötungen, sensible Haut",
         chatBenefits: ["Beruhigung", "Intensive Feuchtigkeit", "Barrierepflege"],
+        images: [
+            { src: "/images/facials/calming-vorher-nachher.jpg", alt: "Calming Facial: gerötete Haut vor und nach der Behandlung", caption: RESULT_CAPTION },
+        ],
     },
     {
         id: "radiance-4c",

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Check } from "lucide-react";
 import { PREMIUM_FACIALS } from "@/lib/premium-facials";
 
@@ -29,6 +30,25 @@ export default function FacialsOverview({ bookingUrl }: { bookingUrl: string }) 
                                 )}
                             </div>
                         </div>
+
+                        {facial.images && (
+                            <div className="grid grid-cols-2 gap-4 mb-8 max-w-xl">
+                                {facial.images.map((image) => (
+                                    <figure key={image.src}>
+                                        <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
+                                            <Image
+                                                src={image.src}
+                                                alt={image.alt}
+                                                fill
+                                                sizes="(min-width: 640px) 280px, 45vw"
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                        <figcaption className="text-xs text-gray-500 font-light mt-2">{image.caption}</figcaption>
+                                    </figure>
+                                ))}
+                            </div>
+                        )}
 
                         <div className="grid md:grid-cols-2 gap-8">
                             <div>

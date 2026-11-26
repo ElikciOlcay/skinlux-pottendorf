@@ -1,3 +1,5 @@
+import { PREMIUM_FACIALS } from "@/lib/premium-facials";
+
 import { OPENING_HOURS_BY_DAY } from "@/lib/business-info";
 import { SHORE_BOOKING_URL } from "@/lib/booking";
 
@@ -212,26 +214,12 @@ export const LISA_KNOWLEDGE = {
         premiumFacials: {
             name: "Premium Facials",
             description: "Exklusive Gesichtsbehandlungen mit Circadia Professional",
-            types: [
-                {
-                    name: "Klassische Circadia Gesichtsbehandlung",
-                    duration: "1 Std. 30 Min.",
-                    price: "150€",
-                    benefits: ["Individueller Mixology Prozess", "Porentiefreinigung", "Hautverjüngung"]
-                },
-                {
-                    name: "Firming Peptide Mask Treatment",
-                    duration: "1 Std. 30 Min.",
-                    price: "175€",
-                    benefits: ["Anti-Aging-Peptide", "Zellerneuerung", "Straffere Haut"]
-                },
-                {
-                    name: "Oxygen RX Facial mit Cocoa-Enzyme",
-                    duration: "1 Std. 30 Min.",
-                    price: "175€",
-                    benefits: ["Spezialbehandlung für Akne", "Rötungsreduktion", "Anti-Aging-Booster"]
-                }
-            ]
+            types: PREMIUM_FACIALS.map((f) => ({
+                name: f.name,
+                price: `${f.price}€${f.priceNote ? ` (${f.priceNote})` : ""}`,
+                benefits: [...f.chatBenefits],
+                description: f.about
+            }))
         }
     },
 
@@ -398,24 +386,6 @@ export const LISA_KNOWLEDGE = {
                         price: "kostenlos",
                         duration: "30 Min",
                         bookingAction: "consultation"
-                    },
-                    {
-                        name: "Hydrating Facial",
-                        subtitle: "Intensive Feuchtigkeitspflege",
-                        description: "60 Minuten entspannende Gesichtsbehandlung mit Circadia Professional. Perfekt für alle Hauttypen und im Budget.",
-                        benefits: ["Intensive Feuchtigkeit", "Beruhigung", "Glow-Effekt", "Entspannung"],
-                        price: "99€",
-                        duration: "60 Min",
-                        bookingAction: "facial"
-                    },
-                    {
-                        name: "Anti-Aging Facial",
-                        subtitle: "Premium Anti-Aging im Budget",
-                        description: "75 Minuten Anti-Aging Behandlung mit hochwertigen Wirkstoffen. Das beste Preis-Leistungs-Verhältnis für sichtbare Ergebnisse.",
-                        benefits: ["Faltenreduktion", "Straffung", "75 Min Luxus", "Exzellentes Preis-Leistungs-Verhältnis"],
-                        price: "129€",
-                        duration: "75 Min",
-                        bookingAction: "facial"
                     }
                 ]
             },
@@ -472,12 +442,12 @@ export const LISA_KNOWLEDGE = {
                 priority: 4,
                 treatments: [
                     {
-                        name: "Firming Peptide Mask Treatment",
-                        subtitle: "Intensive Anti-Aging Behandlung",
-                        description: "90 Minuten mit Anti-Aging-Peptiden und Stammzellen für straffere, jünger wirkende Haut.",
-                        benefits: ["Anti-Aging-Peptide", "Zellerneuerung", "Straffere Haut"],
+                        name: "LuxeLift Facial",
+                        subtitle: "Straffung & Anti-Aging",
+                        description: "Sanftes Himbeer-Enzympeeling und straffende Peptidmaske von Circadia für ein frischeres, gefestigt wirkendes Hautbild.",
+                        benefits: ["Straffung", "Peptidmaske", "Frischeres Hautbild"],
                         price: "175€",
-                        duration: "1 Std. 30 Min.",
+                        duration: "90 Min",
                         bookingAction: "facial"
                     },
                     {
@@ -498,12 +468,12 @@ export const LISA_KNOWLEDGE = {
                 priority: 5,
                 treatments: [
                     {
-                        name: "Hydrating Facial",
-                        subtitle: "Intensive Feuchtigkeitspflege",
-                        description: "60 Minuten pure Hydration für trockene und dehydrierte Haut. Mit beruhigenden Wirkstoffen.",
-                        benefits: ["Intensive Feuchtigkeit", "Beruhigung", "Glow-Effekt"],
-                        price: "99€",
-                        duration: "60 Min",
+                        name: "Calming Facial",
+                        subtitle: "Beruhigung & Hautbalance",
+                        description: "Sanfte Circadia-Behandlung mit intensiver Feuchtigkeit für trockene, empfindliche und gestresste Haut.",
+                        benefits: ["Intensive Feuchtigkeit", "Beruhigung", "Barrierepflege"],
+                        price: "175€",
+                        duration: "90 Min",
                         bookingAction: "facial"
                     },
                     {
@@ -524,12 +494,12 @@ export const LISA_KNOWLEDGE = {
                 priority: 6,
                 treatments: [
                     {
-                        name: "Purifying Facial",
-                        subtitle: "Tiefenreinigung für unreine Haut",
-                        description: "Spezielle Behandlung für unreine und fettige Haut. Porenverfeinerung und Klärung des Hautbildes.",
-                        benefits: ["Tiefenreinigung", "Porenverfeinerung", "Klärung"],
-                        price: "99€",
-                        duration: "60 Min",
+                        name: "C2O2 Facial",
+                        subtitle: "Klärung & Sauerstoffaktivierung",
+                        description: "Zweiphasige Circadia-Behandlung mit Aktivkohle für unreine, ölige und zu Akne neigende Haut.",
+                        benefits: ["Klärung", "Sauberere Poren", "Aktivkohle & Sauerstoff"],
+                        price: "175€",
+                        duration: "90 Min",
                         bookingAction: "facial"
                     },
                     {

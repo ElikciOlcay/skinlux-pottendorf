@@ -34,7 +34,7 @@ export const HOME_FAQ = [
     },
     {
         frage: "Welche Gesichtsbehandlungen bietet Skinlux Pottendorf an?",
-        antwort: `Original HydraFacial® (ab 169 €), SkinPen® Precision Elite Microneedling (199 €, 3er-Kur 499 €), die GREEN PEEL® Kräuterschälkur in drei Intensitäten (ab ${greenPeelAb} €) sowie Premium Facials mit Circadia Professional (ab 150 €). Welche Behandlung passt, wird vorab in einer Hautberatung geklärt.`,
+        antwort: `Original HydraFacial® (ab 169 €), SkinPen® Precision Elite Microneedling (199 €, 3er-Kur 499 €), die GREEN PEEL® Kräuterschälkur in drei Intensitäten (ab ${greenPeelAb} €) sowie Premium Facials mit Circadia Professional (ab 175 €). Welche Behandlung passt, wird vorab in einer Hautberatung geklärt.`,
     },
     {
         frage: "Gibt es bei Skinlux Pottendorf auch eine Kopfhautbehandlung?",
